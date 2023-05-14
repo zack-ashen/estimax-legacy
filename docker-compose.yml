@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: estimax-backend
+    container_name: estimax-node-backend
+    command: npm run start
+    volumes:
+      - ./backend/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    env_file: ./backend/.env
+    environment:
+      - NODE_ENV=development
+    networks:
+      - estimax-network
+  mongo:
+    image: mongo
+    volumes:
+      - data-volume:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - estimax-network
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: estimax-frontend
+    container_name: estimax-react-frontend
+    command: npm run start
+    volumes:
+      - ./frontend/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    networks:
+      - estimax-network
+  landing:
+    build:
+      context: ./landing
+      dockerfile: Dockerfile
+    image: estimax-landing
+    container_name: estimax-react-landing
+    command: npm run start
+    volumes:
+      - ./landing/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - backend
+    environment:
+      - PORT=3080
+    ports:
+      - "3080:3080"
+    networks:
+      - estimax-network
+
+networks:
+    estimax-network:
+        driver: bridge
+volumes:
+    data-volume:
+    node_modules:
+    web-root:
+      driver: local
