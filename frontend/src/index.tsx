@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import App from './App'
 import SignIn from './pages/SignIn'
@@ -16,9 +16,55 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" Component={App} />
-      <Route path="/signup" Component={SignIn} />
-      <Route path="/signin" Component={SignUp} />
-      <PrivateRoute path="/signedin" Element={<SignUp />} /> 
+      <Route path="/signup" Component={SignUp} />
+      <Route path="/signin" Component={SignIn} />
+      
+      <Route 
+          path="/project-feed"
+          element={
+            <PrivateRoute forHomeowner={false}>
+              <SignUp />
+            </PrivateRoute>
+          }
+       />
+       <Route 
+          path="/manage-projects"
+          element={
+            <PrivateRoute forContractor={false}>
+              <SignUp />
+            </PrivateRoute>
+          }
+       />
+       <Route 
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <SignUp />
+            </PrivateRoute>
+          }
+       />
+       <Route 
+          path="/project"
+          element={
+            <PrivateRoute>
+              <SignUp />
+            </PrivateRoute>
+          }
+       />
+       <Route 
+          path="/post-project"
+          element={
+            <PrivateRoute forContractor={false}>
+              <SignUp />
+            </PrivateRoute>
+          }
+       />
+
+       <Route path="*" 
+          element={
+            <Navigate to="/" />
+          } 
+       />
     </Routes>
   </BrowserRouter>
 );

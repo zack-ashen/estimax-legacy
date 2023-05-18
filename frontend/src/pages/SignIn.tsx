@@ -1,6 +1,6 @@
 import React from 'react';
 
-function App() {
+function SignIn() {
   return (
     <div className="SignIn">
       <form>
@@ -18,4 +18,4 @@ function App() {
   );
 }
 
-export default App;
+export default SignIn;

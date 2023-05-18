@@ -1,17 +1,22 @@
-import React, { ComponentType } from 'react';
-import { Route, Link, PathRouteProps, Navigate } from 'react-router-dom';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 
 
-interface PrivateRouteProps extends PathRouteProps {
-  Element: React.ReactElement<{}>;
+interface PrivateRouteProps {
+  children: React.ReactElement<{}>;
+  forContractor?: boolean;
+  forHomeowner?: boolean;
 }
 
 
-const PrivateRoute = ({ Element, ...rest }: PrivateRouteProps ) => {
+const PrivateRoute = ({ children, forContractor=true, forHomeowner=true }: PrivateRouteProps ) => {
   // The authentication check could be a call to an actual authentication service.
   const isAuthenticated = localStorage.getItem('auth');
+  const localUserType = localStorage.getItem('userType');
 
-  return isAuthenticated ? <Element /> : <Navigate to="/login" />;
+  // todo: handle user type private routing
+
+  return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

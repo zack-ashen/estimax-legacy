@@ -9,7 +9,8 @@ function App() {
     <div className="Landing">
       <nav>
         <Logo className="Logo"/>
-        <button className='joinWaitlistButton'>Join Waitlist</button>
+        <button className='signInButton'>Sign In</button>
+        <button className='signInButton'>Sign Up</button>
       </nav>
 
       <div className="heroSection">
@@ -33,12 +34,6 @@ function App() {
       <div className='faqSection'>
 
       </div>
-
-      <div id="getWaitlistContainer" data-waitlist_id="7960" data-waiter_email_placeholder_value="abc@example.com"></div>
-      <Helmet>
-        <link rel="stylesheet" type="text/css" href="https://prod-waitlist-widget.s3.us-east-2.amazonaws.com/getwaitlist.min.css"/>
-        <script src="https://prod-waitlist-widget.s3.us-east-2.amazonaws.com/getwaitlist.min.js"></script>
-      </Helmet>
     </div>
   );
 }

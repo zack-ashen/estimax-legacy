@@ -8,8 +8,8 @@ export type HomeownerType = {
 }
 
 const homeownerSchema = User.discriminator('Homeowners', new Schema({
-  preffered_contractors: [ Contractor ],
-  posted_projects: [ Project ]
+  prefferedContractors: [ Contractor ],
+  postedProjects: [ Project ]
 
 }))
 

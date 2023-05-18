@@ -3,7 +3,11 @@ import React from 'react';
 function SignUp() {
   return (
     <div className="SignUp">
-      <form>
+      <div className='signUpForm'>
+        <label>
+          Referral Code:
+          <input type="text" name="referral" />
+        </label>
         <label>
           Email:
           <input type="email" name="email" />
@@ -16,8 +20,8 @@ function SignUp() {
           Confirm your password:
           <input type="password" name="confirmPassword" />
         </label>
-        <input type="submit" value="Submit" />
-      </form>
+        <button className="signUpButton">Sign Up</button>
+      </div>
     </div>
   );
 }
