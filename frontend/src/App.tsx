@@ -1,38 +1,18 @@
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 import './App.css';
 
 function App() {
+  const navigate  = useNavigate();
+
   return (
     <div className="Landing">
       <nav>
         <h1>Estimax</h1>
-        <button className='signInButton'>Sign In</button>
-        <button className='signInButton'>Sign Up</button>
+        <button className='signInButton' onClick={() => navigate("/signin")}>Sign In</button>
+        <button className='signInButton' onClick={() => navigate("/signup")}>Sign Up</button>
       </nav>
-
-      <div className="heroSection">
-        <div>
-          <h1>Connecting contractors to leads.</h1>
-          <p>We connect contractors to homeowners through an open bidding 
-            platform Making free, high quality lead generation as easy as 
-            scrolling and bidding.</p>
-        </div>
-        
-      </div>
-
-      <div className='guideSection'>
-        
-      </div>
-
-      <div className='feature-1'>
-
-      </div>
-
-      <div className='faqSection'>
-
-      </div>
     </div>
   );
 }
