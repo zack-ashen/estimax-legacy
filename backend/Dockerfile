@@ -9,15 +9,15 @@ WORKDIR /usr/src/app
 # Install Dependencies
 COPY package*.json ./
 
+RUN npm install -g node-pre-gyp --silent
 RUN npm install --silent
-RUN npm install typescript --silent
 
 # Copy app source code
-COPY . .
+COPY . ./
 
 RUN npm run build
 
 # Exports
 EXPOSE 5000
 
-CMD ["npm","start"]
+CMD [ "node", "dist/server.js" ]

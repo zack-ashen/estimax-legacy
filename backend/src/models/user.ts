@@ -7,12 +7,16 @@ export type UserType = {
   password: String
 }
 
+const referralSchema = new Schema({
+  code: String
+})
+
 const userSchema = new Schema({
   uid: {
     type: String,
-    required: true,
-    hashKey: true,
-    unique: true
+    default: function() {
+      return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    }
   },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -32,3 +36,4 @@ const userSchema = new Schema({
 });
 
 export const User = mongoose.model('Users', userSchema)
+export const Referral = mongoose.model('Referral', referralSchema)

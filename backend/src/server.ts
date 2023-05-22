@@ -11,6 +11,7 @@ import contractorRoutes from './routes/contractorRoutes'
 import homeownerRoutes from './routes/homeownerRoutes'
 import userRoutes from './routes/userRoutes'
 import projectRoutes from './routes/projectRoutes'
+import authRoutes from './routes/authRoutes'
 
 // Load environment variables from .env file
 dotenv.config();
@@ -34,8 +35,13 @@ app.use(express.json());
 app.use('/api/waitlist', waitlistRoutes);
 app.use('/api/contractor', contractorRoutes);
 app.use('/api/homeowner', homeownerRoutes);
-app.use('/api/user', userRoutes)
-app.use('/api/project', projectRoutes)
+app.use('/api/user', userRoutes);
+app.use('/api/project', projectRoutes);
+app.use('/api/auth', authRoutes)
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 
 // Start server
 const port = process.env.PORT || 5000;

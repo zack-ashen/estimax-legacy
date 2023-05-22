@@ -7,9 +7,8 @@ services:
       dockerfile: Dockerfile
     image: estimax-backend
     container_name: estimax-node-backend
-    command: npm run start
     volumes:
-      - ./backend/:/usr/src/app
+      - ./backend/src:/usr/src/app/src
       - /usr/src/app/node_modules
     ports:
       - "5000:5000"
@@ -21,7 +20,9 @@ services:
     networks:
       - estimax-network
   mongo:
-    image: mongo
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - data-volume:/data/db
     ports:
@@ -44,25 +45,6 @@ services:
       - "3000:3000"
     networks:
       - estimax-network
-  landing:
-    build:
-      context: ./landing
-      dockerfile: Dockerfile
-    image: estimax-landing
-    container_name: estimax-react-landing
-    command: npm run start
-    volumes:
-      - ./landing/:/usr/app
-      - /usr/app/node_modules
-    depends_on:
-      - backend
-    environment:
-      - PORT=3080
-    ports:
-      - "3080:3080"
-    networks:
-      - estimax-network
-
 networks:
     estimax-network:
         driver: bridge
