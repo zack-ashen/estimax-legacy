@@ -20,9 +20,7 @@ services:
     networks:
       - estimax-network
   mongo:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: mongo
     volumes:
       - data-volume:/data/db
     ports:
