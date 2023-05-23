@@ -3,6 +3,7 @@ import jwt, { Secret } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
 import { User, Referral } from '../models/user'
+import { validateReferralCode } from '../util/referralCodes'
 
 const router = express.Router();
 
@@ -10,24 +11,21 @@ router.route('/signup').post(async (req, res) => {
     // Validate the request body
     const { email, password, referral } = req.body;
     if (!email || !password) {
-      res.status(400).send('Invalid request body: email or password invalid');
+      res.status(400).send({'error': 'Invalid request body: email or password invalid'});
       return;
     }
 
-    const checkReferral = await Referral.exists({ referral })
-    if (!checkReferral) {
-      res.status(409).send('Invalid referral code');
+    const referralCode : string = referral.substring(0,7);
+    const buffer : Buffer = referral.substring(7,).concat("=");
+    if (!validateReferralCode(referralCode, buffer)) {
+      res.status(409).send({'error': 'invalid referral code'});
       return;
     }
-    await Referral.deleteOne({ brand: 'Nike' }, function (err: string) {
-      if(err) console.log(err);
-      console.log("Successful deletion");
-    });
   
     // Check if the email address already exists
     const user = await User.findOne({ email });
     if (user) {
-      res.status(409).send('Email address already exists');
+      res.status(409).send({'error': 'Email address already exists'});
       return;
     }
 
@@ -52,14 +50,14 @@ router.route('/signin').post(async (req, res) => {
   // Validate the request body
   const { email, password } = req.body;
   if (!email || !password) {
-    res.status(400).send('Invalid request body');
+    res.status(400).send({'error': 'Invalid request body'});
     return;
   }
 
   // Check if the user exists
   const user = await User.findOne({ email });
   if (!user) {
-    res.status(401).send('Invalid email or password');
+    res.status(401).send({'error': 'Invalid email or password'});
     return;
   }
 
@@ -67,7 +65,7 @@ router.route('/signin').post(async (req, res) => {
   const match = await bcrypt.compare(password, user.password);
 
   if (!match) {
-    res.status(401).send('Invalid email or password');
+    res.status(401).send({'error': 'Invalid email or password'});
     return;
   }
 

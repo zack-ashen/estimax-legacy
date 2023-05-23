@@ -16,7 +16,7 @@ function generateSecretKey() {
 
 function generateReferralCode() {
   // Generate 10 bytes of random data.
-  const buffer = crypto.randomBytes(10);
+  const buffer = crypto.randomBytes(5).toString('base64').replace(/\//g,'_').replace(/\+/g,'-');
 
   const privateKey = process.env.REFERRAL_KEY;
 
@@ -30,9 +30,9 @@ function generateReferralCode() {
   const hash = hmac.digest('hex');
 
   // Truncate the hash to the first 10 characters.
-  const code = hash.substring(0, 10);
+  const code = hash.substring(0, 7);
 
-  return code;
+  return code + buffer;
 }
 
 for (let i = 0; i<20; i++)
