@@ -26,6 +26,11 @@ function App() {
       <Route path="/" Component={Landing} />
       <Route path="/signup" Component={SignUp} />
       <Route path="/signin" Component={SignIn} />
+      <Route path="*" 
+          element={
+            <Navigate to="/" />
+          } 
+       />
     </Routes>
   );
 
