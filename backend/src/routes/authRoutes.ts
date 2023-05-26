@@ -28,7 +28,7 @@ router.route('/signup').post(async (req, res) => {
     // Create a new user
     const newUser = new User({
       email: email,
-      password: hashedPassword,
+      password: hashedPassword
     });
     await newUser.save();
   
@@ -38,7 +38,7 @@ router.route('/signup').post(async (req, res) => {
     const refreshToken = jwt.sign({ userId: newUser.uid, tokenVersion: newUser.tokenVersion }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
   
     // Send the JWT token to the client
-    res.status(201).send({ token, refreshToken });
+    res.status(201).send({ token, refreshToken, user: newUser });
 });
 
 router.route('/signin').post(async (req, res) => {
@@ -64,7 +64,7 @@ router.route('/signin').post(async (req, res) => {
   const refreshToken = jwt.sign({ userId: user.uid, tokenVersion: user.tokenVersion }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
 
   // Send the JWT token to the client
-  res.status(200).send({ token, refreshToken });
+  res.status(200).send({ token, refreshToken, user });
 });
 
 // router.post('/googleAuth', async (req, res) => {

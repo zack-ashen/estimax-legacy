@@ -6,7 +6,6 @@ function SignIn() {
 
 
   const auth = () => {
-    console.log("hi")
     fetch('/api/auth/signin', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
@@ -15,8 +14,8 @@ function SignIn() {
         password
       })
     })
-        .then(response => response.json())
-        .then(data => console.log(data))
+      .then(response => response.json())
+      .then(data => console.log(data))
   }
 
 
@@ -24,11 +23,21 @@ function SignIn() {
     <div className="SignIn">
     <label>
       Email:
-      <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+      <input 
+        type="email" 
+        name="email" 
+        value={email} 
+        onChange={(e) => setEmail(e.target.value)}
+      />
     </label>
     <label>
       Password:
-      <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+      <input 
+        type="password" 
+        name="password" 
+        value={password} 
+        onChange={(e) => setPassword(e.target.value)}
+      />
     </label>
     <button value="Sign In" onClick={auth}/>
     </div>
