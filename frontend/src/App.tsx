@@ -7,19 +7,21 @@ import SignUp from './pages/SignUp'
 import ManageProjects from './pages/ManageProjects/ManageProjects';
 import ProjectFeed from './pages/ProjectFeed/ProjectFeed';
 import PrivateRoute from './components/PrivateRoute';
+import { isTokenExpired } from './util/auth';
 
 function App() {
   const token = localStorage.getItem('token');
-  const [ signedIn, setSignedIn ] = useState(false)
+  const [ signedIn, setSignedIn ] = useState(false);
+  
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if (token && !isTokenExpired(token)) {
-  //     // User is logged in, continue normally
-  //   } else {
-  //     // Token doesn't exist or has expired
-  //   }
-  // }, []);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token && !isTokenExpired(token)) {
+      // User is logged in, continue normally
+    } else {
+      // Token doesn't exist or has expired
+    }
+  }, []);
 
   const NotAuthenticated = () => (
     <Routes>
