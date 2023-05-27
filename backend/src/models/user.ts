@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Homeowner } from './homeowner';
 const { Schema } = mongoose;
 
 export type UserType = {
@@ -7,9 +8,10 @@ export type UserType = {
   password: String
 }
 
-const referralSchema = new Schema({
-  code: String
-})
+export enum UserTypes {
+  CONTRACTOR = "Contractor",
+  HOMEOWNER = "Homeowner"
+}
 
 const userSchema = new Schema({
   uid: {
@@ -20,7 +22,8 @@ const userSchema = new Schema({
   },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  tokenVersion: { type: Number, default: 0 }
+  tokenVersion: { type: Number, default: 0 },
+  userType: { type: String, enum: Object.values(UserTypes), default: "Contractor"}
   // location: {
   //   type: {
   //     type: String, // Don't do `{ location: { type: String } }`
@@ -37,4 +40,3 @@ const userSchema = new Schema({
 });
 
 export const User = mongoose.model('Users', userSchema)
-export const Referral = mongoose.model('Referral', referralSchema)

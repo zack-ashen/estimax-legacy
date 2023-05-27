@@ -1,10 +1,10 @@
 #  Dockerfile for Node Express Backend
 
-FROM node:20-alpine
+FROM node:lts-buster-slim
 
 # Create App Directory
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+
 
 # Install Dependencies
 COPY package*.json ./

@@ -2,7 +2,7 @@ import express from 'express'
 import jwt, { Secret } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
-import { User, Referral } from '../models/user'
+import { User } from '../models/user'
 import { validateReferralCode } from '../util/referralCodes'
 
 const router = express.Router();
@@ -34,11 +34,17 @@ router.route('/signup').post(async (req, res) => {
   
     // Generate a JWT token for the new user
     const privateKey : Secret = (process.env.JWT_PRIVATE_KEY as string).replace(/\\n/g, '\n');
-    const token = jwt.sign({ userId: newUser.uid }, privateKey, { algorithm: 'RS256', expiresIn: '20m' });
-    const refreshToken = jwt.sign({ userId: newUser.uid, tokenVersion: newUser.tokenVersion }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
-  
+    const token = jwt.sign({ userId: newUser.uid, userType: newUser.userType }, privateKey, { algorithm: 'RS256', expiresIn: '20m' });
+    const refreshToken = jwt.sign({ userId: newUser.uid, tokenVersion: newUser.tokenVersion, userType: newUser.userType }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: !!process.env.PRODUCTION,
+      // SameSite property can be 'strict', 'lax', 'none', or true (for 'strict') 
+      sameSite: 'strict' 
+    });
+
     // Send the JWT token to the client
-    res.status(201).send({ token, refreshToken, user: newUser });
+    res.status(201).send({ token, user: newUser });
 });
 
 router.route('/signin').post(async (req, res) => {
@@ -60,11 +66,17 @@ router.route('/signin').post(async (req, res) => {
 
   // Generate a JWT token for the new user
   const privateKey : Secret = (process.env.JWT_PRIVATE_KEY as string).replace(/\\n/g, '\n');
-  const token = jwt.sign({ userId: user.uid }, privateKey, { algorithm: 'RS256', expiresIn: '20m' });
-  const refreshToken = jwt.sign({ userId: user.uid, tokenVersion: user.tokenVersion }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
+  const token = jwt.sign({ userId: user.uid, userType: user.userType }, privateKey, { algorithm: 'RS256', expiresIn: '20m' });
+  const refreshToken = jwt.sign({ userId: user.uid, tokenVersion: user.tokenVersion, userType: user.userType }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: !!process.env.PRODUCTION,
+    // SameSite property can be 'strict', 'lax', 'none', or true (for 'strict') 
+    sameSite: 'strict' 
+  });
 
   // Send the JWT token to the client
-  res.status(200).send({ token, refreshToken, user });
+  res.status(200).send({ token, user });
 });
 
 // router.post('/googleAuth', async (req, res) => {
@@ -105,19 +117,21 @@ router.route('/signin').post(async (req, res) => {
 //   res.status(200).send({ token, refreshToken });
 // });
 
-
+/* Refresh token either responds with a new access token or no access token.
+   If no refresh token is sent then a token is sent with null value.
+*/
 router.route('/refreshToken').post(async (req, res) => {
-  const refreshToken = req.body.token;
+  const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
-    return res.status(401).send({ error: 'Refresh token required' });
+    return res.send();
   }
 
   let payload: any = null;
   try {
     payload = jwt.verify(refreshToken, process.env.JWT_PRIVATE_KEY!);
   } catch (e) {
-    return res.status(401).send({ error: 'Invalid refresh token 1' });
+    return res.status(401).send({ error: 'Invalid refresh token' });
   }
 
   const user = await User.findOne({ userId: payload.uid });
@@ -126,10 +140,20 @@ router.route('/refreshToken').post(async (req, res) => {
     return res.status(401).send({ error: 'Invalid refresh token' });
   }
 
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_PRIVATE_KEY!, { algorithm: 'RS256', expiresIn: '30m' });
-  const newRefreshToken = jwt.sign({ userId: user.id, tokenVersion: user.tokenVersion }, process.env.JWT_PRIVATE_KEY!, { algorithm: 'RS256', expiresIn: '7d' });
+  const token = jwt.sign({ userId: user.id, userType: user.userType }, process.env.JWT_PRIVATE_KEY!, { algorithm: 'RS256', expiresIn: '30m' });
+  const newRefreshToken = jwt.sign({ userId: user.id, tokenVersion: user.tokenVersion, userType: user.userType }, process.env.JWT_PRIVATE_KEY!, { algorithm: 'RS256', expiresIn: '7d' });
+  res.cookie('refreshToken', newRefreshToken, {
+    httpOnly: true,
+    secure: !!process.env.PRODUCTION,
+    // SameSite property can be 'strict', 'lax', 'none', or true (for 'strict') 
+    sameSite: 'strict' 
+  });
 
-  return res.send({ token, refreshToken: newRefreshToken });
+  return res.send({ token });
+});
+
+router.route('/signout').post((req, res) => {
+
 });
 
 

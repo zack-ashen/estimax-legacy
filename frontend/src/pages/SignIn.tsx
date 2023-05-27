@@ -1,6 +1,12 @@
 import { useState } from 'react';
 
-function SignIn() {
+import { PreAuth } from '../App';
+
+interface SignInProps {
+  signIn: (preAuthObj: PreAuth) => void;
+}
+
+function SignIn({ signIn }: SignInProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,7 +21,10 @@ function SignIn() {
       })
     })
       .then(response => response.json())
-      .then(data => console.log(data))
+      .then(data => signIn({
+        token: data.token,
+        user: data.user
+      }))
   }
 
 

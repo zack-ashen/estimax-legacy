@@ -1,10 +1,18 @@
 import { useState } from 'react';
 
-function SignUp() {
+import { PreAuth } from '../App';
+
+interface SignInProps {
+  signIn: (preAuthObj: PreAuth) => void;
+}
+
+function SignUp({ signIn }: SignInProps) {
   const [ referral, setReferral ] = useState("");
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ confirmPassword, setConfirmPassword ] = useState("")
+
+  
 
   const auth = () => {
     // validate password
@@ -24,7 +32,10 @@ function SignUp() {
       })
     })
       .then(response => response.json())
-      .then(data => console.log(data))
+      .then(data => signIn({
+        token: data.token,
+        user: data.user
+      }))
   }
 
   return (
