@@ -1,6 +1,6 @@
 #  Dockerfile for Node Express Backend
 
-FROM node:lts-buster-slim
+FROM node:20-alpine
 
 # Create App Directory
 WORKDIR /usr/src/app

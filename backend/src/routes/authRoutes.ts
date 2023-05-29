@@ -121,11 +121,11 @@ router.route('/signin').post(async (req, res) => {
    If no refresh token is sent then a token is sent with null value.
 */
 router.route('/refreshToken').post(async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-
-  if (!refreshToken) {
-    return res.send();
+  if (req.cookies?.refreshToken === undefined) {
+    return res.status(418).send({ error: 'No refresh token' });
   }
+
+  const refreshToken = req.cookies.refreshToken;
 
   let payload: any = null;
   try {

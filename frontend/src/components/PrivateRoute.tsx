@@ -1,5 +1,9 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode'
+
+import { TokenPayload, UserType } from '../types';
+import { useAuth } from '../contexts/AuthContext';
 
 
 interface PrivateRouteProps {
@@ -11,12 +15,16 @@ interface PrivateRouteProps {
 
 const PrivateRoute = ({ children, forContractor=true, forHomeowner=true }: PrivateRouteProps ) => {
   // The authentication check could be a call to an actual authentication service.
-  const isAuthenticated = localStorage.getItem('auth');
-  const localUserType = localStorage.getItem('userType');
+  const auth = useAuth();
 
-  // todo: handle user type private routing
+  const decodedToken = jwt_decode(auth.token) as TokenPayload;
 
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
+  if (decodedToken.userType === UserType.CONTRACTOR) {
+    return forContractor ? <>{children}</> : <Navigate to="/" />
+  }
+  
+  
+  return forHomeowner ? <>{children}</> : <Navigate to="/" />
 };
 
 export default PrivateRoute;

@@ -22,12 +22,13 @@ function App() {
     // Get an access token
     fetch('/api/auth/refreshToken', {
       method: "POST",
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include'
     })
       .then(response => response.json())
       .then(data => {
         // user has valid refresh token
-        if (data.token && data.user) {
+        if (data.error !== 'No refresh token' && data.token && data.user) {
           setPreAuthObj({
             token: data.token,
             user: data.user
@@ -43,7 +44,7 @@ function App() {
       <Route path="/" Component={Landing} />
       <Route 
         path="/signup" 
-        element={<SignUp signIn={(preAuth: PreAuth) => setPreAuthObj(preAuth)}/>} 
+        element={<SignUp signIn={setPreAuthObj}/>} 
       />
       <Route 
         path="/signin" 

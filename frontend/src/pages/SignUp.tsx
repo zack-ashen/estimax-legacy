@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { PreAuth } from '../App';
 
 interface SignInProps {
-  signIn: (preAuthObj: PreAuth) => void;
+  signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>;
 }
 
 function SignUp({ signIn }: SignInProps) {
@@ -11,8 +11,6 @@ function SignUp({ signIn }: SignInProps) {
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ confirmPassword, setConfirmPassword ] = useState("")
-
-  
 
   const auth = () => {
     // validate password
