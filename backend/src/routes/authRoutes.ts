@@ -1,11 +1,14 @@
 import express from 'express'
 import jwt, { Secret } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import { OAuth2Client } from 'google-auth-library';
 
 import { User } from '../models/user'
 import { validateReferralCode } from '../util/referralCodes'
 
 const router = express.Router();
+
+const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
 
 router.route('/signup').post(async (req, res) => {
     // Validate the request body
@@ -58,6 +61,9 @@ router.route('/signin').post(async (req, res) => {
   if (!user)
     return res.status(401).send({error: 'Invalid email or password'});
 
+  if (!user.password)
+    return res.status(401).send({error: 'Invalid email or password'});
+
   // Check if the password is correct
   const match = await bcrypt.compare(password, user.password);
 
@@ -79,43 +85,41 @@ router.route('/signin').post(async (req, res) => {
   res.status(200).send({ token, user });
 });
 
-// router.post('/googleAuth', async (req, res) => {
-//   const { id_token } = req.body;
+router.post('/googleAuth', async (req, res) => {
+  const { clientId, credential } = req.body;
 
-//   const ticket = await client.verifyIdToken({
-//     idToken: id_token,
-//     audience: 'your-google-oauth-client-id',  // Specify the CLIENT_ID of the app that accesses the backend
-//   });
+  const ticket = await client.verifyIdToken({
+    idToken: credential,
+    audience: process.env.OAUTH_CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+  });
 
-//   const payload = ticket.getPayload();
+  const payload = ticket.getPayload();
 
-//   if (!payload) {
-//     res.status(400).send({ 'error': 'Invalid Google token' });
-//     return;
-//   }
+  if (!payload) {
+    res.status(400).send({ 'error': 'Invalid Google token' });
+    return;
+  }
 
-//   // You should now have the user's Google ID, email address, and other data in the payload.
-//   // You can use these to look up/create the user in your database and generate a JWT.
+  // You should now have the user's Google ID, email address, and other data in the payload.
+  // You can use these to look up/create the user in your database and generate a JWT.
   
-//   let user = await User.findOne({ googleId: payload.sub });
+  let user = await User.findOne({ email: payload.email });
 
-//   if (!user) {
-//     // No user with this Google ID exists, create a new one
-//     user = new User({
-//       googleId: payload.sub,
-//       email: payload.email,
-//       // add any other relevant fields
-//     });
-//     await user.save();
-//   }
+  if (!user) {
+    // No user with this Google ID exists, create a new one
+    user = new User({
+      email: payload.email
+    });
+    await user.save();
+  }
 
-//   const privateKey : Secret = (process.env.JWT_PRIVATE_KEY as string).replace(/\\n/g, '\n');
-//   const token = jwt.sign({ userId: user.id }, privateKey, { algorithm: 'RS256' });
-//   const refreshToken = jwt.sign({ userId: user.id, tokenVersion: user.tokenVersion }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
+  const privateKey : Secret = (process.env.JWT_PRIVATE_KEY as string).replace(/\\n/g, '\n');
+  const token = jwt.sign({ userId: user.id }, privateKey, { algorithm: 'RS256' });
+  const refreshToken = jwt.sign({ userId: user.id, tokenVersion: user.tokenVersion }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
 
-//   // Send the JWT token and refresh token to the client
-//   res.status(200).send({ token, refreshToken });
-// });
+  // Send the JWT token and refresh token to the client
+  res.status(200).send({ token, user });
+});
 
 /* Refresh token either responds with a new access token or no access token.
    If no refresh token is sent then a token is sent with null value.

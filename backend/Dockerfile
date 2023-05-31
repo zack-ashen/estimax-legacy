@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 
 
 # Install Dependencies
-COPY package*.json ./
+COPY package.json ./
 
 RUN npm install -g node-pre-gyp --silent
 RUN npm install --silent

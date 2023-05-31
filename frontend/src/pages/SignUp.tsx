@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 
 import { PreAuth } from '../App';
 
@@ -11,6 +12,9 @@ function SignUp({ signIn }: SignInProps) {
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ confirmPassword, setConfirmPassword ] = useState("")
+
+  useEffect(() => {
+  }, []);
 
   const auth = () => {
     // validate password
@@ -27,6 +31,22 @@ function SignUp({ signIn }: SignInProps) {
         email,
         password,
         referral
+      })
+    })
+      .then(response => response.json())
+      .then(data => signIn({
+        token: data.token,
+        user: data.user
+      }))
+  }
+
+  const authWithGoogle = ({credential, clientId}: CredentialResponse) => {
+    fetch('/api/auth/googleAuth', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        clientId,
+        credential
       })
     })
       .then(response => response.json())
@@ -74,6 +94,13 @@ function SignUp({ signIn }: SignInProps) {
           />
         </label>
         <button className="signUpButton" onClick={auth}>Sign Up</button>
+        <GoogleLogin
+          onSuccess={authWithGoogle}
+          onError={() => {
+            console.log('Login Failed');
+          }}
+          text='continue_with'
+        />;
       </div>
     </div>
   );

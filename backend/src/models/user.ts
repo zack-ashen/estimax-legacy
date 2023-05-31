@@ -21,7 +21,7 @@ const userSchema = new Schema({
     }
   },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: false },
   tokenVersion: { type: Number, default: 0 },
   userType: { type: String, enum: Object.values(UserTypes), default: "Contractor"}
   // location: {
