@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
 // Routes
 import waitlistRoutes from './routes/waitlistRoutes'
@@ -21,6 +22,7 @@ morgan('tiny');
 
 // Initialize app
 const app = express();
+app.use(cookieParser())
 
 // Connect to MongoDB
 mongoose.connect(process.env.DB_URL!)

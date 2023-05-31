@@ -21,10 +21,17 @@ function SignIn({ signIn }: SignInProps) {
       })
     })
       .then(response => response.json())
-      .then(data => signIn({
-        token: data.token,
-        user: data.user
-      }))
+      .then(data => {
+        if (data.error) {
+          // TODO: invalid credentials
+          console.log(data.error)
+        } else {
+          signIn({
+            token: data.token,
+            user: data.user
+          })
+        }
+      })
   }
 
 

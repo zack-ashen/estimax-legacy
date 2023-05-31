@@ -149,11 +149,12 @@ router.route('/refreshToken').post(async (req, res) => {
     sameSite: 'strict' 
   });
 
-  return res.send({ token });
+  return res.send({ token, user });
 });
 
 router.route('/signout').post((req, res) => {
-
+  res.clearCookie('refreshToken');
+  res.status(200).send({ message: 'User signed out successfully' });
 });
 
 
