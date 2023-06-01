@@ -116,6 +116,12 @@ router.post('/googleAuth', async (req, res) => {
   const privateKey : Secret = (process.env.JWT_PRIVATE_KEY as string).replace(/\\n/g, '\n');
   const token = jwt.sign({ userId: user.id }, privateKey, { algorithm: 'RS256' });
   const refreshToken = jwt.sign({ userId: user.id, tokenVersion: user.tokenVersion }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: !!process.env.PRODUCTION,
+    // SameSite property can be 'strict', 'lax', 'none', or true (for 'strict') 
+    sameSite: 'strict' 
+  });
 
   // Send the JWT token and refresh token to the client
   res.status(200).send({ token, user });

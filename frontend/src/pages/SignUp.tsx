@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 
 import { PreAuth } from '../App';
@@ -12,9 +12,6 @@ function SignUp({ signIn }: SignInProps) {
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ confirmPassword, setConfirmPassword ] = useState("")
-
-  useEffect(() => {
-  }, []);
 
   const auth = () => {
     // validate password

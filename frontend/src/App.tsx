@@ -67,7 +67,7 @@ function App() {
           <Route 
               path="/"
               element={
-                <PrivateRoute forHomeowner={false}>
+                <PrivateRoute forHomeowner={true} forContractor={true}>
                   <ProjectFeed />
                 </PrivateRoute>
               }
@@ -75,7 +75,7 @@ function App() {
           <Route 
               path="/manage-projects"
               element={
-                <PrivateRoute forContractor={false}>
+                <PrivateRoute forContractor={true} forHomeowner={true}>
                   <ManageProjects />
                 </PrivateRoute>
               }
