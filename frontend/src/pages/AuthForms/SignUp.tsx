@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 
-import { PreAuth } from '../App';
+import { PreAuth } from '../../App';
 
 interface SignInProps {
   signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>;

@@ -2,8 +2,8 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode'
 
-import { TokenPayload, UserType } from '../types';
-import { useAuth } from '../contexts/AuthContext';
+import { TokenPayload, UserType } from '../../types';
+import { useAuth } from '../../contexts/AuthContext';
 
 
 interface PrivateRouteProps {

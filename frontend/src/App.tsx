@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Landing from './pages/Landing/Landing'
-import SignIn from './pages/SignIn'
-import SignUp from './pages/SignUp'
+import SignIn from './pages/AuthForms/SignIn'
+import SignUp from './pages/AuthForms/SignUp'
 import ManageProjects from './pages/ManageProjects/ManageProjects';
 import ProjectFeed from './pages/ProjectFeed/ProjectFeed';
-import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import { User } from './types';
 
@@ -48,7 +48,7 @@ function App() {
       />
       <Route 
         path="/signin" 
-        element={<SignIn signIn={(preAuth: PreAuth) => setPreAuthObj(preAuth)}/>} 
+        element={<SignIn signIn={setPreAuthObj}/>} 
       />
       <Route path="*" 
           element={

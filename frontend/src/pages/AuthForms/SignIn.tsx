@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { PreAuth } from '../App';
+import { PreAuth } from '../../App';
 
 interface SignInProps {
   signIn: (preAuthObj: PreAuth) => void;
