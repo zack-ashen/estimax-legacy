@@ -5,6 +5,7 @@ import { OAuth2Client } from 'google-auth-library';
 
 import { User } from '../models/user'
 import { validateReferralCode } from '../util/referralCodes'
+import { TokenPayload } from '../types';
 
 const router = express.Router();
 
