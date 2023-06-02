@@ -1,17 +1,7 @@
 import mongoose from 'mongoose';
-import { Homeowner } from './homeowner';
 const { Schema } = mongoose;
+import { UserTypes } from '../types';
 
-export type UserType = {
-  uid: String,
-  email: String,
-  password: String
-}
-
-export enum UserTypes {
-  CONTRACTOR = "Contractor",
-  HOMEOWNER = "Homeowner"
-}
 
 const userSchema = new Schema({
   uid: {

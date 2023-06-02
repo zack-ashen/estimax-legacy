@@ -1,6 +1,9 @@
 import crypto, { BinaryLike } from 'crypto';
 
-export const validateReferralCode = (code: string, originalData: Buffer): boolean => {
+export const validateReferralCode = (referral: String): boolean => {
+  const code : string = referral.substring(0,7);
+  const originalData : Buffer = Buffer.from(referral.substring(7,).concat("="));
+
   const privateKey : BinaryLike = process.env.REFERRAL_KEY!;
 
   // Create a HMAC object using SHA256.
