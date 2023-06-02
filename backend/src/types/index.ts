@@ -4,7 +4,6 @@ export interface TokenPayload {
     userId: string;
     scope: UserType;
     tokenVersion: Number;
-
 }
   
   // User Schema

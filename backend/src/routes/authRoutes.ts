@@ -5,7 +5,6 @@ import { OAuth2Client } from 'google-auth-library';
 
 import { User } from '../models/user'
 import { validateReferralCode } from '../util/referralCodes'
-import { TokenPayload } from '../types';
 
 const router = express.Router();
 
@@ -38,8 +37,8 @@ router.route('/signup').post(async (req, res) => {
   
     // Generate a JWT token for the new user
     const privateKey : Secret = (process.env.JWT_PRIVATE_KEY as string).replace(/\\n/g, '\n');
-    const token = jwt.sign({ userId: newUser.uid, userType: newUser.userType }, privateKey, { algorithm: 'RS256', expiresIn: '20m' });
-    const refreshToken = jwt.sign({ userId: newUser.uid, tokenVersion: newUser.tokenVersion, userType: newUser.userType }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
+    const token = jwt.sign({ userId: newUser.uid, scope: newUser.userType }, privateKey, { algorithm: 'RS256', expiresIn: '20m' });
+    const refreshToken = jwt.sign({ userId: newUser.uid, tokenVersion: newUser.tokenVersion, scope: newUser.userType }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: !!process.env.PRODUCTION,
@@ -73,12 +72,11 @@ router.route('/signin').post(async (req, res) => {
 
   // Generate a JWT token for the new user
   const privateKey : Secret = (process.env.JWT_PRIVATE_KEY as string).replace(/\\n/g, '\n');
-  const token = jwt.sign({ userId: user.uid, userType: user.userType }, privateKey, { algorithm: 'RS256', expiresIn: '20m' });
-  const refreshToken = jwt.sign({ userId: user.uid, tokenVersion: user.tokenVersion, userType: user.userType }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
+  const token = jwt.sign({ userId: user.uid, scope: user.userType }, privateKey, { algorithm: 'RS256', expiresIn: '20m' });
+  const refreshToken = jwt.sign({ userId: user.uid, tokenVersion: user.tokenVersion, scope: user.userType }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     secure: !!process.env.PRODUCTION,
-    // SameSite property can be 'strict', 'lax', 'none', or true (for 'strict') 
     sameSite: 'strict' 
   });
 
@@ -115,12 +113,11 @@ router.post('/googleAuth', async (req, res) => {
   }
 
   const privateKey : Secret = (process.env.JWT_PRIVATE_KEY as string).replace(/\\n/g, '\n');
-  const token = jwt.sign({ userId: user.id }, privateKey, { algorithm: 'RS256' });
-  const refreshToken = jwt.sign({ userId: user.id, tokenVersion: user.tokenVersion }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
+  const token = jwt.sign({ userId: user.id, scope: user.userType }, privateKey, { algorithm: 'RS256' });
+  const refreshToken = jwt.sign({ userId: user.id, tokenVersion: user.tokenVersion, scope: user.userType }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     secure: !!process.env.PRODUCTION,
-    // SameSite property can be 'strict', 'lax', 'none', or true (for 'strict') 
     sameSite: 'strict' 
   });
 
@@ -151,12 +148,11 @@ router.route('/refreshToken').post(async (req, res) => {
     return res.status(401).send({ error: 'Invalid refresh token' });
   }
 
-  const token = jwt.sign({ userId: user.id, userType: user.userType }, process.env.JWT_PRIVATE_KEY!, { algorithm: 'RS256', expiresIn: '30m' });
-  const newRefreshToken = jwt.sign({ userId: user.id, tokenVersion: user.tokenVersion, userType: user.userType }, process.env.JWT_PRIVATE_KEY!, { algorithm: 'RS256', expiresIn: '7d' });
+  const token = jwt.sign({ userId: user.id, scope: user.userType }, process.env.JWT_PRIVATE_KEY!, { algorithm: 'RS256', expiresIn: '30m' });
+  const newRefreshToken = jwt.sign({ userId: user.id, tokenVersion: user.tokenVersion, scope: user.userType }, process.env.JWT_PRIVATE_KEY!, { algorithm: 'RS256', expiresIn: '7d' });
   res.cookie('refreshToken', newRefreshToken, {
     httpOnly: true,
     secure: !!process.env.PRODUCTION,
-    // SameSite property can be 'strict', 'lax', 'none', or true (for 'strict') 
     sameSite: 'strict' 
   });
 
