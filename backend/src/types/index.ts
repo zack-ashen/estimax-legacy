@@ -20,6 +20,12 @@ export enum UserTypes {
 }
 
 
+// Project
+export type Project = {
+
+}
+
+
 // Misc
 export interface Error {
     message: Errors;

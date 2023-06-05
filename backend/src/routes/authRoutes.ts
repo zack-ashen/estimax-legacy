@@ -29,9 +29,8 @@ router.route('/signup').post(async (req, res) => {
 
   // Check if the email address already exists
   const user = await getUser(email, true);
-  if (user !== Errors.USER_NOT_FOUND)
+  if (user)
     return res.status(409).send({error: 'Email address already exists'});
-
 
   // Create a new user
   // TODO: replace with createUser
@@ -46,7 +45,7 @@ router.route('/signup').post(async (req, res) => {
   const token = createAndSetToken(newUser, res);
 
   // Send the JWT token to the client
-  res.status(201).send({ token, user: newUser });
+  res.status(200).send({ token, user: newUser });
 });
 
 /*
@@ -61,12 +60,12 @@ router.route('/signin').post(async (req, res) => {
     return res.status(400).send({error: Errors.INVALID_CRED});
 
   // Check if the user exists
-  const user = await User.findOne({ email });
+  const user = await getUser(email, true);
   if (!user || !user.password)
     return res.status(401).send({error: Errors.INVALID_CRED});
 
   // Check if the password is correct
-  const match = await bcrypt.compare(password, user.password);
+  const match = bcrypt.compare(password, user.password as string);
   if (!match)
     return res.status(401).send({error: Errors.INVALID_CRED});
 
@@ -97,11 +96,12 @@ router.post('/googleAuth', async (req, res) => {
     return;
   }
 
-  let user = await User.findOne({ email: payload.email });
+  let user = await getUser(payload.email!, true);
 
   // TODO: replace with create user function
   if (!user) {
     // No user with this Google ID exists, create a new one
+    createUser(user);
     user = new User({
       email: payload.email
     });

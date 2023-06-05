@@ -14,6 +14,8 @@ import userRoutes from './routes/userRoutes'
 import projectRoutes from './routes/projectRoutes'
 import authRoutes from './routes/authRoutes'
 
+import { errorHandler } from './middleware/errors'
+
 // Load environment variables from .env file
 dotenv.config();
 
@@ -32,6 +34,7 @@ mongoose.connect(process.env.DB_URL!)
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+app.use(errorHandler)
 
 // Routes
 app.use('/api/waitlist', waitlistRoutes);
