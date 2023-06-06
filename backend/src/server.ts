@@ -30,12 +30,6 @@ mongoose.connect(process.env.DB_URL!)
   .then(() => console.log('Database connected successfully'))
   .catch(err => console.log(err));
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(cookieParser());
-app.use(errorHandler);
-
 // Routes
 app.use('/api/waitlist', waitlistRoutes);
 app.use('/api/contractor', contractorRoutes);
@@ -43,6 +37,12 @@ app.use('/api/homeowner', homeownerRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/project', projectRoutes);
 app.use('/api/auth', authRoutes)
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+app.use(errorHandler);
 
 
 // Start server

@@ -4,19 +4,15 @@ export class ServerError extends Error {
   status: number;
   
   constructor(message: string, status: number) {
-    super();
-    this.message = message;
+    super(message);
     this.status = status;
   }
 }
 
 // Error handling middleware
 export function errorHandler(err: ServerError, req: Request, res: Response, next: NextFunction) {
-  res.status(err.status || 500);
-  res.json({
-    error: {
-      message: err.message,
-    },
-  });
+  return res.status(err.status).json({
+    error: err.message
+  })
 }
 

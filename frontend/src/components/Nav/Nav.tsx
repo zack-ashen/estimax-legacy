@@ -1,8 +1,8 @@
 import { useAuth } from "../../contexts/AuthContext";
 
-import styles from "./Nav.module.css";
+import styles from "./Nav.module.scss";
 import { UserType } from "../../types";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ContractorNav = (
     <>
@@ -36,17 +36,19 @@ function AuthNav() {
 
 function NoAuthNav() {
     const location = useLocation().pathname;
+    const navigate = useNavigate();
 
     return location === '/' ? (
         <>
-            Landing
+            <button className='signInButton' onClick={() => navigate("/signin")}>Sign In</button>
+            <button className='signUpButton' onClick={() => navigate("/signup")}>Sign Up</button>
         </>
     ) : (<></>)
 }
 
 function Nav({ auth=false }: NavProps) {
     return (
-        <nav>
+        <nav className={styles.Nav}>
             <div>
                 <img alt="logo" />
                 <h3>Estimax</h3>
