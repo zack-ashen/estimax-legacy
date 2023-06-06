@@ -1,6 +1,7 @@
-import { Roles } from "../types";
+import { Errors, Roles } from "../types";
 import { IUser, User } from "../models/user";
 import bcrypt from 'bcrypt';
+import { ServerError } from "../middleware/errors";
 
 
 /* 
@@ -35,7 +36,7 @@ export async function createUser({email, role, password}: UserLight): Promise<IU
     await newUser.save();
   } catch (err) {
     console.log(err);
-    throw err;
+    throw new ServerError(Errors.RESOURCE_CREATION, 409);
   }
 
   return newUser;

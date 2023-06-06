@@ -17,23 +17,23 @@ const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
 * /signup verifies the referral token is valid and then creates the user
 * using the sent user object.
 */
-router.route('/signup').post(async (req, res) => {
-  // Validate the request body
-  const { email, password, referral } = req.body;
-  if (!email || !password)
-    throw new ServerError(Errors.INVALID_REQUEST_BODY, 400);
-
-  // make sure the referral code is valid
-  if (!validateReferralCode(referral))
-    throw new ServerError(Errors.INVALID_REFERRAL_CODE, 409);
-
-  // Check if the email address already exists
-  const user = await getUser(email, true);
-  if (user)
-    throw new ServerError(Errors.EMAIl_EXISTS, 409);
-
-  // Create a new user and set token
+router.route('/signup').post(async (req, res, next) => {
   try {
+    // Validate the request body
+    const { email, password, referral } = req.body;
+    if (!email || !password)
+      throw new ServerError(Errors.INVALID_REQUEST_BODY, 400);
+
+    // make sure the referral code is valid
+    if (!validateReferralCode(referral))
+      throw new ServerError(Errors.INVALID_REFERRAL_CODE, 409);
+
+    // Check if the email address already exists
+    const user = await getUser(email, true);
+    if (user)
+      throw new ServerError(Errors.EMAIl_EXISTS, 409);
+
+    // Create a new user and set token
     const newUser = await createUser({
       email,
       password,
@@ -45,8 +45,8 @@ router.route('/signup').post(async (req, res) => {
 
     // Send the JWT token to the client
     res.status(200).send({ token, user: newUser });
-  } catch (e) {
-    throw new ServerError(Errors.RESOURCE_CREATION, 409);
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -54,27 +54,31 @@ router.route('/signup').post(async (req, res) => {
 * /signin logs a user in and validates the email and password is correct.
 * returns an access token and user.
 */
-router.route('/signin').post(async (req, res) => {
-  // Validate the request body
-  const { email, password } = req.body;
-  if (!email || !password)
-    throw new ServerError(Errors.INVALID_CRED, 400);
+router.route('/signin').post(async (req, res, next) => {
+  try {
+    // Validate the request body
+    const { email, password } = req.body;
+    if (!email || !password)
+      throw new ServerError(Errors.INVALID_CRED, 400);
 
-  // Check if the user exists
-  const user = await getUser(email, true);
-  if (!user || !user.password)
-    throw new ServerError(Errors.INVALID_CRED, 400);
+    // Check if the user exists
+    const user = await getUser(email, true);
+    if (!user || !user.password)
+      throw new ServerError(Errors.INVALID_CRED, 400);
 
-  // Check if the password is correct
-  const match = bcrypt.compare(password, user.password as string);
-  if (!match)
-    throw new ServerError(Errors.INVALID_CRED, 400);
+    // Check if the password is correct
+    const match = bcrypt.compare(password, user.password as string);
+    if (!match)
+      throw new ServerError(Errors.INVALID_CRED, 400);
 
-  // Generate a JWT token for the new user
-  const token = createAndSetToken(user, res);
+    // Generate a JWT token for the new user
+    const token = createAndSetToken(user, res);
 
-  // Send the JWT token to the client
-  res.status(200).send({ token, user });
+    // Send the JWT token to the client
+    res.status(200).send({ token, user });
+  } catch (err) {
+    next(err);
+  }
 });
 
 
@@ -82,58 +86,60 @@ router.route('/signin').post(async (req, res) => {
 * /googleAuth verifies the clientId and credential sent and checks a user
 * exists or creates one. It then returns an access token and user.
 */
-router.post('/googleAuth', async (req, res) => {
-  const { clientId, credential } = req.body;
+router.post('/googleAuth', async (req, res, next) => {
+  try {
+    const { clientId, credential } = req.body;
 
-  const ticket = await client.verifyIdToken({
-    idToken: credential,
-    audience: process.env.OAUTH_CLIENT_ID,
-  });
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.OAUTH_CLIENT_ID,
+    });
 
-  const payload = ticket.getPayload();
-  if (!payload)
-    throw new ServerError(Errors.INVALID_TOKEN, 400);
+    const payload = ticket.getPayload();
+    if (!payload)
+      throw new ServerError(Errors.INVALID_TOKEN, 400);
 
-  let user: IUser | null = await getUser(payload.email!, true);
-  if (!user) {
-    try {
-      // No user with this Google ID exists, create a new one
+    let user: IUser | null = await getUser(payload.email!, true);
+    if (!user)
       user = await createUser({email: payload.email!, role: Roles.CONTRACTOR})
-    } catch (e) {
-      throw new ServerError(Errors.RESOURCE_CREATION, 409);
-    }
+
+    const token = createAndSetToken(user, res);
+
+    // Send the JWT token and refresh token to the client
+    res.status(200).send({ token, user });
+  } catch (err) {
+    next(err);
   }
-
-  const token = createAndSetToken(user, res);
-
-  // Send the JWT token and refresh token to the client
-  res.status(200).send({ token, user });
 });
 
 /* 
 *  /refreshToken: either responds with a new access token or no access token.
 *  If no refresh token is sent then a token is sent with null value.
 */
-router.route('/refreshToken').post(async (req, res) => {
-  if (!req.cookies?.refreshToken)
-    throw new ServerError(Errors.INVALID_REFRESH_TOKEN, 418);
-
-  const refreshToken = req.cookies.refreshToken;
-
-  let payload: any;
+router.route('/refreshToken').post(async (req, res, next) => {
   try {
-    payload = jwt.verify(refreshToken, process.env.JWT_PRIVATE_KEY!);
-  } catch (e) {
-    throw new ServerError(Errors.INVALID_REFRESH_TOKEN, 401);
+    if (!req.cookies?.refreshToken)
+      throw new ServerError(Errors.INVALID_REFRESH_TOKEN, 418);
+
+    const refreshToken = req.cookies.refreshToken;
+
+    let payload: any;
+    try {
+      payload = jwt.verify(refreshToken, process.env.JWT_PRIVATE_KEY!);
+    } catch {
+      throw new ServerError(Errors.INVALID_REFRESH_TOKEN, 401);
+    }
+
+    const user = await getUser(payload.uid);
+    if (!user)
+      throw new ServerError(Errors.INVALID_REFRESH_TOKEN, 401);
+
+    const token = createAndSetToken(user, res);
+
+    return res.send({ token, user });
+  } catch (err) {
+    next(err)
   }
-
-  const user = await getUser(payload.uid);
-  if (!user)
-    throw new ServerError(Errors.INVALID_REFRESH_TOKEN, 401);
-
-  const token = createAndSetToken(user, res);
-
-  return res.send({ token, user });
 });
 
 router.route('/signout').post((req, res) => {
