@@ -1,6 +1,6 @@
 #  Dockerfile for Node Express Backend
 
-FROM node:20-alpine
+FROM node:bullseye
 
 # Create App Directory
 WORKDIR /usr/src/app

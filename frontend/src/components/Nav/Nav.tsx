@@ -1,34 +1,23 @@
-import React, { useEffect, useState } from "react";
-
 import { useAuth } from "../../contexts/AuthContext";
 
 import styles from "./Nav.module.css";
 import { UserType } from "../../types";
+import { useLocation } from "react-router-dom";
 
-interface NavProps {
-    landing?: boolean;
-}
+const ContractorNav = (
+    <>
+    contractor
+    </>
+)
 
+const HomeownerNav = (
+    <>
+    homeowner
+    </>
+);
 
-function Nav({ landing=false }: NavProps) {
-    const [navType, setNavType] = useState<NavLinks | undefined>(landingNav)
-    const [auth, setAuth] = useState<UserType | undefined>();
-    try {
-        const auth = useAuth();
-        setAuth(auth.user.userType);
-    } catch {
-        setNavType(auth === UserType.CONTRACTOR ? contractorNav : homeownerNav)
-        
-    }
-
-    useEffect(() => {
-        if (!auth) {
-            
-        } else {
-            
-        }
-
-    }, [auth])
+function AuthNav() {
+    const role = useAuth().user.userType;
 
     return (
         <nav>
@@ -38,75 +27,42 @@ function Nav({ landing=false }: NavProps) {
             </div>
 
             <div>
-                {navType && navType.links.map((link, index) => (
-                    <a href={link.url} key={index}>{link.text}</a>
-                ))}
-                <div></div>
-                <div>
-                {navType && navType.buttons.map((element, _) => (
-                    element
-                ))}
-                </div>
+                {role === UserType.CONTRACTOR ?  
+                ContractorNav : HomeownerNav}
             </div>
         </nav>
     );
 }
 
-const contractorNav : NavLinks = {
-    links: [
-        {
-            text: "contractor",
-            url: "#howitworks"
-        },
+function NoAuthNav() {
+    const location = useLocation().pathname;
 
-    ],
-    buttons: [
-        <button value="hi">Sign Up</button>
-    ]
+    return location === '/' ? (
+        <>
+            Landing
+        </>
+    ) : (<></>)
 }
 
-const homeownerNav : NavLinks = {
-    links: [
-        {
-            text: "homeowner",
-            url: "#howitworks"
-        },
+function Nav({ auth=false }: NavProps) {
+    return (
+        <nav>
+            <div>
+                <img alt="logo" />
+                <h3>Estimax</h3>
+            </div>
 
-    ],
-    buttons: [
-        <button value="hi">Sign Up</button>
-    ]
+            <div>
+                {auth ? <AuthNav /> : <NoAuthNav />}
+            </div>
+        </nav>
+    );
 }
 
-const landingNav : NavLinks = {
-    links: [
-        {
-            text: "landing",
-            url: "#howitworks"
-        },
-        {
-            text: "Features",
-            url: "#features"
-        },
-        {
-            text: "FAQ",
-            url: "#faq"
-        }
-    ],
-    buttons: [
-        <button value="hi">Sign Up</button>
-    ]
+interface NavProps {
+    auth?: boolean;
 }
 
-interface Link {
-    text: string;
-    url: string;
-}
-
-interface NavLinks {
-    links: Link[];
-    buttons: JSX.Element[];
-}
 
 
 export default Nav;

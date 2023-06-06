@@ -19,7 +19,7 @@ router.route('/').get((req, res) => {
 router.route('/').post((req, res) => {
    const project = req.body.project;
    try {
-      createProject(project);
+      createProject();
       return res.status(200)
    } catch (e) {
 

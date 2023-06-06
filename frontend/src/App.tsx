@@ -67,7 +67,7 @@ function App() {
     <AuthProvider 
       removePreAuthObj={() => setPreAuthObj(undefined)}
       preAuthObj={preAuthObj!}>
-        <Nav />
+        <Nav auth/>
         <Routes>
           <Route 
               path="/"

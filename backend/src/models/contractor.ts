@@ -1,7 +1,6 @@
 import { Schema, model } from 'mongoose'
 import { IUser, User } from './user'
 import { Project } from './project'
-import { UserTypes } from '../types';
 
 export interface IContractor extends IUser {
   
