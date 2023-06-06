@@ -3,9 +3,9 @@ import jwt, { Secret } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { OAuth2Client } from 'google-auth-library';
 
-import { User } from '../models/user'
+import { IUser, User } from '../models/user'
 import { validateReferralCode } from '../util/referralCodes'
-import { Errors, TokenPayload, UserType } from '../types';
+import { Errors, TokenPayload, UserType, UserTypes } from '../types';
 import { createUser, getUser } from '../controllers/userController';
 
 const router = express.Router();
@@ -101,11 +101,7 @@ router.post('/googleAuth', async (req, res) => {
   // TODO: replace with create user function
   if (!user) {
     // No user with this Google ID exists, create a new one
-    createUser(user);
-    user = new User({
-      email: payload.email
-    });
-    await user.save();
+    user = await createUser(payload.email!, UserTypes.CONTRACTOR)
   }
 
 
@@ -149,9 +145,9 @@ router.route('/signout').post((req, res) => {
   res.status(200).send({ message: 'User signed out successfully' });
 });
 
-const createAndSetToken = (user: UserType, res: Response) => {
+const createAndSetToken = (user: IUser, res: Response) => {
   const tokenPayload : TokenPayload = {
-    userId: user.uid,
+    uid: user.id,
     scope: user.userType
   }
 

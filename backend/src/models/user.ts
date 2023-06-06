@@ -1,19 +1,17 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import mongoose, { Schema } from 'mongoose';
 import { UserTypes } from '../types';
 
+export interface IUser extends Document {
+  id: Schema.Types.ObjectId;
+  email: string;
+  password: string;
+  userType: UserTypes;
+}
 
-const userSchema = new Schema({
-  uid: {
-    type: String,
-    default: function() {
-      return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    }
-  },
+const userSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: false },
-  tokenVersion: { type: Number, default: 0 },
-  userType: { type: String, enum: Object.values(UserTypes), default: "Contractor"}
+  userType: { type: Schema.Types.Mixed, enum: Object.values(UserTypes), default: "Contractor"}
   // location: {
   //   type: {
   //     type: String, // Don't do `{ location: { type: String } }`

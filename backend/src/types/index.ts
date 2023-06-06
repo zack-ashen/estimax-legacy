@@ -1,8 +1,9 @@
+import {Schema} from "mongoose";
 
 
 // Auth Types
 export interface TokenPayload {
-    userId: String;
+    uid: Schema.Types.ObjectId;
     scope: UserTypes;
 }
   
