@@ -1,6 +1,13 @@
 import crypto, { BinaryLike } from 'crypto';
+import { Referral } from '../models/referral';
+import { ServerError } from '../middleware/errors';
+import { Errors } from '../types';
 
-export const validateReferralCode = (referral: String): boolean => {
+export const validateReferralCode = async (referral: String): Promise<boolean> => {
+  const referralCheck = await Referral.findOne({ referral });
+  if (referralCheck)
+    throw new ServerError(Errors.REFERRAL_CODE_USED, 400)
+
   const code : string = referral.substring(0,7);
   const originalData : Buffer = Buffer.from(referral.substring(7,).concat("="));
 

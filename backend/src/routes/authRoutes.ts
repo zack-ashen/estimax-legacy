@@ -8,6 +8,7 @@ import { validateReferralCode } from '../util/referralCodes'
 import { Errors, TokenPayload, Roles } from '../types';
 import { createUser, getUser } from '../controllers/userController';
 import { ServerError } from '../middleware/errors';
+import { Referral } from '../models/referral';
 
 const router = express.Router();
 
@@ -39,6 +40,10 @@ router.route('/signup').post(async (req, res, next) => {
       password,
       role: Roles.CONTRACTOR
     })
+
+    // add referral code so it can't be used again
+    const referralObj = new Referral({ referral })
+    await referralObj.save();
 
     // Generate a JWT token for the new user
     const token = createAndSetToken(newUser, res);
