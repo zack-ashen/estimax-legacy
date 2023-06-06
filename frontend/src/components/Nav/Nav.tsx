@@ -5,12 +5,11 @@ import { useAuth } from "../../contexts/AuthContext";
 import styles from "./Nav.module.css";
 
 interface NavProps {
-    children: React.ReactElement<{}>;
-    landing: boolean;
+    landing?: boolean;
 }
 
 
-function Nav({ children, landing=false }: NavProps) {
+function Nav({ landing=false }: NavProps) {
     const auth = useAuth();
     const [navType, setNavType] = useState(landingNav)
 

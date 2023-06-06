@@ -9,6 +9,7 @@ import ProjectFeed from './pages/ProjectFeed/ProjectFeed';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import { User } from './types';
+import Nav from './components/Nav/Nav';
 
 export interface PreAuth {
   user: User;
@@ -63,6 +64,7 @@ function App() {
     <AuthProvider 
       removePreAuthObj={() => setPreAuthObj(undefined)}
       preAuthObj={preAuthObj!}>
+        <Nav />
         <Routes>
           <Route 
               path="/"
