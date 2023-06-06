@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-export class AppError extends Error {
+export class ServerError extends Error {
   status: number;
   
   constructor(message: string, status: number) {
@@ -11,7 +11,7 @@ export class AppError extends Error {
 }
 
 // Error handling middleware
-export function errorHandler(err: AppError, req: Request, res: Response, next: NextFunction) {
+export function errorHandler(err: ServerError, req: Request, res: Response, next: NextFunction) {
   res.status(err.status || 500);
   res.json({
     error: {

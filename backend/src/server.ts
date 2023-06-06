@@ -34,7 +34,7 @@ mongoose.connect(process.env.DB_URL!)
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use(errorHandler)
+app.use(errorHandler);
 
 // Routes
 app.use('/api/waitlist', waitlistRoutes);

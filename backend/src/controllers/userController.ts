@@ -1,4 +1,4 @@
-import { UserType, Errors, UserTypes } from "../types";
+import { Roles } from "../types";
 import { IUser, User } from "../models/user";
 import bcrypt from 'bcrypt';
 
@@ -16,7 +16,7 @@ export async function getUser(searchValue: string, useEmail:boolean=false): Prom
   return user;
 }
 
-export async function createUser(email: string, userType: UserTypes, password?: string): Promise<IUser> {
+export async function createUser({email, role, password}: UserLight): Promise<IUser> {
   // Hash the password before saving it to the database
   let hashedPassword: string | undefined;
   if (password) {
@@ -27,7 +27,7 @@ export async function createUser(email: string, userType: UserTypes, password?: 
   const newUser = new User({
     email,
     password: hashedPassword,
-    userType
+    role
   });
 
   // Save the user to the database
@@ -41,6 +41,13 @@ export async function createUser(email: string, userType: UserTypes, password?: 
   return newUser;
 }
 
-export function updateUser(user: UserType) {
+export function updateUser() {
 
+}
+
+// User without id field
+interface UserLight {
+  email: string,
+  role: Roles;
+  password?: string;
 }

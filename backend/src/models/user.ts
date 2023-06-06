@@ -1,17 +1,17 @@
 import mongoose, { Schema } from 'mongoose';
-import { UserTypes } from '../types';
+import { Roles } from '../types';
 
 export interface IUser extends Document {
   id: Schema.Types.ObjectId;
   email: string;
   password: string;
-  userType: UserTypes;
+  role: Roles;
 }
 
 const userSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: false },
-  userType: { type: Schema.Types.Mixed, enum: Object.values(UserTypes), default: "Contractor"}
+  role: { type: Schema.Types.Mixed, enum: Object.values(Roles), default: "Contractor"}
   // location: {
   //   type: {
   //     type: String, // Don't do `{ location: { type: String } }`

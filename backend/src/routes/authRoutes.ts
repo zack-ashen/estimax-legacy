@@ -1,12 +1,13 @@
-import express, { Request, Response } from 'express'
+import express, { Response } from 'express'
 import jwt, { Secret } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { OAuth2Client } from 'google-auth-library';
 
 import { IUser, User } from '../models/user'
 import { validateReferralCode } from '../util/referralCodes'
-import { Errors, TokenPayload, UserType, UserTypes } from '../types';
+import { Errors, TokenPayload, Roles } from '../types';
 import { createUser, getUser } from '../controllers/userController';
+import { ServerError } from '../middleware/errors';
 
 const router = express.Router();
 
@@ -18,34 +19,35 @@ const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
 */
 router.route('/signup').post(async (req, res) => {
   // Validate the request body
-  // TODO: Pull this validation out into its own middleware
   const { email, password, referral } = req.body;
   if (!email || !password)
-    return res.status(400).send({error: 'Invalid request body: email or password invalid'});
+    throw new ServerError(Errors.INVALID_REQUEST_BODY, 400);
 
   // make sure the referral code is valid
   if (!validateReferralCode(referral))
-    return res.status(409).send({error: 'invalid referral code'});
+    throw new ServerError(Errors.INVALID_REFERRAL_CODE, 409);
 
   // Check if the email address already exists
   const user = await getUser(email, true);
   if (user)
-    return res.status(409).send({error: 'Email address already exists'});
+    throw new ServerError(Errors.EMAIl_EXISTS, 409);
 
-  // Create a new user
-  // TODO: replace with createUser
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = new User({
-    email: email,
-    password: hashedPassword
-  });
-  await newUser.save();
+  // Create a new user and set token
+  try {
+    const newUser = await createUser({
+      email,
+      password,
+      role: Roles.CONTRACTOR
+    })
 
-  // Generate a JWT token for the new user
-  const token = createAndSetToken(newUser, res);
+    // Generate a JWT token for the new user
+    const token = createAndSetToken(newUser, res);
 
-  // Send the JWT token to the client
-  res.status(200).send({ token, user: newUser });
+    // Send the JWT token to the client
+    res.status(200).send({ token, user: newUser });
+  } catch (e) {
+    throw new ServerError(Errors.RESOURCE_CREATION, 409);
+  }
 });
 
 /*
@@ -54,20 +56,19 @@ router.route('/signup').post(async (req, res) => {
 */
 router.route('/signin').post(async (req, res) => {
   // Validate the request body
-  // TODO: Pull this validation out into its own middleware
   const { email, password } = req.body;
   if (!email || !password)
-    return res.status(400).send({error: Errors.INVALID_CRED});
+    throw new ServerError(Errors.INVALID_CRED, 400);
 
   // Check if the user exists
   const user = await getUser(email, true);
   if (!user || !user.password)
-    return res.status(401).send({error: Errors.INVALID_CRED});
+    throw new ServerError(Errors.INVALID_CRED, 400);
 
   // Check if the password is correct
   const match = bcrypt.compare(password, user.password as string);
   if (!match)
-    return res.status(401).send({error: Errors.INVALID_CRED});
+    throw new ServerError(Errors.INVALID_CRED, 400);
 
   // Generate a JWT token for the new user
   const token = createAndSetToken(user, res);
@@ -90,20 +91,18 @@ router.post('/googleAuth', async (req, res) => {
   });
 
   const payload = ticket.getPayload();
+  if (!payload)
+    throw new ServerError(Errors.INVALID_TOKEN, 400);
 
-  if (!payload) {
-    res.status(400).send({ error: Errors.INVALID_TOKEN });
-    return;
-  }
-
-  let user = await getUser(payload.email!, true);
-
-  // TODO: replace with create user function
+  let user: IUser | null = await getUser(payload.email!, true);
   if (!user) {
-    // No user with this Google ID exists, create a new one
-    user = await createUser(payload.email!, UserTypes.CONTRACTOR)
+    try {
+      // No user with this Google ID exists, create a new one
+      user = await createUser({email: payload.email!, role: Roles.CONTRACTOR})
+    } catch (e) {
+      throw new ServerError(Errors.RESOURCE_CREATION, 409);
+    }
   }
-
 
   const token = createAndSetToken(user, res);
 
@@ -116,24 +115,21 @@ router.post('/googleAuth', async (req, res) => {
 *  If no refresh token is sent then a token is sent with null value.
 */
 router.route('/refreshToken').post(async (req, res) => {
-  if (req.cookies?.refreshToken === undefined) {
-    return res.status(418).send({ error: Errors.INVALID_REFRESH_TOKEN });
-  }
+  if (!req.cookies?.refreshToken)
+    throw new ServerError(Errors.INVALID_REFRESH_TOKEN, 418);
 
   const refreshToken = req.cookies.refreshToken;
 
-  let payload: any = null;
+  let payload: any;
   try {
     payload = jwt.verify(refreshToken, process.env.JWT_PRIVATE_KEY!);
   } catch (e) {
-    return res.status(401).send({ error: Errors.INVALID_REFRESH_TOKEN });
+    throw new ServerError(Errors.INVALID_REFRESH_TOKEN, 401);
   }
 
-  const user = await User.findOne({ userId: payload.uid });
-
-  if (!user) {
-    return res.status(401).send({ error: Errors.INVALID_REFRESH_TOKEN });
-  }
+  const user = await getUser(payload.uid);
+  if (!user)
+    throw new ServerError(Errors.INVALID_REFRESH_TOKEN, 401);
 
   const token = createAndSetToken(user, res);
 
@@ -148,7 +144,7 @@ router.route('/signout').post((req, res) => {
 const createAndSetToken = (user: IUser, res: Response) => {
   const tokenPayload : TokenPayload = {
     uid: user.id,
-    scope: user.userType
+    scope: user.role
   }
 
   const privateKey : Secret = (process.env.JWT_PRIVATE_KEY as string).replace(/\\n/g, '\n');

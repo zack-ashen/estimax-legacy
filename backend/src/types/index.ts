@@ -4,37 +4,27 @@ import {Schema} from "mongoose";
 // Auth Types
 export interface TokenPayload {
     uid: Schema.Types.ObjectId;
-    scope: UserTypes;
+    scope: Roles;
 }
   
 // User Schema
-export type UserType = {
-    uid: String,
-    email: String,
-    password?: String,
-    userType: UserTypes
-}
-  
-export enum UserTypes {
+export enum Roles {
     CONTRACTOR = "Contractor",
     HOMEOWNER = "Homeowner"
 }
 
 
 // Project
-export type Project = {
-
-}
 
 
 // Misc
-export interface Error {
-    message: Errors;
-}
-
 export enum Errors {
-    USER_NOT_FOUND = "User not found",
-    INVALID_CRED = "Invalid email or password",
-    INVALID_TOKEN = "Invalid access token",
-    INVALID_REFRESH_TOKEN = "Invalid refresh token"
+    USER_NOT_FOUND = 'User not found',
+    INVALID_CRED = 'Invalid email or password',
+    INVALID_TOKEN = 'Invalid access token',
+    INVALID_REFRESH_TOKEN = 'Invalid refresh token',
+    INVALID_REFERRAL_CODE = 'Invalid referral code',
+    INVALID_REQUEST_BODY = 'Invalid request body',
+    EMAIl_EXISTS = 'Email address already exists',
+    RESOURCE_CREATION = 'Failure to create resource'
 }
