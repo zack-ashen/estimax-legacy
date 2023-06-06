@@ -41,22 +41,25 @@ function App() {
   }, []);
 
   const NotAuthenticated = () => (
-    <Routes>
-      <Route path="/" Component={Landing} />
-      <Route 
-        path="/signup" 
-        element={<SignUp signIn={setPreAuthObj}/>} 
-      />
-      <Route 
-        path="/signin" 
-        element={<SignIn signIn={setPreAuthObj}/>} 
-      />
-      <Route path="*" 
-          element={
-            <Navigate to="/" />
-          } 
-       />
-    </Routes>
+    <>
+      <Nav />
+      <Routes>
+        <Route path="/" Component={Landing} />
+        <Route 
+          path="/signup" 
+          element={<SignUp signIn={setPreAuthObj}/>} 
+        />
+        <Route 
+          path="/signin" 
+          element={<SignIn signIn={setPreAuthObj}/>} 
+        />
+        <Route path="*" 
+            element={
+              <Navigate to="/" />
+            } 
+        />
+      </Routes>
+    </>
   );
 
   // Routes if there is a VALID token and refresh token present

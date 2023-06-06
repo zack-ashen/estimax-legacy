@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
 import styles from "./Nav.module.css";
+import { UserType } from "../../types";
 
 interface NavProps {
     landing?: boolean;
@@ -10,14 +11,21 @@ interface NavProps {
 
 
 function Nav({ landing=false }: NavProps) {
-    const auth = useAuth();
-    const [navType, setNavType] = useState(landingNav)
+    const [navType, setNavType] = useState<NavLinks | undefined>(landingNav)
+    const [auth, setAuth] = useState<UserType | undefined>();
+    try {
+        const auth = useAuth();
+        setAuth(auth.user.userType);
+    } catch {
+        setNavType(auth === UserType.CONTRACTOR ? contractorNav : homeownerNav)
+        
+    }
 
     useEffect(() => {
         if (!auth) {
-
+            
         } else {
-
+            
         }
 
     }, [auth])
@@ -30,12 +38,14 @@ function Nav({ landing=false }: NavProps) {
             </div>
 
             <div>
-                <ul>
-
-                </ul>
+                {navType && navType.links.map((link, index) => (
+                    <a href={link.url} key={index}>{link.text}</a>
+                ))}
                 <div></div>
                 <div>
-
+                {navType && navType.buttons.map((element, _) => (
+                    element
+                ))}
                 </div>
             </div>
         </nav>
@@ -45,7 +55,7 @@ function Nav({ landing=false }: NavProps) {
 const contractorNav : NavLinks = {
     links: [
         {
-            text: "How It Works",
+            text: "contractor",
             url: "#howitworks"
         },
 
@@ -58,7 +68,7 @@ const contractorNav : NavLinks = {
 const homeownerNav : NavLinks = {
     links: [
         {
-            text: "How It Works",
+            text: "homeowner",
             url: "#howitworks"
         },
 
@@ -71,7 +81,7 @@ const homeownerNav : NavLinks = {
 const landingNav : NavLinks = {
     links: [
         {
-            text: "How It Works",
+            text: "landing",
             url: "#howitworks"
         },
         {
