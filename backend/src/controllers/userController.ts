@@ -10,11 +10,10 @@ import { ServerError } from "../middleware/errors";
 *  If useEmail is true the searchValue should be the user's email else the userId.
 */
 export async function getUser(searchValue: string, useEmail:boolean=false): Promise<IUser | null> {
-  const searchObj = useEmail ? { email: searchValue } : { uid: searchValue }
-
-  const user = await User.findOne(searchObj);
-
-  return user;
+  if (useEmail)
+    return await User.findOne({ email: searchValue })
+  
+  return await User.findById(searchValue)
 }
 
 export async function createUser({email, role, password}: UserLight): Promise<IUser> {

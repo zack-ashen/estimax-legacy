@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode'
 
-import { TokenPayload, UserType } from '../../types';
+import { TokenPayload, Roles } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
 
 
@@ -19,7 +19,7 @@ const PrivateRoute = ({ children, forContractor=true, forHomeowner=true }: Priva
 
   const decodedToken = jwt_decode(auth.token) as TokenPayload;
 
-  if (decodedToken.userType === UserType.CONTRACTOR) {
+  if (decodedToken.role === Roles.CONTRACTOR) {
     return forContractor ? <>{children}</> : <Navigate to="/" />
   }
   

@@ -1,9 +1,10 @@
+import { JwtPayload } from "jsonwebtoken";
 import {Schema} from "mongoose";
 
 
 // Auth Types
-export interface TokenPayload {
-    uid: Schema.Types.ObjectId;
+export interface TokenPayload extends JwtPayload{
+    uid: string;
     scope: Roles;
 }
   
@@ -15,7 +16,11 @@ export enum Roles {
 
 
 // Project
-
+export enum ProjectStatus {
+    DRAFTED = "Drafted",
+    IN_PROGRESS = "In Progress",
+    COMPLETED = "Completed"
+}
 
 // Misc
 export enum Errors {

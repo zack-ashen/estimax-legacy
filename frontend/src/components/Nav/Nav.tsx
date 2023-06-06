@@ -1,7 +1,7 @@
 import { useAuth } from "../../contexts/AuthContext";
 
 import styles from "./Nav.module.scss";
-import { UserType } from "../../types";
+import { Roles } from "../../types";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ContractorNav = (
@@ -17,20 +17,13 @@ const HomeownerNav = (
 );
 
 function AuthNav() {
-    const role = useAuth().user.userType;
+    const role = useAuth().user.role;
 
     return (
-        <nav>
-            <div>
-                <img alt="logo" />
-                <h3>Estimax</h3>
-            </div>
-
-            <div>
-                {role === UserType.CONTRACTOR ?  
-                ContractorNav : HomeownerNav}
-            </div>
-        </nav>
+        <div>
+            {role === Roles.CONTRACTOR ?  
+            ContractorNav : HomeownerNav}
+        </div>
     );
 }
 

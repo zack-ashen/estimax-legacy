@@ -1,5 +1,7 @@
 import express from 'express'
 import { createProject } from '../controllers/projectController';
+import { Errors } from '../types';
+import { ServerError } from '../middleware/errors';
 
 const router = express.Router();
 
@@ -18,6 +20,10 @@ router.route('/').get((req, res) => {
 */
 router.route('/').post((req, res) => {
    const project = req.body.project;
+
+   if (!project.title) {
+      throw new ServerError(Errors.RESOURCE_CREATION, 400)
+   }
    try {
       createProject();
       return res.status(200)

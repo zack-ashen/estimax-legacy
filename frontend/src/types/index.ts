@@ -1,7 +1,7 @@
 import { JwtPayload } from "jwt-decode";
 
 export interface TokenPayload extends JwtPayload {
-  userType: UserType; // Adjust the type according to your needs
+  role: Roles; // Adjust the type according to your needs
   userId: string;
 }
 
@@ -10,10 +10,10 @@ export type User = {
   uid: String,
   email: String,
   password: String,
-  userType: UserType
+  role: Roles
 }
 
-export enum UserType {
+export enum Roles {
   CONTRACTOR = "Contractor",
   HOMEOWNER = "Homeowner"
 }

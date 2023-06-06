@@ -1,27 +1,26 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import mongoose, { Schema } from 'mongoose';
+import { ProjectStatus } from '../types';
 
-export type ProjectType = {
-
+export interface IProject extends Document {
+  id: Schema.Types.ObjectId;
+  homeowner_id: Schema.Types.ObjectId;
+  description: String;
+  category: Schema.Types.ObjectId[];
 }
 
 const projectSchema = new Schema({
-  id: {
-    type: String,
-    required: true,
-    hashKey: true,
-    unique: true
-  },
   name: String,
   homeowner_id: String,
   description: String,
   category: {
-    type: String,
-    enum: ['Carpentry', 'General Contractor', 'Carpentry']
+    type: [ Schema.Types.ObjectId ],
+    ref: "Category"
   },
   status: {
     type: String,
-    enum: ['In Progress', 'Completed']
+    enum: ProjectStatus,
+    default: ProjectStatus.IN_PROGRESS,
+    required: false
   }
   // todo: bids:
 });

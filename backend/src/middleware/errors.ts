@@ -11,7 +11,7 @@ export class ServerError extends Error {
 
 // Error handling middleware
 export function errorHandler(err: ServerError, req: Request, res: Response, next: NextFunction) {
-  return res.status(err.status).json({
+  return res.status(err.status || 500).json({
     error: err.message
   })
 }

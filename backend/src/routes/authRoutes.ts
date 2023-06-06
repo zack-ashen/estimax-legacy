@@ -105,8 +105,17 @@ router.post('/googleAuth', async (req, res, next) => {
       throw new ServerError(Errors.INVALID_TOKEN, 400);
 
     let user: IUser | null = await getUser(payload.email!, true);
-    if (!user)
+    if (!user) {
+      const referral = req.body.referral;
+      if (!referral || !validateReferralCode(referral))
+        throw new ServerError(Errors.INVALID_REFERRAL_CODE, 400);
+  
       user = await createUser({email: payload.email!, role: Roles.CONTRACTOR})
+
+      const referralObj = new Referral({ referral })
+      await referralObj.save();
+
+    }
 
     const token = createAndSetToken(user, res);
 
@@ -128,9 +137,9 @@ router.route('/refreshToken').post(async (req, res, next) => {
 
     const refreshToken = req.cookies.refreshToken;
 
-    let payload: any;
+    let payload: TokenPayload;
     try {
-      payload = jwt.verify(refreshToken, process.env.JWT_PRIVATE_KEY!);
+      payload = jwt.verify(refreshToken, process.env.JWT_PRIVATE_KEY!) as TokenPayload;
     } catch {
       throw new ServerError(Errors.INVALID_REFRESH_TOKEN, 401);
     }
@@ -154,7 +163,7 @@ router.route('/signout').post((req, res) => {
 
 const createAndSetToken = (user: IUser, res: Response) => {
   const tokenPayload : TokenPayload = {
-    uid: user.id,
+    uid: user.id.toString(),
     scope: user.role
   }
 
