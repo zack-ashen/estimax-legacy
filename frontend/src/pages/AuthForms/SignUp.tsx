@@ -31,10 +31,16 @@ function SignUp({ signIn }: SignInProps) {
       })
     })
       .then(response => response.json())
-      .then(data => signIn({
-        token: data.token,
-        user: data.user
-      }))
+      .then(data => {
+        if (data.error) {
+          console.error(data.error)
+        } else {
+          signIn({
+            token: data.token,
+            user: data.user
+          })
+        }
+      })
   }
 
   const authWithGoogle = ({credential, clientId}: CredentialResponse) => {
@@ -48,10 +54,16 @@ function SignUp({ signIn }: SignInProps) {
       })
     })
       .then(response => response.json())
-      .then(data => signIn({
-        token: data.token,
-        user: data.user
-      }))
+      .then(data => {
+        if (data.error) {
+          console.error(data.error)
+        } else {
+          signIn({
+            token: data.token,
+            user: data.user
+          })
+        }
+      })
   }
 
   return (
@@ -98,7 +110,7 @@ function SignUp({ signIn }: SignInProps) {
             console.log('Login Failed');
           }}
           text='continue_with'
-        />;
+        />
       </div>
     </div>
   );

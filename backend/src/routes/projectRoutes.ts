@@ -2,6 +2,7 @@ import express from 'express'
 import { createProject } from '../controllers/projectController';
 import { Errors } from '../types';
 import { ServerError } from '../middleware/errors';
+import { Project } from '../models/project';
 
 const router = express.Router();
 
@@ -9,10 +10,13 @@ const router = express.Router();
 /* 
 * Get all projects
 */
-router.route('/').get((req, res) => {
-   // TODO: add support for pagination
-   
-
+router.route('/').get(async (req, res) => {
+   const limit = parseInt(req.query.limit as string);  // Number of documents to limit to
+   const offset = parseInt(req.query.offset as string);  // Starting index
+ 
+   const projects = await Project.find().skip(offset).limit(limit);
+ 
+   res.json(projects);
 })
 
 /* 

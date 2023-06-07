@@ -5,6 +5,14 @@ export interface TokenPayload extends JwtPayload {
   userId: string;
 }
 
+// Project Schema
+export type Project = {
+  id: string;
+  homeowner_id: string;
+  description: string;
+  category: string[];
+}
+
 // User Schema
 export type User = {
   uid: String,

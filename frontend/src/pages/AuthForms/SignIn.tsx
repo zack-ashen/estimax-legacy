@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { PreAuth } from '../../App';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 
 interface SignInProps {
   signIn: (preAuthObj: PreAuth) => void;
@@ -34,6 +35,28 @@ function SignIn({ signIn }: SignInProps) {
       })
   }
 
+  const authWithGoogle = ({credential, clientId}: CredentialResponse) => {
+    fetch('/api/auth/googleAuth', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        clientId,
+        credential
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          console.error(data.error)
+        } else {
+          signIn({
+            token: data.token,
+            user: data.user
+          })
+        }
+      })
+  }
+
 
   return (
     <div className="SignIn">
@@ -56,6 +79,13 @@ function SignIn({ signIn }: SignInProps) {
       />
     </label>
     <button value="Sign In" onClick={auth}/>
+    <GoogleLogin
+      onSuccess={authWithGoogle}
+      onError={() => {
+        console.log('Login Failed');
+      }}
+      text='continue_with'
+    />
     </div>
   );
 }

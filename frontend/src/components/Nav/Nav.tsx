@@ -17,12 +17,14 @@ const HomeownerNav = (
 );
 
 function AuthNav() {
-    const role = useAuth().user.role;
+    const auth = useAuth()
+    const role = auth.user.role;
 
     return (
         <div>
             {role === Roles.CONTRACTOR ?  
             ContractorNav : HomeownerNav}
+            <button onClick={() => auth.signOut()}>Sign Out</button>
         </div>
     );
 }
@@ -33,8 +35,12 @@ function NoAuthNav() {
 
     return location === '/' ? (
         <>
-            <button className='signInButton' onClick={() => navigate("/signin")}>Sign In</button>
-            <button className='signUpButton' onClick={() => navigate("/signup")}>Sign Up</button>
+            <button 
+                className='signInButton' 
+                onClick={() => navigate("/signin")}>Sign In</button>
+            <button 
+                className='signUpButton' 
+                onClick={() => navigate("/signup")}>Sign Up</button>
         </>
     ) : (<></>)
 }
