@@ -1,8 +1,11 @@
+import { useLocation, useNavigate } from "react-router-dom";
+
 import { useAuth } from "../../contexts/AuthContext";
+import { Roles } from "../../types";
+import Logo from '../../assets/Logo.svg';
 
 import styles from "./Nav.module.scss";
-import { Roles } from "../../types";
-import { useLocation, useNavigate } from "react-router-dom";
+
 
 const ContractorNav = (
     <>
@@ -49,7 +52,7 @@ function Nav({ auth=false }: NavProps) {
     return (
         <nav className={styles.Nav}>
             <div>
-                <img alt="logo" />
+                <img alt="logo" src={Logo}/>
                 <h3>Estimax</h3>
             </div>
 
