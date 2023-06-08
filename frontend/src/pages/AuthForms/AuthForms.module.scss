@@ -1,4 +1,4 @@
-
+@import '../../styles/variables';
 
 
 
@@ -16,3 +16,9 @@
   }
 }
 
+.divider {
+  height: 1.75px;
+  background-color: $grey-300;
+  border: none;
+  margin: 1.1rem 0;
+}

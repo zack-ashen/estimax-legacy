@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import styles from './AuthForms.module.scss'
 import { PreAuth } from '../../App';
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { CredentialResponse } from '@react-oauth/google';
 import Button, { ButtonStyles } from '../../components/Button/Button';
 import GoogleAuth from '../../components/GoogleAuth/GoogleAuth';
 
@@ -38,29 +38,6 @@ function SignIn({ signIn }: SignInProps) {
       })
   }
 
-  const authWithGoogle = ({credential, clientId}: CredentialResponse) => {
-    fetch('/api/auth/googleAuth', {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        clientId,
-        credential
-      })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          console.error(data.error)
-        } else {
-          signIn({
-            token: data.token,
-            user: data.user
-          })
-        }
-      })
-  }
-
-
   return (
     <div className={styles.container}>
     <h2>Welcome back!</h2>
@@ -84,14 +61,7 @@ function SignIn({ signIn }: SignInProps) {
           />
         </label>
         <Button buttonStyle={ButtonStyles.PRIMARY} onClick={auth}>Sign In</Button>
-        {/* <GoogleLogin
-          theme='outline'
-          onSuccess={authWithGoogle}
-          onError={() => {
-            console.log('Login Failed');
-          }}
-          text='continue_with'
-        /> */}
+        <hr className={styles.divider}/>
         <GoogleAuth signIn={signIn}/>
       </form>
     </div>
