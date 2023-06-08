@@ -1,20 +1,51 @@
+@import '../../styles/variables';
 
 nav {
   display: inline-flex;
   justify-content: space-between;
   width: 100%;
-  padding: 1rem 5rem;
+  padding: 1rem 5%;
   margin: 0 auto;
-  border-bottom: 1.5px solid $grey-200;
+  border-bottom: 1.5px solid $grey-600;
   align-items: center;
   background-color: white;
 
-  div {
-    display: inherit;
-    align-items: center;
+  img {
+    height: 2rem;
+    margin-right: 0.75rem;
   }
 
-  img {
-    height: 0.8rem;
+  a {
+    margin-right: 1.75rem;
   }
+
+  a:last-of-type {
+    margin-right: 1rem;
+  }
+}
+
+.navItems, .logoSection {
+  display: inherit;
+  align-items: center;
+
+  button:first-of-type {
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+  }
+
+  button:last-of-type {
+    margin-left: 0.5rem;
+    margin-right: 1rem;
+  }
+}
+
+.logoSection:hover {
+  cursor: pointer;
+}
+
+.divider {
+  height: 2rem;
+  width: 1.5px;
+  background-color: $grey-600;
+  margin: 0 1rem;
 }

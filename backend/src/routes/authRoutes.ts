@@ -93,7 +93,7 @@ router.route('/signin').post(async (req, res, next) => {
 */
 router.post('/googleAuth', async (req, res, next) => {
   try {
-    const { clientId, credential } = req.body;
+    const { newUser, clientId, credential } = req.body;
 
     const ticket = await client.verifyIdToken({
       idToken: credential,
@@ -114,7 +114,6 @@ router.post('/googleAuth', async (req, res, next) => {
 
       const referralObj = new Referral({ referral })
       await referralObj.save();
-
     }
 
     const token = createAndSetToken(user, res);

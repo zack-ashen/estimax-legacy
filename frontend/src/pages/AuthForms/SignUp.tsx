@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 
+import styles from './AuthForms.module.scss'
 import { PreAuth } from '../../App';
 
 interface SignInProps {
@@ -15,7 +16,6 @@ function SignUp({ signIn }: SignInProps) {
 
   const auth = () => {
     // validate password
-    // TODO: Confirm password error handling
     if (password !== confirmPassword) {
       console.error("Passwords don't match");
       return;
@@ -67,7 +67,8 @@ function SignUp({ signIn }: SignInProps) {
   }
 
   return (
-    <div className="SignUp">
+    <div className={styles.container}>
+      <h2>Let's Get Started on Estimax</h2>
       <div className='signUpForm'>
         <label>
           Referral Code:

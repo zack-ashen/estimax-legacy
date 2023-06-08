@@ -5,6 +5,7 @@ import { Roles } from "../../types";
 import Logo from '../../assets/Logo.svg';
 
 import styles from "./Nav.module.scss";
+import Button, { ButtonStyles } from "../Button/Button";
 
 
 const ContractorNav = (
@@ -36,32 +37,56 @@ function NoAuthNav() {
     const location = useLocation().pathname;
     const navigate = useNavigate();
 
-    return location === '/' ? (
-        <>
-            <button 
-                className='signInButton' 
-                onClick={() => navigate("/signin")}>Sign In</button>
-            <button 
-                className='signUpButton' 
-                onClick={() => navigate("/signup")}>Sign Up</button>
-        </>
-    ) : (<></>)
+    if (location === '/') {
+        return (
+            <>
+                <a href='#how-it-works'>How It Works</a>
+                <a href='#features'>Features</a>
+                <a href='#faq'>FAQ</a>
+                {divider}
+                <Button 
+                    buttonStyle={ButtonStyles.SECONDARY}
+                    onClick={() => navigate('/signin')}>Sign In</Button>
+                <Button
+                    buttonStyle={ButtonStyles.PRIMARY}
+                    onClick={() => navigate('/signup')}>Sign Up</Button>
+            </>
+        );
+    } else if (location === '/signin') {
+        return (
+            <Button 
+                buttonStyle={ButtonStyles.SECONDARY}
+                onClick={() => navigate('/signup')}>Sign Up</Button>
+        );
+    }
+
+    return (
+        <Button 
+            buttonStyle={ButtonStyles.SECONDARY}
+            onClick={() => navigate('/signin')}>Sign In</Button>
+    );
 }
 
 function Nav({ auth=false }: NavProps) {
+    const navigate = useNavigate();
+
     return (
         <nav className={styles.Nav}>
-            <div>
-                <img alt="logo" src={Logo}/>
-                <h3>Estimax</h3>
+            <div className={styles.logoSection} onClick={() => navigate('/')}>
+                <img alt='logo' src={Logo}/>
+                <h4>Estimax</h4>
             </div>
 
-            <div>
+            <div className={styles.navItems}>
                 {auth ? <AuthNav /> : <NoAuthNav />}
             </div>
         </nav>
     );
 }
+
+const divider = (
+    <div className={styles.divider}></div>
+)
 
 interface NavProps {
     auth?: boolean;

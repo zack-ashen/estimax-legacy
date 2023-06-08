@@ -12,3 +12,17 @@ body {
   width: 100%;
   background-color: $background-color;
 }
+
+a, a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: inherit;
+  font-family: inherit;
+}
