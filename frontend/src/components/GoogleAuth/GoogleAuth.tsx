@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { PreAuth } from "../../App"
 import { AuthUser } from "../../types";
 
-import { GoogleLogin } from "@react-oauth/google";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
 interface GoogleAuthProps {
   signIn: (preAuthObj: PreAuth) => void;
