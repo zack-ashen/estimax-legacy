@@ -1,0 +1,51 @@
+@import '../../styles/variables';
+
+
+.inputBox {
+  position: relative;
+  width: 100%;
+}
+
+.inputLabel {
+  position: absolute;
+  top: 0.7rem;
+  left: 1.143rem;
+  transition: 0.5s;
+  font-size: inherit;
+  color: $grey-1000;
+}
+
+.Input {
+  background-color: white;
+  border: 1px solid $grey-600;
+  border-radius: 0.2rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  &.medium {
+    padding: 0.57rem 1.143rem;
+    font-size: 1.143em;
+  }
+
+  &:hover {
+    border-color: $blue-300;
+  }
+
+  &:focus {
+    outline: 2px solid $blue-300; 
+    border: 1px solid none;
+  }
+
+  &:focus ~ .inputLabel {
+    transform: translateX(-1.143rem) translateY(-2.45rem);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+}
+
+.Input:focus + .inputLabel,
+.Input:not(:placeholder-shown).Input:not(:focus) + .inputLabel {
+  transform: translateX(-1.143rem) translateY(-2.45rem);
+  font-size: 0.9rem;
+  font-weight: 700;
+}

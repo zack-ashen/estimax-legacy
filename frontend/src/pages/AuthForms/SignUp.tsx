@@ -3,6 +3,9 @@ import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 
 import styles from './AuthForms.module.scss'
 import { PreAuth } from '../../App';
+import Input from '../../components/Input/Input';
+import Button, { ButtonStyles } from '../../components/Button/Button';
+import { CreateUser } from '../../components/CreateUser/CreateUser';
 
 interface SignInProps {
   signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>;
@@ -69,42 +72,39 @@ function SignUp({ signIn }: SignInProps) {
   return (
     <div className={styles.container}>
       <h2>Let's Get Started on Estimax</h2>
+      <CreateUser />
       <div className='signUpForm'>
-        <label>
-          Referral Code:
-          <input 
-            type="text" 
-            name="referral" 
-            value={referral}
-            onChange={(e) => setReferral(e.target.value)}/>
-        </label>
-        <label>
-          Email:
-          <input 
-            type="email" 
-            name="email" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}/>
-        </label>
-        <label>
-          Password:
-          <input
-            type="password" 
-            name="password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <label>
-          Confirm your password:
-          <input 
-            type="password" 
-            name="confirmPassword" 
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </label>
-        <button className="signUpButton" onClick={auth}>Sign Up</button>
+        <Input 
+          type="text" 
+          name="Referral Code:" 
+          value={referral} 
+          onChange={(e) => setReferral(e.target.value)}
+        />
+        <Input 
+          type="email" 
+          name="Email:" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input 
+          type="password" 
+          name="Password:" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Input 
+          type="password" 
+          name="Confirm Password:" 
+          value={password} 
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <Button 
+          onClick={auth}
+          fontSize={'1.1em'}
+          buttonStyle={ButtonStyles.PRIMARY}
+          wide>
+            Sign Up
+        </Button>
         <GoogleLogin
           onSuccess={authWithGoogle}
           onError={() => {

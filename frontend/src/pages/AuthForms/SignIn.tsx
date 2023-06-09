@@ -5,6 +5,7 @@ import { PreAuth } from '../../App';
 import { CredentialResponse } from '@react-oauth/google';
 import Button, { ButtonStyles } from '../../components/Button/Button';
 import GoogleAuth from '../../components/GoogleAuth/GoogleAuth';
+import Input from '../../components/Input/Input';
 
 interface SignInProps {
   signIn: (preAuthObj: PreAuth) => void;
@@ -40,30 +41,32 @@ function SignIn({ signIn }: SignInProps) {
 
   return (
     <div className={styles.container}>
-    <h2>Welcome back!</h2>
-      <form>
-        <label>
-          Email:
-          <input 
+      <div className={styles.signInContainer}>
+        <h3>Welcome back!</h3>
+        <form className={styles.authForm}>
+          <Input 
             type="email" 
-            name="email" 
+            name="Email:" 
             value={email} 
             onChange={(e) => setEmail(e.target.value)}
           />
-        </label>
-        <label>
-          Password:
-          <input 
+          <Input 
             type="password" 
-            name="password" 
+            name="Password:" 
             value={password} 
             onChange={(e) => setPassword(e.target.value)}
           />
-        </label>
-        <Button buttonStyle={ButtonStyles.PRIMARY} onClick={auth}>Sign In</Button>
-        <hr className={styles.divider}/>
-        <GoogleAuth signIn={signIn}/>
-      </form>
+          <div className={styles.authButtonContainer}>
+            <Button 
+              buttonStyle={ButtonStyles.PRIMARY} 
+              onClick={auth}
+              fontSize='1.1em'
+              wide>Continue</Button>
+            <hr className={styles.divider}/>
+            <GoogleAuth signIn={signIn}/>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
