@@ -42,7 +42,7 @@ function SignIn({ signIn }: SignInProps) {
   return (
     <div className={styles.container}>
       <div className={styles.signInContainer}>
-        <h3>Welcome back!</h3>
+        <h3 className={styles.signInHeader}>Welcome back!</h3>
         <form className={styles.authForm}>
           <Input 
             type="email" 

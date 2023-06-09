@@ -70,10 +70,10 @@ function SignUp({ signIn }: SignInProps) {
   }
 
   return (
-    <div className={styles.container}>
-      <h2>Let's Get Started on Estimax</h2>
+    <div className={`${styles.container} ${styles.signUpContainer}`}>
+      <h2 className={styles.signUpHeader}>Let's Get Started on Estimax</h2>
       <CreateUser />
-      <div className='signUpForm'>
+      {/* <div className='signUpForm'>
         <Input 
           type="text" 
           name="Referral Code:" 
@@ -112,7 +112,7 @@ function SignUp({ signIn }: SignInProps) {
           }}
           text='continue_with'
         />
-      </div>
+      </div> */}
     </div>
   );
 }
