@@ -71,11 +71,11 @@ export const Headings = {
     step: 1
   },
   GetUserType: {
-    title: 'Choose your account type?',
+    title: 'Choose your account type',
     step: 2
   },
   GetBusinessInfo: {
-    title: 'Tell us about your business?',
+    title: 'Tell us about your business',
     step: 3
   },
   GetUserInfo: {
