@@ -68,10 +68,24 @@ $heading-height: 3rem;
   }
 
   .stepContainer {
-    border: $grey-1000 solid 2px;
+    border: $grey-900 solid 2px;
   }
 
   h4, h3 {
-    color: $grey-1000;
+    color: $grey-900;
   }
+}
+
+
+.userInputContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.userInputContainer:first-of-type {
+  margin-bottom: 2rem;
+}
+
+.lastContainer {
+  margin-top: 2rem;
 }

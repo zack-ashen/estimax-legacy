@@ -42,7 +42,10 @@ function SignIn({ signIn }: SignInProps) {
   return (
     <div className={styles.container}>
       <div className={styles.signInContainer}>
-        <h3 className={styles.signInHeader}>Welcome back!</h3>
+        <div className={styles.signInHeader}>
+          <h3>Login to your account</h3>
+          <p>Welcome back! Please enter your details.</p>
+        </div>
         <form className={styles.authForm}>
           <Input 
             type="email" 
@@ -62,7 +65,7 @@ function SignIn({ signIn }: SignInProps) {
               onClick={auth}
               fontSize='1.1em'
               wide>Continue</Button>
-            <hr className={styles.divider}/>
+            {/* <hr className={styles.divider}/> */}
             <GoogleAuth signIn={signIn}/>
           </div>
         </form>

@@ -16,7 +16,7 @@ export async function getUser(searchValue: string, useEmail:boolean=false): Prom
   return await User.findById(searchValue)
 }
 
-export async function createUser({email, role, password}: UserLight): Promise<IUser> {
+export async function createUser({email, role, password}: IUser): Promise<IUser> {
   // Hash the password before saving it to the database
   let hashedPassword: string | undefined;
   if (password) {
@@ -43,11 +43,4 @@ export async function createUser({email, role, password}: UserLight): Promise<IU
 
 export function updateUser() {
 
-}
-
-// User without id field
-interface UserLight {
-  email: string,
-  role: Roles;
-  password?: string;
 }

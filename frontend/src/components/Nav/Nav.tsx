@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 
 import { useAuth } from "../../contexts/AuthContext";
 import { Roles } from "../../types";
@@ -8,11 +8,27 @@ import styles from "./Nav.module.scss";
 import Button, { ButtonStyles } from "../Button/Button";
 
 
-const ContractorNav = (
-    <>
-    contractor
-    </>
-)
+const ContractorNav = () => {
+    const navigate = useNavigate();
+
+    return (
+        <>
+            <div className={styles.navLinks}>
+                <Button
+                    buttonStyle={ButtonStyles.TERTIARY}
+                    onClick={() => navigate('/explore')}>
+                        Explore
+                </Button>
+                <Button
+                    buttonStyle={ButtonStyles.TERTIARY}
+                    onClick={() => navigate('/Dashboard')}>
+                        Dashboard
+                </Button>
+            </div>
+            {divider}
+        </>
+    )
+}
 
 const HomeownerNav = (
     <>
@@ -25,10 +41,14 @@ function AuthNav() {
     const role = auth.user.role;
 
     return (
-        <div>
+        <div className={styles.authNav}>
             {role === Roles.CONTRACTOR ?  
-            ContractorNav : HomeownerNav}
-            <button onClick={() => auth.signOut()}>Sign Out</button>
+            <ContractorNav /> : HomeownerNav}
+            <Button 
+                buttonStyle={ButtonStyles.SECONDARY}
+                onClick={() => auth.signOut()}>
+                    Sign Out
+            </Button>
         </div>
     );
 }

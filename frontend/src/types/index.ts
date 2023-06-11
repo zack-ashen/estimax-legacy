@@ -18,6 +18,8 @@ export type Project = {
 // An AuthUser is a user that is not built yet but is sent to the backend
 // so there is no id field
 export type AuthUser = {
+  firstName?: string,
+  lastName?: string,
   email?: string,
   password?: string,
   role?: Roles,

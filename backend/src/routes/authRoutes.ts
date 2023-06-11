@@ -161,6 +161,9 @@ router.route('/signout').post((req, res) => {
 });
 
 const createAndSetToken = (user: IUser, res: Response) => {
+  if (!user.id)
+    throw new ServerError(Errors.FAILED_SET_TOKEN, 400);
+
   const tokenPayload : TokenPayload = {
     uid: user.id.toString(),
     scope: user.role

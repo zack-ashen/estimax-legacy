@@ -1,10 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
 import { Roles } from '../types';
 
-export interface IUser extends Document {
-  id: Schema.Types.ObjectId;
+export interface IUser {
+  id?: Schema.Types.ObjectId;
   email: string;
-  password: string;
+  password?: string;
   role: Roles;
 }
 

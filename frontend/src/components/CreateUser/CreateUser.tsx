@@ -1,10 +1,13 @@
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './CreateUser.module.scss';
 import { PreAuth } from '../../App';
 import Button, { ButtonStyles } from '../Button/Button';
-import { AuthUser } from '../../types/index';
+import { AuthUser, Roles } from '../../types/index';
 import Input from '../Input/Input';
+import ToggleCardManager, { ToggleCard } from '../ToggleCardManager/ToggleCardManager';
+import { ReactComponent as HammerIcon } from '../../assets/HammerIcon.svg';
+import { ReactComponent as HouseIcon } from '../../assets/HomeIcon.svg';
 
 
 export interface CreateUserProps {
@@ -19,10 +22,11 @@ interface CreateUserPageProps {
     step: number;
   };
   hidden?: boolean;
+  submit?: boolean;
 }
 
 
-export const CreateUserSection = ({ heading, children, onNext, onPrev, hidden=false}: CreateUserPageProps) => {
+export const CreateUserSection = ({ heading, children, onNext, onPrev, hidden=false, submit=false}: CreateUserPageProps) => {
   const displayClass = hidden ? 'hidden' : '';
 
   return (
@@ -65,53 +69,147 @@ export const CreateUserSection = ({ heading, children, onNext, onPrev, hidden=fa
   );
 }
 
-export const Headings = {
-  GetReferralCode: {
-    title: 'Do you have access?',
-    step: 1
+const roleCards : ToggleCard[] = [
+  {
+    state: 'Homeowner',
+    header: 'Homeowner',
+    description: 'Sign up as a homeowner to post projects and get bids to get your job done.',
+    Icon: HouseIcon
   },
-  GetUserType: {
-    title: 'Choose your account type',
-    step: 2
-  },
-  GetBusinessInfo: {
-    title: 'Tell us about your business',
-    step: 3
-  },
-  GetUserInfo: {
-    title: 'Who are you?',
-    step: 3 | 4
+  {
+    state: 'Contractor',
+    header: 'Service Pro',
+    description: 'Sign up as a service pro to view and bid on leads from homeowners.',
+    Icon: HammerIcon
   }
+]
 
-
-} as const;
 
 export function CreateUser() {
   const [step, setStep] = useState(1);
   const [newUser, setNewUser] = useState<AuthUser>({});
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const nextStep = () => setStep((prevStep) => prevStep + 1);
-  const prevStep = () => setStep((prevStep) => prevStep - 1);
+  const nextStep = useCallback(() => setStep((prevStep) => prevStep + 1), []);
+  const prevStep = useCallback(() => setStep((prevStep) => prevStep - 1), []);
+  const submit = useCallback(() => console.log(newUser), [newUser]);
+  const updateUserType = useCallback((newUserRole: string) => {
+    console.log(newUserRole)
+    setNewUser((prevUser) => ({...prevUser, role: newUserRole as Roles}));
+  }, []);
 
-  useEffect(() => {
+  const Headings = {
+    GetReferralCode: {
+      title: 'Do you have access?',
+      step: 1
+    },
+    GetUserType: {
+      title: 'Choose your account type',
+      step: 2
+    },
+    GetBusinessInfo: {
+      title: 'Tell us about your business',
+      step: 3
+    },
+    GetUserInfo: {
+      title: 'Who are you?',
+      step: (newUser.role === Roles.HOMEOWNER || !newUser.role) ? 3 : 4
+    }
+  };
 
-  }, [])
+  const GetUserInfoComponent = (
+    <CreateUserSection 
+      heading={Headings.GetUserInfo} 
+      onNext={submit} 
+      onPrev={prevStep} 
+      hidden={step !== Headings.GetUserInfo.step}
+      submit>
+        <div className={styles.userInputContainer}>
+          <Input
+            type='text'
+            name='First Name'
+            value={newUser.firstName ? newUser.firstName : ''}
+            onChange={(e) => setNewUser({...newUser, firstName: e.target.value})}
+          />
+          <Input
+            type='text'
+            name='Last Name'
+            value={newUser.lastName ? newUser.lastName : ''}
+            onChange={(e) => setNewUser({...newUser, lastName: e.target.value})}
+          />
+        </div>
+        <Input
+          type='email'
+          name='Email'
+          value={newUser.email ? newUser.email : ''}
+          onChange={(e) => setNewUser({...newUser, email: e.target.value})}
+        />
+        <div className={`${styles.userInputContainer} ${styles.lastContainer}`}>
+          <Input
+            type='password'
+            name='Password'
+            value={newUser.password ? newUser.password : ''}
+            onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+          />
+          <Input
+            type='password'
+            name='Confirm Password'
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+    </CreateUserSection>
+  );
+  
+  const GetBusinessInfoComponent = (
+    <CreateUserSection 
+      heading={Headings.GetBusinessInfo} 
+      onNext={nextStep} 
+      onPrev={prevStep} 
+      hidden={step !== Headings.GetBusinessInfo.step}>
+        
+          
+    </CreateUserSection>
+  );
 
   return (
     <div className={styles.CreateUser}>
-      <CreateUserSection heading={Headings.GetReferralCode} onNext={nextStep} hidden={step !== Headings.GetReferralCode.step}>
-        <div className={styles.getReferralCodeSection}>
-          <Input
-            type='text'
-            name='Referral Code'
-            value={newUser.referral ? newUser.referral : ''} 
-            onChange={(e) => setNewUser({...newUser, referral: e.target.value})}
+      {/* Referral Code Section */}
+      <CreateUserSection 
+        heading={Headings.GetReferralCode} 
+        onNext={nextStep} 
+        hidden={step !== Headings.GetReferralCode.step}>
+          <div className={styles.getReferralCodeSection}>
+            <Input
+              type='text'
+              name='Referral Code'
+              value={newUser.referral ? newUser.referral : ''} 
+              onChange={(e) => setNewUser({...newUser, referral: e.target.value})}
+            />
+          </div>
+      </CreateUserSection>
+
+      {/* Get User Info Section */}
+      <CreateUserSection 
+        heading={Headings.GetUserType} 
+        onNext={nextStep} 
+        onPrev={prevStep} 
+        hidden={step !== Headings.GetUserType.step}>
+          <ToggleCardManager 
+            cards={roleCards}
+            toggleSwitch={updateUserType}
           />
-        </div>
       </CreateUserSection>
-      <CreateUserSection heading={Headings.GetUserType} onNext={nextStep} onPrev={prevStep} hidden={step !== Headings.GetUserType.step}>
-        <h1>Hello</h1>
-      </CreateUserSection>
+
+      {(newUser.role === Roles.HOMEOWNER || !newUser.role) && 
+        <>{GetUserInfoComponent}</>
+      }
+      {newUser.role === Roles.CONTRACTOR &&
+        <>
+          {GetBusinessInfoComponent}
+          {GetUserInfoComponent}
+        </>
+      }
     </div>
   );
 }

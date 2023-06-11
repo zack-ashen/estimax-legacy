@@ -26,13 +26,14 @@ router.route('/').post((req, res) => {
    const project = req.body.project;
 
    if (!project.title) {
-      throw new ServerError(Errors.RESOURCE_CREATION, 400)
+      throw new ServerError(Errors.RESOURCE_CREATION, 500)
    }
+
    try {
-      createProject();
+      createProject(project);
       return res.status(200)
    } catch (e) {
-
+      throw new ServerError(Errors.RESOURCE_CREATION, 500);
    }
 })
 

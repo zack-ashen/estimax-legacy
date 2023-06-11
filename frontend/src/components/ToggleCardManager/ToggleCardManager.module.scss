@@ -1,2 +1,55 @@
 @import '../../styles/variables';
 
+
+.ToggleCardManager {
+  max-width: 30rem;
+  align-self: center;
+}
+
+.ToggleCard {
+  background-color: white;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-radius: 0.8rem;
+  padding: 1.25rem 1.5rem;
+  transition: outline 0.2s ease-in, outline-color 0.2s ease-in;
+  
+  &:not(:last-of-type) {
+    margin-bottom: 2rem;
+  }
+
+  &:not(.toggled) {
+    outline: solid 0.2rem $blue-200;
+  }
+
+  &.toggled {
+    outline: solid 0.2rem $blue-500;
+  }
+
+  .leftSection {
+    max-width: 35ch;
+  }
+
+  .header {
+    font-weight: 600;
+    font-size: 1.4em;
+    margin-bottom: 0.4rem;
+  }
+
+
+  &:hover{
+    cursor: pointer;
+
+    &:not(.toggled) {
+      outline: solid 0.2rem $blue-300;
+    }
+
+    &.toggled {
+      outline: solid 0.2rem $blue-500;
+    }
+  }
+
+
+}

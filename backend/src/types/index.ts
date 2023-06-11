@@ -32,5 +32,6 @@ export enum Errors {
     INVALID_REQUEST_BODY = 'Invalid request body',
     EMAIl_EXISTS = 'Email address already exists',
     RESOURCE_CREATION = 'Failure to create resource',
-    REFERRAL_CODE_USED = "Referral code has already been used before"
+    REFERRAL_CODE_USED = "Referral code has already been used before",
+    FAILED_SET_TOKEN = 'Failed to create and set access and refresh tokens.'
 }

@@ -1,14 +1,16 @@
 import mongoose, { Schema } from 'mongoose';
 import { ProjectStatus } from '../types';
 
-export interface IProject extends Document {
-  id: Schema.Types.ObjectId;
+export interface IProject {
+  id?: Schema.Types.ObjectId;
+  name: string;
   homeowner_id: Schema.Types.ObjectId;
   description: String;
   category: Schema.Types.ObjectId[];
+  status?: string; 
 }
 
-const projectSchema = new Schema({
+const projectSchema = new Schema<IProject>({
   name: String,
   homeowner_id: String,
   description: String,

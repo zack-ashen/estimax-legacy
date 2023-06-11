@@ -6,9 +6,8 @@ nav {
   width: 100%;
   padding: 1rem 5%;
   margin: 0 auto;
-  border-bottom: 1.5px solid $grey-600;
+  border-bottom: 1.5px solid #D7DFEE;
   align-items: center;
-  background-color: white;
 
   img {
     height: 2rem;
@@ -48,4 +47,8 @@ nav {
   width: 1.5px;
   background-color: $grey-600;
   margin: 0 1rem;
+}
+
+.authNav {
+  display: flex;
 }

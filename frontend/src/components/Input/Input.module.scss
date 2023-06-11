@@ -10,20 +10,22 @@
   position: absolute;
   top: 0.7rem;
   left: 1.143rem;
-  transition: 0.5s;
+  transition: 0.35s;
   font-size: inherit;
-  color: $grey-1000;
+  color: $grey-500;
+  font-weight: 400;
 }
 
 .Input {
   background-color: white;
-  border: 1px solid $grey-600;
-  border-radius: 0.2rem;
+  border: 1px solid $grey-300;
+  border-radius: 0.5rem;
   width: 100%;
   box-sizing: border-box;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 
   &.medium {
-    padding: 0.57rem 1.143rem;
+    padding: 0.63rem 1.143rem;
     font-size: 1.143em;
   }
 
@@ -32,14 +34,15 @@
   }
 
   &:focus {
-    outline: 2px solid $blue-300; 
-    border: 1px solid none;
+    outline: 3px solid $blue-100;
+    border: 1px solid $blue-400;
   }
 
   &:focus ~ .inputLabel {
     transform: translateX(-1.143rem) translateY(-2.45rem);
     font-size: 0.9rem;
-    font-weight: 700;
+    font-weight: 500;
+    color: $grey-700;
   }
 }
 
