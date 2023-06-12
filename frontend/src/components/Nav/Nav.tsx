@@ -40,6 +40,7 @@ function AuthNav() {
     const auth = useAuth()
     const role = auth.user.role;
 
+    
     return (
         <div className={styles.authNav}>
             {role === Roles.CONTRACTOR ?  
@@ -89,8 +90,9 @@ function NoAuthNav() {
 
 function Nav({ auth=false }: NavProps) {
     const navigate = useNavigate();
+    const location = useLocation().pathname;
 
-    return (
+    return (location !== '/signup' && location !== '/post-project') ? (
         <nav className={styles.Nav}>
             <div className={styles.logoSection} onClick={() => navigate('/')}>
                 <img alt='logo' src={Logo}/>
@@ -101,7 +103,7 @@ function Nav({ auth=false }: NavProps) {
                 {auth ? <AuthNav /> : <NoAuthNav />}
             </div>
         </nav>
-    );
+    ) : (<></>);
 }
 
 const divider = (

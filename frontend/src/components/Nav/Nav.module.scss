@@ -4,22 +4,18 @@ nav {
   display: inline-flex;
   justify-content: space-between;
   width: 100%;
-  padding: 1rem 5%;
+  padding: $spacing-4 5%;
   margin: 0 auto;
-  border-bottom: 1.5px solid #D7DFEE;
+  border-bottom: 2px solid #D7DFEE;
   align-items: center;
 
   img {
     height: 2rem;
-    margin-right: 0.75rem;
+    margin-right: $spacing-3;
   }
 
-  a {
+  a:not(:last-of-type) {
     margin-right: 1.75rem;
-  }
-
-  a:last-of-type {
-    margin-right: 1rem;
   }
 }
 
@@ -28,13 +24,11 @@ nav {
   align-items: center;
 
   button:first-of-type {
-    margin-left: 1rem;
-    margin-right: 0.5rem;
+    margin-right: $spacing-3;
   }
 
   button:last-of-type {
-    margin-left: 0.5rem;
-    margin-right: 1rem;
+    margin-left: $spacing-3;
   }
 }
 
@@ -44,9 +38,9 @@ nav {
 
 .divider {
   height: 2rem;
-  width: 1.5px;
-  background-color: $grey-600;
-  margin: 0 1rem;
+  width: 2px;
+  background-color: $grey-300;
+  margin: 0 $spacing-7;
 }
 
 .authNav {

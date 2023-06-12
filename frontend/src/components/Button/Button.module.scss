@@ -4,7 +4,7 @@
 .primary, .primary-alt, .secondary, .tertiary {
   font-weight: 600;
   border-radius: 0.5rem;
-  padding: 0.6em 2.4em;
+  padding: $spacing-2 $spacing-8;
   transition: background-color 0.3s ease-in-out, 
               box-shadow 0.4s ease-in-out, 
               border-color 0.4s ease-in-out;

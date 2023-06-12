@@ -6,6 +6,8 @@ import { PreAuth } from '../../App';
 import Input from '../../components/Input/Input';
 import Button, { ButtonStyles } from '../../components/Button/Button';
 import { CreateUser } from '../../components/CreateUser/CreateUser';
+import MultiForm from '../../components/MultiForm/MultiForm';
+import { MultiFormProvider } from '../../contexts/MultiFormContext';
 
 interface SignInProps {
   signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>;
@@ -70,9 +72,10 @@ function SignUp({ signIn }: SignInProps) {
   }
 
   return (
-    <div className={`${styles.container} ${styles.signUpContainer}`}>
-      <h2 className={styles.signUpHeader}>Let's Get Started on Estimax</h2>
-      <CreateUser />
+    <div>
+      <MultiFormProvider>
+        <CreateUser />
+      </MultiFormProvider>
       {/* <div className='signUpForm'>
         <Input 
           type="text" 

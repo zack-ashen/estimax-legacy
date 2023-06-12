@@ -8,6 +8,9 @@ import Input from '../Input/Input';
 import ToggleCardManager, { ToggleCard } from '../ToggleCardManager/ToggleCardManager';
 import { ReactComponent as HammerIcon } from '../../assets/HammerIcon.svg';
 import { ReactComponent as HouseIcon } from '../../assets/HomeIcon.svg';
+import MultiForm from '../MultiForm/MultiForm';
+import GetReferralCode from './pages/GetReferralCode';
+import GetUserType from './pages/GetUserType';
 
 
 export interface CreateUserProps {
@@ -68,21 +71,6 @@ export const CreateUserSection = ({ heading, children, onNext, onPrev, hidden=fa
     </div>
   );
 }
-
-const roleCards : ToggleCard[] = [
-  {
-    state: 'Homeowner',
-    header: 'Homeowner',
-    description: 'Sign up as a homeowner to post projects and get bids to get your job done.',
-    Icon: HouseIcon
-  },
-  {
-    state: 'Contractor',
-    header: 'Service Pro',
-    description: 'Sign up as a service pro to view and bid on leads from homeowners.',
-    Icon: HammerIcon
-  }
-]
 
 
 export function CreateUser() {
@@ -172,44 +160,60 @@ export function CreateUser() {
     </CreateUserSection>
   );
 
+  const steps = [
+    {
+      component: <GetReferralCode />,
+      header: 'Do you have access?',
+      subtitle: 'Enter your referral code to get access to Estimax.',
+      Icon: HammerIcon
+    },
+    {
+      component: <GetUserType />,
+      header: 'Choose your account type',
+      subtitle: 'Choose your account type for Estimax.',
+      Icon: HammerIcon
+    }
+  ]
+
   return (
-    <div className={styles.CreateUser}>
-      {/* Referral Code Section */}
-      <CreateUserSection 
-        heading={Headings.GetReferralCode} 
-        onNext={nextStep} 
-        hidden={step !== Headings.GetReferralCode.step}>
-          <div className={styles.getReferralCodeSection}>
-            <Input
-              type='text'
-              name='Referral Code'
-              value={newUser.referral ? newUser.referral : ''} 
-              onChange={(e) => setNewUser({...newUser, referral: e.target.value})}
-            />
-          </div>
-      </CreateUserSection>
+    <MultiForm steps={steps} />
+    // <div className={styles.CreateUser}>
+    //   {/* Referral Code Section */}
+    //   <CreateUserSection 
+    //     heading={Headings.GetReferralCode} 
+    //     onNext={nextStep} 
+    //     hidden={step !== Headings.GetReferralCode.step}>
+    //       <div className={styles.getReferralCodeSection}>
+    //         <Input
+    //           type='text'
+    //           name='Referral Code'
+    //           value={newUser.referral ? newUser.referral : ''} 
+    //           onChange={(e) => setNewUser({...newUser, referral: e.target.value})}
+    //         />
+    //       </div>
+    //   </CreateUserSection>
 
-      {/* Get User Info Section */}
-      <CreateUserSection 
-        heading={Headings.GetUserType} 
-        onNext={nextStep} 
-        onPrev={prevStep} 
-        hidden={step !== Headings.GetUserType.step}>
-          <ToggleCardManager 
-            cards={roleCards}
-            toggleSwitch={updateUserType}
-          />
-      </CreateUserSection>
+    //   {/* Get User Info Section */}
+    //   <CreateUserSection 
+    //     heading={Headings.GetUserType} 
+    //     onNext={nextStep} 
+    //     onPrev={prevStep} 
+    //     hidden={step !== Headings.GetUserType.step}>
+          // <ToggleCardManager 
+          //   cards={roleCards}
+          //   toggleSwitch={updateUserType}
+          // />
+    //   </CreateUserSection>
 
-      {(newUser.role === Roles.HOMEOWNER || !newUser.role) && 
-        <>{GetUserInfoComponent}</>
-      }
-      {newUser.role === Roles.CONTRACTOR &&
-        <>
-          {GetBusinessInfoComponent}
-          {GetUserInfoComponent}
-        </>
-      }
-    </div>
+    //   {(newUser.role === Roles.HOMEOWNER || !newUser.role) && 
+    //     <>{GetUserInfoComponent}</>
+    //   }
+    //   {newUser.role === Roles.CONTRACTOR &&
+    //     <>
+    //       {GetBusinessInfoComponent}
+    //       {GetUserInfoComponent}
+    //     </>
+    //   }
+    // </div>
   );
 }

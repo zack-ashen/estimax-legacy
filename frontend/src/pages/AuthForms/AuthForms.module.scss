@@ -2,7 +2,7 @@
 
 
 
-.container, .signInContainer, .signUpContainer {
+.container, .signInContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,35 +13,25 @@
 
   .signInHeader {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: $spacing-11;
 
     h3 {
-      margin-bottom: 0.752rem;
+      margin-bottom: $spacing-2;
     }
   }
-
-  .signUpHeader {
-    font-weight: 600;
-  }
 }
 
-.signUpContainer {
-  margin: 10rem auto auto auto;
-  
-}
-
-.signInContainer, .signUpContainer {
+.signInContainer {
   width: fit-content;
 }
 
 
 /* Sign In */
 .signInContainer {
-  // border: 1px solid $grey-300;
-  margin-top: 10rem;
+  margin-top: 5%;
   background-color: white;
   border-radius: 1rem;
-  padding: 3rem 3.5rem;
+  padding: $spacing-10 $spacing-10;
   border: solid 1px $grey-300;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 }
@@ -52,11 +42,11 @@
   display: flex;
   flex-direction: column;
   font-size: 1.1em;
-  gap: 3rem;
+  gap: $spacing-11;
 }
 
 .authButtonContainer {
-  margin-top: 0.2rem;
+  margin-top: $spacing-2;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
