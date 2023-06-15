@@ -89,3 +89,18 @@ $heading-height: 3rem;
 .lastContainer {
   margin-top: 2rem;
 }
+
+.submitFormSection {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  gap: $spacing-7;
+  margin: $spacing-7 auto 0 auto;
+  
+  .submitFormDivider {
+    background-color: $grey-300;
+    height: 2px;
+    width: 100%;
+    margin-bottom: $spacing-2;
+  }
+}

@@ -20,8 +20,8 @@ function Card({ card, isToggled, onClick}: ToggleCardProps) {
 
 
 
-export default function ToggleCardManager({ cards, toggleSwitch }: ToggleCardManagerProps) {
-  const [toggledCard, setToggledCard] = useState('');
+export default function ToggleCardManager({ cards, toggleSwitch, toggled }: ToggleCardManagerProps) {
+  const [toggledCard, setToggledCard] = useState(toggled);
 
   useEffect(() => {
     if (toggledCard !== '')
@@ -55,6 +55,7 @@ export interface ToggleCard {
 interface ToggleCardManagerProps {
   cards: ToggleCard[],
   toggleSwitch: (state: string) => void;
+  toggled: string;
 }
 
 interface ToggleCardProps {

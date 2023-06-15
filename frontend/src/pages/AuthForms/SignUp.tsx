@@ -1,16 +1,17 @@
 import { useState } from 'react';
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { CredentialResponse } from '@react-oauth/google';
 
 import styles from './AuthForms.module.scss'
 import { PreAuth } from '../../App';
-import Input from '../../components/Input/Input';
-import Button, { ButtonStyles } from '../../components/Button/Button';
 import { CreateUser } from '../../components/CreateUser/CreateUser';
-import MultiForm from '../../components/MultiForm/MultiForm';
 import { MultiFormProvider } from '../../contexts/MultiFormContext';
 
 interface SignInProps {
   signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>;
+}
+
+export interface authWithGoogleArgs extends CredentialResponse {
+  user: PreAuth | undefined;
 }
 
 function SignUp({ signIn }: SignInProps) {
@@ -19,7 +20,7 @@ function SignUp({ signIn }: SignInProps) {
   const [ password, setPassword ] = useState("");
   const [ confirmPassword, setConfirmPassword ] = useState("")
 
-  const auth = () => {
+  const auth = (user: PreAuth | undefined) => {
     // validate password
     if (password !== confirmPassword) {
       console.error("Passwords don't match");
@@ -46,9 +47,11 @@ function SignUp({ signIn }: SignInProps) {
           })
         }
       })
+    
+    signIn(user)
   }
 
-  const authWithGoogle = ({credential, clientId}: CredentialResponse) => {
+  const authWithGoogle = ({credential, clientId, user}: authWithGoogleArgs) => {
     fetch('/api/auth/googleAuth', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
@@ -69,53 +72,15 @@ function SignUp({ signIn }: SignInProps) {
           })
         }
       })
+    
+    signIn(user)
   }
 
   return (
     <div>
-      <MultiFormProvider>
-        <CreateUser />
+      <MultiFormProvider onSubmit={auth}>
+        <CreateUser auth={auth} googleAuth={authWithGoogle}/>
       </MultiFormProvider>
-      {/* <div className='signUpForm'>
-        <Input 
-          type="text" 
-          name="Referral Code:" 
-          value={referral} 
-          onChange={(e) => setReferral(e.target.value)}
-        />
-        <Input 
-          type="email" 
-          name="Email:" 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input 
-          type="password" 
-          name="Password:" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Input 
-          type="password" 
-          name="Confirm Password:" 
-          value={password} 
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-        <Button 
-          onClick={auth}
-          fontSize={'1.1em'}
-          buttonStyle={ButtonStyles.PRIMARY}
-          wide>
-            Sign Up
-        </Button>
-        <GoogleLogin
-          onSuccess={authWithGoogle}
-          onError={() => {
-            console.log('Login Failed');
-          }}
-          text='continue_with'
-        />
-      </div> */}
     </div>
   );
 }

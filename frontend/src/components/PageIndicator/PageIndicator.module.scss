@@ -1,0 +1,21 @@
+@import '../../styles/variables';
+
+.pageIndicatorContainer {
+  display: flex;
+  gap: 2rem;
+}
+
+.pageIndicator {
+  height: 0.5rem;
+  border-radius: 0.2rem;
+
+  &.active {
+    background: $blue-600;
+    width: 3rem;
+  }
+
+  &:not(.active) {
+    background: $blue-200;
+    width: 1.5rem;
+  }
+}

@@ -1,0 +1,20 @@
+@import '../../../styles/variables';
+
+.twoColumnInput, .twoColumnInputStaggered {
+  display: flex;
+  gap: $spacing-5;
+}
+
+
+.formInputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-10;
+}
+
+.twoColumnInputStaggered {
+  > :last-child {
+    flex: 0 0 20ch;
+  }
+
+}

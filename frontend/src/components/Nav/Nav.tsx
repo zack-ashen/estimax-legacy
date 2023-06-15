@@ -90,9 +90,8 @@ function NoAuthNav() {
 
 function Nav({ auth=false }: NavProps) {
     const navigate = useNavigate();
-    const location = useLocation().pathname;
 
-    return (location !== '/signup' && location !== '/post-project') ? (
+    return (
         <nav className={styles.Nav}>
             <div className={styles.logoSection} onClick={() => navigate('/')}>
                 <img alt='logo' src={Logo}/>
@@ -103,7 +102,7 @@ function Nav({ auth=false }: NavProps) {
                 {auth ? <AuthNav /> : <NoAuthNav />}
             </div>
         </nav>
-    ) : (<></>);
+    );
 }
 
 const divider = (

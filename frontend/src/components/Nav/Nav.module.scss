@@ -4,10 +4,11 @@ nav {
   display: inline-flex;
   justify-content: space-between;
   width: 100%;
-  padding: $spacing-4 5%;
+  padding: $spacing-3 5%;
   margin: 0 auto;
   border-bottom: 2px solid #D7DFEE;
   align-items: center;
+  background-color: #FFF;
 
   img {
     height: 2rem;
@@ -22,6 +23,10 @@ nav {
 .navItems, .logoSection {
   display: inherit;
   align-items: center;
+
+  h4 {
+    font-weight: 600;
+  }
 
   button:first-of-type {
     margin-right: $spacing-3;

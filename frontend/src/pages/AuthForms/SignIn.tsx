@@ -2,10 +2,11 @@ import { useState } from 'react';
 
 import styles from './AuthForms.module.scss'
 import { PreAuth } from '../../App';
-import { CredentialResponse } from '@react-oauth/google';
+import { ReactComponent as LockIcon } from "../../assets/LockIcon.svg";
 import Button, { ButtonStyles } from '../../components/Button/Button';
 import GoogleAuth from '../../components/GoogleAuth/GoogleAuth';
 import Input from '../../components/Input/Input';
+import { ReactComponent as DecorativeGrid } from '../../assets/DecorativeGrid.svg';
 
 interface SignInProps {
   signIn: (preAuthObj: PreAuth) => void;
@@ -41,12 +42,16 @@ function SignIn({ signIn }: SignInProps) {
 
   return (
     <div className={styles.container}>
+      <DecorativeGrid className={styles.decorativeGrid}/>
       <div className={styles.signInContainer}>
+        <div className={styles.iconContainer}>
+          <LockIcon className={styles.signInIcon}/>
+        </div>
         <div className={styles.signInHeader}>
           <h3>Login to your account</h3>
           <p>Welcome back! Please enter your details.</p>
         </div>
-        <form className={styles.authForm}>
+        <form className={styles.authForm} method="POST" onSubmit={((e) => e.preventDefault())}>
           <Input 
             type="email" 
             name="Email:" 
@@ -63,9 +68,7 @@ function SignIn({ signIn }: SignInProps) {
             <Button 
               buttonStyle={ButtonStyles.PRIMARY} 
               onClick={auth}
-              fontSize='1.1em'
               wide>Continue</Button>
-            {/* <hr className={styles.divider}/> */}
             <GoogleAuth signIn={signIn}/>
           </div>
         </form>

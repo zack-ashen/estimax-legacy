@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useState } from 'react';
+import { PreAuth } from '../App';
 
 type FormState = {
   [key: string]: any;
@@ -11,14 +12,19 @@ interface MultiFormContextProps {
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   nextStep: () => void;
   prevStep: () => void;
+  onSubmit: (newUser: PreAuth | undefined) => void;
 }
 
 const MultiFormContext = createContext<MultiFormContextProps | undefined>(undefined);
 
-export const MultiFormProvider = ({ children }: React.PropsWithChildren) => {
+interface MultiFormProviderProps extends React.PropsWithChildren {
+  onSubmit: (newUser: PreAuth | undefined) => void;
+}
+
+export const MultiFormProvider = ({ onSubmit, children }: MultiFormProviderProps) => {
   const [formData, setFormData] = useState<FormState>({});
   const [currentStep, setCurrentStep] = useState(0);
-  
+
   const nextStep = useCallback(() => {
     setCurrentStep(currentStep + 1)
   }, [currentStep]);
@@ -27,7 +33,7 @@ export const MultiFormProvider = ({ children }: React.PropsWithChildren) => {
   }, [currentStep]);
 
   return (
-    <MultiFormContext.Provider value={{ formData, setFormData, currentStep, setCurrentStep, nextStep, prevStep }}>
+    <MultiFormContext.Provider value={{ formData, setFormData, currentStep, setCurrentStep, nextStep, prevStep, onSubmit }}>
       {children}
     </MultiFormContext.Provider>
   );

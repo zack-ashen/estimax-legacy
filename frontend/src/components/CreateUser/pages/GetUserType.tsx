@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 import { useFormContext } from "../../../contexts/MultiFormContext";
 import ToggleCardManager, { ToggleCard } from "../../ToggleCardManager/ToggleCardManager";
-import styles from "../CreateUser.module.scss";
 import { Roles } from "../../../types";
 import { ReactComponent as HammerIcon } from '../../../assets/HammerIcon.svg';
 import { ReactComponent as HouseIcon } from '../../../assets/HomeIcon.svg';
+import { FormPage, PageProps } from "../../MultiForm/MultiForm";
 
 const roleCards : ToggleCard[] = [
   {
@@ -21,16 +21,23 @@ const roleCards : ToggleCard[] = [
   }
 ]
 
-export default function GetUserType() {
+export default function GetUserType({ submitComponent, formSize, content}: PageProps) {
   const { formData, setFormData } = useFormContext()!;
+  
+
   const updateUserType = useCallback((newUserRole: string) => {
     setFormData({...formData, role: newUserRole as Roles});
-  }, [setFormData]);
+  }, []);
+
+  const validate = async () => {
+    console.log(formData)
+    return true;
+  }
 
   
   return (
-    <>
-      <ToggleCardManager cards={roleCards} toggleSwitch={updateUserType} />
-    </>
+    <FormPage validate={validate} submitComponent={submitComponent} formSize={formSize} content={content}>
+      <ToggleCardManager cards={roleCards} toggleSwitch={updateUserType} toggled={formData.role ? formData.role : 'Homeowner'}/>
+    </FormPage>
   );
 }

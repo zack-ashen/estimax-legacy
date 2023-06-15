@@ -2,7 +2,6 @@
 
 
 .ToggleCardManager {
-  max-width: 30rem;
   align-self: center;
 }
 
@@ -26,10 +25,15 @@
 
   &.toggled {
     outline: solid 0.2rem $blue-700;
+    background-color: $blue-50;
   }
 
   .leftSection {
     max-width: 35ch;
+
+    p {
+      color: $grey-700;
+    }
   }
 
   .header {

@@ -1,37 +1,118 @@
 @import '../../styles/variables';
 
+$logo-size: 3rem;
+$left-top-spacing: $spacing-10 + $logo-size;
+$contents-icon-height: 3.4rem;
 
 .MultiForm {
   display: flex;
   width: 100%;
   box-sizing: border-box;
-  flex-shrink: 1;
-  flex-grow: 1;
+  justify-content: center;
+  flex-direction: column;
+}
 
-  .leftForm {
-    flex: 0 0 30rem;
-    background-color: $grey-50;
-    height: 100vh;
-    background: linear-gradient(to bottom, $grey-50, $grey-100);
-  }
+.decorativeGrid {
+  width: 40%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: -1;
+}
 
-  .rightForm {
-    flex: 1;
-  }
+.form {
+  margin: 12rem auto 0 auto;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: $background-color;
+}
 
-  .formContentsItem {
-    display: inline-flex;
+.formHeader {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-5;
+
+  > :last-child {
+    margin-bottom: $spacing-10;
   }
 }
 
-.formContentsLeft {
+.formIconContainer {
+  background-color: white;
+  border: 1px solid $grey-200;
+  border-radius: 0.7rem;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  width: 3.7rem;
+  height: 3.7rem;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-.verticalConnector {
-  width: 2px;
+.formIcon {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.formTitle {
+
+  h2 {
+    margin-bottom: $spacing-1;
+  }
+}
+
+.formSubtitle {
+  font-weight: 500;
+  color: #3C3D43;
+}
+
+.googleAuthContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.dividerContainer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+  p {
+    color: $grey-500;
+  }
+}
+
+.divider {
+  flex-grow: 1;
+  flex-shrink: 0;
+  height: 1px;
   background-color: $grey-300;
-  height: $spacing-10;
+}
+
+.formButtons {
+  margin-top: $spacing-12;
+  display: flex;
+  justify-content: space-between;
+
+  > :first-child {
+    flex: 0 0 30%;
+  }
+
+  > :last-child {
+    flex: 0 0 60%;
+  }
+
+  > :only-child {
+    flex: 0 0 100%;
+  }
+}
+
+.pageIndicatorContainer {
+  margin: $spacing-12 auto;
 }

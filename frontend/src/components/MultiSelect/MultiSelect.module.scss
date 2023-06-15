@@ -1,0 +1,25 @@
+@import '../../styles/variables';
+
+.MultiFormContainer {
+  position: relative;
+  width: 100%;
+  
+  .focused {
+    transform: translateX(-1.143rem) translateY(-2.45rem);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $grey-600;
+  }
+}
+
+.inputLabel {
+  position: absolute;
+  top: 0.7rem;
+  left: 1.143rem;
+  transition: 0.35s;
+  font-size: inherit;
+  color: $grey-500;
+  font-weight: 400;
+  pointer-events: none;
+}
+

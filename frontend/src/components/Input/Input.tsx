@@ -15,14 +15,16 @@ interface InputProps {
     placeholder?: string;
     inputSize?: InputSize;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    error?: string;
 }
 
 const Input: FunctionComponent<InputProps> = ({ name, 
                                                 value, 
                                                 type = "text", 
                                                 placeholder = " ", 
-                                                onChange, 
-                                                inputSize=InputSize.MEDIUM}) => {
+                                                onChange,
+                                                inputSize=InputSize.MEDIUM,
+                                                error}) => {
     
     return (
         <div className={styles.inputBox}>
@@ -32,9 +34,10 @@ const Input: FunctionComponent<InputProps> = ({ name,
                 type={type}
                 placeholder={placeholder}
                 onChange={onChange}
-                className={`${styles.Input} ${styles[inputSize]}`}
+                className={`${styles.Input} ${styles[inputSize]} ${styles[error ? 'error' : '']}`}
             />
             <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>
+            {error && <p className={styles.errorText}>{error}</p> }
         </div>
     );
 };

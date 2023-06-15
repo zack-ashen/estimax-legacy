@@ -46,7 +46,7 @@ export default function GoogleAuth({signIn, referral, authUser}: GoogleAuthProps
     if (windowWidth < 500) {
       setButtonWidth('250')
     } else if (windowWidth >= 500 && buttonWidth === '250') {
-      setButtonWidth('400')
+      setButtonWidth('420')
     }
 
     return () => window.removeEventListener('resize', handleResize);
