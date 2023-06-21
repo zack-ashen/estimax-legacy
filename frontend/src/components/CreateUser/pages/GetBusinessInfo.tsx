@@ -70,7 +70,7 @@ export default function GetBusinessInfo({ submitComponent, formSize, content}: P
             error={errors.phoneNumber}
           />
         </div>
-        <MultiSelect options={contractorTypes}/>
+        <MultiSelect options={contractorTypes} placeholder={'What type of contractor are you?'}/>
       </div>
     </FormPage>
   );

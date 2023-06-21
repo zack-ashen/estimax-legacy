@@ -7,9 +7,12 @@ import styles from './MultiSelect.module.scss'
 
 interface MultiSelectProps {
   options: MultiValue<OptionType>;
+  placeholder: string;
+  isMulti?: true | undefined;
+
 }
 
-const MultiSelect = ({ options }: MultiSelectProps) => {
+const MultiSelect = ({ options, placeholder, isMulti=true }: MultiSelectProps) => {
   // Define a state variable to store the selected options
   const [selectedOption, setSelectedOption] = useState<MultiValue<OptionType>| null>(null);
   const [selectIsFocused, setSelectIsFocused] = useState(false);
@@ -24,7 +27,7 @@ const MultiSelect = ({ options }: MultiSelectProps) => {
   return (
     <div className={styles.MultiFormContainer}>
       <Select
-        isMulti
+        isMulti={undefined}
         name="colors"
         options={options}
         className={styles.MultiSelect}
@@ -109,7 +112,7 @@ const MultiSelect = ({ options }: MultiSelectProps) => {
           }),
         }}
       />
-      <label className={`${styles.inputLabel} ${styles[labelState]}`} htmlFor='Contractor Type'>Contractor Type</label>
+      <label className={`${styles.inputLabel} ${styles[labelState]}`} htmlFor={placeholder}>{placeholder}</label>
     </div>
   );
 };

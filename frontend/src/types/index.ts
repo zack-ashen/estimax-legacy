@@ -111,3 +111,12 @@ export interface FormError {
 export interface FormErrors {
   [key: string]: any;
 };
+
+export const locations: MultiValue<OptionType> = [
+  {value: 'Brooklyn, NY', label: 'Brooklyn, NY'},
+  {value: 'Manhattan, NY', label: 'Manhattan, NY'},
+  {value: 'Queens, NY', label: 'Queens, NY'},
+  {value: 'Bronx, NY', label: 'Bronx, NY'},
+  {value: 'Staten Island, NY', label: 'Staten Island, NY'},
+  {value: 'Westfield, NJ', label: 'Westfield, NJ'},
+]

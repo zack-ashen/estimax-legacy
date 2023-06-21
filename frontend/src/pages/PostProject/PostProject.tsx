@@ -30,7 +30,7 @@ const steps = [
     content: {
       header: "Extra Details",
       subtitle: "Add some extra details about your project.",
-      Icon: ImageAddIcon,
+      Icon: PencilIcon,
     }
   }
 ];
