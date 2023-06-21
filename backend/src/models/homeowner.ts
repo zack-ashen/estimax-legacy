@@ -1,16 +1,28 @@
 import { Schema, model } from 'mongoose'
 import { User } from './user'
-import { Contractor } from './contractor'
-import { Project } from './project'
 
 export type HomeownerType = {
-
+  preferredContractors: string[];
+  postedProjects: string[];
+  finishedProjects: string[];
 }
 
 const homeownerSchema = User.discriminator('Homeowners', new Schema({
-  prefferedContractors: [ Contractor ],
-  postedProjects: [ Project ]
-
+  prefferedContractors: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Contractors',
+    default: []
+  },
+  postedProjects:  {
+    type: [Schema.Types.ObjectId],
+    ref: 'Projects',
+    default: []
+  },
+  finishedProjects:  {
+    type: [Schema.Types.ObjectId],
+    ref: 'Projects',
+    default: []
+  },
 }))
 
 export const Homeowner = homeownerSchema;

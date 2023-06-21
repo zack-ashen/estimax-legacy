@@ -16,15 +16,15 @@ function generateSecretKey() {
 
 function generateReferralCode() {
   // Generate 10 bytes of random data.
-  const buffer = crypto.randomBytes(5).toString('base64').replace(/\//g,'_').replace(/\+/g,'-');
+  const buffer = crypto.randomBytes(5);
 
   const privateKey = process.env.REFERRAL_KEY;
 
   // Create a HMAC object using SHA256.
   const hmac = crypto.createHmac('sha256', privateKey);
 
-  // Update the HMAC object with the random bytes in hexadecimal format.
-  hmac.update(buffer.toString('hex'));
+  // Update the HMAC object with the random bytes.
+  hmac.update(buffer);
 
   // Calculate the HMAC.
   const hash = hmac.digest('hex');
@@ -32,7 +32,10 @@ function generateReferralCode() {
   // Truncate the hash to the first 10 characters.
   const code = hash.substring(0, 7);
 
-  return code + buffer;
+  // Convert the buffer to a base64-encoded string.
+  const bufferCode = buffer.toString('base64').replace(/\//g, '_').replace(/\+/g, '-');
+
+  return code + bufferCode;
 }
 
 for (let i = 0; i<20; i++)

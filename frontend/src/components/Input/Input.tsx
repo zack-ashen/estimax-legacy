@@ -1,5 +1,6 @@
-import React, { ChangeEvent, FunctionComponent } from 'react';
+import React, { ChangeEvent, FunctionComponent, useRef } from 'react';
 import styles from './Input.module.scss';
+import useAutosizeTextArea from '../../hooks/useAutoresizeTextArea';
 
 
 export enum InputSize {
@@ -14,8 +15,10 @@ interface InputProps {
     type?: string;
     placeholder?: string;
     inputSize?: InputSize;
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     error?: string;
+    valid?: boolean
+    onBlur?: () => void;
 }
 
 const Input: FunctionComponent<InputProps> = ({ name, 
@@ -24,9 +27,21 @@ const Input: FunctionComponent<InputProps> = ({ name,
                                                 placeholder = " ", 
                                                 onChange,
                                                 inputSize=InputSize.MEDIUM,
-                                                error}) => {
+                                                error,
+                                                valid,
+                                                onBlur}) => {
     
-    return (
+    const inputClass = `${styles.Input} 
+                        ${styles[inputSize]} 
+                        ${styles[error ? 'error' : '']}
+                        ${styles[valid ? 'valid' : '']}
+                        ${styles[type === 'textarea' ? 'textarea' : '']}`
+
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+    useAutosizeTextArea(textAreaRef.current, value);
+
+    return type !== "textarea" ? (
         <div className={styles.inputBox}>
             <input
                 name={name}
@@ -34,7 +49,22 @@ const Input: FunctionComponent<InputProps> = ({ name,
                 type={type}
                 placeholder={placeholder}
                 onChange={onChange}
-                className={`${styles.Input} ${styles[inputSize]} ${styles[error ? 'error' : '']}`}
+                className={inputClass}
+                onBlur={onBlur}
+            />
+            <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>
+            {error && <p className={styles.errorText}>{error}</p> }
+        </div>
+    ) : (
+        <div className={styles.inputBox}>
+            <textarea
+                name={name}
+                value={value}
+                placeholder={placeholder}
+                onChange={onChange}
+                className={inputClass}
+                onBlur={onBlur}
+                ref={textAreaRef}
             />
             <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>
             {error && <p className={styles.errorText}>{error}</p> }

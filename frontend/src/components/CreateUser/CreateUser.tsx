@@ -1,7 +1,7 @@
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./CreateUser.module.scss";
 import { PreAuth } from "../../App";
-import { Roles } from "../../types/index";
+import { AuthContractor, AuthHomeowner, FormErrors, Roles } from "../../types/index";
 import { ReactComponent as LockIcon } from "../../assets/LockIcon.svg";
 import { ReactComponent as StoreIcon } from "../../assets/StoreIcon.svg";
 import { ReactComponent as UserIcon } from "../../assets/UserIcon.svg";
@@ -9,15 +9,13 @@ import { ReactComponent as UserPickIcon } from "../../assets/UserPickIcon.svg";
 import MultiForm from "../MultiForm/MultiForm";
 import GetReferralCode from "./pages/GetReferralCode";
 import GetUserType from "./pages/GetUserType";
-import { useFormContext } from "../../contexts/MultiFormContext";
+import { useFormContext } from '../../contexts/MultiFormContext';
 import GetBusinessInfo from "./pages/GetBusinessInfo";
 import GetUserInfo from "./pages/GetUserInfo";
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
-import { authWithGoogleArgs } from "../../pages/AuthForms/SignUp";
 
 export interface CreateUserProps {
-  auth: (user: PreAuth | undefined) => void;
-  googleAuth: ({ credential, clientId, user }: authWithGoogleArgs) => void;
+  signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>;
 }
 
 const homeownerSteps = [
@@ -60,17 +58,76 @@ const contractorSteps = [
   ...homeownerSteps.slice(2),
 ];
 
-export function CreateUser({ auth, googleAuth }: CreateUserProps) {
-  const { formData: newUser } = useFormContext()!;
+const createUserBody = (finalData: any) : AuthHomeowner | AuthContractor => {
+  const userBase = {
+    email: finalData.email,
+    role: finalData.role,
+    name: finalData.name
+  }
 
+  if (finalData.role === Roles.CONTRACTOR) {
+    return {
+      ...userBase,
+      businessName: finalData.businessName,
+      contractorType: finalData.contractorType ? finalData.contractorType : [],
+      phoneNumber: finalData.phoneNumber,
+      invitations: [],
+      starredProjects: [],
+      securedProjects: [],
+      biddedProjects: [],
+      reviews: []
+    } as AuthContractor
+  }
+
+  return {
+    ...userBase,
+    preferredContractors: [],
+    postedProjects: [],
+    finishedProjects: []
+  } as AuthHomeowner
+}
+
+const auth = (signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>, setErrors: React.Dispatch<React.SetStateAction<FormErrors>>) => {
+  return () => (finalData: any) => {
+    const newUser = createUserBody(finalData);
+
+    fetch('/api/auth/signup', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        newUser,
+        referral: finalData.referral,
+        password: finalData.password
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          setErrors({ email: data.error })
+
+        } else {
+          signIn({
+            token: data.token,
+            user: data.user
+          })
+        }
+      })
+  }
+}
+
+export function CreateUser({ signIn }: CreateUserProps) {
+  const { formData, setSubmit, setErrors } = useFormContext()!;
+  useEffect(() => {
+    setSubmit(auth(signIn, setErrors))
+  }, [formData])
 
   const steps = useMemo(() => {
-    return newUser.role === Roles.CONTRACTOR ? contractorSteps : homeownerSteps;
-  }, [newUser.role]);
+    return formData.role === Roles.CONTRACTOR ? contractorSteps : homeownerSteps;
+  }, [formData.role]);
 
   const submitForm = (
     <div className={styles.googleAuthButtonContainer}>
-      <GoogleAuth signIn={() => newUser as PreAuth}/>
+      <GoogleAuth signIn={signIn} referral={formData.referral} user={createUserBody(formData)} setErrors={setErrors}/>
       <div className={styles.submitFormDivider} />
     </div>
   );

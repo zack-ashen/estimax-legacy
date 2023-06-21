@@ -22,9 +22,18 @@ export enum ProjectStatus {
     COMPLETED = "Completed"
 }
 
+export interface Review {
+    reviewee: string;
+    reviewer: string;
+    title: string;
+    description: string;
+    photos: string[];
+    rating: number;
+  }
+
 // Misc
 export enum Errors {
-    USER_NOT_FOUND = 'User not found',
+    USER_NOT_FOUND = 'No user was found with that email. Create a user to get started.',
     INVALID_CRED = 'Invalid email or password',
     INVALID_TOKEN = 'Invalid access token',
     INVALID_REFRESH_TOKEN = 'Invalid refresh token',

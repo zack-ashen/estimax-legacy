@@ -61,9 +61,20 @@
   }
 }
 
+.valid, .valid:focus {
+  margin: 0;
+  border-color: $green-500;
+  border: 2px solid $green-400;
+  outline: 3px solid $green-100;
+
+  &:hover {
+    border-color: $green-500;
+  }
+}
+
 .errorText {
   @include typography-small-medium;
-  color: $red-500;
+  color: $red-500 !important;
   margin-top: $spacing-1;
 }
 
@@ -73,4 +84,13 @@
   font-size: 0.9rem;
   font-weight: 600;
   color: $grey-600;
+}
+
+.textarea {
+  resize: none;
+  overflow: hidden;
+  font-family: inherit;
+  min-height: 3.5rem;
+  height: 5rem;
+  min-width: 50ch;
 }

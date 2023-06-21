@@ -1,19 +1,26 @@
 import { useEffect, useState } from "react"
 import { PreAuth } from "../../App"
-import { AuthUser } from "../../types";
+import { AuthContractor, AuthHomeowner, FormErrors } from "../../types";
 
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { useFormContext } from "../../contexts/MultiFormContext";
+
+interface SignInUser {
+  email: string;
+  password: string;
+}
 
 interface GoogleAuthProps {
   signIn: (preAuthObj: PreAuth) => void;
-  authUser?: AuthUser;
+  user: AuthContractor | AuthHomeowner | SignInUser;
   referral?: string;
+  setErrors?: React.Dispatch<React.SetStateAction<FormErrors>>;
 }
 
-
-export default function GoogleAuth({signIn, referral, authUser}: GoogleAuthProps) {
+export default function GoogleAuth({signIn, referral, user, setErrors}: GoogleAuthProps) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [buttonWidth, setButtonWidth] = useState('400');
+  const formContext = useFormContext();
 
   const handleCallbackResponse = ({credential, clientId}: CredentialResponse) => {
     fetch('/api/auth/googleAuth', {
@@ -23,13 +30,19 @@ export default function GoogleAuth({signIn, referral, authUser}: GoogleAuthProps
         credential: credential,
         clientId: clientId,
         referral,
-        newUser: authUser
+        user
       })
     })
       .then(response => response.json())
       .then(data => {
         if (data.error) {
-          console.error(data.error)
+          if (formContext) {
+            formContext.setErrors({ email: data.error})
+          } else if (setErrors) {
+            setErrors({ email: data.error })
+          } else {
+            console.error(data.error)
+          }
         } else {
           signIn({
             token: data.token,
@@ -58,7 +71,7 @@ export default function GoogleAuth({signIn, referral, authUser}: GoogleAuthProps
       width={buttonWidth}
       onSuccess={handleCallbackResponse}
       onError={() => {
-        console.log('Login Failed');
+        console.error('Login Failed');
       }}
       text='continue_with'
     />

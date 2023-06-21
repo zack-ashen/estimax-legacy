@@ -1,4 +1,4 @@
-@import '../../styles/variables';
+@import '../../styles/index';
 
 $logo-size: 3rem;
 $left-top-spacing: $spacing-10 + $logo-size;
@@ -58,6 +58,7 @@ $contents-icon-height: 3.4rem;
 .formIcon {
   width: 1.4rem;
   height: 1.4rem;
+  stroke: black;
 }
 
 .formTitle {

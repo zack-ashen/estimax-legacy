@@ -30,11 +30,17 @@ const ContractorNav = () => {
     )
 }
 
-const HomeownerNav = (
-    <>
-    homeowner
-    </>
-);
+const HomeownerNav = () => {
+    const navigate = useNavigate();
+
+    return (
+        <Button
+            buttonStyle={ButtonStyles.PRIMARY}
+            onClick={() => navigate('/post-project')}>
+            Post Project
+        </Button>
+    );
+}
 
 function AuthNav() {
     const auth = useAuth()
@@ -44,7 +50,7 @@ function AuthNav() {
     return (
         <div className={styles.authNav}>
             {role === Roles.CONTRACTOR ?  
-            <ContractorNav /> : HomeownerNav}
+            <ContractorNav /> : <HomeownerNav />}
             <Button 
                 buttonStyle={ButtonStyles.SECONDARY}
                 onClick={() => auth.signOut()}>

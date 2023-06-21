@@ -6,6 +6,20 @@ export interface TokenPayload extends JwtPayload {
   userId: string;
 }
 
+export interface Location {
+  longitude: number;
+  latitude: number;
+}
+
+export interface Review {
+  reviewee: string;
+  reviewer: string;
+  title: string;
+  description: string;
+  photos: string[];
+  rating: number;
+}
+
 // Project Schema
 export type Project = {
   id: string;
@@ -18,20 +32,50 @@ export type Project = {
 
 // An AuthUser is a user that is not built yet but is sent to the backend
 // so there is no id field
-export type AuthUser = {
-  firstName?: string,
-  lastName?: string,
-  email?: string,
-  password?: string,
-  role?: Roles,
-  referral?: string,
+export interface AuthUser {
+  name?: string;
+  email?: string;
+  role: Roles;
+  location?: Location;
+  searchRadius?: number;
+  bio?: string;
+  profilePhoto?: string;
+}
+
+export interface AuthContractor extends AuthUser {
+  businessName: string;
+  contractorType: string[];
+  phoneNumber: string;
+  invitations: string[];
+  starredProjects: string[];
+  securedProjects: string[];
+  biddedProjects: string[];
+  reviews: Review[];
+}
+
+export interface AuthHomeowner extends AuthUser {
+  preferredContractors: string[];
+  postedProjects: string[];
+  finishedProjects: string[];
+}
+
+export interface Homeowner extends AuthHomeowner {
+  uid: string;
+  name: string;
+  email: string;
+}
+
+export interface Contractor extends AuthContractor {
+  uid: string;
+  name: string;
+  email: string;
 }
 
 export interface User {
   uid: string,
   email: string,
   password?: string,
-  role: Roles
+  role: Roles,
 }
 
 export enum Roles {
@@ -59,3 +103,11 @@ export const contractorTypes: MultiValue<OptionType> = [
   {value: 'TV Mounting', label: 'TV Mounting'},
   {value: 'Furniture Assembly', label: 'Furniture Assembly'}
 ]
+
+export interface FormError {
+  [error: string]: string | undefined,
+}
+
+export interface FormErrors {
+  [key: string]: any;
+};

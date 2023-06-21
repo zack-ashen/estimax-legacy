@@ -3,7 +3,7 @@ import jwt, { Secret } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { OAuth2Client } from 'google-auth-library';
 
-import { IUser, User } from '../models/user'
+import { IUser } from '../models/user'
 import { validateReferralCode } from '../util/referralCodes'
 import { Errors, TokenPayload, Roles } from '../types';
 import { createUser, getUser } from '../controllers/userController';
@@ -21,24 +21,23 @@ const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
 router.route('/signup').post(async (req, res, next) => {
   try {
     // Validate the request body
-    const { email, password, referral } = req.body;
-    if (!email || !password)
+    const { newUser, password, referral } = req.body;
+    if (!newUser)
       throw new ServerError(Errors.INVALID_REQUEST_BODY, 400);
 
     // make sure the referral code is valid
-    if (!validateReferralCode(referral))
+    if (!(await validateReferralCode(referral)))
       throw new ServerError(Errors.INVALID_REFERRAL_CODE, 409);
 
     // Check if the email address already exists
-    const user = await getUser(email, true);
-    if (user)
+    const userExists = await getUser(newUser.email, true);
+    if (userExists)
       throw new ServerError(Errors.EMAIl_EXISTS, 409);
 
     // Create a new user and set token
-    const newUser = await createUser({
-      email,
-      password,
-      role: Roles.CONTRACTOR
+    const user = await createUser({
+      ...newUser,
+      password
     })
 
     // add referral code so it can't be used again
@@ -46,10 +45,10 @@ router.route('/signup').post(async (req, res, next) => {
     await referralObj.save();
 
     // Generate a JWT token for the new user
-    const token = createAndSetToken(newUser, res);
+    const token = createAndSetToken(user, res);
 
     // Send the JWT token to the client
-    res.status(200).send({ token, user: newUser });
+    res.status(200).send({ token, user });
   } catch (err) {
     next(err);
   }
@@ -107,10 +106,10 @@ router.post('/googleAuth', async (req, res, next) => {
     let user: IUser | null = await getUser(payload.email!, true);
     if (!user) {
       const referral = req.body.referral;
-      if (!referral || !validateReferralCode(referral))
-        throw new ServerError(Errors.INVALID_REFERRAL_CODE, 400);
+      if (!referral || !(await validateReferralCode(referral)))
+        throw new ServerError(Errors.USER_NOT_FOUND, 400);
   
-      user = await createUser({email: payload.email!, role: Roles.CONTRACTOR})
+      user = await createUser(newUser)
 
       const referralObj = new Referral({ referral })
       await referralObj.save();
@@ -158,6 +157,20 @@ router.route('/refreshToken').post(async (req, res, next) => {
 router.route('/signout').post((req, res) => {
   res.clearCookie('refreshToken');
   res.status(200).send({ message: 'User signed out successfully' });
+});
+
+router.route('/validate-referral').post(async (req, res, next) => {
+  try {
+    const { referral } = req.body;
+
+    if (await validateReferralCode(referral)) {
+      return res.status(200).send({ ok: 'Referral token is valid' });
+    }
+
+    throw new ServerError(Errors.INVALID_REFERRAL_CODE, 400)
+  } catch (err) {
+    next(err)
+  }
 });
 
 const createAndSetToken = (user: IUser, res: Response) => {

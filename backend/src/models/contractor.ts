@@ -1,17 +1,24 @@
 import { Schema, model } from 'mongoose'
 import { IUser, User } from './user'
-import { Project } from './project'
+import { Review } from '../types';
 
 export interface IContractor extends IUser {
-  
+  businessName: string;
+  contractorType: string[];
+  phoneNumber: string;
+  invitations: string[];
+  starredProjects: string[];
+  securedProjects: string[];
+  biddedProjects: string[];
+  reviews: Review[];
 }
 
 const contractorSchema = User.discriminator('Contractors', new Schema({
-  companyName: String,
+  businessName: String,
   contractorType: {
-    type: String,
-    enum: ['General Contractor', 'Plumber', 'Gardener', 'Carpenter'],
-    default: 'General Contractor'
+    type:  [ String ],
+    required: true,
+    default: []
   },
   invitations: {
     type: [Schema.Types.ObjectId],

@@ -24,19 +24,12 @@ const roleCards : ToggleCard[] = [
 export default function GetUserType({ submitComponent, formSize, content}: PageProps) {
   const { formData, setFormData } = useFormContext()!;
   
-
   const updateUserType = useCallback((newUserRole: string) => {
     setFormData({...formData, role: newUserRole as Roles});
   }, []);
-
-  const validate = async () => {
-    console.log(formData)
-    return true;
-  }
-
   
   return (
-    <FormPage validate={validate} submitComponent={submitComponent} formSize={formSize} content={content}>
+    <FormPage validate={async () => true} submitComponent={submitComponent} formSize={formSize} content={content}>
       <ToggleCardManager cards={roleCards} toggleSwitch={updateUserType} toggled={formData.role ? formData.role : 'Homeowner'}/>
     </FormPage>
   );

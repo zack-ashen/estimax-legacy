@@ -7,6 +7,7 @@ import Button, { ButtonStyles } from '../../components/Button/Button';
 import GoogleAuth from '../../components/GoogleAuth/GoogleAuth';
 import Input from '../../components/Input/Input';
 import { ReactComponent as DecorativeGrid } from '../../assets/DecorativeGrid.svg';
+import { FormError } from '../../types';
 
 interface SignInProps {
   signIn: (preAuthObj: PreAuth) => void;
@@ -15,6 +16,7 @@ interface SignInProps {
 function SignIn({ signIn }: SignInProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<FormError>({});
 
 
   const auth = () => {
@@ -29,8 +31,7 @@ function SignIn({ signIn }: SignInProps) {
       .then(response => response.json())
       .then(data => {
         if (data.error) {
-          // TODO: invalid credentials
-          console.log(data.error)
+          setErrors({email: data.error})
         } else {
           signIn({
             token: data.token,
@@ -53,10 +54,11 @@ function SignIn({ signIn }: SignInProps) {
         </div>
         <form className={styles.authForm} method="POST" onSubmit={((e) => e.preventDefault())}>
           <Input 
-            type="email" 
+            type="text" 
             name="Email:" 
             value={email} 
             onChange={(e) => setEmail(e.target.value)}
+            error={errors.email}
           />
           <Input 
             type="password" 
@@ -69,7 +71,7 @@ function SignIn({ signIn }: SignInProps) {
               buttonStyle={ButtonStyles.PRIMARY} 
               onClick={auth}
               wide>Continue</Button>
-            <GoogleAuth signIn={signIn}/>
+            <GoogleAuth signIn={signIn} user={{email, password}} setErrors={setErrors}/>
           </div>
         </form>
       </div>

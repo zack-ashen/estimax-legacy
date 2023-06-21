@@ -7,13 +7,70 @@ import SignUp from './pages/AuthForms/SignUp'
 import ManageProjects from './pages/ManageProjects/ManageProjects';
 import ProjectFeed from './pages/ProjectFeed/ProjectFeed';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import { AuthProvider } from './contexts/AuthContext';
-import { User } from './types';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { Roles, User } from './types';
 import Nav from './components/Nav/Nav';
+import PostProject from './pages/PostProject/PostProject';
 
 export interface PreAuth {
   user: User;
   token: string;
+}
+
+
+
+const AuthRoutes = () => {
+  const { user } = useAuth();
+  
+  return user.role === Roles.CONTRACTOR ? (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <PrivateRoute forHomeowner={true} forContractor={true}>
+            <ProjectFeed />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/manage-projects"
+        element={
+          <PrivateRoute forContractor={true} forHomeowner={true}>
+            <ManageProjects />
+          </PrivateRoute>
+        }
+      />
+      <Route path="*"
+        element={
+          <Navigate to="/" />
+        }
+      />
+    </Routes>
+  ) : (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <PrivateRoute forHomeowner={true} forContractor={true}>
+            <ManageProjects />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/post-project"
+        element={
+          <PrivateRoute forContractor={false} forHomeowner={true}>
+            <PostProject />
+          </PrivateRoute>
+        }
+      />
+      <Route path="*"
+        element={
+          <Navigate to="/" />
+        }
+      />
+    </Routes>
+  )
 }
 
 function App() {
@@ -68,29 +125,7 @@ function App() {
       removePreAuthObj={() => setPreAuthObj(undefined)}
       preAuthObj={preAuthObj!}>
         <Nav auth/>
-        <Routes>
-          <Route 
-              path="/"
-              element={
-                <PrivateRoute forHomeowner={true} forContractor={true}>
-                  <ProjectFeed />
-                </PrivateRoute>
-              }
-          />
-          <Route 
-              path="/manage-projects"
-              element={
-                <PrivateRoute forContractor={true} forHomeowner={true}>
-                  <ManageProjects />
-                </PrivateRoute>
-              }
-          />
-          <Route path="*" 
-              element={
-                <Navigate to="/" />
-              } 
-          />
-        </Routes>
+        <AuthRoutes />
     </AuthProvider>
   );
 

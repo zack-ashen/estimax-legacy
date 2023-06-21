@@ -34,7 +34,7 @@ export async function createUser({email, role, password}: IUser): Promise<IUser>
   try {
     await newUser.save();
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new ServerError(Errors.RESOURCE_CREATION, 409);
   }
 

@@ -7,6 +7,8 @@ import Button, { ButtonStyles } from '../Button/Button';
 import PageIndicator from '../PageIndicator/PageIndicator';
 
 
+
+
 export default function MultiStepForm({ steps, submitComponent }: MultiFormProps) {
   const { currentStep } = useFormContext()!;
 
@@ -27,14 +29,19 @@ export default function MultiStepForm({ steps, submitComponent }: MultiFormProps
 }
 
 export function FormPage({ validate, submitComponent, formSize, content, children}: FormPageProps) {
-  const { currentStep, prevStep, nextStep, onSubmit, formData } = useFormContext()!;
+  const { currentStep, prevStep, nextStep, submit, formData } = useFormContext()!;
   const { 
     Icon: CurrentIcon, 
     header: currentHeader, 
     subtitle: currentSubtitle } = content;
   
   const validateThenNext = async () => await validate() ? nextStep() : undefined;
-  const validateThenSubmit = async () => await validate() ? onSubmit(formData) : undefined;
+  const validateThenSubmit = async () => {
+    const isValid = await validate();
+    if (isValid) {
+      submit(formData)
+    }
+  }
 
   return (
     <div className={styles.form}>
@@ -93,7 +100,7 @@ interface StepContent {
 }
 
 export interface PageProps {
-  submitComponent: JSX.Element;
+  submitComponent?: JSX.Element;
   formSize: number;
   content: StepContent
 }
@@ -105,12 +112,12 @@ interface Step {
 
 interface MultiFormProps {
   steps: Step[];
-  submitComponent: JSX.Element;
+  submitComponent?: JSX.Element;
 }
 
 interface FormPageProps extends PropsWithChildren {
   validate: () => Promise<boolean>;
-  submitComponent: JSX.Element;
+  submitComponent?: JSX.Element;
   content: StepContent;
   formSize: number;
 }
