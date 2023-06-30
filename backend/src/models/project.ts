@@ -2,29 +2,36 @@ import mongoose, { Schema } from 'mongoose';
 import { ProjectStatus } from '../types';
 
 export interface IProject {
-  id?: Schema.Types.ObjectId;
+  id: Schema.Types.ObjectId;
   name: string;
   homeowner_id: Schema.Types.ObjectId;
   description: String;
-  category: Schema.Types.ObjectId[];
-  status?: string; 
+  location: String;
+  category: String[];
+  status: string; 
+  images: string[];
+  lowestBid: number;
+  bids: Schema.Types.ObjectId[];
+  timeline: string;
 }
 
 const projectSchema = new Schema<IProject>({
   name: String,
-  homeowner_id: String,
+  homeowner_id: Schema.Types.ObjectId,
   description: String,
-  category: {
-    type: [ Schema.Types.ObjectId ],
-    ref: "Category"
-  },
+  category: [ String ],
   status: {
     type: String,
     enum: ProjectStatus,
     default: ProjectStatus.IN_PROGRESS,
-    required: false
-  }
-  // todo: bids:
+  },
+  location: String, 
+  images: [ String ],
+  bids: {
+    type: [ Schema.Types.ObjectId ],
+    default: []
+  },
+  timeline: String
 });
 
 export const Project = mongoose.model('Projects', projectSchema)

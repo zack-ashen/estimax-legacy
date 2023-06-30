@@ -40,7 +40,6 @@ export default function GetUserInfo({ submitComponent, formSize, content}: PageP
   
       // Instead of immediately returning, we set state and provide a callback
       // This ensures our state is updated before proceeding
-      console.log(values.name)
       setFormData(prevState => ({
         ...prevState,
         ...values

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 type FormState = {
   [key: string]: any;
@@ -29,7 +29,7 @@ export const MultiFormProvider = ({ onSubmit, children }: MultiFormProviderProps
   const [formData, setFormData] = useState<FormState>({});
   const [currentStep, setCurrentStep] = useState(0);
   const [errors, setErrors] = useState({});
-  const [ submit, setSubmit ] = useState<(formObj: any) => void>(onSubmit);
+  const [ submit, setSubmit ] = useState<(formObj: any) => void>(() => onSubmit);
 
   const nextStep = useCallback(() => {
     setCurrentStep(currentStep + 1)

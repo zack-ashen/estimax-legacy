@@ -13,8 +13,10 @@ import homeownerRoutes from './routes/homeownerRoutes'
 import userRoutes from './routes/userRoutes'
 import projectRoutes from './routes/projectRoutes'
 import authRoutes from './routes/authRoutes'
+import imageRoutes from './routes/imageRoutes';
 
 import { errorHandler } from './middleware/errors'
+
 
 // Load environment variables from .env file
 dotenv.config();
@@ -42,6 +44,7 @@ app.use('/api/homeowner', homeownerRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/project', projectRoutes);
 app.use('/api/auth', authRoutes)
+app.use('/api/image', imageRoutes)
 
 // Error Handling
 app.use(errorHandler);

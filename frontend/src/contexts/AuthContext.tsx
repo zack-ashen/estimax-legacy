@@ -10,7 +10,7 @@ interface AuthContextProps {
   user: User;
   signOut: () => void;
   token: string;
-  useAuthReq: (url: string, options?: RequestOptions) => Promise<true | Response>;
+  useAuthReq: () => (url: string, options?: RequestOptions) => Promise<Response | undefined>;
 }
 
 interface AuthProviderProps extends React.PropsWithChildren {
@@ -45,38 +45,50 @@ export const AuthProvider = ({ preAuthObj, removePreAuthObj, children }: AuthPro
     });
   }
 
-  const useAuthReq = async (url: string, options?: RequestOptions) => {
-    const decodedToken = jwt_decode(token) as JwtPayload;
-    if (!decodedToken || !decodedToken.exp) {
-        return true;
-    }
-  
-    const expirationDate = new Date(decodedToken.exp * 1000);
-    if (expirationDate < new Date()) {
-      fetch('/api/auth/refreshToken', {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' }
-      })
-        .then(response => response.json())
-        .then(data => {
-          setToken(data.token);
-        })
-    }
-
-    let headers = {
-      'Authorization': `Bearer ${token}`,
-    }
-    if (options && options.headers) {
-      headers = {
-        ...headers,
-        ...options.headers,
+  const useAuthReq = () => {
+    return async (url: string, options?: RequestOptions) => {
+      const decodedToken = jwt_decode(token) as JwtPayload;
+      if (!decodedToken || !decodedToken.exp) {
+        console.error("No decoded token or no expiry in decoded token");
+        return;
       }
-    }
+    
+      const expirationDate = new Date(decodedToken.exp * 1000);
+      if (expirationDate < new Date()) {
+        fetch('/api/auth/refreshToken', {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' }
+        })
+          .then(response => response.json())
+          .then(data => {
+            setToken(data.token);
+          })
+      }
 
-    return await fetch(url, {
-      ...options,
-      headers
-    });
+      let headerBase = { 'Authorization': `Bearer ${token}` }
+      let headers;
+
+      if (!(options && options.body instanceof FormData)) {
+        headers = {
+          ...headerBase,
+          'Content-Type': 'application/json'
+        }
+      } else {
+        headers = { ...headerBase }
+      }
+
+      if (options && options.headers) {
+        headers = {
+          ...headers,
+          ...options.headers,
+        }
+      }
+
+      return await fetch(url, {
+        ...options,
+        headers
+      });
+    };
   };
 
   // Provide the user and authenticate function to the context

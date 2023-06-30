@@ -26,6 +26,17 @@ export type Project = {
   homeowner_id: string;
   description: string;
   category: string[];
+  lowestBid: string;
+  bids: string[];
+}
+
+export interface ProjectDraft {
+  name: string;
+  description: string;
+  images: File[];
+  category: string[];
+  location: string;
+  projectTimeline: string;
 }
 
 // User Schema
@@ -119,4 +130,36 @@ export const locations: MultiValue<OptionType> = [
   {value: 'Bronx, NY', label: 'Bronx, NY'},
   {value: 'Staten Island, NY', label: 'Staten Island, NY'},
   {value: 'Westfield, NJ', label: 'Westfield, NJ'},
+]
+
+export enum Timeline {
+  ONE_HOUR = 'One Hour',
+  HALF_DAY = 'Half a Day',
+  ONE_DAY = 'One Day',
+  ONE_WEEK = 'One Week',
+  TWO_WEEKS = 'Two Weeks',
+  ONE_MONTH = 'One Month',
+  THREE_MONTHS = 'Three Months',
+  SIX_MONTHS = 'Six Months',
+  ONE_YEAR = 'One Year',
+  GREATER = 'More than a Year'
+}
+
+export const projectTypes: MultiValue<OptionType> = [
+  {value: 'Home Renovation', label: 'Home Renovation'},
+  {value: 'Cleaning', label: 'Cleaning'},
+  {value: 'Landscaping', label: 'Landscaping'},
+  {value: 'Multi-Unit Renovation', label: 'Multi-Unit Renovation'},
+  {value: 'Large Construction', label: 'Large Construction'},
+  {value: 'Roofing', label: 'Roofing'},
+  {value: 'Electrical', label: 'Electrical'},
+  {value: 'Plumbing', label: 'Plumbing'},
+  {value: 'Maintenance', label: 'Maintenance'},
+  {value: 'Masonry/Concrete', label: 'Masonry/Concrete'},
+  {value: 'Flooring', label: 'Flooring'},
+  {value: 'Moving', label: 'Moving'},
+  {value: 'Painting', label: 'Painting'},
+  {value: 'Insulation', label: 'Insulation'},
+  {value: 'Lighting', label: 'Lighting'},
+  {value: 'Home Automation', label: 'Home Automation'}
 ]

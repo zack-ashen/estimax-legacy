@@ -11,6 +11,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Roles, User } from './types';
 import Nav from './components/Nav/Nav';
 import PostProject from './pages/PostProject/PostProject';
+import Project from './pages/Project/Project';
 
 export interface PreAuth {
   user: User;
@@ -61,6 +62,14 @@ const AuthRoutes = () => {
         element={
           <PrivateRoute forContractor={false} forHomeowner={true}>
             <PostProject />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/project/:id"
+        element={
+          <PrivateRoute forContractor={false} forHomeowner={true}>
+            <Project />
           </PrivateRoute>
         }
       />

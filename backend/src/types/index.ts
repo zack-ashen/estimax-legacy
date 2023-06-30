@@ -31,6 +31,15 @@ export interface Review {
     rating: number;
   }
 
+export interface ProjectDraft {
+    name: string;
+    description: string;
+    images: File[];
+    category: string[];
+    location: string;
+    projectTimeline: string;
+}
+
 // Misc
 export enum Errors {
     USER_NOT_FOUND = 'No user was found with that email. Create a user to get started.',

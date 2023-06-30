@@ -23,3 +23,8 @@
   pointer-events: none;
 }
 
+.errorText {
+  @include typography-small-medium;
+  color: $red-500 !important;
+  margin-top: $spacing-1;
+}

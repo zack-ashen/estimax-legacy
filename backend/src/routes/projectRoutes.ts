@@ -22,18 +22,22 @@ router.route('/').get(async (req, res) => {
 /* 
 * Add a project
 */
-router.route('/').post((req, res) => {
-   const project = req.body.project;
-
-   if (!project.title) {
-      throw new ServerError(Errors.RESOURCE_CREATION, 500)
-   }
-
+router.route('/').post(async (req, res, next) => {
    try {
-      createProject(project);
-      return res.status(200)
-   } catch (e) {
-      throw new ServerError(Errors.RESOURCE_CREATION, 500);
+      const { project } = req.body;
+
+      console.log(project)
+
+      if (!project.name) {
+         throw new ServerError('Project was missing a name', 500)
+      }
+
+      console.log(project)
+   
+      const newProject = await createProject(project);
+      return res.status(200).send({ projectId: newProject.id})
+   } catch (err) {
+      next(err);
    }
 })
 

@@ -1,29 +1,81 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormContext } from "../../../contexts/MultiFormContext";
-import { FormError, locations } from "../../../types";
+import { FormError, projectTypes, Timeline, locations } from "../../../types";
 import { FormPage, PageProps } from "../../../components/MultiForm/MultiForm";
-import Input from "../../../components/Input/Input";
 
 import styles from '../../../components/MultiForm/Pages.module.scss'
 import MultiSelect from "../../../components/MultiSelect/MultiSelect";
+import Slider from "../../../components/Slider/Slider";
 
 export default function GetExtraDetails ({ submitComponent, formSize, content}: PageProps) {
-  const { formData, setFormData, errors: multiFormErrors }  = useFormContext()!;
+  const { formData, setFormData }  = useFormContext()!;
 
   const [ values, setValues ] = useState({
-    'name': formData.projectTitle ? formData.projectTitle : '',
-    'description': formData.projectDescription ? formData.projectDescription : ''
+    'category': formData.category ? formData.category : [''],
+    'location': formData.location ? formData.location : '',
+    'timeline': formData.timeline ? formData.timeline : ''
   })
   const [ errors, setErrors ] = useState<FormError>({});
 
-  const validate = async () => {return false}
+  useEffect(() => {
+    setFormData(prevValue => ({
+      ...prevValue,
+      ...values
+    }));
+  }, [values, setFormData]);
+
+  const validate = async () => {
+    if (values.category[0] === '' || values.category.length === 0) {
+      setErrors({
+        category: 'Select one or more categories to help contractors find your project.'
+      })
+      return false;
+    } else if (values.location === '') {
+      setErrors({
+        location: 'Select a location for your project.'
+      })
+      return false;
+    }
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      ...values
+    }))
+
+    return true
+  }
 
   return (
     <FormPage validate={validate} submitComponent={submitComponent} formSize={formSize} content={content}>
-      {/* 1. Tags
-      2. Location
-      3. Timeline */}
-      <MultiSelect options={locations} placeholder={'Where is your project?'} isMulti={undefined}/>
+      <div className={styles.formInputContainer}>
+        <MultiSelect 
+          options={projectTypes} 
+          placeholder={'What category is your project?'} 
+          isMulti={true}
+          setSelectedOptions={(options) => setValues((prevValue => ({
+            ...prevValue,
+            category: options
+          })))}
+          error={errors.category}
+        />
+        <MultiSelect 
+          options={locations} 
+          placeholder={'Where is your project?'}
+          isMulti={undefined}
+          setSelectedOptions={(options) => setValues((prevValue => ({
+            ...prevValue,
+            location: options
+          })))}
+          error={errors.location}
+        />
+        <Slider 
+          sliderStates={Object.values(Timeline)} 
+          label={'What is your timeline?'}
+          setUpstreamState={((state) => setValues(prevValues => ({
+            ...prevValues,
+            'timeline': state
+          })))}/>
+      </div>
     </FormPage>
   );
 }

@@ -10,10 +10,13 @@ export default function GetProjectImages ({ submitComponent, formSize, content}:
   const [files, setFiles] = useState<File[]>([])
 
   const validate = async () => {
+    console.log(files)
+
     setFormData(prevFormData => ({
       ...prevFormData,
       images: files
     }))
+    
 
     return true;
   }

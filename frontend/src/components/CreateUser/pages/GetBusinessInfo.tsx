@@ -24,7 +24,8 @@ export default function GetBusinessInfo({ submitComponent, formSize, content}: P
 
   const [ values, setValues ] = useState({
     'businessName': formData.businessName ? formData.businessName : '',
-    'phoneNumber': formData.phoneNumber ? formData.phoneNumber : ''
+    'phoneNumber': formData.phoneNumber ? formData.phoneNumber : '',
+    'contractorType': formData.contractorType ? formData.contractorType : '',
   })
   const [ errors, setErrors ] = useState<FormError>({});
 
@@ -70,7 +71,13 @@ export default function GetBusinessInfo({ submitComponent, formSize, content}: P
             error={errors.phoneNumber}
           />
         </div>
-        <MultiSelect options={contractorTypes} placeholder={'What type of contractor are you?'}/>
+        <MultiSelect 
+          options={contractorTypes} 
+          placeholder={'What type of contractor are you?'}
+          setSelectedOptions={(options) => setValues((prevValues) => ({
+            ...prevValues,
+            'contractorType': options
+          }))}/>
       </div>
     </FormPage>
   );
