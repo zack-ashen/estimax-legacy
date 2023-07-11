@@ -6,7 +6,7 @@ import { ReactComponent as LockIcon } from "../../assets/LockIcon.svg";
 import { ReactComponent as StoreIcon } from "../../assets/StoreIcon.svg";
 import { ReactComponent as UserIcon } from "../../assets/UserIcon.svg";
 import { ReactComponent as UserPickIcon } from "../../assets/UserPickIcon.svg";
-import MultiForm from "../Form/MultiForm/MultiForm";
+import MultiForm from "../FormElements/MultiForm/MultiForm";
 import GetReferralCode from "./pages/GetReferralCode";
 import GetUserType from "./pages/GetUserType";
 import { useFormContext } from '../../contexts/MultiFormContext';

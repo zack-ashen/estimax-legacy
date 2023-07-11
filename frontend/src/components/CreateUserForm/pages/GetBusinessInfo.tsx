@@ -3,7 +3,7 @@ import Input from '../../Inputs/TextInput/TextInput';
 import MultiSelect from '../../Inputs/MultiSelect/MultiSelect';
 import styles from '../../Form/MultiForm/Pages.module.scss';
 import { FormError, contractorTypes } from '../../../types/index';
-import { FormPage, PageProps } from '../../Form/MultiForm/MultiForm';
+import { FormPage, PageProps } from '../../FormElements/MultiForm/MultiForm';
 import * as Yup from 'yup'
 import { useState } from 'react';
 

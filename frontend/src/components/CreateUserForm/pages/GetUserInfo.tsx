@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useFormContext } from '../../../contexts/MultiFormContext';
 import Input from '../../Inputs/TextInput/TextInput';
 import styles from '../../Form/MultiForm/Pages.module.scss';
-import { FormPage, PageProps } from '../../Form/MultiForm/MultiForm';
+import { FormPage, PageProps } from '../../FormElements/MultiForm/MultiForm';
 import * as Yup from 'yup'
 import { FormError } from '../../../types';
 

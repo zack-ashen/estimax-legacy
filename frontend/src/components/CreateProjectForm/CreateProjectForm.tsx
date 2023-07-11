@@ -1,7 +1,7 @@
 
-import styles from './PostProject.module.scss'
+import styles from './CreateProjectForm.module.scss'
 import { MultiFormProvider } from '../../contexts/MultiFormContext';
-import MultiForm from '../../components/FormElements/MultiForm/MultiForm';
+import MultiForm from '../FormElements/MultiForm/MultiForm';
 import GetProjectInfo from './pages/GetProjectInfo';
 import GetProjectImages from './pages/GetProjectImages';
 import { ReactComponent as PencilIcon } from '../../assets/PencilIcon.svg';
@@ -10,7 +10,6 @@ import GetExtraDetails from './pages/GetExtraDetails';
 import { ProjectDraft } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import CreateProjectForm from '../../components/CreateProjectForm/CreateProjectForm';
 
 const steps = [
   {
@@ -39,7 +38,7 @@ const steps = [
   }
 ];
 
-export default function PostProject() {
+export default function CreateProjectForm() {
   const { user, useAuthReq } = useAuth()!; 
   const authReq = useAuthReq();
   const navigate = useNavigate();
@@ -105,6 +104,11 @@ export default function PostProject() {
   }
 
   return (
-    <CreateProjectForm />
+    <div className={styles.PostProject}>
+      <MultiFormProvider onSubmit={postProject}>
+        <MultiForm steps={steps} />
+      </MultiFormProvider>
+
+    </div>
   )
 }
