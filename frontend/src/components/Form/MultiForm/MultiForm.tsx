@@ -1,10 +1,10 @@
 import React, { PropsWithChildren } from 'react';
-import { useFormContext } from '../../contexts/MultiFormContext';
-import { ReactComponent as DecorativeGrid } from '../../assets/DecorativeGrid.svg';
+import { useFormContext } from '../../../contexts/MultiFormContext';
+import { ReactComponent as DecorativeGrid } from '../../../assets/DecorativeGrid.svg';
 
 import styles from './MultiForm.module.scss';
-import Button, { ButtonStyles } from '../Button/Button';
-import PageIndicator from '../PageIndicator/PageIndicator';
+import Button, { ButtonStyles } from '../../Inputs/Button/Button';
+import PageIndicator from '../../PageIndicator/PageIndicator';
 
 
 

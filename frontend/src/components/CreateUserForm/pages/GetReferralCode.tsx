@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useFormContext } from '../../../contexts/MultiFormContext';
-import Input from '../../Input/Input';
-import { FormPage, PageProps } from '../../MultiForm/MultiForm';
+import Input from '../../Inputs/TextInput/TextInput';
+import { FormPage, PageProps } from '../../Form/MultiForm/MultiForm';
 
 export default function GetReferralCode({ submitComponent, formSize, content}: PageProps) {
   const { formData, setFormData } = useFormContext()!;

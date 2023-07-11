@@ -3,9 +3,9 @@ import { useState } from 'react';
 import styles from './AuthForms.module.scss'
 import { PreAuth } from '../../App';
 import { ReactComponent as LockIcon } from "../../assets/LockIcon.svg";
-import Button, { ButtonStyles } from '../../components/Button/Button';
+import Button, { ButtonStyles } from '../../components/Inputs/Button/Button';
 import GoogleAuth from '../../components/GoogleAuth/GoogleAuth';
-import Input from '../../components/Input/Input';
+import TextInput from '../../components/Inputs/TextInput/TextInput';
 import { ReactComponent as DecorativeGrid } from '../../assets/DecorativeGrid.svg';
 import { FormError } from '../../types';
 
@@ -53,14 +53,14 @@ function SignIn({ signIn }: SignInProps) {
           <p>Welcome back! Please enter your details.</p>
         </div>
         <form className={styles.authForm} method="POST" onSubmit={((e) => e.preventDefault())}>
-          <Input 
+          <TextInput 
             type="text" 
             name="Email:" 
             value={email} 
             onChange={(e) => setEmail(e.target.value)}
             error={errors.email}
           />
-          <Input 
+          <TextInput 
             type="password" 
             name="Password:" 
             value={password} 

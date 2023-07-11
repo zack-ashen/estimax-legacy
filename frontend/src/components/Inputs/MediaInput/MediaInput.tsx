@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ReactComponent as ImageAddIcon } from '../../assets/ImageAddIcon.svg';
-import { ReactComponent as CloseIcon } from '../../assets/CloseIcon.svg';
+import { ReactComponent as ImageAddIcon } from '../../../assets/ImageAddIcon.svg';
+import { ReactComponent as CloseIcon } from '../../../assets/CloseIcon.svg';
 import styles from './MediaInput.module.scss'
 
 interface MediaInputProps {

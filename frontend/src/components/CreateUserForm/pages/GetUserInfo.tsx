@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from '../../../contexts/MultiFormContext';
-import Input from '../../Input/Input';
-import styles from '../../MultiForm/Pages.module.scss';
-import { FormPage, PageProps } from '../../MultiForm/MultiForm';
+import Input from '../../Inputs/TextInput/TextInput';
+import styles from '../../Form/MultiForm/Pages.module.scss';
+import { FormPage, PageProps } from '../../Form/MultiForm/MultiForm';
 import * as Yup from 'yup'
 import { FormError } from '../../../types';
 

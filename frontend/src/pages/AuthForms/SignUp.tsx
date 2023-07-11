@@ -1,7 +1,7 @@
 import { CredentialResponse } from '@react-oauth/google';
 
 import { PreAuth } from '../../App';
-import { CreateUser } from '../../components/CreateUser/CreateUser';
+import { CreateUserForm } from '../../components/CreateUserForm/CreateUserForm';
 import { MultiFormProvider } from '../../contexts/MultiFormContext';
 
 interface SignInProps {
@@ -20,7 +20,7 @@ function SignUp({ signIn }: SignInProps) {
   return (
     <div>
       <MultiFormProvider onSubmit={() => undefined}>
-        <CreateUser signIn={signIn}/>
+        <CreateUserForm signIn={signIn}/>
       </MultiFormProvider>
     </div>
   );

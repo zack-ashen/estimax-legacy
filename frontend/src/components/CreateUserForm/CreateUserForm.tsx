@@ -1,12 +1,12 @@
 import { useEffect, useMemo } from "react";
-import styles from "./CreateUser.module.scss";
+import styles from "./CreateUserForm.module.scss";
 import { PreAuth } from "../../App";
 import { AuthContractor, AuthHomeowner, FormErrors, Roles } from "../../types/index";
 import { ReactComponent as LockIcon } from "../../assets/LockIcon.svg";
 import { ReactComponent as StoreIcon } from "../../assets/StoreIcon.svg";
 import { ReactComponent as UserIcon } from "../../assets/UserIcon.svg";
 import { ReactComponent as UserPickIcon } from "../../assets/UserPickIcon.svg";
-import MultiForm from "../MultiForm/MultiForm";
+import MultiForm from "../Form/MultiForm/MultiForm";
 import GetReferralCode from "./pages/GetReferralCode";
 import GetUserType from "./pages/GetUserType";
 import { useFormContext } from '../../contexts/MultiFormContext';
@@ -14,7 +14,7 @@ import GetBusinessInfo from "./pages/GetBusinessInfo";
 import GetUserInfo from "./pages/GetUserInfo";
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
 
-export interface CreateUserProps {
+export interface CreateUserFormProps {
   signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>;
 }
 
@@ -115,7 +115,7 @@ const auth = (signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>,
   }
 }
 
-export function CreateUser({ signIn }: CreateUserProps) {
+export function CreateUserForm({ signIn }: CreateUserFormProps) {
   const { formData, setSubmit, setErrors } = useFormContext()!;
   useEffect(() => {
     setSubmit(auth(signIn, setErrors))

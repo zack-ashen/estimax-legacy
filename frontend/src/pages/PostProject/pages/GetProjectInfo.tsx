@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { FormPage, PageProps } from "../../../components/MultiForm/MultiForm";
+import { FormPage, PageProps } from "../../../components/Form/MultiForm/MultiForm";
 import { useFormContext } from "../../../contexts/MultiFormContext";
 import { FormError } from "../../../types";
 import * as Yup from 'yup'
 
 
-import styles from '../../../components/MultiForm/Pages.module.scss'
-import Input from "../../../components/Input/Input";
+import styles from '../../../components/Form/MultiForm/Pages.module.scss'
+import TextInput from "../../../components/Inputs/TextInput/TextInput";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('You must enter a project name.'),
@@ -60,13 +60,13 @@ export default function GetProjectInfo ({ submitComponent, formSize, content}: P
   return (
     <FormPage validate={validate} submitComponent={submitComponent} formSize={formSize} content={content}>
       <div className={styles.formInputContainer}>
-        <Input
+        <TextInput
           name='Project Title'
           value={values.name} 
           onChange={(e) => setValues({...values, name: e.target.value})}
           error={errors.name}
         />
-        <Input
+        <TextInput
           type="textarea"
           name='Project Description'
           value={values.description} 

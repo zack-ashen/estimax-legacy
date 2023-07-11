@@ -1,4 +1,4 @@
-@import '../../styles/index';
+@import '../../../styles/index';
 
 $logo-size: 3rem;
 $left-top-spacing: $spacing-10 + $logo-size;
@@ -10,6 +10,10 @@ $contents-icon-height: 3.4rem;
   box-sizing: border-box;
   justify-content: center;
   flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .decorativeGrid {
@@ -22,7 +26,7 @@ $contents-icon-height: 3.4rem;
 }
 
 .form {
-  margin: 12rem auto 0 auto;
+  margin: 0 auto 0 auto;
   max-width: 600px;
   display: flex;
   flex-direction: column;
@@ -115,5 +119,5 @@ $contents-icon-height: 3.4rem;
 }
 
 .pageIndicatorContainer {
-  margin: $spacing-12 auto;
+  margin: $spacing-12 auto 0 auto;
 }

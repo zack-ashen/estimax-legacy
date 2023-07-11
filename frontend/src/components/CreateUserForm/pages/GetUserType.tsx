@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 import { useFormContext } from "../../../contexts/MultiFormContext";
-import ToggleCardManager, { ToggleCard } from "../../ToggleCardManager/ToggleCardManager";
+import ToggleCardManager, { ToggleCard } from "../../Inputs/ToggleCardManager/ToggleCardManager";
 import { Roles } from "../../../types";
 import { ReactComponent as HammerIcon } from '../../../assets/HammerIcon.svg';
 import { ReactComponent as HouseIcon } from '../../../assets/HomeIcon.svg';
-import { FormPage, PageProps } from "../../MultiForm/MultiForm";
+import { FormPage, PageProps } from "../../Form/MultiForm/MultiForm";
 
 const roleCards : ToggleCard[] = [
   {

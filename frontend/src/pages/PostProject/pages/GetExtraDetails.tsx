@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useFormContext } from "../../../contexts/MultiFormContext";
 import { FormError, projectTypes, Timeline, locations } from "../../../types";
-import { FormPage, PageProps } from "../../../components/MultiForm/MultiForm";
+import { FormPage, PageProps } from "../../../components/Form/MultiForm/MultiForm";
 
-import styles from '../../../components/MultiForm/Pages.module.scss'
-import MultiSelect from "../../../components/MultiSelect/MultiSelect";
-import Slider from "../../../components/Slider/Slider";
+import styles from '../../../components/Form/MultiForm/Pages.module.scss'
+import MultiSelect from "../../../components/Inputs/MultiSelect/MultiSelect";
+import Slider from "../../../components/Inputs/Slider/Slider";
 
 export default function GetExtraDetails ({ submitComponent, formSize, content}: PageProps) {
   const { formData, setFormData }  = useFormContext()!;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import { CSSObjectWithLabel, ControlProps, GroupBase, MultiValue, ActionMeta } from 'react-select'
-import { OptionType } from '../../types/index'
+import { OptionType } from '../../../types/index'
 
 import styles from './MultiSelect.module.scss'
 

@@ -1,9 +1,9 @@
 import { useFormContext } from '../../../contexts/MultiFormContext';
-import Input from '../../Input/Input';
-import MultiSelect from '../../MultiSelect/MultiSelect';
-import styles from '../../MultiForm/Pages.module.scss';
+import Input from '../../Inputs/TextInput/TextInput';
+import MultiSelect from '../../Inputs/MultiSelect/MultiSelect';
+import styles from '../../Form/MultiForm/Pages.module.scss';
 import { FormError, contractorTypes } from '../../../types/index';
-import { FormPage, PageProps } from '../../MultiForm/MultiForm';
+import { FormPage, PageProps } from '../../Form/MultiForm/MultiForm';
 import * as Yup from 'yup'
 import { useState } from 'react';
 

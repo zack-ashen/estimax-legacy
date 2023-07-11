@@ -1,41 +1,41 @@
 import React, { ChangeEvent, FunctionComponent, useRef } from 'react';
-import styles from './Input.module.scss';
-import useAutosizeTextArea from '../../hooks/useAutoresizeTextArea';
+import styles from './TextInput.module.scss';
+import useAutosizeTextArea from '../../../hooks/useAutoresizeTextArea';
 
 
-export enum InputSize {
+export enum TextInputSize {
     SMALL = 'small',
     MEDIUM = 'medium',
     LARGE = 'large'
 }
 
-interface InputProps {
+interface TextInputProps {
     name: string;
     value: string;
     type?: string;
     placeholder?: string;
-    inputSize?: InputSize;
+    inputSize?: TextInputSize;
     onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     error?: string;
     valid?: boolean
     onBlur?: () => void;
 }
 
-const Input: FunctionComponent<InputProps> = ({ name, 
+const TextInput: FunctionComponent<TextInputProps> = ({ name, 
                                                 value, 
                                                 type = "text", 
                                                 placeholder = " ", 
                                                 onChange,
-                                                inputSize=InputSize.MEDIUM,
+                                                inputSize=TextInputSize.MEDIUM,
                                                 error,
                                                 valid,
                                                 onBlur}) => {
     
-    const inputClass = `${styles.Input} 
-                        ${styles[inputSize]} 
-                        ${styles[error ? 'error' : '']}
-                        ${styles[valid ? 'valid' : '']}
-                        ${styles[type === 'textarea' ? 'textarea' : '']}`
+    const className = `${styles.Input} 
+                            ${styles[inputSize]} 
+                            ${styles[error ? 'error' : '']}
+                            ${styles[valid ? 'valid' : '']}
+                            ${styles[type === 'textarea' ? 'textarea' : '']}`
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -49,7 +49,7 @@ const Input: FunctionComponent<InputProps> = ({ name,
                 type={type}
                 placeholder={placeholder}
                 onChange={onChange}
-                className={inputClass}
+                className={className}
                 onBlur={onBlur}
             />
             <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>
@@ -62,7 +62,7 @@ const Input: FunctionComponent<InputProps> = ({ name,
                 value={value}
                 placeholder={placeholder}
                 onChange={onChange}
-                className={inputClass}
+                className={className}
                 onBlur={onBlur}
                 ref={textAreaRef}
             />
@@ -72,4 +72,4 @@ const Input: FunctionComponent<InputProps> = ({ name,
     );
 };
 
-export default Input;
+export default TextInput;

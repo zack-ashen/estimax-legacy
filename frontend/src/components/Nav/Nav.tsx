@@ -5,7 +5,7 @@ import { Roles } from "../../types";
 import Logo from '../../assets/Logo.svg';
 
 import styles from "./Nav.module.scss";
-import Button, { ButtonStyles } from "../Button/Button";
+import Button, { ButtonStyles } from "../Inputs/Button/Button";
 
 
 const ContractorNav = () => {
