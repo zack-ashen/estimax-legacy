@@ -42,16 +42,20 @@ function SignIn({ signIn }: SignInProps) {
   }
 
   return (
+    <>
+    <DecorativeGrid className={styles.formDecorativeGrid}/>
     <div className={styles.container}>
-      <DecorativeGrid className={styles.decorativeGrid}/>
-      <div className={styles.signInContainer}>
-        <div className={styles.iconContainer}>
-          <LockIcon className={styles.signInIcon}/>
+      <div className={styles.form}>
+        <div className={styles.formHeader}>
+          <div className={styles.formIconContainer}>
+            <LockIcon className={styles.formIcon}/>
+          </div>
+          <div className={styles.formTitle}>
+            <h3>Login to your account</h3>
+            <p className={styles.formSubtitle}>Welcome back! Please enter your details.</p>
+          </div>
         </div>
-        <div className={styles.signInHeader}>
-          <h3>Login to your account</h3>
-          <p>Welcome back! Please enter your details.</p>
-        </div>
+
         <form className={styles.authForm} method="POST" onSubmit={((e) => e.preventDefault())}>
           <TextInput 
             type="text" 
@@ -76,6 +80,7 @@ function SignIn({ signIn }: SignInProps) {
         </form>
       </div>
     </div>
+    </>
   );
 }
 

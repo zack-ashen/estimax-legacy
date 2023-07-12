@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Project } from '../../types';
+import styles from './ProjectFeed.module.scss'
+import ProjectCard from '../../components/ProjectCard/ProjectCard';
 
 function ProjectFeed() {
   const auth = useAuth();
@@ -10,7 +12,7 @@ function ProjectFeed() {
   
   // Fetch new items whenever 'page' changes
   useEffect(() => {
-    fetch(`/api/projects?limit=10&offset=${page * 10}`)
+    fetch(`/api/project/?limit=10&offset=${page * 10}`)
       .then((res) => res.json())
       .then((data) => {
         // If there are no more items, update 'hasMore'
@@ -27,7 +29,11 @@ function ProjectFeed() {
 
   return (
     <div className="ProjectFeed">
-      <h1>Project Feed</h1>
+      <div className={styles.projects}>
+        {projects.map((project, index) => (
+          <ProjectCard project={project} />
+        ))}
+      </div>
     </div>
   );
 }

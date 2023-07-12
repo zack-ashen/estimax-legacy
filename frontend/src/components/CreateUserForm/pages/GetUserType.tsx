@@ -4,7 +4,7 @@ import ToggleCardManager, { ToggleCard } from "../../Inputs/ToggleCardManager/To
 import { Roles } from "../../../types";
 import { ReactComponent as HammerIcon } from '../../../assets/HammerIcon.svg';
 import { ReactComponent as HouseIcon } from '../../../assets/HomeIcon.svg';
-import { FormPage, PageProps } from "../../FormElements/MultiForm/MultiForm";
+import { FormPage, PageProps } from "../../MultiForm/MultiForm";
 
 const roleCards : ToggleCard[] = [
   {

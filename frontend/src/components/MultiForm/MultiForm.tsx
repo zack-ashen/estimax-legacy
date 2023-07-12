@@ -1,13 +1,10 @@
 import React, { PropsWithChildren } from 'react';
-import { useFormContext } from '../../../contexts/MultiFormContext';
-import { ReactComponent as DecorativeGrid } from '../../../assets/DecorativeGrid.svg';
+import { useFormContext } from '../../contexts/MultiFormContext';
+import { ReactComponent as DecorativeGrid } from '../../assets/DecorativeGrid.svg';
 
 import styles from './MultiForm.module.scss';
-import Button, { ButtonStyles } from '../../Inputs/Button/Button';
-import PageIndicator from '../../PageIndicator/PageIndicator';
-
-
-
+import Button, { ButtonStyles } from '../Inputs/Button/Button';
+import PageIndicator from '../PageIndicator/PageIndicator';
 
 export default function MultiStepForm({ steps, submitComponent }: MultiFormProps) {
   const { currentStep } = useFormContext()!;
@@ -16,7 +13,7 @@ export default function MultiStepForm({ steps, submitComponent }: MultiFormProps
   
   return (
     <>
-    <DecorativeGrid className={styles.decorativeGrid} />
+    <DecorativeGrid className={styles.formDecorativeGrid} />
     <div className={styles.MultiForm}>
       <Page submitComponent={submitComponent} content={steps[currentStep].content} formSize={steps.length}/>
 
@@ -50,7 +47,7 @@ export function FormPage({ validate, submitComponent, formSize, content, childre
           <CurrentIcon className={styles.formIcon} />
         </div>
         <div className={styles.formTitle}>
-          <h2>{currentHeader}</h2>
+          <h3>{currentHeader}</h3>
           <p className={styles.formSubtitle}>{currentSubtitle}</p>
         </div>
 
@@ -93,7 +90,7 @@ export function FormPage({ validate, submitComponent, formSize, content, childre
 }
 
 
-interface StepContent {
+export interface PageContent {
   Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   header: string;
   subtitle: string;
@@ -102,12 +99,12 @@ interface StepContent {
 export interface PageProps {
   submitComponent?: JSX.Element;
   formSize: number;
-  content: StepContent
+  content: PageContent
 }
 
 interface Step {
   page: React.FunctionComponent<PageProps>;
-  content: StepContent;
+  content: PageContent;
 }
 
 interface MultiFormProps {
@@ -118,6 +115,6 @@ interface MultiFormProps {
 interface FormPageProps extends PropsWithChildren {
   validate: () => Promise<boolean>;
   submitComponent?: JSX.Element;
-  content: StepContent;
+  content: PageContent;
   formSize: number;
 }

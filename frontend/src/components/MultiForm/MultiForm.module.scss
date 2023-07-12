@@ -1,0 +1,67 @@
+@import '../../styles/index';
+
+$logo-size: 3rem;
+$left-top-spacing: $spacing-10 + $logo-size;
+$contents-icon-height: 3.4rem;
+
+.MultiForm {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.decorativeGrid {
+  width: 40%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: -1;
+}
+
+.googleAuthContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.dividerContainer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+  p {
+    color: $grey-500;
+  }
+}
+
+.divider {
+  flex-grow: 1;
+  flex-shrink: 0;
+  height: 1px;
+  background-color: $grey-300;
+}
+
+.formButtons {
+  margin-top: $spacing-9;
+  display: flex;
+  justify-content: space-between;
+
+  > :first-child {
+    flex: 0 0 30%;
+  }
+
+  > :last-child {
+    flex: 0 0 60%;
+  }
+
+  > :only-child {
+    flex: 0 0 100%;
+  }
+}
+
+.pageIndicatorContainer {
+  margin: $spacing-9 auto 0 auto;
+}

@@ -53,7 +53,7 @@ const MultiSelect = ({ options, placeholder, isMulti, setSelectedOptions, error 
             cursor: 'text',
             boxSizing: 'border-box',
             boxShadow: error ? '0px 0px 0px 3px #FEE4E2' : (state.isFocused ? '0px 0px 0px 3px #EBEFFF' : '0px 1px 2px rgba(16, 24, 40, 0.05)'),
-            padding: '0.247rem 0.5rem',
+            padding: '0.1rem 0.5rem',
             margin: '0px 0',
             outline: 'none', // Removed outline
             '&:hover:not(:focus)': {

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { FormPage, PageProps } from "../../../components/FormElements/MultiForm/MultiForm";
+import { FormPage, PageProps } from "../../../components/MultiForm/MultiForm";
 import { useFormContext } from "../../../contexts/MultiFormContext";
 import { FormError } from "../../../types";
 import * as Yup from 'yup'
 
 
-import styles from '../../../components/Form/MultiForm/Pages.module.scss'
+import styles from '../../../components/MultiForm/Pages.module.scss'
 import TextInput from "../../../components/Inputs/TextInput/TextInput";
 
 const validationSchema = Yup.object().shape({

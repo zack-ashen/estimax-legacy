@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
+import styles from './App.module.scss'
 import Landing from './pages/Landing/Landing'
 import SignIn from './pages/AuthForms/SignIn'
 import SignUp from './pages/AuthForms/SignUp'
@@ -107,7 +108,7 @@ function App() {
   }, []);
 
   const NotAuthenticated = () => (
-    <>
+    <div className={styles.AppContainer}>
       <Nav />
       <Routes>
         <Route path="/" Component={Landing} />
@@ -125,7 +126,7 @@ function App() {
             } 
         />
       </Routes>
-    </>
+    </div>
   );
 
   // Routes if there is a VALID token and refresh token present
@@ -133,8 +134,10 @@ function App() {
     <AuthProvider 
       removePreAuthObj={() => setPreAuthObj(undefined)}
       preAuthObj={preAuthObj!}>
-        <Nav auth/>
-        <AuthRoutes />
+        <div className={styles.AppContainer}>
+          <Nav auth/>
+          <AuthRoutes />
+        </div>
     </AuthProvider>
   );
 

@@ -1,6 +1,5 @@
-import React, { ChangeEvent, FunctionComponent, useRef } from 'react';
+import { ChangeEvent, FunctionComponent } from 'react';
 import styles from './TextInput.module.scss';
-import useAutosizeTextArea from '../../../hooks/useAutoresizeTextArea';
 
 
 export enum TextInputSize {
@@ -37,10 +36,6 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                             ${styles[valid ? 'valid' : '']}
                             ${styles[type === 'textarea' ? 'textarea' : '']}`
 
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
-    useAutosizeTextArea(textAreaRef.current, value);
-
     return type !== "textarea" ? (
         <div className={styles.inputBox}>
             <input
@@ -64,7 +59,6 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                 onChange={onChange}
                 className={className}
                 onBlur={onBlur}
-                ref={textAreaRef}
             />
             <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>
             {error && <p className={styles.errorText}>{error}</p> }

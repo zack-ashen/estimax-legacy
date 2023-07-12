@@ -109,7 +109,7 @@ router.post('/googleAuth', async (req, res, next) => {
       if (!referral || !(await validateReferralCode(referral)))
         throw new ServerError(Errors.USER_NOT_FOUND, 400);
   
-      user = await createUser(newUser)
+      user = await createUser({...newUser, email: payload.email!})
 
       const referralObj = new Referral({ referral })
       await referralObj.save();

@@ -6,7 +6,7 @@ import { ReactComponent as LockIcon } from "../../assets/LockIcon.svg";
 import { ReactComponent as StoreIcon } from "../../assets/StoreIcon.svg";
 import { ReactComponent as UserIcon } from "../../assets/UserIcon.svg";
 import { ReactComponent as UserPickIcon } from "../../assets/UserPickIcon.svg";
-import MultiForm from "../FormElements/MultiForm/MultiForm";
+import MultiForm from "../MultiForm/MultiForm";
 import GetReferralCode from "./pages/GetReferralCode";
 import GetUserType from "./pages/GetUserType";
 import { useFormContext } from '../../contexts/MultiFormContext';
@@ -132,5 +132,9 @@ export function CreateUserForm({ signIn }: CreateUserFormProps) {
     </div>
   );
 
-  return <MultiForm steps={steps} submitComponent={submitForm}/>;
+  return (
+    <div className={styles.CreateUserForm}>
+      <MultiForm steps={steps} submitComponent={submitForm}/>
+    </div>
+  );
 }

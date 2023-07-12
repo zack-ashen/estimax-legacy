@@ -23,11 +23,13 @@ export interface Review {
 // Project Schema
 export type Project = {
   id: string;
+  name: string;
   homeowner_id: string;
   description: string;
   category: string[];
   lowestBid: string;
   bids: string[];
+  images: string[];
 }
 
 export interface ProjectDraft {

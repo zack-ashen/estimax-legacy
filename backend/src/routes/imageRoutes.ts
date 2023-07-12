@@ -38,4 +38,15 @@ router.post('/project-images', upload.array('images'), async (req, res, next) =>
   res.send({ images: keys }); // send the URLs of the images back to the client
 });
 
+router.get('/project-image/:key', async (req, res) => {
+  const key = req.params.key;
+
+  const url = getUrl(key as string);
+
+
+  res.send({ url });
+
+
+})
+
 export default router;

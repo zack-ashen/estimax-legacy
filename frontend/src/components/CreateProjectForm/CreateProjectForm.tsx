@@ -1,7 +1,7 @@
 
 import styles from './CreateProjectForm.module.scss'
 import { MultiFormProvider } from '../../contexts/MultiFormContext';
-import MultiForm from '../FormElements/MultiForm/MultiForm';
+import MultiForm from '../MultiForm/MultiForm';
 import GetProjectInfo from './pages/GetProjectInfo';
 import GetProjectImages from './pages/GetProjectImages';
 import { ReactComponent as PencilIcon } from '../../assets/PencilIcon.svg';
@@ -104,11 +104,10 @@ export default function CreateProjectForm() {
   }
 
   return (
-    <div className={styles.PostProject}>
-      <MultiFormProvider onSubmit={postProject}>
+    <MultiFormProvider onSubmit={postProject}>
+      <div className={styles.CreateProjectForm}>
         <MultiForm steps={steps} />
-      </MultiFormProvider>
-
-    </div>
+      </div>
+    </MultiFormProvider>
   )
 }

@@ -1,7 +1,7 @@
 
 import styles from './PostProject.module.scss'
 import { MultiFormProvider } from '../../contexts/MultiFormContext';
-import MultiForm from '../../components/FormElements/MultiForm/MultiForm';
+import MultiForm from '../../components/MultiForm/MultiForm';
 import GetProjectInfo from './pages/GetProjectInfo';
 import GetProjectImages from './pages/GetProjectImages';
 import { ReactComponent as PencilIcon } from '../../assets/PencilIcon.svg';

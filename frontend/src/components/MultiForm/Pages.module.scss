@@ -1,4 +1,4 @@
-@import '../../../styles/index';
+@import '../../styles/index';
 
 .twoColumnInput, .twoColumnInputStaggered {
   display: flex;
@@ -10,12 +10,10 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-10;
-  min-width: 34rem;
 }
 
 .twoColumnInputStaggered {
   > :last-child {
     flex: 0 0 20ch;
   }
-
 }

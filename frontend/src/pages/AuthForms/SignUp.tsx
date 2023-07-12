@@ -18,11 +18,9 @@ export interface authWithGoogleArgs extends CredentialResponse {
 
 function SignUp({ signIn }: SignInProps) {
   return (
-    <div>
-      <MultiFormProvider onSubmit={() => undefined}>
-        <CreateUserForm signIn={signIn}/>
-      </MultiFormProvider>
-    </div>
+    <MultiFormProvider onSubmit={() => undefined}>
+      <CreateUserForm signIn={signIn}/>
+    </MultiFormProvider>
   );
 }
 

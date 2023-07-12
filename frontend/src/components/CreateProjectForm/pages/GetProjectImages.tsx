@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useFormContext } from "../../../contexts/MultiFormContext";
-import { FormPage, PageProps } from "../../../components/FormElements/MultiForm/MultiForm";
+import { FormPage, PageProps } from "../../MultiForm/MultiForm";
 
-import styles from '../../FormElements/MultiForm/Pages.module.scss'
+import styles from '../../MultiForm/Pages.module.scss'
 import MediaInput from "../../../components/Inputs/MediaInput/MediaInput";
 
 export default function GetProjectImages ({ submitComponent, formSize, content}: PageProps) {
