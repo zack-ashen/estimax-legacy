@@ -30,7 +30,7 @@ export default function ProjectView() {
 
   return (
     <div className={styles.Project}>
-      <h1>Project View</h1>
+      <h1>{project?.name}</h1>
     </div>
   )
 }

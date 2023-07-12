@@ -1,5 +1,5 @@
 import express from 'express'
-import { createProject } from '../controllers/projectController';
+import { createProject, getProject } from '../controllers/projectController';
 import { Errors } from '../types';
 import { ServerError } from '../middleware/errors';
 import { Project } from '../models/project';
@@ -44,8 +44,16 @@ router.route('/').post(async (req, res, next) => {
 /* 
 * Get a project by id
 */
-router.route('/:id').get((req, res) => {
+router.route('/:id').get((req, res, next) => {
    const projectId = req.params.id;
+
+   try {
+      const project = getProject(projectId);
+      
+      res.send({ project })
+   } catch (err) {
+      next(err);
+   }
 
 
 })

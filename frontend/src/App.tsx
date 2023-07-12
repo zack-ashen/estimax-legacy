@@ -42,6 +42,14 @@ const AuthRoutes = () => {
           </PrivateRoute>
         }
       />
+      <Route
+        path="/project/:id"
+        element={
+          <PrivateRoute forContractor={true} forHomeowner={true}>
+            <Project />
+          </PrivateRoute>
+        }
+      />
       <Route path="*"
         element={
           <Navigate to="/" />

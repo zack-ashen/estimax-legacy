@@ -22,7 +22,7 @@ export interface Review {
 
 // Project Schema
 export type Project = {
-  id: string;
+  _id: string;
   name: string;
   homeowner_id: string;
   description: string;
@@ -30,6 +30,7 @@ export type Project = {
   lowestBid: string;
   bids: string[];
   images: string[];
+  location: string;
 }
 
 export interface ProjectDraft {

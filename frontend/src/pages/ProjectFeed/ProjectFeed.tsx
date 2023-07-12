@@ -28,7 +28,7 @@ function ProjectFeed() {
 
 
   return (
-    <div className="ProjectFeed">
+    <div className={styles.ProjectFeed}>
       <div className={styles.projects}>
         {projects.map((project, index) => (
           <ProjectCard project={project} />
