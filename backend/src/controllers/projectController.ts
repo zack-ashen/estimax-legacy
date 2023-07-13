@@ -18,5 +18,5 @@ export async function createProject(project: ProjectDraft): Promise<IProject> {
 }
 
 export async function getProject(id: string) {
-  return await Project.findOne({ _id: id })
+  return await Project.findById(id)
 }

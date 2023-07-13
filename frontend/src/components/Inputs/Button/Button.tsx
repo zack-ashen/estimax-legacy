@@ -13,11 +13,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
   buttonStyle: ButtonStyles;
   fontSize?: string;
   wide?: boolean;
+  Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  text: string;
 }
 
-const Button = ({ buttonStyle, onClick, children, fontSize='1em', wide=false, ...rest }: ButtonProps) => {
+const Button = ({ buttonStyle, onClick, Icon, text, wide=false, ...rest }: ButtonProps) => {
   const style = {
-    fontSize,
     width: wide ? '100%' : 'fit-content'
   };
 
@@ -26,7 +27,7 @@ const Button = ({ buttonStyle, onClick, children, fontSize='1em', wide=false, ..
       className={styles[buttonStyle]} 
       onClick={onClick} 
       style={style} {...rest}>
-      {children}
+      {Icon && <Icon className={styles.icon} />} {text}
     </button>
   );
 };

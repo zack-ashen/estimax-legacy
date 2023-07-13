@@ -69,20 +69,20 @@ export function FormPage({ validate, submitComponent, formSize, content, childre
         {currentStep !== 0 &&
           <Button
             onClick={prevStep}
-            buttonStyle={ButtonStyles.SECONDARY}>Back</Button>
+            buttonStyle={ButtonStyles.SECONDARY}
+            text={'Back'} />
         }
         {currentStep !== formSize - 1 &&
           <Button
             onClick={validateThenNext}
             buttonStyle={ButtonStyles.PRIMARY}
-          >Continue</Button>
+            text={'Continue'} />
         }
         {currentStep === formSize - 1 &&
           <Button
           onClick={validateThenSubmit}
-          buttonStyle={ButtonStyles.PRIMARY}>
-            Finish
-          </Button>
+          buttonStyle={ButtonStyles.PRIMARY}
+          text={'Finish'} />
         }
       </div>
     </div>

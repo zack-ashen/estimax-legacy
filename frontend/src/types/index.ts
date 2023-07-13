@@ -31,6 +31,7 @@ export type Project = {
   bids: string[];
   images: string[];
   location: string;
+  timeline: string;
 }
 
 export interface ProjectDraft {

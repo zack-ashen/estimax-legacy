@@ -74,7 +74,8 @@ function SignIn({ signIn }: SignInProps) {
             <Button 
               buttonStyle={ButtonStyles.PRIMARY} 
               onClick={auth}
-              wide>Continue</Button>
+              text={'Continue'}
+              wide />
             <GoogleAuth signIn={signIn} user={{email, password}} setErrors={setErrors}/>
           </div>
         </form>

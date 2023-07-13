@@ -6,26 +6,51 @@ import Logo from '../../assets/Logo.svg';
 
 import styles from "./Nav.module.scss";
 import Button, { ButtonStyles } from "../Inputs/Button/Button";
+import ProfileNav from '../ProfileNav/ProfileNav';
 
+import { ReactComponent as DashboardIcon } from '../../assets/DashboardIcon.svg'
+import { ReactComponent as SearchIcon } from '../../assets/SearchIcon.svg'
+import { ReactComponent as PlusIcon } from '../../assets/PlusIcon.svg'
+
+
+interface NavLinkProps {
+    route: string;
+    text: string;
+}
+
+const NavLink = ({ route, text }: NavLinkProps) => {
+    return (
+        <div className={styles.NavLink}>
+            <a href={route} className={styles.navLinkText}>{text}</a>
+        </div>
+    )
+}
+
+const NavLinks = () => {
+    const auth = useAuth()
+    const role = auth.user.role;
+
+    return (
+        <div className={styles.NavLinks}>
+            {role === Roles.CONTRACTOR ?  
+                <ContractorNav /> : <HomeownerNav />}
+        </div>
+    );
+}
 
 const ContractorNav = () => {
     const navigate = useNavigate();
 
     return (
         <>
-            <div className={styles.navLinks}>
-                <Button
-                    buttonStyle={ButtonStyles.TERTIARY}
-                    onClick={() => navigate('/explore')}>
-                        Explore
-                </Button>
-                <Button
-                    buttonStyle={ButtonStyles.TERTIARY}
-                    onClick={() => navigate('/Dashboard')}>
-                        Dashboard
-                </Button>
-            </div>
-            {divider}
+            <Button 
+                buttonStyle={ButtonStyles.TERTIARY}
+                onClick={() => navigate('/explore')}
+                text={'Find Projects'} />
+            <Button 
+                buttonStyle={ButtonStyles.TERTIARY}
+                onClick={() => navigate('/dashboard')}
+                text={'Dashboard'} />
         </>
     )
 }
@@ -34,11 +59,21 @@ const HomeownerNav = () => {
     const navigate = useNavigate();
 
     return (
+        <>
+        <Button 
+                buttonStyle={ButtonStyles.TERTIARY}
+                onClick={() => navigate('/explore')}
+                text={'Find Contractors'} />
+        <Button 
+                buttonStyle={ButtonStyles.TERTIARY}
+                onClick={() => navigate('/manage-projects')}
+                text={'Manage Projects'} />
         <Button
             buttonStyle={ButtonStyles.PRIMARY}
-            onClick={() => navigate('/post-project')}>
-            Post Project
-        </Button>
+            onClick={() => navigate('/post-project')}
+            Icon={PlusIcon}
+            text={'Post Project'} />
+        </>
     );
 }
 
@@ -49,13 +84,8 @@ function AuthNav() {
     
     return (
         <div className={styles.authNav}>
-            {role === Roles.CONTRACTOR ?  
-            <ContractorNav /> : <HomeownerNav />}
-            <Button 
-                buttonStyle={ButtonStyles.SECONDARY}
-                onClick={() => auth.signOut()}>
-                    Sign Out
-            </Button>
+            <NavLinks />
+            <ProfileNav />
         </div>
     );
 }
@@ -73,24 +103,28 @@ function NoAuthNav() {
                 {divider}
                 <Button 
                     buttonStyle={ButtonStyles.SECONDARY}
-                    onClick={() => navigate('/signin')}>Sign In</Button>
+                    onClick={() => navigate('/signin')}
+                    text={'Sign In'} />
                 <Button
                     buttonStyle={ButtonStyles.PRIMARY}
-                    onClick={() => navigate('/signup')}>Sign Up</Button>
+                    onClick={() => navigate('/signup')}
+                    text={'Sign Up'} />
             </>
         );
     } else if (location === '/signin') {
         return (
             <Button 
                 buttonStyle={ButtonStyles.SECONDARY}
-                onClick={() => navigate('/signup')}>Sign Up</Button>
+                onClick={() => navigate('/signup')}
+                text={'Sign Up'} />
         );
     }
 
     return (
         <Button 
             buttonStyle={ButtonStyles.SECONDARY}
-            onClick={() => navigate('/signin')}>Sign In</Button>
+            onClick={() => navigate('/signin')}
+            text={'Sign In'} />
     );
 }
 
@@ -101,7 +135,7 @@ function Nav({ auth=false }: NavProps) {
         <nav className={styles.Nav}>
             <div className={styles.logoSection} onClick={() => navigate('/')}>
                 <img alt='logo' src={Logo}/>
-                <h4>Estimax</h4>
+                <h5>Estimax</h5>
             </div>
 
             <div className={styles.navItems}>

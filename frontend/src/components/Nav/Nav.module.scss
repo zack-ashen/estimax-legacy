@@ -4,15 +4,16 @@ nav {
   display: inline-flex;
   justify-content: space-between;
   width: 100%;
-  padding: $spacing-3 5%;
+  padding: 0 5%;
   margin: 0 auto;
   border-bottom: 1px solid #D7DFEE;
   align-items: center;
   background-color: #FFF;
+  height: 3.7rem;
 
   img {
     height: 2rem;
-    margin-right: $spacing-3;
+    margin-right: $spacing-2;
   }
 
   a:not(:last-of-type) {
@@ -20,21 +21,49 @@ nav {
   }
 }
 
+
+.NavLinks {
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-3;
+  height: 100%;
+  margin-left: $spacing-8;
+}
+
+.NavLink {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 $spacing-2;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-top: solid 2px transparent;
+  border-bottom: solid 2px transparent;
+  
+  a {
+    font-weight: 500;
+    color: $grey-800;
+  }
+
+  &:hover {
+    cursor: pointer;
+    border-bottom: solid 2px $blue-400;
+  }
+}
+
 .navItems, .logoSection {
   display: inherit;
   align-items: center;
+  height: 100%;
 
-  h4 {
-    font-weight: 600;
-    color: $blue-950;
+  h5 {
+    font-weight: 500;
+    color: $grey-800;
   }
 
-  button:first-of-type {
-    margin-right: $spacing-3;
-  }
-
-  button:last-of-type {
-    margin-left: $spacing-3;
+  .authNav {
+    display: flex;
+    gap: $spacing-4;
   }
 }
 
@@ -52,3 +81,4 @@ nav {
 .authNav {
   display: flex;
 }
+

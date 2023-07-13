@@ -44,11 +44,11 @@ router.route('/').post(async (req, res, next) => {
 /* 
 * Get a project by id
 */
-router.route('/:id').get((req, res, next) => {
+router.route('/:id').get(async (req, res, next) => {
    const projectId = req.params.id;
 
    try {
-      const project = getProject(projectId);
+      const project = await getProject(projectId);
       
       res.send({ project })
    } catch (err) {

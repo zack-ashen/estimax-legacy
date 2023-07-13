@@ -13,6 +13,7 @@ import { Roles, User } from './types';
 import Nav from './components/Nav/Nav';
 import PostProject from './pages/PostProject/PostProject';
 import Project from './pages/Project/Project';
+import Profile from './pages/Profile/Profile';
 
 export interface PreAuth {
   user: User;
@@ -31,6 +32,14 @@ const AuthRoutes = () => {
         element={
           <PrivateRoute forHomeowner={true} forContractor={true}>
             <ProjectFeed />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute forHomeowner={true} forContractor={true}>
+            <Profile />
           </PrivateRoute>
         }
       />
@@ -63,6 +72,14 @@ const AuthRoutes = () => {
         element={
           <PrivateRoute forHomeowner={true} forContractor={true}>
             <ManageProjects />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute forHomeowner={true} forContractor={true}>
+            <Profile />
           </PrivateRoute>
         }
       />

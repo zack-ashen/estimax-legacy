@@ -19,7 +19,7 @@ interface GoogleAuthProps {
 
 export default function GoogleAuth({signIn, referral, user, setErrors}: GoogleAuthProps) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [buttonWidth, setButtonWidth] = useState('400');
+  const [buttonWidth, setButtonWidth] = useState('350');
   const formContext = useFormContext();
 
   const handleCallbackResponse = ({credential, clientId}: CredentialResponse) => {

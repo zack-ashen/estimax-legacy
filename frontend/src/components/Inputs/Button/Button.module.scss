@@ -2,18 +2,36 @@
 
 
 .primary, .primary-alt, .secondary, .tertiary {
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 0.5rem;
-  padding: $spacing-2 $spacing-6;
+  padding: $spacing-2 $spacing-4;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  gap: $spacing-2;
+  align-items: center;
   transition: background-color 0.3s ease-in-out, 
               box-shadow 0.4s ease-in-out, 
               border-color 0.4s ease-in-out;
+}
+
+.icon {
+  height: 1rem;
+  width: auto;
+  
+  path {
+    stroke-width: 0.15rem;
+  }
 }
 
 .primary {
   background-color: $blue-600;
   border: solid 1.5px $blue-700;
   color: white;
+  
+  .icon path {
+    stroke: white;
+  }
 
   &:hover {
     background-color: $blue-700;
@@ -32,6 +50,10 @@
   border: solid 1px $grey-300;
   color: $grey-800;
 
+  .icon path {
+    stroke: $grey-800;
+  }
+
   &:hover {
     background-color: $grey-100;
     border-color: $grey-300;
@@ -45,6 +67,10 @@
 .tertiary {
   background-color: none;
   color: $grey-900;
+
+  .icon path {
+    stroke: $grey-900;
+  }
 
   &:hover {
     background-color: $grey-200;
