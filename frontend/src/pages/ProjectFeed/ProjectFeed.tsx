@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Project } from '../../types';
+import { Project, locations } from '../../types';
 import styles from './ProjectFeed.module.scss'
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
+import TextInput from '../../components/Inputs/TextInput/TextInput';
+import MultiSelect from '../../components/Inputs/MultiSelect/MultiSelect';
 
 function ProjectFeed() {
   const auth = useAuth();
@@ -28,6 +30,24 @@ function ProjectFeed() {
 
 
   return (
+    <>
+    <div className={styles.filterContainer}>
+      <div className={styles.search}>
+        <TextInput name={'search'} placeholder={'Search'} value={''} onChange={() => undefined} noLabel/>
+      </div>
+      <div className={styles.filterItem}>
+        <MultiSelect options={locations} placeholder={'Location'} setSelectedOptions={() => undefined} isMulti />
+      </div>
+      <div className={styles.filterItem}>
+        <MultiSelect options={locations} placeholder={'Price'} setSelectedOptions={() => undefined} isMulti />
+      </div>
+      <div className={styles.filterItem}>
+        <MultiSelect options={locations} placeholder={'Timeline'} setSelectedOptions={() => undefined} isMulti />
+      </div>
+      <div className={styles.filterItem}>
+        <MultiSelect options={locations} placeholder={'Activity'} setSelectedOptions={() => undefined} />
+      </div>
+    </div>
     <div className={styles.ProjectFeed}>
       <div className={styles.projects}>
         {projects.map((project, index) => (
@@ -35,6 +55,7 @@ function ProjectFeed() {
         ))}
       </div>
     </div>
+    </>
   );
 }
 

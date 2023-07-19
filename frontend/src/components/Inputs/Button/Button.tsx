@@ -27,7 +27,7 @@ const Button = ({ buttonStyle, onClick, Icon, text, wide=false, ...rest }: Butto
       className={styles[buttonStyle]} 
       onClick={onClick} 
       style={style} {...rest}>
-      {Icon && <Icon className={styles.icon} />} {text}
+      {Icon && <Icon className={styles.icon} />} <span className={styles.buttonText}>{text}</span>
     </button>
   );
 };

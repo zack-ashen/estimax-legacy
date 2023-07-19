@@ -15,12 +15,13 @@
               border-color 0.4s ease-in-out;
 }
 
+
 .icon {
-  height: 1rem;
+  height: 0.8rem;
   width: auto;
   
   path {
-    stroke-width: 0.15rem;
+    stroke-width: 0.14rem;
   }
 }
 
@@ -60,7 +61,7 @@
   }
 
   &:active {
-    background-color: darken($grey-300, 10%);
+    background-color: darken($grey-100, 5%);
   }
 }
 

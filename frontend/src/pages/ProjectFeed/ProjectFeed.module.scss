@@ -10,3 +10,22 @@
 .projects {
     margin: $spacing-15 0 0 0;
 }
+
+.filterContainer {
+    background-color: $grey-100;
+    border-bottom: solid 1px $grey-200;
+    padding: $spacing-4 5%;
+    display: flex;
+    gap: $spacing-5;
+    
+    .search {
+        flex-grow: 1;
+        width: 100%;
+    }
+
+    .filterItem {
+        flex-grow: 0;
+        min-width: 15rem;
+    }
+
+}

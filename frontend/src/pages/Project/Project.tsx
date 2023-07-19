@@ -32,6 +32,31 @@ const ProjectInfoTag = ({ Icon, title, info }: ProjectInfoTagProps) => (
 )
 
 
+interface BidLineProps {
+  bidId: string;
+}
+
+const BidLine = ({ bidId }: BidLineProps) => {
+  const [ bid, setBid ] = useState()
+  const { useAuthReq } = useAuth();
+  const authReq = useAuthReq();
+
+  useEffect(() => {
+    authReq(`/bid/${bidId}`, {
+      method: 'GET'
+    })
+      .then(res => res?.json())
+      .then(data => setBid(data.bid))
+  }, [])
+
+  return (
+    <div className={styles.BidLine}>
+
+    </div>
+  )
+}
+
+
 export default function ProjectView() {
   const { id } = useParams();
   const { useAuthReq } = useAuth();
@@ -102,23 +127,36 @@ export default function ProjectView() {
           </div>
 
           <div className={styles.priceSection}>
-            <div className={styles.priceSectionCTA}>
-              <div className={styles.currentPrice}>
-                <p className={styles.currentPriceLabel}>Lowest Bid</p>
-                <h4 className={styles.currentPrice}>${project?.lowestBid ? project?.lowestBid : 0}</h4>
-              </div>
-              <div className={styles.bidCTASection}>
-                <Button 
-                  buttonStyle={ButtonStyles.PRIMARY} 
-                  onClick={() => undefined}
-                  text={'Place a Bid'} />
-                <Button 
-                  buttonStyle={ButtonStyles.SECONDARY} 
-                  onClick={() => undefined}
-                  text={'Contact Homeowner'} />
+            <div className={styles.bidsSection}>
+              {project && project.bids.length !== 0 && project.bids.map((bidId) => (
+                <BidLine bidId={bidId} />
+              ))}
+              <div className={styles.noBidsLine}>
+                <p className={styles.noBidsText}>No Active Bids</p>
               </div>
             </div>
+            <div className={styles.bidCTASection}>
+              <Button 
+                buttonStyle={ButtonStyles.PRIMARY} 
+                onClick={() => undefined}
+                text={'Place a Bid'} 
+                wide />
+              <Button 
+                buttonStyle={ButtonStyles.SECONDARY} 
+                onClick={() => undefined}
+                text={'Contact Homeowner'} 
+                wide/>
+            </div>
           </div>
+        </div>
+      </div>
+
+      <div className={styles.extraDetailsSection}>
+        <div className={styles.bidsSection}>
+            <h5>Bids</h5>
+        </div>
+        <div className={styles.messagesSection}>
+          <h5>Messages</h5>
         </div>
       </div>
     </div>

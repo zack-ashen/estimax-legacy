@@ -123,6 +123,9 @@
     border-radius: 0.6rem;
     padding: $spacing-5;
     box-shadow: 0px 11px 7px rgba(16, 24, 40, 0.02), 0px 5px 5px rgba(16, 24, 40, 0.03), 0px 1px 3px rgba(16, 24, 40, 0.03), 0px 0px 0px rgba(16, 24, 40, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
 
     .priceSectionCTA {
         display: flex;
@@ -141,8 +144,47 @@
         display: flex;
         width: 100%;
         justify-content: space-between;
-    }
+        gap: $spacing-4;
 
-    
+        > :first-of-type {
+            flex: 0.4;
+        }
+
+        > :last-of-type {
+            flex: 0.6;
+        }
+    }
+}
+
+.noBidsLine {
+    border-top: 1px solid $grey-200;
+    border-bottom: 1px solid $grey-200;
+    padding: $spacing-3 0;
+
+    .noBidsText {
+        font-size: 1rem;
+        font-weight: 500;
+        color: $grey-600;
+        text-align: center;
+    }
+}
+
+.extraDetailsSection {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: $spacing-10;
+    flex: 0.5 0.5;
+    gap: $spacing-10;
+
+    .bidsSection, .messagesSection {
+        background-color: white;
+        width: 100%;
+        border: solid 1px $blue-50;
+        border-radius: 0.6rem;
+        padding: $spacing-5;
+        color: $grey-700;
+        flex-wrap: wrap;
+    }
 }
 

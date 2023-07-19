@@ -72,7 +72,7 @@ const HomeownerNav = () => {
             buttonStyle={ButtonStyles.PRIMARY}
             onClick={() => navigate('/post-project')}
             Icon={PlusIcon}
-            text={'Post Project'} />
+            text={'Create Project'} />
         </>
     );
 }

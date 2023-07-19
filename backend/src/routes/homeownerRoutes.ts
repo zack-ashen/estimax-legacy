@@ -2,7 +2,11 @@ import express from 'express'
 
 const router = express.Router();
 
-router.route('/waitlist').post((req, res) => {
+router.route('/favoriteContractors').get((req, res) => {
+
+})
+
+router.route('/draftProjects').get((req, res) => {
 
 })
 

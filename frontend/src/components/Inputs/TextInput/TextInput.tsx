@@ -18,6 +18,7 @@ interface TextInputProps {
     error?: string;
     valid?: boolean
     onBlur?: () => void;
+    noLabel?: boolean;
 }
 
 const TextInput: FunctionComponent<TextInputProps> = ({ name, 
@@ -28,7 +29,8 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                                                 inputSize=TextInputSize.MEDIUM,
                                                 error,
                                                 valid,
-                                                onBlur}) => {
+                                                onBlur,
+                                                noLabel=false}) => {
     
     const className = `${styles.Input} 
                             ${styles[inputSize]} 
@@ -47,8 +49,12 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                 className={className}
                 onBlur={onBlur}
             />
-            <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>
-            {error && <p className={styles.errorText}>{error}</p> }
+            {!noLabel && 
+                <>
+                <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>
+                {error && <p className={styles.errorText}>{error}</p> }
+                </>
+            }
         </div>
     ) : (
         <div className={styles.inputBox}>
@@ -60,8 +66,12 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                 className={className}
                 onBlur={onBlur}
             />
-            <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>
-            {error && <p className={styles.errorText}>{error}</p> }
+            {!noLabel &&
+                <>
+                <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>
+                {error && <p className={styles.errorText}>{error}</p> }
+                </>
+            }
         </div>
     );
 };

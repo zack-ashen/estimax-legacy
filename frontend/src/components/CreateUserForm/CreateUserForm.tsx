@@ -108,7 +108,10 @@ const auth = (signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>,
         } else {
           signIn({
             token: data.token,
-            user: data.user
+            user: {
+              ...data.user,
+              uid: data.user._id
+            }
           })
         }
       })
