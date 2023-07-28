@@ -4,10 +4,26 @@
 .Project {
     width: 100%;
     padding: 0 5%;
-    margin-top: $spacing-15;
+    margin-top: $spacing-10;
     display: flex;
     flex-direction: column;
     gap: $spacing-10;
+}
+
+
+.EditProjectContainer {
+    background-color: white;
+    border: solid 1px $grey-200;
+    border-radius: 0.6rem;
+    padding: $spacing-3;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0px 7px 4px rgba(75, 85, 101, 0.02), 0px 3px 3px rgba(75, 85, 101, 0.03), 0px 1px 2px rgba(75, 85, 101, 0.03), 0px 0px 0px rgba(75, 85, 101, 0.03);
+
+    .leftButtonContainer {
+        display: flex;
+        gap: $spacing-5;
+    }
 }
 
 .projectHeader {
@@ -18,6 +34,10 @@
     padding: 0 0 $spacing-2 0;
 
     .projectTitle {
+        width: 65%;
+        padding-right: $spacing-1;
+        
+
         p {
             font-size: 0.786rem;
             color: $grey-600;
@@ -27,6 +47,9 @@
         h5 {
             font-weight: 500;
             color: $grey-800;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
     }
 
@@ -55,10 +78,13 @@
 .imgContainer {
     aspect-ratio: 4 / 3;
     min-width: 370px;
+    height: fit-content;
 
     img {
         width: 100%;
+        height: 100%;
         border-radius: 0.6rem;
+        object-fit: cover;
     }
 }
 
@@ -87,7 +113,8 @@
 }
 
 .ProjectInfoTag {
-    background-color: $grey-100;
+    background-color: $grey-25;
+    border: solid 1px $grey-200;
     width: fit-content;
     border-radius: 0.6rem;
     padding: $spacing-2 $spacing-4;
@@ -126,6 +153,12 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-4;
+
+    .bidsSection {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-3;
+    }
 
     .priceSectionCTA {
         display: flex;
@@ -171,11 +204,17 @@
 
 .extraDetailsSection {
     display: flex;
+    flex-direction: column;
     width: 100%;
-    justify-content: space-between;
     margin-bottom: $spacing-10;
-    flex: 0.5 0.5;
-    gap: $spacing-10;
+    gap: $spacing-3;
+
+    .horizontalDivider {
+        width: 100%;
+        height: 1px;
+        background-color: $grey-300;
+        margin-top: $spacing-2;
+    }
 
     .bidsSection, .messagesSection {
         background-color: white;
@@ -188,3 +227,45 @@
     }
 }
 
+
+
+.placeBidModal, .showContactModal, .showDeleteModal {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-10;
+    margin-top: $spacing-2;
+
+    .modalHeader {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-1;
+        margin: auto;
+        text-align: center;
+        max-width: 20rem;
+
+        .headerIconContainer {
+            width: 3.5rem;
+            height: 3.5rem;
+            background-color: white;
+            border: solid 1px $grey-200;
+            border-radius: 0.6rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto $spacing-3 auto;
+
+            .icon path {
+                stroke: $grey-900;
+            }
+
+            span {
+                font-weight: 600;
+                font-size: 1.143rem;
+            }
+        }
+
+        p {
+            color: $grey-600;
+        }
+    }
+}

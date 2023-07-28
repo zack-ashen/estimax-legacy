@@ -9,10 +9,20 @@ import { ReactComponent as BookmarkIcon } from '../../assets/BookmarkIcon.svg'
 import { ReactComponent as MapPinIcon } from '../../assets/MapPinIcon.svg'
 import { ReactComponent as CalendarIcon } from '../../assets/CalendarIcon.svg'
 import { ReactComponent as ActivityIcon } from '../../assets/ActivityIcon.svg'
+import { ReactComponent as PencilIcon } from '../../assets/PencilIcon.svg'
+import { ReactComponent as PersonAddIcon } from '../../assets/PersonAddIcon.svg'
+import { ReactComponent as TrashIcon } from '../../assets/TrashIcon.svg'
+import { ReactComponent as SaveIcon } from '../../assets/CheckIcon.svg'
 
 
-import { Project } from '../../types'
+import { Bid, Project, Roles } from '../../types'
 import Button, { ButtonStyles } from '../../components/Inputs/Button/Button';
+import BidCard from '../../components/BidCard/BidCard';
+import Modal from '../../components/Modal/Modal';
+import TextInput from '../../components/Inputs/TextInput/TextInput';
+import CreateBidModal from '../../components/CreateBidModal/CreateBidModal';
+import DeleteProjectModal from '../../components/DeleteProjectModal/DeleteProjectModal';
+import EditableText from '../../components/EditableText/EditableText';
 
 
 interface ProjectInfoTagProps {
@@ -32,37 +42,16 @@ const ProjectInfoTag = ({ Icon, title, info }: ProjectInfoTagProps) => (
 )
 
 
-interface BidLineProps {
-  bidId: string;
-}
-
-const BidLine = ({ bidId }: BidLineProps) => {
-  const [ bid, setBid ] = useState()
-  const { useAuthReq } = useAuth();
-  const authReq = useAuthReq();
-
-  useEffect(() => {
-    authReq(`/bid/${bidId}`, {
-      method: 'GET'
-    })
-      .then(res => res?.json())
-      .then(data => setBid(data.bid))
-  }, [])
-
-  return (
-    <div className={styles.BidLine}>
-
-    </div>
-  )
-}
-
-
 export default function ProjectView() {
   const { id } = useParams();
-  const { useAuthReq } = useAuth();
+  const { useAuthReq, user } = useAuth();
   const authReq = useAuthReq();
 
   const [ project, setProject ] = useState<Project>()
+  const [ showCreateBidModal, setShowCreateBidModal ] = useState(false);
+  const [ showContactModal, setShowContactModal ] = useState(false);
+  const [ showDeleteModal, setShowDeleteModal ] = useState(false)
+  const [ editProject, setEditProject ] = useState(false)
   const [ image, setImage ] = useState();
 
   useEffect(() => {
@@ -91,10 +80,26 @@ export default function ProjectView() {
 
   return (
     <div className={styles.Project}>
+      {user.role === Roles.HOMEOWNER &&
+        <div className={styles.EditProjectContainer}>
+          <div className={styles.leftButtonContainer}>
+            <Button 
+              buttonStyle={ButtonStyles.TERTIARY} 
+              text={editProject ? 'Save Project' : 'Edit Project'}
+              Icon={editProject ? SaveIcon : PencilIcon} 
+              onClick={() => setEditProject(prevState => !prevState)} />
+            <Button buttonStyle={ButtonStyles.TERTIARY} text={'Invite Contractor'} Icon={PersonAddIcon} onClick={() => undefined} />
+          </div>
+          <Button buttonStyle={ButtonStyles.PRIMARY_ALT} text={'Delete Project'} Icon={TrashIcon} onClick={() => setShowDeleteModal(true)} />
+        </div>
+      }
+
       <div className={styles.projectHeader}>
         <div className={styles.projectTitle}>
           <p>Project Name</p>
-          <h5>{project?.name}</h5>
+          <EditableText editMode={editProject} textValue={project ? project!.name : ''} setValue={() => undefined}>
+            <h5>{project?.name}</h5>
+          </EditableText>
         </div>
         <div className={styles.projectInteractions}>
           <Button 
@@ -102,11 +107,11 @@ export default function ProjectView() {
             onClick={() => undefined}
             text={'Share'}
             Icon={ShareIcon} />
-          <Button 
+          {user.role === Roles.CONTRACTOR && <Button 
             buttonStyle={ButtonStyles.TERTIARY} 
             onClick={() => undefined}
             text={'Bookmark'}
-            Icon={BookmarkIcon} />
+            Icon={BookmarkIcon} />}
         </div>
       </div>
 
@@ -128,36 +133,55 @@ export default function ProjectView() {
 
           <div className={styles.priceSection}>
             <div className={styles.bidsSection}>
-              {project && project.bids.length !== 0 && project.bids.map((bidId) => (
-                <BidLine bidId={bidId} />
+              <h5>Bids</h5>
+              {project && project.bids.length !== 0 && project.bids.map((bid) => (
+                <BidCard bid={bid} lowestBid={Object.is(bid, project.lowestBid)}/>
               ))}
-              <div className={styles.noBidsLine}>
-                <p className={styles.noBidsText}>No Active Bids</p>
-              </div>
+              {project?.bids.length === 0 &&
+                <div className={styles.noBidsLine}>
+                  <p className={styles.noBidsText}>No Active Bids</p>
+                </div>
+              }
             </div>
-            <div className={styles.bidCTASection}>
+            {user.role === Roles.CONTRACTOR && <div className={styles.bidCTASection}>
               <Button 
                 buttonStyle={ButtonStyles.PRIMARY} 
-                onClick={() => undefined}
+                onClick={() => setShowCreateBidModal(true)}
                 text={'Place a Bid'} 
                 wide />
               <Button 
                 buttonStyle={ButtonStyles.SECONDARY} 
-                onClick={() => undefined}
+                onClick={() => setShowContactModal(true)}
                 text={'Contact Homeowner'} 
                 wide/>
-            </div>
+            </div>}
           </div>
         </div>
       </div>
 
+      <CreateBidModal showCreateBidModal={showCreateBidModal} setShowCreateBidModal={setShowCreateBidModal} projectId={id!} setProject={setProject}/>
+      <DeleteProjectModal showModal={showDeleteModal} setShowModal={setShowDeleteModal} projectId={id!} />
+
+      <Modal show={showContactModal} onClose={() => setShowContactModal(false)}>
+        <div className={styles.showContactModal}>
+          <div className={styles.modalHeader}>
+            <div className={styles.headerIconContainer}>
+              <span className={styles.headerIcon}>?</span>
+            </div>
+            <h3>Ask Question</h3>
+            <p>Ask a question about this project. You can request more details or information about the proposed work.</p>
+          </div>
+          <TextInput name={'I am curious about...'} value={''} onChange={() => undefined} type={'textarea'} />
+          <Button buttonStyle={ButtonStyles.PRIMARY} text={'Ask Question'} onClick={() => undefined} wide/>
+        </div>
+      </Modal>
+
       <div className={styles.extraDetailsSection}>
-        <div className={styles.bidsSection}>
-            <h5>Bids</h5>
-        </div>
-        <div className={styles.messagesSection}>
-          <h5>Messages</h5>
-        </div>
+          <div>
+          <h3>Messages</h3>
+          <div className={styles.horizontalDivider} />
+          </div>
+          <p>No current messages.</p>
       </div>
     </div>
   )

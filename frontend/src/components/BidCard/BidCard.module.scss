@@ -1,0 +1,82 @@
+@import '../../styles/index';
+
+
+
+
+
+.BidCard {
+    width: 100%;
+    border: solid 1px $grey-200;
+    border-radius: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    padding: $spacing-3;
+    background-color: white;
+    transition: all 0.2s ease-in-out;
+
+    .bidTitle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+
+    .bidder {
+        font-weight: 500;
+    }
+
+    .date {
+        color: $grey-600;
+    }
+
+    .price {
+        font-weight: 500;
+        font-size: 1.143rem;
+        color: $grey-800;
+    }
+}
+
+.lowestBidCard {
+    border-radius: 0 0.6rem 0.6rem 0.6rem;
+    border: 2px solid $green-300;
+}
+
+.lowestBidText {
+    padding: $spacing-2 $spacing-3;
+    background-color: $green-300;
+    color: darken($green-500, 25%);
+    border-radius: 0.6rem 0.6rem 0 0;
+    width: fit-content;
+    font-size: 0.714rem;
+}
+
+.bidCardRight {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+
+    path {
+        stroke: red;
+    }
+}
+
+.descriptionSection {
+    width: 100%;
+    border-top: solid 1px $grey-100;
+    margin-top: $spacing-1;
+    padding-top: $spacing-2;
+
+    .titleText {
+        color: $grey-600;
+        font-weight: 400;
+    }
+}
+
+.bidButton {
+    &:hover {
+        cursor: pointer;
+        background-color: $grey-50;
+        border-color: $grey-300;
+    }
+}
+

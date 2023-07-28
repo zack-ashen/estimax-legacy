@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent } from 'react';
+import { ChangeEvent, FunctionComponent, ReactElement, SVGProps } from 'react';
 import styles from './TextInput.module.scss';
 
 
@@ -18,6 +18,7 @@ interface TextInputProps {
     error?: string;
     valid?: boolean
     onBlur?: () => void;
+    Icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
     noLabel?: boolean;
 }
 
@@ -30,13 +31,15 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                                                 error,
                                                 valid,
                                                 onBlur,
+                                                Icon,
                                                 noLabel=false}) => {
     
     const className = `${styles.Input} 
                             ${styles[inputSize]} 
                             ${styles[error ? 'error' : '']}
                             ${styles[valid ? 'valid' : '']}
-                            ${styles[type === 'textarea' ? 'textarea' : '']}`
+                            ${styles[type === 'textarea' ? 'textarea' : '']}
+                            ${styles[Icon ? 'withIcon' : '']}`
 
     return type !== "textarea" ? (
         <div className={styles.inputBox}>
@@ -49,6 +52,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                 className={className}
                 onBlur={onBlur}
             />
+            {Icon && <Icon className={styles.icon}/>}
             {!noLabel && 
                 <>
                 <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>

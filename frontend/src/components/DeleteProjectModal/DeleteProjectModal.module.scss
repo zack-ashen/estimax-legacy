@@ -1,0 +1,57 @@
+@import '../../styles/index';
+
+.showDeleteModal {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-10;
+    margin-top: $spacing-2;
+
+    .modalHeader {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-1;
+        margin: auto;
+        text-align: center;
+        max-width: 20rem;
+
+        .headerIconContainer {
+            width: 3.5rem;
+            height: 3.5rem;
+            background-color: white;
+            border: solid 1px $grey-200;
+            border-radius: 0.6rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto $spacing-3 auto;
+
+            .icon path {
+                stroke: $grey-900;
+            }
+
+            span {
+                font-weight: 600;
+                font-size: 1.143rem;
+            }
+        }
+
+        p {
+            color: $grey-600;
+        }
+    }
+}
+
+.deleteButtonContainer {
+    display: flex;
+    gap: $spacing-5;
+    flex: 1 2 auto;
+
+    :nth-child(1) {
+        flex: 4;
+    }
+
+    :nth-child(2) {
+        flex: 3;
+    }
+
+}

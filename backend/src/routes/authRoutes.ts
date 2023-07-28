@@ -33,7 +33,7 @@ router.route('/signup').post(async (req, res, next) => {
     const userExists = await getUser(newUser.email, true);
     if (userExists)
       throw new ServerError(Errors.EMAIl_EXISTS, 409);
-
+    
     // Create a new user and set token
     const user = await createUser({
       ...newUser,

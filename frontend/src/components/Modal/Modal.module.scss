@@ -1,0 +1,30 @@
+@import '../../styles/index';
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modalContent {
+    background: $background-color;
+    padding: $spacing-6;
+    border-radius: 0.8rem;
+    max-width: 600px;
+    min-width: 500px;
+    position: relative;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: $spacing-4;
+    right: $spacing-4;
+    background: none;
+    border: none;
+  }

@@ -1,7 +1,7 @@
 @import './../../../styles/index';
 
 
-.primary, .primary-alt, .secondary, .tertiary {
+.primary, .primaryAlt, .secondary, .tertiary {
   font-weight: 500;
   border-radius: 0.5rem;
   padding: $spacing-2 $spacing-4;
@@ -16,14 +16,24 @@
 }
 
 
-.icon {
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.8rem;
   height: 0.8rem;
-  width: auto;
+}
+
+.icon {
+  min-height: 100%;
+  min-width: 100%;
   
   path {
     stroke-width: 0.14rem;
   }
 }
+
+
 
 .primary {
   background-color: $blue-600;
@@ -43,6 +53,27 @@
   &:active {
     box-shadow: none;
     background-color: $blue-900;
+  }
+}
+
+.primaryAlt {
+  background-color: $red-600;
+  border: solid 1.5px $red-700;
+  color: white;
+
+  .icon path {
+    stroke: white;
+  }
+
+  &:hover {
+    background-color: $red-700;
+    border-color: $red-800;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+  }
+
+  &:active {
+    box-shadow: none;
+    background-color: $red-900;
   }
 }
 
@@ -67,10 +98,10 @@
 
 .tertiary {
   background-color: none;
-  color: $grey-900;
+  color: $grey-800;
 
   .icon path {
-    stroke: $grey-900;
+    stroke: $grey-800;
   }
 
   &:hover {

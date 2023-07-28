@@ -16,7 +16,9 @@ export async function getUser(searchValue: string, useEmail:boolean=false): Prom
   return await User.findById(searchValue)
 }
 
-export async function createUser({email, role, password}: IUser): Promise<IUser> {
+export async function createUser(user: IUser): Promise<IUser> {
+  const { password } = user;
+
   // Hash the password before saving it to the database
   let hashedPassword: string | undefined;
   if (password) {
@@ -25,9 +27,8 @@ export async function createUser({email, role, password}: IUser): Promise<IUser>
 
   // Create a new user
   const newUser = new User({
-    email,
-    password: hashedPassword,
-    role
+    ...user,
+    password: hashedPassword
   });
 
   // Save the user to the database

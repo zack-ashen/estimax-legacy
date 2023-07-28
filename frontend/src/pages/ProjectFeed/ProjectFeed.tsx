@@ -30,32 +30,46 @@ function ProjectFeed() {
 
 
   return (
-    <>
-    <div className={styles.filterContainer}>
-      <div className={styles.search}>
-        <TextInput name={'search'} placeholder={'Search'} value={''} onChange={() => undefined} noLabel/>
-      </div>
-      <div className={styles.filterItem}>
-        <MultiSelect options={locations} placeholder={'Location'} setSelectedOptions={() => undefined} isMulti />
-      </div>
-      <div className={styles.filterItem}>
-        <MultiSelect options={locations} placeholder={'Price'} setSelectedOptions={() => undefined} isMulti />
-      </div>
-      <div className={styles.filterItem}>
-        <MultiSelect options={locations} placeholder={'Timeline'} setSelectedOptions={() => undefined} isMulti />
-      </div>
-      <div className={styles.filterItem}>
-        <MultiSelect options={locations} placeholder={'Activity'} setSelectedOptions={() => undefined} />
-      </div>
-    </div>
     <div className={styles.ProjectFeed}>
+      <div className={styles.filterContainer}>
+        <div className={styles.filterItem}>
+          <MultiSelect
+            options={locations}
+            placeholder={"Location"}
+            setSelectedOptions={() => undefined}
+            isMulti
+          />
+        </div>
+        <div className={styles.filterItem}>
+          <MultiSelect
+            options={locations}
+            placeholder={"Price"}
+            setSelectedOptions={() => undefined}
+            isMulti
+          />
+        </div>
+        <div className={styles.filterItem}>
+          <MultiSelect
+            options={locations}
+            placeholder={"Timeline"}
+            setSelectedOptions={() => undefined}
+            isMulti
+          />
+        </div>
+        <div className={styles.filterItem}>
+          <MultiSelect
+            options={locations}
+            placeholder={"Activity"}
+            setSelectedOptions={() => undefined}
+          />
+        </div>
+      </div>
       <div className={styles.projects}>
         {projects.map((project, index) => (
           <ProjectCard project={project} />
         ))}
       </div>
     </div>
-    </>
   );
 }
 

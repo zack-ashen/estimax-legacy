@@ -37,7 +37,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             <div className={styles.projectDetails}>
                 <div className={styles.priceSection}>
                     <p>Lowest Bid</p>
-                    <h4>{project.lowestBid ? `${project.lowestBid}` : 'N/A'}</h4>
+                    <h4>{project.lowestBid ? `$${project.lowestBid.amount}` : 'N/A'}</h4>
                 </div>
                 <div className={styles.infoSection}>
                     <div className={styles.info}>

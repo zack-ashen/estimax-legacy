@@ -14,6 +14,7 @@ import Nav from './components/Nav/Nav';
 import PostProject from './pages/PostProject/PostProject';
 import Project from './pages/Project/Project';
 import Profile from './pages/Profile/Profile';
+import ContractorFeed from './pages/ContractorFeed/ContractorFeed';
 
 export interface PreAuth {
   user: User;
@@ -84,6 +85,14 @@ const AuthRoutes = () => {
         }
       />
       <Route
+        path="/find-contractors"
+        element={
+          <PrivateRoute forHomeowner={true} forContractor={false}>
+            <ContractorFeed />
+          </PrivateRoute>
+        }
+      />
+      <Route
         path="/post-project"
         element={
           <PrivateRoute forContractor={false} forHomeowner={true}>
@@ -124,7 +133,10 @@ function App() {
         if (data.error !== 'No refresh token' && data.token && data.user) {
           setPreAuthObj({
             token: data.token,
-            user: data.user
+            user: {
+              ...data.user,
+              uid: data.user._id
+            }
           });
         }
         // if the user does not have a valid refresh token they stay logged out

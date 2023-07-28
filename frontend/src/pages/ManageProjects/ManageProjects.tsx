@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styles from './ManageProjects.module.scss'
 import Button, { ButtonStyles } from '../../components/Inputs/Button/Button';
 import Tabview from '../../components/Tabview/Tabview';
+import { useAuth } from '../../contexts/AuthContext';
+
+import { ReactComponent as DecorativeGrid } from '../../assets/DecorativeGrid.svg';
+import { ReactComponent as EmptyCubeIcon } from '../../assets/EmptyCubeIcon.svg';
+import { ReactComponent as AddIcon } from '../../assets/PlusIcon.svg';
+import { useNavigate } from 'react-router-dom';
+import { Project } from '../../types';
+import ProjectCard from '../../components/ProjectCard/ProjectCard';
 
 
 
@@ -13,21 +21,17 @@ export enum Tab {
   FAVORITE_CONTRACTORS = 'Favorite Contractors'
 }
 
-
-const ActiveProjects = () => {
-
-  return (
-    <div className={styles.TabContent}>
-      active projects
-    </div>
-  )
+interface ProjectTabContentProps {
+  projects: Project[];
 }
 
-const DraftProjects = () => {
+const ProjectTabContent = ({ projects }: ProjectTabContentProps) => {
 
   return (
     <div className={styles.TabContent}>
-      draft projects
+      {projects.map((project, index) => (
+        <ProjectCard project={project} />
+      ))}
     </div>
   )
 }
@@ -36,18 +40,47 @@ const FavoriteContractors = () => {
 
   return (
     <div className={styles.TabContent}>
-      favorite contractors
     </div>
   )
 }
 
 function ManageProjects() {
   const [ tab, setTab ] = useState(Tab.ACTIVE_PROJECTS);
+  const [ projects, setProjects ] = useState<Project[]>([]);
+  const navigate = useNavigate();
 
-  return (
+  const { useAuthReq, user } = useAuth();
+  const authReq = useAuthReq();
+
+  useEffect(() => {
+    console.log(user)
+    authReq(`/api/project/user/${user.uid}`, {
+      method: 'GET'
+    })
+      .then(res => res?.json())
+      .then(data => {
+        if (data.projects)
+          setProjects(data.projects)
+      })
+  }, [])
+
+  return projects.length === 0 ? (
+    <>
+    <DecorativeGrid className={styles.decorativeGrid}/>
+    <div className={styles.EmptyManageProjects}>
+      <EmptyCubeIcon />
+      <div className={styles.createProjectCTA}>
+        <h2>You have no projects.</h2>
+        <p>You have not posted any projects yet. Get started by posting a project and getting bids from service providers in your area.</p>
+      </div>
+      <Button buttonStyle={ButtonStyles.PRIMARY} onClick={() => navigate('post-project/')} text={'Create Project'} Icon={AddIcon}/>
+    </div>
+    </>
+  ) : 
+  (
     <>
     <Tabview 
-        pageTitles={[Tab.DRAFT_PROJECTS, Tab.ACTIVE_PROJECTS, Tab.FAVORITE_CONTRACTORS]} 
+        pageTitles={[Tab.ACTIVE_PROJECTS, Tab.DRAFT_PROJECTS, Tab.FAVORITE_CONTRACTORS]} 
         setTab={(tab: Tab) => setTab(tab)}
         tab={tab}
     />
@@ -55,10 +88,10 @@ function ManageProjects() {
       
       
       {tab === Tab.ACTIVE_PROJECTS &&
-        <ActiveProjects />
+        <ProjectTabContent projects={projects.filter(project => project.status === 'In Progress')}/>
       }
       {tab === Tab.DRAFT_PROJECTS &&
-        <DraftProjects />
+        <ProjectTabContent projects={projects.filter(project => project.status === 'Draft')}/>
       }
       {tab === Tab.FAVORITE_CONTRACTORS &&
         <FavoriteContractors />

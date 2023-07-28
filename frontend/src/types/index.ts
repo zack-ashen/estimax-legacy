@@ -20,6 +20,12 @@ export interface Review {
   rating: number;
 }
 
+export type Message = {
+  poster: string;
+  timestamp: Date;
+  messageText: string;
+}
+
 // Project Schema
 export type Project = {
   _id: string;
@@ -27,11 +33,13 @@ export type Project = {
   homeowner_id: string;
   description: string;
   category: string[];
-  lowestBid: string;
-  bids: string[];
+  lowestBid: Bid;
+  bids: Bid[];
   images: string[];
   location: string;
   timeline: string;
+  messages: Message[];
+  status?: string;
 }
 
 export interface ProjectDraft {
@@ -88,6 +96,7 @@ export interface Contractor extends AuthContractor {
 
 export interface User {
   uid: string,
+  name: string,
   email: string,
   password?: string,
   role: Roles,
@@ -167,3 +176,12 @@ export const projectTypes: MultiValue<OptionType> = [
   {value: 'Lighting', label: 'Lighting'},
   {value: 'Home Automation', label: 'Home Automation'}
 ]
+
+export interface Bid {
+  contractorId: string;
+  time: Date;
+  amount: number;
+  description: string;
+  status: 'Accepted' | 'Overriden' | 'Declined' | 'Under Review';
+  expiration: Date;
+}

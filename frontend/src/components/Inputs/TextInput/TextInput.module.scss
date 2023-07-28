@@ -46,6 +46,12 @@
     border: 2px solid $blue-600;
   }
 
+  &:focus ~ .icon {
+    path {
+      stroke: $grey-400;
+    }
+  }
+
   &:focus ~ .inputLabel {
     transform: translateX(-1.143rem) translateY(-2.45rem);
     font-size: 0.9rem;
@@ -95,4 +101,20 @@
   font-family: inherit;
   min-height: 3.5rem;
   height: 5rem;
+}
+
+.icon {
+  position: absolute;
+  width: 0.90rem;
+  top: 0.70rem;
+  left: 0.9rem;
+
+  path {
+    transition: all ease-in-out 0.2s;
+    stroke: $grey-300;
+  }
+}
+
+.withIcon {
+  padding-left: $spacing-8 !important;
 }

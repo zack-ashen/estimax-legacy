@@ -1,0 +1,62 @@
+@import '../../styles/index';
+
+
+.decorativeGridLeft, .decorativeGridRight {
+    width: 40%;
+    height: auto;
+    max-width: 900px;
+    line {
+        stroke: $grey-300;
+    }
+}
+
+.decorativeGridLeft {
+    position: absolute;
+    z-index: -1;
+    left: -10%;
+}
+
+.decorativeGridRight {
+    position: absolute;
+    z-index: -1;
+    right: 0;
+    bottom: 0;
+
+}
+
+.Landing {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-20;
+}
+
+.heroSection {
+    width: 100%;
+    text-align: center;
+    max-width: 750px;
+    display: flex;
+    align-self: center;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-12;
+    margin-top: 15vh;
+
+    h1 {
+        color: $blue-950;
+        font-weight: 700;
+    }
+
+    p {
+        margin-top: $spacing-5;
+        font-size: 1.143rem;
+        color: $grey-500;
+        font-weight: 500;
+    }
+
+    .buttonContainer {
+        min-width: 30%;
+    }
+}
+

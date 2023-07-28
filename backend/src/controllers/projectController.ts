@@ -1,5 +1,5 @@
 import { ServerError } from "../middleware/errors";
-import { IProject, Project } from "../models/project";
+import { IBid, IProject, Project } from "../models/project";
 import { Errors, ProjectDraft } from "../types";
 
 export async function createProject(project: ProjectDraft): Promise<IProject> {

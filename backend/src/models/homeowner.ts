@@ -1,14 +1,14 @@
-import { Schema, model } from 'mongoose'
-import { User } from './user'
+import { ObjectId, Schema, model } from 'mongoose'
+import { IUser, User } from './user'
 
-export type HomeownerType = {
-  preferredContractors: string[];
-  postedProjects: string[];
-  finishedProjects: string[];
+export interface IHomeowner extends IUser {
+  preferredContractors: ObjectId[];
+  postedProjects: ObjectId[];
+  finishedProjects: ObjectId[];
 }
 
-const homeownerSchema = User.discriminator('Homeowners', new Schema({
-  prefferedContractors: {
+const homeownerSchema = User.discriminator('Homeowners', new Schema<IHomeowner>({
+  preferredContractors: {
     type: [Schema.Types.ObjectId],
     ref: 'Contractors',
     default: []

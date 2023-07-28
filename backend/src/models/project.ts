@@ -10,10 +10,52 @@ export interface IProject {
   category: String[];
   status: string; 
   images: string[];
-  lowestBid: number;
-  bids: Schema.Types.ObjectId[];
+  lowestBid: IBid;
+  bids: IBid[];
   timeline: string;
+  messages: IMessage[];
 }
+
+enum BidStatus {
+  Accepted = 'Accepted',
+  Overriden = 'Overriden',
+  Declined = 'Declined',
+  UnderReview = 'Under Review'
+}
+
+export interface IMessage {
+  poster: string;
+  timestamp: Date;
+  messageText: string;
+}
+
+const MessageSchema = new Schema<IMessage>({
+  poster: String,
+  timestamp: Date,
+  messageText: String
+}, { _id: false })
+
+export interface IBid {
+  contractorId: string;
+  time: Date;
+  amount: number;
+  description: string;
+  status: BidStatus;
+  expiration: Date;
+}
+
+const BidSchema = new Schema<IBid>({
+  contractorId: String,
+  time: Date,
+  amount: Number,
+  description: String,
+  status: {
+    type: String,
+    enum: Object.values(BidStatus),
+    default: BidStatus.UnderReview
+  },
+  expiration: Date,
+}, { _id: false })
 
 const projectSchema = new Schema<IProject>({
   name: String,
@@ -28,7 +70,15 @@ const projectSchema = new Schema<IProject>({
   location: String, 
   images: [ String ],
   bids: {
-    type: [ Schema.Types.ObjectId ],
+    type: [ BidSchema ],
+    default: []
+  },
+  lowestBid: {
+    type: BidSchema,
+    required: false
+  },
+  messages: {
+    type: [ MessageSchema ],
     default: []
   },
   timeline: String

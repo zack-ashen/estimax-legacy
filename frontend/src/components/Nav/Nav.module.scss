@@ -4,12 +4,12 @@ nav {
   display: inline-flex;
   justify-content: space-between;
   width: 100%;
-  padding: 0 5%;
+  padding: $spacing-3 5%;
   margin: 0 auto;
-  border-bottom: 1px solid #D7DFEE;
+  border-bottom: 1px solid $grey-300;
   align-items: center;
   background-color: #FFF;
-  height: 3.7rem;
+  gap: $spacing-8;
 
   img {
     height: 1.6rem;
@@ -28,6 +28,7 @@ nav {
   gap: $spacing-3;
   height: 100%;
   margin-left: $spacing-8;
+  align-items: center;
 }
 
 .NavLink {
@@ -41,7 +42,7 @@ nav {
   border-bottom: solid 2px transparent;
   
   a {
-    font-weight: 500;
+    font-weight: 400;
     color: $grey-800;
   }
 
@@ -67,9 +68,26 @@ nav {
   }
 }
 
+.navItems {
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.navLinks {
+  display: flex;
+  gap: $spacing-3;
+}
+
+.navButtonContainer {
+  display: flex;
+  gap: $spacing-5;
+  justify-self: end;
+}
+
 .logoSection:hover {
   cursor: pointer;
 }
+
 
 .divider {
   height: 2rem;

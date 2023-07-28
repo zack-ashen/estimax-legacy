@@ -11,46 +11,30 @@ import ProfileNav from '../ProfileNav/ProfileNav';
 import { ReactComponent as DashboardIcon } from '../../assets/DashboardIcon.svg'
 import { ReactComponent as SearchIcon } from '../../assets/SearchIcon.svg'
 import { ReactComponent as PlusIcon } from '../../assets/PlusIcon.svg'
+import TextInput from '../Inputs/TextInput/TextInput';
 
-
-interface NavLinkProps {
-    route: string;
-    text: string;
-}
-
-const NavLink = ({ route, text }: NavLinkProps) => {
-    return (
-        <div className={styles.NavLink}>
-            <a href={route} className={styles.navLinkText}>{text}</a>
-        </div>
-    )
-}
-
-const NavLinks = () => {
-    const auth = useAuth()
-    const role = auth.user.role;
-
-    return (
-        <div className={styles.NavLinks}>
-            {role === Roles.CONTRACTOR ?  
-                <ContractorNav /> : <HomeownerNav />}
-        </div>
-    );
-}
 
 const ContractorNav = () => {
     const navigate = useNavigate();
 
     return (
         <>
-            <Button 
-                buttonStyle={ButtonStyles.TERTIARY}
-                onClick={() => navigate('/explore')}
-                text={'Find Projects'} />
-            <Button 
-                buttonStyle={ButtonStyles.TERTIARY}
-                onClick={() => navigate('/dashboard')}
-                text={'Dashboard'} />
+            <div className={styles.navLinks}>
+                <Button 
+                    buttonStyle={ButtonStyles.TERTIARY}
+                    onClick={() => navigate('/explore')}
+                    text={'Find Projects'} 
+                    Icon={SearchIcon} />
+                <Button 
+                    buttonStyle={ButtonStyles.TERTIARY}
+                    onClick={() => navigate('/dashboard')}
+                    text={'Dashboard'}
+                    Icon={DashboardIcon} />
+            </div>
+            <div className={styles.navButtonContainer}>
+                <TextInput name='Search' value={''} onChange={() => undefined} Icon={SearchIcon} noLabel/>
+                <ProfileNav />
+            </div>
         </>
     )
 }
@@ -60,19 +44,26 @@ const HomeownerNav = () => {
 
     return (
         <>
-        <Button 
-                buttonStyle={ButtonStyles.TERTIARY}
-                onClick={() => navigate('/explore')}
-                text={'Find Contractors'} />
-        <Button 
-                buttonStyle={ButtonStyles.TERTIARY}
-                onClick={() => navigate('/manage-projects')}
-                text={'Manage Projects'} />
-        <Button
-            buttonStyle={ButtonStyles.PRIMARY}
-            onClick={() => navigate('/post-project')}
-            Icon={PlusIcon}
-            text={'Create Project'} />
+        <div className={styles.navLinks}>
+            <Button 
+                    buttonStyle={ButtonStyles.TERTIARY}
+                    onClick={() => navigate('/find-contractors')}
+                    text={'Find Contractors'} 
+                    Icon={SearchIcon} />
+            <Button 
+                    buttonStyle={ButtonStyles.TERTIARY}
+                    onClick={() => navigate('/manage-projects')}
+                    text={'Manage Projects'} 
+                    Icon={DashboardIcon} />
+        </div>
+        <div className={styles.navButtonContainer}>
+            <Button
+                buttonStyle={ButtonStyles.PRIMARY}
+                onClick={() => navigate('/post-project')}
+                Icon={PlusIcon}
+                text={'Create Project'} />
+            <ProfileNav />
+        </div>
         </>
     );
 }
@@ -83,10 +74,10 @@ function AuthNav() {
 
     
     return (
-        <div className={styles.authNav}>
-            <NavLinks />
-            <ProfileNav />
-        </div>
+        <>
+            {role === Roles.CONTRACTOR ?  
+            <ContractorNav /> : <HomeownerNav />}
+        </>
     );
 }
 
@@ -96,35 +87,49 @@ function NoAuthNav() {
 
     if (location === '/') {
         return (
-            <>
+            <> 
+                <div>
                 <a href='#how-it-works'>How It Works</a>
                 <a href='#features'>Features</a>
                 <a href='#faq'>FAQ</a>
-                {divider}
-                <Button 
-                    buttonStyle={ButtonStyles.SECONDARY}
-                    onClick={() => navigate('/signin')}
-                    text={'Sign In'} />
-                <Button
-                    buttonStyle={ButtonStyles.PRIMARY}
-                    onClick={() => navigate('/signup')}
-                    text={'Sign Up'} />
+                </div>
+
+                <div className={styles.navButtonContainer}>
+                    <Button 
+                        buttonStyle={ButtonStyles.SECONDARY}
+                        onClick={() => navigate('/signin')}
+                        text={'Sign In'} />
+                    <Button
+                        buttonStyle={ButtonStyles.PRIMARY}
+                        onClick={() => navigate('/signup')}
+                        text={'Create an Account'} />
+                </div>
             </>
         );
     } else if (location === '/signin') {
         return (
-            <Button 
-                buttonStyle={ButtonStyles.SECONDARY}
-                onClick={() => navigate('/signup')}
-                text={'Sign Up'} />
+            <>
+            <div></div>
+            <div className={styles.navButtonContainer}>
+                <Button 
+                    buttonStyle={ButtonStyles.SECONDARY}
+                    onClick={() => navigate('/signup')}
+                    text={'Sign Up'} />
+            </div>
+            </>
         );
     }
 
     return (
-        <Button 
-            buttonStyle={ButtonStyles.SECONDARY}
-            onClick={() => navigate('/signin')}
-            text={'Sign In'} />
+        <>
+        <div></div>
+        <div className={styles.navButtonContainer}>
+            <Button 
+                buttonStyle={ButtonStyles.SECONDARY}
+                onClick={() => navigate('/signin')}
+                text={'Sign In'} />
+        </div>
+        </>
     );
 }
 
