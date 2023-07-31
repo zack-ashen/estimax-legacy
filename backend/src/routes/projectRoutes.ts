@@ -128,6 +128,9 @@ router.route('/:id/bid').get(async (req, res, next) => {
 })
 
 
+
+
+
 /*
 * Post a Message
 */
@@ -141,7 +144,6 @@ router.route('/:id/message').post(async (req, res, next) => {
 
       const updatedProject = await Project.findOneAndUpdate({ _id: projectId }, { messages }, { new: true });
       res.status(200).send( { project: updatedProject} )
-
 
    } catch (err) {
       next(err)
