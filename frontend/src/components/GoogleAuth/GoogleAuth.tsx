@@ -19,7 +19,7 @@ interface GoogleAuthProps {
 
 export default function GoogleAuth({signIn, referral, user, setErrors}: GoogleAuthProps) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [buttonWidth, setButtonWidth] = useState('350');
+  const [buttonWidth, setButtonWidth] = useState(350);
   const formContext = useFormContext();
 
   const handleCallbackResponse = ({credential, clientId}: CredentialResponse) => {
@@ -57,9 +57,9 @@ export default function GoogleAuth({signIn, referral, user, setErrors}: GoogleAu
     window.addEventListener('resize', handleResize);
 
     if (windowWidth < 500) {
-      setButtonWidth('250')
-    } else if (windowWidth >= 500 && buttonWidth === '250') {
-      setButtonWidth('420')
+      setButtonWidth(250)
+    } else if (windowWidth >= 500 && buttonWidth === 250) {
+      setButtonWidth(420)
     }
 
     return () => window.removeEventListener('resize', handleResize);
@@ -68,7 +68,7 @@ export default function GoogleAuth({signIn, referral, user, setErrors}: GoogleAu
   return (
     <GoogleLogin
       theme='outline'
-      width={buttonWidth}
+      width={350}
       onSuccess={handleCallbackResponse}
       onError={() => {
         console.error('Login Failed');

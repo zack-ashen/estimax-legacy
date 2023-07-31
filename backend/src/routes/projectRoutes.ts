@@ -114,7 +114,7 @@ router.route('/:id/bid').post(async (req, res, next) => {
 })
 
 /* 
-* Post a bid
+* Get bids
 */
 router.route('/:id/bid').get(async (req, res, next) => {
    const projectId = req.params.id;
@@ -127,6 +127,26 @@ router.route('/:id/bid').get(async (req, res, next) => {
    }
 })
 
+
+/*
+* Post a Message
+*/
+router.route('/:id/message').post(async (req, res, next) => {
+   const projectId = req.params.id;
+   const msg = req.body.message;
+
+   try {
+      const project = await getProject(projectId);
+      const messages = [msg, ...project!.messages];
+
+      const updatedProject = await Project.findOneAndUpdate({ _id: projectId }, { messages }, { new: true });
+      res.status(200).send( { project: updatedProject} )
+
+
+   } catch (err) {
+      next(err)
+   }
+})
 
 
 export default router;

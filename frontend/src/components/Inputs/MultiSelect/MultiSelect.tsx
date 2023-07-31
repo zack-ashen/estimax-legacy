@@ -47,7 +47,7 @@ const MultiSelect = ({ options, placeholder, isMulti, setSelectedOptions, error 
             ...provided,
             backgroundColor: 'white',
             borderColor: error ? '#F04438' : '#D0D5DD', // colors depending on the focus state
-            borderWidth: '2px', // Set a fixed border width
+            borderWidth: '1px', // Set a fixed border width
             borderRadius: '0.5rem',
             width: '100%',
             cursor: 'text',
