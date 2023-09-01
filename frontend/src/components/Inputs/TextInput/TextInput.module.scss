@@ -4,17 +4,19 @@
 .inputBox {
   position: relative;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
 }
 
 .inputLabel {
-  position: absolute;
-  top: 0.7rem;
-  left: 1.143rem;
-  transition: 0.35s;
-  font-size: inherit;
-  color: $grey-500;
-  font-weight: 400;
+  font-size: $font-size-sm;
+  color: $grey-700;
+  font-weight: 500;
   pointer-events: none;
+}
+
+.focused {
 }
 
 .Input {
@@ -26,14 +28,16 @@
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   margin: 1px;
   transition: border-color 0.2s ease-in-out;
+  font-family: 'Inter';
 
   &:not(.textarea) {
     line-height: 0;
   }
 
   &.medium {
-    padding: $spacing-2 $spacing-4;
-    font-size: 1.143em;
+    font-size: $font-size-sm;
+    color: $grey-800;
+    padding: 0.5rem 0.75rem;
   }
 
   &:hover {
@@ -50,13 +54,6 @@
     path {
       stroke: $grey-400;
     }
-  }
-
-  &:focus ~ .inputLabel {
-    transform: translateX(-1.143rem) translateY(-2.45rem);
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: $grey-700;
   }
 }
 
@@ -85,28 +82,23 @@
 .errorText {
   @include typography-small-medium;
   color: $red-500 !important;
-  margin-top: $spacing-1;
-}
-
-.Input:focus + .inputLabel,
-.Input:not(:placeholder-shown).Input:not(:focus) + .inputLabel {
-  transform: translateX(-1.143rem) translateY(-2.45rem);
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: $grey-600;
 }
 
 .textarea {
   resize: none;
   font-family: inherit;
-  min-height: 3.5rem;
-  height: 5rem;
+  height: calc(1rem * 1.5 * 5);
+}
+
+.textarea:focus {
+  height: calc(1rem * 1.5 * 5);
+  margin: 1px;
 }
 
 .icon {
   position: absolute;
   width: 0.90rem;
-  top: 0.70rem;
+  top: 0.53rem;
   left: 0.9rem;
 
   path {

@@ -136,6 +136,15 @@ export interface FormErrors {
   [key: string]: any;
 };
 
+export enum Locations {
+  BROOKLYN='Brooklyn, NY',
+  MANHATTAN='Manhattan, NY',
+  QUEENS='Queens, NY',
+  BRONX='Bronx, NY',
+  STATENISLAND='Staten Island, NY',
+  WESTFIELD='Westfield, NJ'
+}
+
 export const locations: MultiValue<OptionType> = [
   {value: 'Brooklyn, NY', label: 'Brooklyn, NY'},
   {value: 'Manhattan, NY', label: 'Manhattan, NY'},
@@ -144,6 +153,15 @@ export const locations: MultiValue<OptionType> = [
   {value: 'Staten Island, NY', label: 'Staten Island, NY'},
   {value: 'Westfield, NJ', label: 'Westfield, NJ'},
 ]
+
+export enum Prices {
+  LEAST_EXPENSIVE = '< $100',
+  INEXPENSIVE = '< $500',
+  MID_PRICED = '< $1,500',
+  EXPENSIVE = '< $5,000',
+  MORE_EXPENSIVE = '< $10,000',
+  MOST_EXPENSIVE = '> $20,000'
+}
 
 export enum Timeline {
   ONE_HOUR = 'One Hour',
@@ -155,7 +173,7 @@ export enum Timeline {
   THREE_MONTHS = 'Three Months',
   SIX_MONTHS = 'Six Months',
   ONE_YEAR = 'One Year',
-  GREATER = 'More than a Year'
+  GREATER = '≥ Year'
 }
 
 export const projectTypes: MultiValue<OptionType> = [

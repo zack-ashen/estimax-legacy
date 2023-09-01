@@ -23,17 +23,32 @@ enum BidStatus {
   UnderReview = 'Under Review'
 }
 
-export interface IMessage {
+export interface MessageText {
   poster: string;
   timestamp: Date;
   messageText: string;
 }
 
-const MessageSchema = new Schema<IMessage>({
+export interface IMessage {
+  message: MessageText;
+  replies: MessageText[]
+}
+
+const MessageTextSchema = new Schema<MessageText>({
   poster: String,
   timestamp: Date,
   messageText: String
 }, { _id: false })
+
+const MessageSchema = new Schema<IMessage>({
+  message: {
+    type: MessageTextSchema
+  },
+  replies: {
+    type: [ MessageTextSchema ],
+    default: []
+  }
+})
 
 export interface IBid {
   contractorId: string;

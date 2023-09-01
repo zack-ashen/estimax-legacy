@@ -15,7 +15,7 @@
   .modalContent {
     background: $background-color;
     padding: $spacing-6;
-    border-radius: 0.8rem;
+    border-radius: 0.6rem;
     max-width: 600px;
     min-width: 500px;
     position: relative;
@@ -25,6 +25,14 @@
     position: absolute;
     top: $spacing-4;
     right: $spacing-4;
+    background: none;
+    border: none;
+  }
+
+  .backButton {
+    position: absolute;
+    top: $spacing-4;
+    left: $spacing-4;
     background: none;
     border: none;
   }

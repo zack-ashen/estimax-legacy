@@ -1,0 +1,8 @@
+@import '../../styles/index';
+
+.CheckoutForm {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-6;
+    margin-top: $spacing-6;
+}

@@ -1,6 +1,6 @@
 import express from 'express'
 import { createProject, getProject } from '../controllers/projectController';
-import { Errors } from '../types';
+import { Errors, Timeline } from '../types';
 import { ServerError } from '../middleware/errors';
 import { Project } from '../models/project';
 
@@ -13,9 +13,35 @@ const router = express.Router();
 router.route('/').get(async (req, res) => {
    const limit = parseInt(req.query.limit as string);  // Number of documents to limit to
    const offset = parseInt(req.query.offset as string);  // Starting index
+
+   const filter = {
+      location: (req.query.location as string).split('|').map(loc => ({ location: new RegExp(loc, 'i') })),
+      currentPrice: parseInt((req.query.currentPrice as string).slice(3).replace(/,/g, '')),
+      timeline: req.query.timeline as string
+   }
+
+   const timelineValues = Object.values(Timeline) as string[];
+   const timelineInd = timelineValues.indexOf(filter.timeline);
+   const timelineQuery = timelineValues.slice(0,timelineInd+1).map(time => ({ timeline: time }));
+   console.log(timelineQuery)
+
+   const lowestBidQuery = Number.isNaN(filter.currentPrice) ? {} : filter.currentPrice !== 20000 ? { $or: [ 
+      { 'lowestBid.amount': { $lt: filter.currentPrice }},
+      { 'lowestBid': { $exists: false }} 
+   ]} : { 'lowestBid.amount': { $gt: filter.currentPrice }}
+
+   const locationTimelineQuery = timelineQuery.length === 0 ? { $or: filter.location } : { $and: [
+      { $or: filter.location },
+      { $or: timelineQuery },
+   ] }
  
-   const projects = await Project.find().skip(offset).limit(limit);
- 
+   const projects = await Project.find({
+      ...locationTimelineQuery,
+      ...lowestBidQuery,
+
+   }).skip(offset).limit(limit);
+  
+   console.log(projects)
    res.json(projects);
 })
 
@@ -127,10 +153,6 @@ router.route('/:id/bid').get(async (req, res, next) => {
    }
 })
 
-
-
-
-
 /*
 * Post a Message
 */
@@ -144,6 +166,22 @@ router.route('/:id/message').post(async (req, res, next) => {
 
       const updatedProject = await Project.findOneAndUpdate({ _id: projectId }, { messages }, { new: true });
       res.status(200).send( { project: updatedProject} )
+
+   } catch (err) {
+      next(err)
+   }
+})
+
+/*
+* Get messages
+*/
+router.route('/:id/message').get(async (req, res, next) => {
+   const projectId = req.params.id;
+
+   try {
+      const project = await getProject(projectId);
+
+      res.status(200).send( { messages: project!.messages} )
 
    } catch (err) {
       next(err)

@@ -15,6 +15,9 @@ import PostProject from './pages/PostProject/PostProject';
 import Project from './pages/Project/Project';
 import Profile from './pages/Profile/Profile';
 import ContractorFeed from './pages/ContractorFeed/ContractorFeed';
+import Messages from './pages/Messages/Messages';
+import FriendsAndFavorites from './pages/FriendsAndFavorites/FriendsAndFavorites';
+import ContractorDashboard from './pages/ContractorDashboard/ContractorDashboard';
 
 export interface PreAuth {
   user: User;
@@ -57,6 +60,22 @@ const AuthRoutes = () => {
         element={
           <PrivateRoute forContractor={true} forHomeowner={true}>
             <Project />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/messages"
+        element={
+          <PrivateRoute forContractor={true} forHomeowner={true}>
+            <Messages />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute forContractor={true} forHomeowner={true}>
+            <ContractorDashboard />
           </PrivateRoute>
         }
       />
@@ -105,6 +124,22 @@ const AuthRoutes = () => {
         element={
           <PrivateRoute forContractor={false} forHomeowner={true}>
             <Project />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/messages"
+        element={
+          <PrivateRoute forContractor={true} forHomeowner={true}>
+            <Messages />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/friends-and-favorites"
+        element={
+          <PrivateRoute forContractor={true} forHomeowner={true}>
+            <FriendsAndFavorites />
           </PrivateRoute>
         }
       />

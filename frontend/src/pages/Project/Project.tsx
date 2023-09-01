@@ -78,6 +78,18 @@ export default function ProjectView() {
     
   }, [])
 
+  // const bookmarkProject = () => {
+  //   authReq(`/api/user/${user.uid}/bookmark/`, {
+  //     method: 'POST',
+  //     body: JSON.stringify({
+  //       project: id
+  //     })
+  //   })
+  //     .then((res) => res?.json())
+  //     .then(data => setUser(data.project))
+
+  // }
+
   return (
     <div className={styles.Project}>
       {user.role === Roles.HOMEOWNER &&
@@ -105,7 +117,7 @@ export default function ProjectView() {
           <Button 
             buttonStyle={ButtonStyles.TERTIARY} 
             onClick={() => undefined}
-            text={'Share'}
+            text={'Invite a Contractor'}
             Icon={ShareIcon} />
           {user.role === Roles.CONTRACTOR && <Button 
             buttonStyle={ButtonStyles.TERTIARY} 

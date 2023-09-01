@@ -1,20 +1,35 @@
-import { useEffect, useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { Project, locations } from '../../types';
+import { useEffect, useRef, useState } from 'react';
+import { Project } from '../../types';
 import styles from './ProjectFeed.module.scss'
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
-import TextInput from '../../components/Inputs/TextInput/TextInput';
-import MultiSelect from '../../components/Inputs/MultiSelect/MultiSelect';
+import ProjectFilter, { ProjectFilters } from '../../components/ProjectFilter/ProjectFilter';
 
 function ProjectFeed() {
-  const auth = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [filter, setFilter] = useState<ProjectFilters>({
+    location: [],
+    currentPrice: '',
+    timeline: ''
+  })
+
+  const prevFilter = useRef();
+  
+  useEffect(() => {
+    if (prevFilter.current !== filter) {
+      setProjects([])
+      setPage(0)
+    }
+  }, [filter])
   
   // Fetch new items whenever 'page' changes
   useEffect(() => {
-    fetch(`/api/project/?limit=10&offset=${page * 10}`)
+    fetch(`/api/project/?limit=10&offset=${page * 10}&` + new URLSearchParams({ 
+      location: filter.location.join('|'), 
+      currentPrice: filter.currentPrice.toString(),
+      timeline: filter.timeline.toString()
+     }))
       .then((res) => res.json())
       .then((data) => {
         // If there are no more items, update 'hasMore'
@@ -26,48 +41,23 @@ function ProjectFeed() {
           setPage((prevPage) => prevPage + 1);
         }
       });
-  }, [page]);
-
+  }, [page, filter]);
 
   return (
     <div className={styles.ProjectFeed}>
-      <div className={styles.filterContainer}>
-        <div className={styles.filterItem}>
-          <MultiSelect
-            options={locations}
-            placeholder={"Location"}
-            setSelectedOptions={() => undefined}
-            isMulti
-          />
-        </div>
-        <div className={styles.filterItem}>
-          <MultiSelect
-            options={locations}
-            placeholder={"Price"}
-            setSelectedOptions={() => undefined}
-            isMulti
-          />
-        </div>
-        <div className={styles.filterItem}>
-          <MultiSelect
-            options={locations}
-            placeholder={"Timeline"}
-            setSelectedOptions={() => undefined}
-            isMulti
-          />
-        </div>
-        <div className={styles.filterItem}>
-          <MultiSelect
-            options={locations}
-            placeholder={"Activity"}
-            setSelectedOptions={() => undefined}
-          />
-        </div>
-      </div>
+      <ProjectFilter filter={filter} setFilter={setFilter}/>
+
       <div className={styles.projects}>
-        {projects.map((project, index) => (
-          <ProjectCard project={project} />
-        ))}
+        <div className={styles.searchResultsHeader}>
+          <p>Found {projects.length} result on your search...</p>
+        </div>
+      
+        <div className={styles.projectGrid}>
+          
+          {projects.map((project, index) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
       </div>
     </div>
   );

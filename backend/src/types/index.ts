@@ -2,6 +2,29 @@ import { JwtPayload } from "jsonwebtoken";
 import {Schema} from "mongoose";
 
 
+export enum Prices {
+    LEAST_EXPENSIVE = '< $100',
+    INEXPENSIVE = '< $500',
+    MID_PRICED = '< $1,500',
+    EXPENSIVE = '< $5,000',
+    MORE_EXPENSIVE = '< $10,000',
+    MOST_EXPENSIVE = '> $20,000'
+  }
+  
+  export enum Timeline {
+    ONE_HOUR = 'One Hour',
+    HALF_DAY = 'Half a Day',
+    ONE_DAY = 'One Day',
+    ONE_WEEK = 'One Week',
+    TWO_WEEKS = 'Two Weeks',
+    ONE_MONTH = 'One Month',
+    THREE_MONTHS = 'Three Months',
+    SIX_MONTHS = 'Six Months',
+    ONE_YEAR = 'One Year',
+    GREATER = '≥ Year'
+  }
+
+
 // Auth Types
 export interface TokenPayload extends JwtPayload{
     uid: string;

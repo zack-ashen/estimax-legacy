@@ -39,7 +39,7 @@ export default function ProfileNav() {
             {isOpen && (
                 <div className={styles.dropdownContent}>
                     <button className={styles.dropdownButton} onClick={() => navigate('/profile')}><UserIcon className={styles.dropdownIcon} /> Profile</button>
-                    <button className={styles.dropdownButton}><MessageIcon className={styles.dropdownIcon} /> Messages</button>
+                    <button className={styles.dropdownButton} onClick={() => navigate('/messages')}><MessageIcon className={styles.dropdownIcon} /> Messages</button>
                     <div className={styles.divider} />
                     <button className={styles.dropdownButton} onClick={() => signOut()}><LogoutIcon className={styles.dropdownIcon} /> Sign Out</button>
                 </div>

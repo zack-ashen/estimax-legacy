@@ -11,6 +11,7 @@ import ProfileNav from '../ProfileNav/ProfileNav';
 import { ReactComponent as DashboardIcon } from '../../assets/DashboardIcon.svg'
 import { ReactComponent as SearchIcon } from '../../assets/SearchIcon.svg'
 import { ReactComponent as PlusIcon } from '../../assets/PlusIcon.svg'
+import { ReactComponent as FriendsIcon } from '../../assets/FriendsIcon.svg'
 import TextInput from '../Inputs/TextInput/TextInput';
 
 
@@ -55,6 +56,11 @@ const HomeownerNav = () => {
                     onClick={() => navigate('/manage-projects')}
                     text={'Manage Projects'} 
                     Icon={DashboardIcon} />
+            <Button 
+                    buttonStyle={ButtonStyles.TERTIARY}
+                    onClick={() => navigate('/friends-and-favorites')}
+                    text={'Friends and Favorites'} 
+                    Icon={FriendsIcon} />
         </div>
         <div className={styles.navButtonContainer}>
             <Button
@@ -140,7 +146,7 @@ function Nav({ auth=false }: NavProps) {
         <nav className={styles.Nav}>
             <div className={styles.logoSection} onClick={() => navigate('/')}>
                 <img alt='logo' src={Logo}/>
-                <h5>Estimax</h5>
+                <h5>Estimax <span className={styles.betaTag}>BETA</span></h5>
             </div>
 
             <div className={styles.navItems}>

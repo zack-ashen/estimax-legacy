@@ -14,6 +14,7 @@ import userRoutes from './routes/userRoutes'
 import projectRoutes from './routes/projectRoutes'
 import authRoutes from './routes/authRoutes'
 import imageRoutes from './routes/imageRoutes';
+import paymentRoutes from './routes/paymentRoutes';
 
 import { errorHandler } from './middleware/errors'
 
@@ -45,6 +46,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/project', projectRoutes);
 app.use('/api/auth', authRoutes)
 app.use('/api/image', imageRoutes)
+app.use('/api/payment', paymentRoutes)
 
 // Error Handling
 app.use(errorHandler);

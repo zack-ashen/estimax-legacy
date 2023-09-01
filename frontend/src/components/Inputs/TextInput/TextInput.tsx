@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent, ReactElement, SVGProps } from 'react';
+import { ChangeEvent, FunctionComponent, ReactElement, SVGProps, useState } from 'react';
 import styles from './TextInput.module.scss';
 
 
@@ -34,6 +34,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                                                 Icon,
                                                 noLabel=false}) => {
     
+    const [focused, setFocused] = useState(false);
     const className = `${styles.Input} 
                             ${styles[inputSize]} 
                             ${styles[error ? 'error' : '']}
@@ -43,6 +44,9 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
 
     return type !== "textarea" ? (
         <div className={styles.inputBox}>
+            {!noLabel && 
+                <label className={`${styles.inputLabel} ${styles[inputSize]} ${styles[focused ? 'focused' : '']}`} htmlFor={name}>{name}</label>
+            }
             <input
                 name={name}
                 value={value}
@@ -50,32 +54,27 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                 placeholder={placeholder}
                 onChange={onChange}
                 className={className}
-                onBlur={onBlur}
+                onFocus={() => setFocused(true)}
+                onBlur={() => {setFocused(false); onBlur && onBlur()}}
             />
             {Icon && <Icon className={styles.icon}/>}
-            {!noLabel && 
-                <>
-                <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>
-                {error && <p className={styles.errorText}>{error}</p> }
-                </>
-            }
+            {error && <p className={styles.errorText}>{error}</p> }
         </div>
     ) : (
         <div className={styles.inputBox}>
+            {!noLabel &&
+                <label className={`${styles.inputLabel} ${styles[inputSize]} ${styles[focused ? 'focused' : '']}`} htmlFor={name}>{name}</label>
+            }
             <textarea
                 name={name}
                 value={value}
                 placeholder={placeholder}
                 onChange={onChange}
                 className={className}
-                onBlur={onBlur}
+                onFocus={() => setFocused(true)}
+                onBlur={() => {setFocused(false); onBlur && onBlur()}}
             />
-            {!noLabel &&
-                <>
-                <label className={`${styles.inputLabel} ${styles[inputSize]}`} htmlFor={name}>{name}</label>
-                {error && <p className={styles.errorText}>{error}</p> }
-                </>
-            }
+            {error && <p className={styles.errorText}>{error}</p> }
         </div>
     );
 };

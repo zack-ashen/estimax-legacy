@@ -6,7 +6,8 @@ export enum ButtonStyles {
   PRIMARY = 'primary',
   PRIMARY_ALT = 'primaryAlt',
   SECONDARY = 'secondary',
-  TERTIARY = 'tertiary'
+  TERTIARY = 'tertiary',
+  LINK = 'link'
 }
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{

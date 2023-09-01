@@ -1,0 +1,17 @@
+@import '../../../styles/index';
+
+.CheckboxContainer {
+    display: flex;
+    gap: $spacing-2;
+
+    .checkbox:hover {
+        cursor: pointer;
+    }
+    
+}
+
+.CheckboxSection {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+}
