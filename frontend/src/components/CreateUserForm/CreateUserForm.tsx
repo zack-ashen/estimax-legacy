@@ -7,7 +7,6 @@ import { ReactComponent as StoreIcon } from "../../assets/StoreIcon.svg";
 import { ReactComponent as UserIcon } from "../../assets/UserIcon.svg";
 import { ReactComponent as UserPickIcon } from "../../assets/UserPickIcon.svg";
 import MultiForm from "../MultiForm/MultiForm";
-import GetReferralCode from "./pages/GetReferralCode";
 import GetUserType from "./pages/GetUserType";
 import { useFormContext } from '../../contexts/MultiFormContext';
 import GetBusinessInfo from "./pages/GetBusinessInfo";
@@ -19,14 +18,6 @@ export interface CreateUserFormProps {
 }
 
 const homeownerSteps = [
-  {
-    page: GetReferralCode,
-    content: {
-      header: "Do you have access?",
-      subtitle: "Enter your referral code to get access to Estimax.",
-      Icon: LockIcon,
-    }
-  },
   {
     page: GetUserType,
     content: {
@@ -46,7 +37,7 @@ const homeownerSteps = [
 ];
 
 const contractorSteps = [
-  ...homeownerSteps.slice(0, 2),
+  ...homeownerSteps.slice(0, 1),
   {
     page: GetBusinessInfo,
     content: {
@@ -55,7 +46,7 @@ const contractorSteps = [
       Icon: StoreIcon,
     }
   },
-  ...homeownerSteps.slice(2),
+  ...homeownerSteps.slice(1),
 ];
 
 const createUserBody = (finalData: any) : AuthHomeowner | AuthContractor => {
@@ -96,7 +87,6 @@ const auth = (signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         newUser,
-        referral: finalData.referral,
         password: finalData.password
       })
     })
@@ -130,7 +120,7 @@ export function CreateUserForm({ signIn }: CreateUserFormProps) {
 
   const submitForm = (
     <div className={styles.googleAuthButtonContainer}>
-      <GoogleAuth signIn={signIn} referral={formData.referral} user={createUserBody(formData)} setErrors={setErrors}/>
+      <GoogleAuth signIn={signIn} user={createUserBody(formData)} setErrors={setErrors}/>
       <div className={styles.submitFormDivider} />
     </div>
   );

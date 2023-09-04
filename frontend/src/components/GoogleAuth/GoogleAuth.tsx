@@ -13,11 +13,10 @@ interface SignInUser {
 interface GoogleAuthProps {
   signIn: (preAuthObj: PreAuth) => void;
   user: AuthContractor | AuthHomeowner | SignInUser;
-  referral?: string;
   setErrors?: React.Dispatch<React.SetStateAction<FormErrors>>;
 }
 
-export default function GoogleAuth({signIn, referral, user, setErrors}: GoogleAuthProps) {
+export default function GoogleAuth({signIn, user, setErrors}: GoogleAuthProps) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [buttonWidth, setButtonWidth] = useState(350);
   const formContext = useFormContext();
@@ -29,7 +28,6 @@ export default function GoogleAuth({signIn, referral, user, setErrors}: GoogleAu
       body: JSON.stringify({
         credential: credential,
         clientId: clientId,
-        referral,
         user
       })
     })

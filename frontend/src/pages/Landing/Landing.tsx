@@ -12,12 +12,10 @@ function Landing() {
       <DecorativeGrid className={styles.decorativeGridRight} />
       <div className={styles.heroSection}>
         <div>
-          <h1>Connecting service pros with homeowners.</h1>
+          <h1>Get a fair price from your favorite pros every time.</h1>
           <p>We connect service-providers to homeowners through an open bidding platform. Making free, high quality lead generation as easy as scrolling and bidding. </p>
         </div>
-        <div className={styles.buttonContainer}>
-          <Button buttonStyle={ButtonStyles.PRIMARY} text={'Get Started'} onClick={() => undefined} wide/>
-        </div>
+        <Button buttonStyle={ButtonStyles.PRIMARY} text={'Get Started'} onClick={() => undefined}/>
       </div>
 
       <HeroIllustration />

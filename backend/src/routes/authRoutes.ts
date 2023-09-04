@@ -25,10 +25,6 @@ router.route('/signup').post(async (req, res, next) => {
     if (!newUser)
       throw new ServerError(Errors.INVALID_REQUEST_BODY, 400);
 
-    // make sure the referral code is valid
-    if (!(await validateReferralCode(referral)))
-      throw new ServerError(Errors.INVALID_REFERRAL_CODE, 409);
-
     // Check if the email address already exists
     const userExists = await getUser(newUser.email, true);
     if (userExists)

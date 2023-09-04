@@ -40,19 +40,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: $spacing-12;
+    gap: $spacing-7;
     margin-top: 15vh;
 
     h1 {
         color: $blue-950;
-        font-weight: 700;
+        font-weight: 600;
     }
 
     p {
         margin-top: $spacing-5;
-        font-size: 1.143rem;
+        font-size: $font-size-lg;
         color: $grey-500;
-        font-weight: 500;
+        font-weight: 400;
     }
 
     .buttonContainer {
