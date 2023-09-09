@@ -23,9 +23,17 @@ export default function CheckboxSection({items, selectedItems, setSelectedItems}
     return (
         <div className={styles.CheckboxSection}>
             {items.map((item, index) => (
-                <div className={styles.CheckboxContainer}>
-                    <input type='checkbox' className={styles.checkbox} value={item} checked={selectedItems.includes(item)} onChange={(event) => handleChange(event, item)}/>
-                    <label htmlFor='label'>{item}</label>
+                <div className={styles.CheckboxContainer} key={`container-${index}`}>
+                    <input 
+                        type='checkbox' 
+                        className={styles.checkbox} 
+                        value={item} 
+                        checked={selectedItems.includes(item)} 
+                        onChange={(event) => handleChange(event, item)}
+                        key={`input-${index}`}/>
+                    <label 
+                        htmlFor='label'
+                        key={`label-${index}`}>{item}</label>
                 </div>
             ))}
         </div>

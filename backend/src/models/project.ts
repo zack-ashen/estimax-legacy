@@ -14,6 +14,7 @@ export interface IProject {
   bids: IBid[];
   timeline: string;
   messages: IMessage[];
+  invitedContractors: Schema.Types.ObjectId;
 }
 
 enum BidStatus {
@@ -25,6 +26,7 @@ enum BidStatus {
 
 export interface MessageText {
   poster: string;
+  posterName: string;
   timestamp: Date;
   messageText: string;
 }
@@ -36,6 +38,7 @@ export interface IMessage {
 
 const MessageTextSchema = new Schema<MessageText>({
   poster: String,
+  posterName: String,
   timestamp: Date,
   messageText: String
 }, { _id: false })
@@ -96,7 +99,12 @@ const projectSchema = new Schema<IProject>({
     type: [ MessageSchema ],
     default: []
   },
-  timeline: String
+  timeline: String,
+  invitedContractors: {
+    type: [ Schema.Types.ObjectId ],
+    ref: 'Contractors',
+    default: []
+  }
 });
 
-export const Project = mongoose.model('Projects', projectSchema)
+export const Project = mongoose.model('Projects', projectSchema);

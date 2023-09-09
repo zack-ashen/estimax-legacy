@@ -9,6 +9,8 @@ import { Errors, TokenPayload, Roles } from '../types';
 import { createUser, getUser } from '../controllers/userController';
 import { ServerError } from '../middleware/errors';
 import { Referral } from '../models/referral';
+import { IHomeowner } from '../models/homeowner';
+import { IContractor } from '../models/contractor';
 
 const router = express.Router();
 
@@ -99,7 +101,7 @@ router.post('/googleAuth', async (req, res, next) => {
     if (!payload)
       throw new ServerError(Errors.INVALID_TOKEN, 400);
 
-    let user: IUser | null = await getUser(payload.email!, true);
+    let user: IHomeowner | IContractor | null = await getUser(payload.email!, true);
     if (!user) {
       const referral = req.body.referral;
       if (!referral || !(await validateReferralCode(referral)))
@@ -110,7 +112,7 @@ router.post('/googleAuth', async (req, res, next) => {
       const referralObj = new Referral({ referral })
       await referralObj.save();
     }
-
+    
     const token = createAndSetToken(user, res);
 
     // Send the JWT token and refresh token to the client
@@ -169,12 +171,12 @@ router.route('/validate-referral').post(async (req, res, next) => {
   }
 });
 
-const createAndSetToken = (user: IUser, res: Response) => {
-  if (!user.id)
+const createAndSetToken = (user: IContractor | IHomeowner, res: Response) => {
+  if (!user._id)
     throw new ServerError(Errors.FAILED_SET_TOKEN, 400);
 
   const tokenPayload : TokenPayload = {
-    uid: user.id.toString(),
+    uid: user._id.toString(),
     scope: user.role
   }
 

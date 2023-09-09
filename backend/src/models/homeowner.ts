@@ -1,7 +1,7 @@
 import { ObjectId, Schema, model } from 'mongoose'
 import { IUser, User } from './user'
 
-export interface IHomeowner extends IUser {
+export interface IHomeowner extends IUser, Document {
   preferredContractors: ObjectId[];
   postedProjects: ObjectId[];
   finishedProjects: ObjectId[];

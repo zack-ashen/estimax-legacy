@@ -8,8 +8,6 @@ router.route('/:id').get(async (req, res) => {
     const uid = req.params.id;
 
     const user = await getUser(uid);
-    
-    console.log(await Homeowner.findById(uid))
 
     res.send({ user })
 })

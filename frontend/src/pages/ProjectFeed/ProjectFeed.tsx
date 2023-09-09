@@ -55,7 +55,7 @@ function ProjectFeed() {
         <div className={styles.projectGrid}>
           
           {projects.map((project, index) => (
-            <ProjectCard project={project} />
+            <ProjectCard project={project} key={index}/>
           ))}
         </div>
       </div>

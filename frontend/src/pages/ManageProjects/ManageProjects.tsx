@@ -15,11 +15,13 @@ import ProjectCard from '../../components/ProjectCard/ProjectCard';
 
 
 
-export enum Tab {
-  DRAFT_PROJECTS = 'Draft Projects',
-  ACTIVE_PROJECTS = 'Active Projects',
-  FAVORITE_CONTRACTORS = 'Favorite Contractors'
-}
+export const Tab = {
+  DRAFT_PROJECTS: 'Draft Projects',
+  ACTIVE_PROJECTS: 'Active Projects',
+  FAVORITE_CONTRACTORS: 'Favorite Contractors'
+} as const;
+
+type TabType = typeof Tab[keyof typeof Tab];
 
 interface ProjectTabContentProps {
   projects: Project[];
@@ -30,7 +32,7 @@ const ProjectTabContent = ({ projects }: ProjectTabContentProps) => {
   return (
     <div className={styles.TabContent}>
       {projects.map((project, index) => (
-        <ProjectCard project={project} />
+        <ProjectCard project={project} key={index}/>
       ))}
     </div>
   )
@@ -45,7 +47,7 @@ const FavoriteContractors = () => {
 }
 
 function ManageProjects() {
-  const [ tab, setTab ] = useState(Tab.ACTIVE_PROJECTS);
+  const [ tab, setTab ] = useState<TabType>(Tab.ACTIVE_PROJECTS);
   const [ projects, setProjects ] = useState<Project[]>([]);
   const navigate = useNavigate();
 
@@ -53,7 +55,6 @@ function ManageProjects() {
   const authReq = useAuthReq();
 
   useEffect(() => {
-    console.log(user)
     authReq(`/api/project/user/${user.uid}`, {
       method: 'GET'
     })
@@ -70,8 +71,8 @@ function ManageProjects() {
     <div className={styles.EmptyManageProjects}>
       <EmptyCubeIcon />
       <div className={styles.createProjectCTA}>
-        <h2>You have no projects.</h2>
-        <p>You have not posted any projects yet. Get started by posting a project and getting bids from service providers in your area.</p>
+        <h3>You have no projects.</h3>
+        <p>Get started by posting a project and getting bids from service providers in your area.</p>
       </div>
       <Button buttonStyle={ButtonStyles.PRIMARY} onClick={() => navigate('post-project/')} text={'Create Project'} Icon={AddIcon}/>
     </div>
@@ -79,9 +80,9 @@ function ManageProjects() {
   ) : 
   (
     <>
-    <Tabview 
+    <Tabview<typeof Tab>
         pageTitles={[Tab.ACTIVE_PROJECTS, Tab.DRAFT_PROJECTS, Tab.FAVORITE_CONTRACTORS]} 
-        setTab={(tab: Tab) => setTab(tab)}
+        setTab={(tab: TabType) => setTab(tab)}
         tab={tab}
     />
     <div className={styles.ManageProjects}>

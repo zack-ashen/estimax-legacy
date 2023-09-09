@@ -19,7 +19,7 @@ export default function Profile() {
             method: 'GET'
         })
             .then(res => res?.json())
-            .then(data => setFullUser(data))
+            .then(data => setFullUser(data.user))
     }, [])
 
     return (
@@ -50,17 +50,17 @@ export default function Profile() {
                     <div className={styles.twoColumnContainer}>
                         <div className={styles.info}>
                             <p>Location</p>
-                            <p>Brooklyn, NY</p>
+                            <p>{fullUser && fullUser.location} {!(fullUser?.location) && 'No location specified'}</p>
                         </div>
                         <div className={styles.info}>
                             <p>Search Radius</p>
-                            <p>5 miles</p>
+                            <p>{fullUser && fullUser.searchRadius} {!(fullUser?.searchRadius) && 'No search radius specified'}</p>
                         </div>
                     </div>
 
                     <div className={styles.info}>
                         <p>Bio</p>
-                        <p>I am  a homeowner and blah blah blah</p>
+                        <p>{fullUser && fullUser.bio} {!(fullUser?.bio) && 'No bio given.'}</p>
                     </div>
                 </div>
                 <Button buttonStyle={ButtonStyles.SECONDARY} onClick={() => undefined} text={'Edit'} Icon={PencilIcon}/>
@@ -71,8 +71,24 @@ export default function Profile() {
                     <div className={styles.infoContainer}>
                         <p className={styles.personalInfoHeader}>Business Info</p>
 
-                        
+                        <div className={styles.info}>
+                            <p>Business Name</p>
+                            <p>{fullUser && (fullUser as Contractor).businessName}</p>
+                        </div>
+
+                        <div className={styles.twoColumnContainer}>
+                            <div className={styles.info}>
+                                <p>Phone Number</p>
+                                <p>{fullUser && (fullUser as Contractor).phoneNumber}</p>
+                            </div>
+                            <div className={styles.info}>
+                                <p>Contractor Type</p>
+                                <p>{fullUser && (fullUser as Contractor).contractorType}</p>
+                            </div>
+                        </div>
                     </div>
+
+
                     <Button buttonStyle={ButtonStyles.SECONDARY} onClick={() => undefined} text={'Edit'} Icon={PencilIcon}/>
                 </div>
             }

@@ -39,13 +39,22 @@ router.post('/project-images', upload.array('images'), async (req, res, next) =>
 });
 
 router.get('/project-image/:key', async (req, res) => {
-  const key = req.params.key;
+  console.log("key: " + req.params.key)
+  let keys = (req.params.key).split(',');
+  if (!Array.isArray(keys)) {
+    keys = [req.params.key]
+  }
+  const all = req.query.all;
+  let urls : string[] = []
 
-  const url = getUrl(key as string);
+  keys.forEach(key => {
+    console.log("key: " + key)
+    const url = getUrl(key as string);
+    console.log("url: " + url)
+    urls = [...urls, url]
+  })
 
-
-  res.send({ url });
-
+  res.send({ urls });
 
 })
 

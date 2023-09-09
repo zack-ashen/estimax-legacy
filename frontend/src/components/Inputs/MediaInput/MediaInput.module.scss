@@ -1,7 +1,7 @@
 @import '../../../styles/index';
 
 .MediaInput {
-  min-width: 32rem;
+  max-width: 32rem;
   width: 100%;
   position: relative;
   border: dashed 2px $grey-300;
@@ -78,9 +78,11 @@
 
 .imgPreviewContainer {
   margin-top: $spacing-5;
-  display: inline-grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: $spacing-4;
   grid-template-columns: repeat(5, 1fr);
+  max-width: 32rem;
 
   .imgPreview {
     width: 6rem;

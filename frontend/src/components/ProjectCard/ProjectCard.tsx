@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 import { Project } from '../../types';
 import styles from './ProjectCard.module.scss';
 import { useAuth } from '../../contexts/AuthContext';
-import { ReactComponent as StarIcon } from '../../assets/StarIcon.svg'
+import { ReactComponent as BookmarkIcon } from '../../assets/BookmarkIcon.svg'
 import { ReactComponent as MapIcon } from '../../assets/MapPinIcon.svg'
 import { ReactComponent as ActivityIcon } from '../../assets/ActivityIcon.svg'
 import { useNavigate } from 'react-router-dom';
+import ImageSlides from '../ImageSlides/ImageSlides';
 
 interface ProjectCardProps {
     project: Project;
@@ -16,24 +17,43 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     const { useAuthReq } = useAuth()!; 
     const authReq = useAuthReq();
     const navigate = useNavigate();
+    const [ bookmarked, setBookmarked ] = useState(false);
 
-    const [ url, setUrl ] = useState();
+    const [ urls, setUrls ] = useState<string[]>([]);
 
     useEffect(() => {
-        authReq(`/api/image/project-image/${project.images[0]}`, {
+        authReq(`/api/image/project-image/${project.images}`, {
             method: 'GET'
         })
             .then(res => res?.json())
-            .then(data => setUrl(data.url))
+            .then(data => setUrls(data.urls))
+        
+        authReq(`/api/contractor/bookmark/${project._id}`, {
+            method: 'POST'
+        })
+            .then(res => res?.json())
+            .then(data => setUrls(data.urls))
+        
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [project.images])
+
+    const toggleBookmark = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
+
+
+        event.stopPropagation();
+        event.preventDefault();
+    }
 
     return (
         <div className={styles.ProjectCard} onClick={() => navigate(`/project/${project._id}`)}>
             <div className={styles.header}>
                 <p>{project.name}</p>
-                <StarIcon className={styles.starIcon}/>
+                <button className={styles.bookmarkToggle} onClick={toggleBookmark}><BookmarkIcon className={styles.starIcon}/></button>
             </div>
-            <img src={url} alt={'projectImage'} className={styles.projectImage}/>
+            <ImageSlides images={urls} small/>
+            {/* <img src={url} alt={'projectImage'} className={styles.projectImage}/> */}
             <div className={styles.projectDetails}>
                 <div className={styles.priceSection}>
                     <p>Lowest Bid</p>
