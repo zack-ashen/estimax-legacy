@@ -1,30 +1,31 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Document, Types } from 'mongoose'
 import { IUser, User } from './user'
-import { Review } from '../types';
 
-export interface IContractor extends IUser {
+export interface Review {
+  bio?: string;
+  uid?: string;
+  stars?: 1 | 2 | 3 | 4 | 5;
+}
+
+export interface IContractor extends IUser, Document {
   businessName: string;
   contractorType: string[];
   phoneNumber: string;
-  invitations: string[];
-  starredProjects: string[];
-  securedProjects: string[];
-  biddedProjects: string[];
+  starredProjects: Types.ObjectId[];
+  securedProjects: Types.ObjectId[];
+  biddedProjects: Types.ObjectId[];
+  invitedProjects: Types.ObjectId[];
   reviews: Review[];
 }
 
-const contractorSchema = User.discriminator('Contractors', new Schema({
+const contractorSchema = new Schema({
   businessName: String,
   contractorType: {
-    type:  [ String ],
+    type: [String],
     required: true,
     default: []
   },
-  invitations: {
-    type: [Schema.Types.ObjectId],
-    ref: 'Projects',
-    default: []
-  },
+  phoneNumber: String,
   starredProjects: {
     type: [Schema.Types.ObjectId],
     ref: 'Projects',
@@ -40,19 +41,25 @@ const contractorSchema = User.discriminator('Contractors', new Schema({
     ref: 'Projects',
     default: []
   },
+  invitedProjects: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Projects',
+    default: []
+  },
   reviews: {
-    type: [ 
-      {
-        bio: String,
-        uid: String,
-        stars: {
-          type: Number,
-          enum: [1, 2, 3, 4, 5],
-          default: 5
-        }
-      }],
+    type: [{
+      bio: String,
+      uid: String,
+      stars: {
+        type: Number,
+        enum: [1, 2, 3, 4, 5],
+        default: 5
+      }
+    }],
     default: []
   }
-}))
+});
 
-export const Contractor = contractorSchema;
+const Contractor = User.discriminator<IContractor>('Contractor', contractorSchema);
+
+export default Contractor;

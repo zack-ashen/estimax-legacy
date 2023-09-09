@@ -23,6 +23,7 @@ import TextInput from '../../components/Inputs/TextInput/TextInput';
 import CreateBidModal from '../../components/CreateBidModal/CreateBidModal';
 import DeleteProjectModal from '../../components/DeleteProjectModal/DeleteProjectModal';
 import EditableText from '../../components/EditableText/EditableText';
+import ImageSlides from '../../components/ImageSlides/ImageSlides';
 
 
 interface ProjectInfoTagProps {
@@ -52,7 +53,8 @@ export default function ProjectView() {
   const [ showContactModal, setShowContactModal ] = useState(false);
   const [ showDeleteModal, setShowDeleteModal ] = useState(false)
   const [ editProject, setEditProject ] = useState(false)
-  const [ image, setImage ] = useState();
+  const [ images, setImages ] = useState([]);
+  const [ message, setMessage ] = useState('');
 
   useEffect(() => {
     authReq(`/api/project/${id}`, {
@@ -63,12 +65,13 @@ export default function ProjectView() {
         if (data.error) {
           console.error(data.error)
         } else {
-          authReq(`/api/image/project-image/${data.project?.images[0]}`, {
+          console.log("images: " + data.project?.images)
+          authReq(`/api/image/project-image/${data.project?.images}`, {
             method: 'GET'
           })
             .then(res => res?.json())
             .then(data => {
-              setImage(data.url);
+              setImages(data.urls)
             })
 
 
@@ -89,6 +92,43 @@ export default function ProjectView() {
   //     .then(data => setUser(data.project))
 
   // }
+
+  const postMessage = () => {
+    authReq(`/api/project/${id}/message`, {
+      method: 'POST',
+      body: JSON.stringify({
+        message: {
+          poster: user.uid,
+          posterName: user.name,
+          timestamp: Date.now(),
+          messageText: message
+        }
+      })
+    })
+      .then(res => res?.json())
+      .then(data => setProject(data.project))
+
+    setShowContactModal(false);
+    setMessage('');
+  }
+
+  function formatDate(timestamp: Date) {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const date = new Date(timestamp);
+    
+    // Extract components
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    // Convert 24-hour format to 12-hour format
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    
+    return `${month} ${day}, ${hours}:${minutes} ${ampm}`;
+}
 
   return (
     <div className={styles.Project}>
@@ -117,7 +157,7 @@ export default function ProjectView() {
           <Button 
             buttonStyle={ButtonStyles.TERTIARY} 
             onClick={() => undefined}
-            text={'Invite a Contractor'}
+            text={'Share'}
             Icon={ShareIcon} />
           {user.role === Roles.CONTRACTOR && <Button 
             buttonStyle={ButtonStyles.TERTIARY} 
@@ -129,7 +169,7 @@ export default function ProjectView() {
 
       <div className={styles.projectDetailsContainer}>
         <div className={styles.imgContainer}>
-          <img src={image} className={styles.image} alt='project' />
+          <ImageSlides images={images} />
         </div>
         <div className={styles.projectDetails}>
           <div className={styles.descriptionSection}>
@@ -146,8 +186,8 @@ export default function ProjectView() {
           <div className={styles.priceSection}>
             <div className={styles.bidsSection}>
               <h5>Bids</h5>
-              {project && project.bids.length !== 0 && project.bids.map((bid) => (
-                <BidCard bid={bid} lowestBid={Object.is(bid, project.lowestBid)}/>
+              {project && project.bids.length !== 0 && project.bids.map((bid, index) => (
+                <BidCard bid={bid} lowestBid={Object.is(bid, project.lowestBid)} key={index}/>
               ))}
               {project?.bids.length === 0 &&
                 <div className={styles.noBidsLine}>
@@ -183,8 +223,8 @@ export default function ProjectView() {
             <h3>Ask Question</h3>
             <p>Ask a question about this project. You can request more details or information about the proposed work.</p>
           </div>
-          <TextInput name={'I am curious about...'} value={''} onChange={() => undefined} type={'textarea'} />
-          <Button buttonStyle={ButtonStyles.PRIMARY} text={'Ask Question'} onClick={() => undefined} wide/>
+          <TextInput name={'I am curious about...'} value={message} onChange={(event) => setMessage(event.target.value)} type={'textarea'} />
+          <Button buttonStyle={ButtonStyles.PRIMARY} text={'Ask Question'} onClick={postMessage} wide/>
         </div>
       </Modal>
 
@@ -193,7 +233,20 @@ export default function ProjectView() {
           <h3>Messages</h3>
           <div className={styles.horizontalDivider} />
           </div>
-          <p>No current messages.</p>
+          <div className={styles.messages}>
+            {project?.messages.length === 0 && <p>No current messages.</p>}
+            {project?.messages && project?.messages.map((message, index) => (
+              <div className={styles.Message} key={`container-${index}`}>
+                <div className={styles.messageHeader} key={`header-${index}`}>
+                  <p className={styles.messagePoster} key={`headerText-${index}`}>{message.message.posterName}</p>
+                  <p className={styles.messageTime} key={`headerSubtitle-${index}`}>{formatDate(message.message.timestamp)}</p>
+                </div>
+                <p className={styles.messageText} key={`messageText-${index}`}>{message.message.messageText && message.message.messageText}</p>
+              </div>
+            ))
+
+            }
+          </div>
       </div>
     </div>
   )

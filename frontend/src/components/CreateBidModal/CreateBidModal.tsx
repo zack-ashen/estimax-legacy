@@ -48,7 +48,7 @@ export default function CreateBidModal({ showCreateBidModal, setShowCreateBidMod
         authReq(`/api/project/${projectId}/bid`, {
             method: 'POST',
             body: JSON.stringify({
-                projectId,
+                contractorId: user.uid,
                 bid: {
                     contractorId: user.uid,
                     time: new Date(),

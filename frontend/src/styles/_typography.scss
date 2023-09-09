@@ -1,9 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
 @import './variables';
 
+html {
+  font-size: 14px;
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 10px;
+  }
+}
+
 body {
   font-family: Inter, Roboto, Helvetica, sans-serif;
-  font-size: 14px;
   line-height: 1.4;
   font-weight: normal;
 }

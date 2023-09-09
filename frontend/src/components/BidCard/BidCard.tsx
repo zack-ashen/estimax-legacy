@@ -34,6 +34,18 @@ export default function BidCard({ bid, lowestBid = false}: BidCardProps) {
             .then(data => setContractor(data.user))
     }, [])
 
+    const toggleDescription = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        setShowDescription((prevState) => !prevState)
+
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    const selectBid = () => {
+
+        
+    }
+
     return (
       <>
         {lowestBid && <p className={styles.lowestBidText}>Lowest Bid</p>}
@@ -41,6 +53,7 @@ export default function BidCard({ bid, lowestBid = false}: BidCardProps) {
             className={`${styles.BidCard} ${
                 styles[lowestBid ? "lowestBidCard" : ""]
             } ${styles[user.role === Roles.HOMEOWNER ? "bidButton" : ""]}`}
+            onClick={selectBid}
         >
         <div className={styles.bidTitle}>
             <div className={styles.bidHeading}>
@@ -54,9 +67,7 @@ export default function BidCard({ bid, lowestBid = false}: BidCardProps) {
                     <Button
                     buttonStyle={ButtonStyles.TERTIARY}
                     Icon={showDescription ? ChevronDown : ChevronRight}
-                    onClick={() =>
-                        setShowDescription((prevState) => !prevState)
-                    }
+                    onClick={toggleDescription}
                     />
                 )}
             </div>

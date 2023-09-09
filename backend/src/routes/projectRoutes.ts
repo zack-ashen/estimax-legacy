@@ -1,8 +1,9 @@
 import express from 'express'
-import { createProject, getProject } from '../controllers/projectController';
+import { createProject, getProject, getProjects } from '../controllers/projectController';
 import { Errors, Timeline } from '../types';
 import { ServerError } from '../middleware/errors';
 import { Project } from '../models/project';
+import Contractor from '../models/contractor';
 
 const router = express.Router();
 
@@ -41,7 +42,6 @@ router.route('/').get(async (req, res) => {
 
    }).skip(offset).limit(limit);
   
-   console.log(projects)
    res.json(projects);
 })
 
@@ -120,6 +120,7 @@ router.route('/user/:id').get(async (req, res, next) => {
 */
 router.route('/:id/bid').post(async (req, res, next) => {
    const projectId = req.params.id;
+   const contractorId = req.body.contractorId;
    const bid = req.body.bid;
 
    try {
@@ -132,6 +133,7 @@ router.route('/:id/bid').post(async (req, res, next) => {
          newLowestBid = bid;
       }
       const newProject = await Project.findOneAndUpdate({ _id: projectId },{ bids: bids, lowestBid: newLowestBid }, { new: true });
+      await Contractor.findByIdAndUpdate(contractorId, { $push: { biddedProjects: projectId }})
 
       res.status(200).send({ project: newProject})
    } catch (err) {
@@ -160,9 +162,14 @@ router.route('/:id/message').post(async (req, res, next) => {
    const projectId = req.params.id;
    const msg = req.body.message;
 
+   const newMessage = {
+      message: msg,
+      replies: []
+   }
+
    try {
       const project = await getProject(projectId);
-      const messages = [msg, ...project!.messages];
+      const messages = [newMessage, ...project!.messages];
 
       const updatedProject = await Project.findOneAndUpdate({ _id: projectId }, { messages }, { new: true });
       res.status(200).send( { project: updatedProject} )
@@ -188,5 +195,17 @@ router.route('/:id/message').get(async (req, res, next) => {
    }
 })
 
+
+router.route('/multiple').post(async (req, res, next) => {
+   const projectIds = req.body.projects;
+
+   try {
+      const projects = await getProjects(projectIds);
+
+      res.status(200).send( { projects })
+   } catch (err) {
+      next(err);
+   }
+})
 
 export default router;

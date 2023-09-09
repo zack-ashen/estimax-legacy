@@ -62,7 +62,7 @@ const createUserBody = (finalData: any) : AuthHomeowner | AuthContractor => {
       businessName: finalData.businessName,
       contractorType: finalData.contractorType ? finalData.contractorType : [],
       phoneNumber: finalData.phoneNumber,
-      invitations: [],
+      invitedProjects: [],
       starredProjects: [],
       securedProjects: [],
       biddedProjects: [],

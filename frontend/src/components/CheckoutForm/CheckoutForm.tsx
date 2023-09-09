@@ -2,6 +2,7 @@ import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import Button, { ButtonStyles } from '../Inputs/Button/Button'
 import styles from './CheckoutForm.module.scss'
 import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface CheckoutFormProps {
     addBid: () => void;
@@ -11,7 +12,6 @@ interface CheckoutFormProps {
 export default function CheckoutForm({ addBid, returnURL }: CheckoutFormProps) {
     const stripe = useStripe();
     const elements = useElements();
-
 
     useEffect(() => {
         if (!stripe) {
@@ -29,7 +29,7 @@ export default function CheckoutForm({ addBid, returnURL }: CheckoutFormProps) {
         stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
           switch (paymentIntent!.status) {
             case "succeeded":
-              console.log("Payment succeeded!");
+              console.log("blah blah blah")
               break;
             case "processing":
               console.log("Your payment is processing.");
@@ -45,20 +45,24 @@ export default function CheckoutForm({ addBid, returnURL }: CheckoutFormProps) {
       }, [stripe]);
 
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
+        event.stopPropagation();
+
         if (!stripe || !elements) {
           // Stripe.js hasn't yet loaded.
           // Make sure to disable form submission until Stripe.js has loaded.
           return;
         }
-    
-        const { error } = await stripe.confirmPayment({
+        
+        const { error, paymentIntent } = await stripe.confirmPayment({
           elements,
           confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: returnURL,
+            return_url: window.location.href,
             receipt_email: 'zachary.h.a@gmail.com',
           },
+          redirect: 'if_required'
         });
     
         // This point will only be reached if there is an immediate error when
@@ -66,11 +70,13 @@ export default function CheckoutForm({ addBid, returnURL }: CheckoutFormProps) {
         // your `return_url`. For some payment methods like iDEAL, your customer will
         // be redirected to an intermediate site first to authorize the payment, then
         // redirected to the `return_url`.
-        if (error.type === "card_error" || error.type === "validation_error") {
-        } else {
+        if (error?.type === "card_error" || error?.type === "validation_error") {
+          console.error("There was an error processing the transaction: ", error);
+        } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+          addBid();
         }
 
-        addBid();
+        
     };
 
     return (

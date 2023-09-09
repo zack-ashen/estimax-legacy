@@ -20,3 +20,10 @@ export async function createProject(project: ProjectDraft): Promise<IProject> {
 export async function getProject(id: string) {
   return await Project.findById(id)
 }
+
+
+export async function getProjects(ids: string[]) {
+  return await Project.find({
+    _id: { $in: ids}
+  });
+}

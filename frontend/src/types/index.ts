@@ -21,9 +21,13 @@ export interface Review {
 }
 
 export type Message = {
-  poster: string;
-  timestamp: Date;
-  messageText: string;
+  message: {
+    posterName: string;
+    poster: string;
+    timestamp: Date;
+    messageText: string;
+  }
+  replies: []
 }
 
 // Project Schema
@@ -39,6 +43,7 @@ export type Project = {
   location: string;
   timeline: string;
   messages: Message[];
+  invitedContractors: string[];
   status?: string;
 }
 
@@ -59,7 +64,7 @@ export interface AuthUser {
   name?: string;
   email?: string;
   role: Roles;
-  location?: Location;
+  location?: Locations;
   searchRadius?: number;
   bio?: string;
   profilePhoto?: string;
@@ -69,10 +74,10 @@ export interface AuthContractor extends AuthUser {
   businessName: string;
   contractorType: string[];
   phoneNumber: string;
-  invitations: string[];
   starredProjects: string[];
   securedProjects: string[];
   biddedProjects: string[];
+  invitedProjects: string[];
   reviews: Review[];
 }
 
@@ -112,6 +117,22 @@ export type OptionType = {
   label: string;
 };
 
+export const ContractorTypes = {
+  GENERAL_CONTRACTOR: 'General Contractor',
+  HANDYMAN_SERVICES: 'Handyman Services',
+  HOME_CLEANING: 'Home Cleaning',
+  CARPENTRY: 'Carpentry',
+  ELECTRICIAN: 'Electrician',
+  PLUMBING: 'Plumbing',
+  EXTERMINATOR: 'Exterminator',
+  LANDSCAPING: 'Landscaping',
+  PAINTING: 'Painting',
+  ROOFING: 'Roofing',
+  FENCING: 'Fencing',
+  TV_MOUNTING: 'TV Mounting',
+  FURNITURE_ASSEMBLY: 'Furniture Assembly'
+} as const;
+
 export const contractorTypes: MultiValue<OptionType> = [
   {value: 'General Contractor', label: 'General Contractor'},
   {value: 'Handyman Services', label: 'Handyman Services'},
@@ -142,7 +163,8 @@ export enum Locations {
   QUEENS='Queens, NY',
   BRONX='Bronx, NY',
   STATENISLAND='Staten Island, NY',
-  WESTFIELD='Westfield, NJ'
+  WESTFIELD='Westfield, NJ',
+  ITHACA='Ithaca, NY'
 }
 
 export const locations: MultiValue<OptionType> = [
@@ -203,3 +225,11 @@ export interface Bid {
   status: 'Accepted' | 'Overriden' | 'Declined' | 'Under Review';
   expiration: Date;
 }
+
+export const ReviewStars = {
+  ONE_STAR: 'One Star',
+  TWO_STAR: 'Two Stars',
+  THREE_STAR: 'Three Stars',
+  FOUR_STAR: 'Four Stars',
+  FIVE_STAR: 'Five Stars'
+} as const;

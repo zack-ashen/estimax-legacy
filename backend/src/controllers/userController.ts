@@ -2,6 +2,9 @@ import { Errors, Roles } from "../types";
 import { IUser, User } from "../models/user";
 import bcrypt from 'bcrypt';
 import { ServerError } from "../middleware/errors";
+import Contractor, { IContractor } from "../models/contractor";
+import { Homeowner, IHomeowner } from "../models/homeowner";
+import { Icon } from "aws-sdk/clients/quicksight";
 
 
 /* 
@@ -9,15 +12,15 @@ import { ServerError } from "../middleware/errors";
 *  searchValue is either the user's email or userId.
 *  If useEmail is true the searchValue should be the user's email else the userId.
 */
-export async function getUser(searchValue: string, useEmail:boolean=false): Promise<IUser | null> {
+export async function getUser(searchValue: string, useEmail:boolean=false): Promise<IContractor | IHomeowner | null> {
   if (useEmail)
     return await User.findOne({ email: searchValue })
   
   return await User.findById(searchValue)
 }
 
-export async function createUser(user: IUser): Promise<IUser> {
-  const { password } = user;
+export async function createUser(user: IUser): Promise<IContractor | IHomeowner> {
+  const { password, role } = user;
 
   // Hash the password before saving it to the database
   let hashedPassword: string | undefined;
@@ -25,21 +28,29 @@ export async function createUser(user: IUser): Promise<IUser> {
     hashedPassword = await bcrypt.hash(password, 10);
   }
 
-  // Create a new user
-  const newUser = new User({
-    ...user,
-    password: hashedPassword
-  });
+  const buildNewUser = () => {
+    if (role === Roles.CONTRACTOR) {
+      return new Contractor({
+        ...user,
+        password: hashedPassword
+      }) as IContractor;
+    }
+    return new Homeowner({
+        ...user,
+        password: hashedPassword
+      }) as IHomeowner;
+  }
+
+  const newUser = buildNewUser();
+  
 
   // Save the user to the database
   try {
-    await newUser.save();
+    await newUser?.save();
+    return newUser;
   } catch (err) {
-    console.error(err);
     throw new ServerError(Errors.RESOURCE_CREATION, 409);
   }
-
-  return newUser;
 }
 
 export function updateUser() {
