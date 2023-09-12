@@ -29,6 +29,7 @@ export default function CreateBidModal({ showCreateBidModal, setShowCreateBidMod
     const [ amountError, setAmountError ] = useState('');
     const [ descriptionError, setDescriptionError ] = useState('');
     const [ stripeOptions, setStripeOptions ] = useState();
+    const [ finalPrice, setFinalPrice ] = useState(5.00);
     const { useAuthReq, user } = useAuth();
     const authReq = useAuthReq();
 

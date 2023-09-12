@@ -69,7 +69,7 @@ function ManageProjects() {
     <>
     <DecorativeGrid className={styles.decorativeGrid}/>
     <div className={styles.EmptyManageProjects}>
-      <EmptyCubeIcon />
+      <div className={styles.emptyCubeContainer}><EmptyCubeIcon /></div>
       <div className={styles.createProjectCTA}>
         <h3>You have no projects.</h3>
         <p>Get started by posting a project and getting bids from service providers in your area.</p>

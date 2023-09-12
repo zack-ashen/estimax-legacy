@@ -35,7 +35,6 @@ export default function Profile() {
                         <p>{user && user.role}</p>
                     </div>
                 </div>
-                <Button buttonStyle={ButtonStyles.SECONDARY} onClick={() => undefined} text={'Edit'} Icon={PencilIcon}/>
             </div>
 
             <div className={styles.personalInfo}>
@@ -63,7 +62,7 @@ export default function Profile() {
                         <p>{fullUser && fullUser.bio} {!(fullUser?.bio) && 'No bio given.'}</p>
                     </div>
                 </div>
-                <Button buttonStyle={ButtonStyles.SECONDARY} onClick={() => undefined} text={'Edit'} Icon={PencilIcon}/>
+                {/* <Button buttonStyle={ButtonStyles.SECONDARY} onClick={() => undefined} text={'Edit'} Icon={PencilIcon}/> */}
             </div>
 
             {user && user.role === Roles.CONTRACTOR &&

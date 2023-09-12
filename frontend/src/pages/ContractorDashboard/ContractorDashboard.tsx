@@ -21,9 +21,13 @@ const ProjectTabContent = ({ projects }: ProjectTabContentProps) => {
 
     return (
       <div className={styles.TabContent}>
-        {projects.map((project, index) => (
+        {projects.length !== 0 && projects.map((project, index) => (
           <ProjectCard project={project} key={index}/>
         ))}
+
+        {projects.length === 0 &&
+            <div className={styles.empty}></div>
+        }
       </div>
     )
 }

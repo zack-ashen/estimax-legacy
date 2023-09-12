@@ -1,14 +1,31 @@
 @import '../../styles/index';
 
+.navContainer {
+  background-color: white;
+  border-bottom: 1px solid $grey-300;
+  width: 100%;
+  display: flex;
+}
+
+
+
+
+.smallWidthNav {
+  padding: $spacing-3 5%;
+  max-width: 1600px;
+}
+
+.extraSmallWidthNav {
+  max-width: 1200px;
+}
+
 nav {
-  display: inline-flex;
+  display: flex;
   justify-content: space-between;
   width: 100%;
   padding: $spacing-3 5%;
   margin: 0 auto;
-  border-bottom: 1px solid $grey-300;
   align-items: center;
-  background-color: #FFF;
   gap: $spacing-8;
 
   img {
@@ -87,6 +104,7 @@ nav {
   display: flex;
   gap: $spacing-5;
   justify-self: end;
+  justify-content: flex-end;
 }
 
 .logoSection:hover {
@@ -105,3 +123,19 @@ nav {
   display: flex;
 }
 
+
+@media screen and (max-width: 1024px) {
+  .logoText {
+    display: none;
+  }
+
+  .logoSection {
+    img {
+      margin: 0;
+    }
+  }
+
+  .Nav {
+    gap: $spacing-3;
+  }
+}

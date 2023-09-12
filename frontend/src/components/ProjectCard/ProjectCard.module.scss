@@ -52,6 +52,18 @@
     }
 }
 
+.bookmarked {
+
+    svg {
+        path {
+            fill: $blue-600;
+            stroke: $blue-700 !important;
+            stroke-width: 2;
+        }
+    }
+    ;
+}
+
 .projectDetails {
     display: flex;
     width: 100%;

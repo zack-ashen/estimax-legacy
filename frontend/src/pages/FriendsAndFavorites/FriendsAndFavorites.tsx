@@ -5,11 +5,21 @@ import styles from './FriendsAndFavorites.module.scss'
 import { Contractor } from '../../types';
 import { ReactComponent as PersonAdd } from '../../assets/PersonAddIcon.svg';
 import Button, { ButtonStyles } from '../../components/Inputs/Button/Button';
+import Toggles from '../../components/Inputs/Toggle/Toggle';
+import InviteModal from '../../components/InviteModal/InviteModal';
+
+
+enum fnfToggles {
+    CONTRACTORS = 'Contractors',
+    HOMEOWNERS = 'Homeowners'
+};
 
 export default function FriendsAndFavorites() {
     const { user, useAuthReq } = useAuth();
     const authReq = useAuthReq();
     const [ friendsAndFavorites, setFriendsAndFavorites ] = useState<Contractor[]>([])
+    const [ fnfType, setFnfType ] = useState(fnfToggles.CONTRACTORS);
+    const [ showInviteModal, setShowInviteModal ] = useState(false);
     
     useEffect(() => {
         authReq(`/api/user/${user.uid}`, {
@@ -32,24 +42,35 @@ export default function FriendsAndFavorites() {
 
 
     return (
+        <>
         <div className={styles.FriendsAndFavorites}>
             <div className={styles.header}>
                 <div className={styles.headerText}>
                     <h3 className={styles.title}>Your Friends and Favorites</h3>
-                    <p className={styles.subtitle}>Save your favorite contractors here so you can invite them to bid on your projects again later.</p>
+                    <p className={styles.subtitle}>
+                        {fnfType === fnfToggles.CONTRACTORS && 'Save your favorite contractors here so you can invite them to bid on your projects again later.'}
+                        {fnfType === fnfToggles.HOMEOWNERS && 'Add family and neighbors as friends to see their favorite pros.'}
+                    </p>
                 </div>
                 
-
-                <Button buttonStyle={ButtonStyles.SECONDARY} onClick={() => undefined} text={'Invite'} Icon={PersonAdd} />
-                
+                <div className={styles.config}>
+                    <Toggles toggleStates={fnfToggles} onChange={(toggleItem) => setFnfType(toggleItem)} />
+                    <Button buttonStyle={ButtonStyles.SECONDARY} onClick={() => setShowInviteModal(true)} text={'Invite'} Icon={PersonAdd} />
+                </div>
             </div>
 
             {friendsAndFavorites.length === 0 &&
-                    <div className={styles.emptyFriendsAndFavorites}>
-                        <h5>You have no saved contractors.</h5>
-                        <p>Add your favorite contractors now to make it easy to invite them to bid on your projects.</p>
-                    </div>
-                }
+                <div className={styles.emptyFriendsAndFavorites}>
+                    <h5>You have no saved {fnfType === fnfToggles.CONTRACTORS ? 'contractors.' : 'friends.'}</h5>
+                    <p>
+                        {fnfType === fnfToggles.CONTRACTORS && 'Add your favorite contractors now to make it easy to invite them to bid on your projects.'}
+                        {fnfType === fnfToggles.HOMEOWNERS && 'Add family and neighbors as friends to see their favorite pros.'}
+                    </p>
+                </div>
+            }
         </div>
+
+        <InviteModal showModal={showInviteModal} setShowModal={setShowInviteModal} />
+        </>
     )
 }

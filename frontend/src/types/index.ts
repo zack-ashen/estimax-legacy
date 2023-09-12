@@ -158,13 +158,13 @@ export interface FormErrors {
 };
 
 export enum Locations {
+  ITHACA='Ithaca, NY',
   BROOKLYN='Brooklyn, NY',
   MANHATTAN='Manhattan, NY',
   QUEENS='Queens, NY',
   BRONX='Bronx, NY',
   STATENISLAND='Staten Island, NY',
-  WESTFIELD='Westfield, NJ',
-  ITHACA='Ithaca, NY'
+  WESTFIELD='Westfield, NJ'
 }
 
 export const locations: MultiValue<OptionType> = [

@@ -45,6 +45,17 @@ router.route('/').get(async (req, res) => {
    res.json(projects);
 })
 
+router.route('/search').get(async (req, res) => {
+   const limit = parseInt(req.query.limit as string);
+   const projectName = req.query.name as string;
+
+   const projects = await Project.find({
+      name: { $regex: projectName, $options: 'i' }
+   }).limit(limit)
+
+   res.status(200).send({ projects });
+}) 
+
 /* 
 * Add a project
 */

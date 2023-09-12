@@ -18,6 +18,7 @@ interface TextInputProps {
     error?: string;
     valid?: boolean
     onBlur?: () => void;
+    onFocus?: () => void;
     Icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
     noLabel?: boolean;
 }
@@ -31,6 +32,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                                                 error,
                                                 valid,
                                                 onBlur,
+                                                onFocus,
                                                 Icon,
                                                 noLabel=false}) => {
     
@@ -54,7 +56,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                 placeholder={placeholder}
                 onChange={onChange}
                 className={className}
-                onFocus={() => setFocused(true)}
+                onFocus={() => { setFocused(true); onFocus && onFocus() } }
                 onBlur={() => {setFocused(false); onBlur && onBlur()}}
             />
             {Icon && <Icon className={styles.icon}/>}
@@ -71,8 +73,8 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                 placeholder={placeholder}
                 onChange={onChange}
                 className={className}
-                onFocus={() => setFocused(true)}
-                onBlur={() => {setFocused(false); onBlur && onBlur()}}
+                onFocus={() => { setFocused(true); onFocus && onFocus() }}
+                onBlur={() => { setFocused(false); onBlur && onBlur() }}
             />
             {error && <p className={styles.errorText}>{error}</p> }
         </div>

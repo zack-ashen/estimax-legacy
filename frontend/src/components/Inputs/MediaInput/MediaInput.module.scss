@@ -1,8 +1,12 @@
 @import '../../../styles/index';
 
-.MediaInput {
+.MediaInputContainer {
   max-width: 32rem;
   width: 100%;
+  margin: 0 auto;
+}
+
+.MediaInput {
   position: relative;
   border: dashed 2px $grey-300;
   background-color: white;

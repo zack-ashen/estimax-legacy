@@ -1,0 +1,39 @@
+@import '../../../styles/index';
+
+
+$border-color: $grey-300;
+
+.ToggleContainer {
+    :first-of-type {
+        border-radius: 0.4rem 0 0 0.4rem;
+    }
+
+    :last-of-type {
+        border-radius: 0 0.4rem 0.4rem 0;
+        border-right: solid 1px $border-color;
+    }
+}
+
+.toggle {
+    background-color: white;
+    padding: $spacing-2 $spacing-4;
+    font-weight: 500;
+    border: solid 1px $border-color;
+    border-right: none;
+
+
+}
+
+.active {
+    background-color: white;
+    box-shadow: rgba(50, 50, 93, 0.06) 0px 2px 1px -1px, rgba(0, 0, 0, 0.02) 0px 1px 1px -1px;
+}
+
+.disabled {
+    background-color: $grey-100;
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+        background-color: lighten($grey-100, 2%);
+    }
+}
