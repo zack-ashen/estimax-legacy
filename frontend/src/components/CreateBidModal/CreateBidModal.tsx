@@ -3,6 +3,7 @@ import TextInput from '../Inputs/TextInput/TextInput'
 import Modal from '../Modal/Modal'
 import styles from './CreateBidModal.module.scss'
 import { ReactComponent as DollarIcon } from '../../assets/DollarIcon.svg';
+import { ReactComponent as USDIcon } from '../../assets/USDIcon.svg';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Project } from '../../types';
@@ -21,29 +22,50 @@ interface CreateBidModalProps {
     projectId: string;
 }
 
+const calculatePrice = (totalAmount: number) => {
+  if (totalAmount <= 10) {
+    return 5.00;
+  }
+
+  const amount = (totalAmount * 0.07);
+  if (amount > 50.00) {
+    return 50.00;
+  }
+
+  return isNaN(amount) ? 0.00 : amount;
+}
+
 export default function CreateBidModal({ showCreateBidModal, setShowCreateBidModal, projectId, setProject }: CreateBidModalProps) {
-    const [ amount, setAmount ] = useState('5');
-    const [ computedAmount, setComputedAmount ] = useState<number>(parseFloat(amount))
     const [ description, setDescription ] = useState('');
     const [ page, setPage ] = useState(1);
     const [ amountError, setAmountError ] = useState('');
     const [ descriptionError, setDescriptionError ] = useState('');
     const [ stripeOptions, setStripeOptions ] = useState();
-    const [ finalPrice, setFinalPrice ] = useState(5.00);
+    const [ bidPrice, setBidPrice ] = useState(10);
+    const [ bidValue, setBidValue ] = useState(bidPrice.toString());
+    const [ contractorPrice, setContractorPrice ] = useState(calculatePrice(bidPrice))
     const { useAuthReq, user } = useAuth();
     const authReq = useAuthReq();
 
-    useEffect(() => {
+    const paymentIntent = () => {
       authReq(`/api/payment/intent`, {
         method: 'POST',
         body: JSON.stringify({
-          amount: (0.07 * computedAmount).toFixed(2)
+          amount: bidPrice
         })
       })
         .then(res => res?.json())
         .then(data => setStripeOptions(data.clientSecret))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }
+
+    useEffect(() => {
+      const bidValueNum = parseFloat(bidValue);
+      if (!isNaN(bidValueNum) && /^[0-9]*\.?[0-9]{0,2}$/.test(bidValue)) {
+        setBidPrice(bidValueNum);
+        setContractorPrice(calculatePrice(bidValueNum));
+      }
+    }, [bidValue])
 
     const addBid = () => {
         authReq(`/api/project/${projectId}/bid`, {
@@ -53,7 +75,7 @@ export default function CreateBidModal({ showCreateBidModal, setShowCreateBidMod
                 bid: {
                     contractorId: user.uid,
                     time: new Date(),
-                    amount,
+                    amount: bidPrice,
                     description,
                     status: 'Under Review',
                     expiration: new Date()
@@ -67,25 +89,19 @@ export default function CreateBidModal({ showCreateBidModal, setShowCreateBidMod
     }
 
 
-    const computePayment = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      if (e.target.value === '') {
-        setComputedAmount(0);
-        setAmount(e.target.value)
-      } else if (!isNaN(parseFloat(e.target.value))) {
-        setAmount(e.target.value);
-        setComputedAmount(parseFloat(e.target.value))
-      }
-    }
-
     const validatePageOne = () => {
-      if (computedAmount === 0) {
-        setAmountError('You must have a bid price more than 0.')
+      if (!/^[0-9]*\.?[0-9]{0,2}$/.test(bidValue)) {
+        setAmountError('Please enter a valid price.')
+        return false;
+      } else if (bidPrice <= 10) {
+        setAmountError('You must have a bid price more than $9.')
         return false;
       } else if (description === '') {
         setDescriptionError('You have to describe the work you are going to complete.')
         return false;
       }
 
+      paymentIntent();
       return true;
     }
 
@@ -98,14 +114,15 @@ export default function CreateBidModal({ showCreateBidModal, setShowCreateBidMod
               <DollarIcon className={styles.headerIcon} />
             </div>
             <h3>Place a Bid</h3>
-            <p>Describe the work you are going to complete and the price you are requesting for your work.</p>
+            <p>What price are you requesting for your work?</p>
           </div>
-          <p className={styles.paymentDisclosure}>You Pay <span className={styles.price}>${(0.07 * computedAmount).toFixed(2)}</span></p>
+          <p className={styles.paymentDisclosure}>You Pay <span className={styles.price}>${contractorPrice.toFixed(2)}</span></p>
           <TextInput 
             name={'Amount'} 
-            value={amount} 
-            onChange={computePayment}
+            value={bidValue} 
+            onChange={(e) => setBidValue(e.target.value)}
             error={amountError}
+            Icon={USDIcon}
           />
           <TextInput 
             name={'Description of Work'} 
@@ -128,13 +145,13 @@ export default function CreateBidModal({ showCreateBidModal, setShowCreateBidMod
 
           <div className={styles.invoice}>
             <div className={styles.bidSummary}>
-              <p className={styles.bidDescription}>Bid for ${computedAmount}</p>
-              <p className={styles.bidComputedAmount}>7% × ${computedAmount}</p>
+              <p className={styles.bidDescription}>Bid for ${bidPrice}</p>
+              <p className={styles.bidComputedAmount}>7% × ${bidPrice}</p>
             </div>
             <div className={styles.horizontalDivider} />
             <div className={styles.totalPayment}>
               <p className={styles.totalText}>Total</p>
-              <p className={styles.totalAmount}>${(0.07 * computedAmount).toFixed(2)}</p>
+              <p className={styles.totalAmount}>${contractorPrice.toFixed(2)}</p>
             </div>
           </div>
           

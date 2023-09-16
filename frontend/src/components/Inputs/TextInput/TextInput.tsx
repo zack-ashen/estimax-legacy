@@ -49,17 +49,19 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
             {!noLabel && 
                 <label className={`${styles.inputLabel} ${styles[inputSize]} ${styles[focused ? 'focused' : '']}`} htmlFor={name}>{name}</label>
             }
-            <input
-                name={name}
-                value={value}
-                type={type}
-                placeholder={placeholder}
-                onChange={onChange}
-                className={className}
-                onFocus={() => { setFocused(true); onFocus && onFocus() } }
-                onBlur={() => {setFocused(false); onBlur && onBlur()}}
-            />
-            {Icon && <Icon className={styles.icon}/>}
+            <div className={styles.inputContainer}>
+                <input
+                    name={name}
+                    value={value}
+                    type={type}
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    className={className}
+                    onFocus={() => { setFocused(true); onFocus && onFocus() } }
+                    onBlur={() => {setFocused(false); onBlur && onBlur()}}
+                />
+                {Icon && <Icon className={styles.icon}/>}
+            </div>
             {error && <p className={styles.errorText}>{error}</p> }
         </div>
     ) : (

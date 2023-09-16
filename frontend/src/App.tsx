@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 import styles from './App.module.scss'
 import Landing from './pages/Landing/Landing'
@@ -18,12 +18,13 @@ import ContractorFeed from './pages/ContractorFeed/ContractorFeed';
 import Messages from './pages/Messages/Messages';
 import FriendsAndFavorites from './pages/FriendsAndFavorites/FriendsAndFavorites';
 import ContractorDashboard from './pages/ContractorDashboard/ContractorDashboard';
+import { ToastProvider } from './contexts/ToastContext';
+import { AnalyticsProvider } from './contexts/AnalyticsContext';
 
 export interface PreAuth {
   user: User;
   token: string;
 }
-
 
 
 const AuthRoutes = () => {
@@ -154,6 +155,12 @@ const AuthRoutes = () => {
 
 function App() {
   const [ preAuthObj, setPreAuthObj ] = useState<PreAuth | undefined>();
+  const location = useLocation();
+
+  useEffect(() => {
+    window.analytics.page()
+  }, [location])
+  
 
   useEffect(() => {
     // Get an access token
@@ -180,37 +187,43 @@ function App() {
   }, []);
 
   const NotAuthenticated = () => (
-    <div className={styles.AppContainer}>
-      <Nav />
-      <Routes>
-        <Route path="/" Component={Landing} />
-        <Route 
-          path="/signup" 
-          element={<SignUp signIn={setPreAuthObj}/>} 
-        />
-        <Route 
-          path="/signin" 
-          element={<SignIn signIn={setPreAuthObj}/>} 
-        />
-        <Route path="*" 
-            element={
-              <Navigate to="/" />
-            } 
-        />
-      </Routes>
-    </div>
+    <AnalyticsProvider>
+      <div className={styles.AppContainer}>
+        <Nav />
+        <Routes>
+          <Route path="/" Component={Landing} />
+          <Route 
+            path="/signup" 
+            element={<SignUp signIn={setPreAuthObj}/>} 
+          />
+          <Route 
+            path="/signin" 
+            element={<SignIn signIn={setPreAuthObj}/>} 
+          />
+          <Route path="*" 
+              element={
+                <Navigate to="/" />
+              } 
+          />
+        </Routes>
+      </div>
+    </AnalyticsProvider>
   );
 
   // Routes if there is a VALID token and refresh token present
   const Authenticated = () => (
-    <AuthProvider 
-      removePreAuthObj={() => setPreAuthObj(undefined)}
-      preAuthObj={preAuthObj!}>
-        <div className={styles.AppContainer}>
-          <Nav auth/>
-          <AuthRoutes />
-        </div>
-    </AuthProvider>
+    <AnalyticsProvider>
+      <AuthProvider 
+        removePreAuthObj={() => setPreAuthObj(undefined)}
+        preAuthObj={preAuthObj!}>
+          <ToastProvider>
+            <div className={styles.AppContainer}>
+              <Nav auth/>
+              <AuthRoutes />
+            </div>
+          </ToastProvider>
+      </AuthProvider>
+    </AnalyticsProvider>
   );
 
 

@@ -306,3 +306,22 @@
 .messageText {
     color: $grey-900;
 }
+
+.disabledBid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.6rem;
+}
+
+.disabledBidText {
+    color: $grey-700;
+    font-weight: 500;
+}
+
+.bookmarked {
+    path {
+        fill: $grey-600;
+        stroke: $grey-700;
+    }
+}

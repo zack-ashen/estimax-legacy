@@ -2,6 +2,7 @@ import express, { Response } from 'express'
 import jwt, { Secret } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { OAuth2Client } from 'google-auth-library';
+import { Analytics } from '@segment/analytics-node';
 
 import { IUser } from '../models/user'
 import { validateReferralCode } from '../util/referralCodes'
@@ -16,6 +17,11 @@ const router = express.Router();
 
 const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
 
+const analytics = new Analytics({ 
+  writeKey: process.env.SEGMENT_WRITE_KEY!,
+  // disable: process.env.ENV === 'dev'
+})
+
 /*
 * /signup verifies the referral token is valid and then creates the user
 * using the sent user object.
@@ -23,7 +29,7 @@ const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
 router.route('/signup').post(async (req, res, next) => {
   try {
     // Validate the request body
-    const { newUser, password, referral } = req.body;
+    const { newUser, password } = req.body;
     if (!newUser)
       throw new ServerError(Errors.INVALID_REQUEST_BODY, 400);
 
@@ -38,9 +44,20 @@ router.route('/signup').post(async (req, res, next) => {
       password
     })
 
-    // add referral code so it can't be used again
-    const referralObj = new Referral({ referral })
-    await referralObj.save();
+    analytics.identify({
+      userId: user._id.toString(),
+      traits: {
+        ...user
+      }
+    })
+
+    analytics.track({
+      userId: user._id.toString(),
+      event: 'User signed up',
+      properties: {
+        method: 'Standard Form'
+      }
+    })
 
     // Generate a JWT token for the new user
     const token = createAndSetToken(user, res);
@@ -72,6 +89,21 @@ router.route('/signin').post(async (req, res, next) => {
     const match = bcrypt.compare(password, user.password as string);
     if (!match)
       throw new ServerError(Errors.INVALID_CRED, 400);
+
+    analytics.identify({
+      userId: user._id.toString(),
+      traits: {
+        ...user
+      }
+    })
+
+    analytics.track({
+      userId: user._id.toString(),
+      event: 'User signed in',
+      properties: {
+        method: 'Standard Form'
+      }
+    })
 
     // Generate a JWT token for the new user
     const token = createAndSetToken(user, res);
@@ -109,9 +141,32 @@ router.post('/googleAuth', async (req, res, next) => {
   
       user = await createUser({...newUser, email: payload.email!})
 
+      analytics.track({
+        userId: user._id.toString(),
+        event: 'User signed up',
+        properties: {
+          method: 'Google'
+        }
+      })
+
       const referralObj = new Referral({ referral })
       await referralObj.save();
+    } else {
+      analytics.track({
+        userId: user._id.toString(),
+        event: 'User signed in',
+        properties: {
+          method: 'Google'
+        }
+      })
     }
+
+    analytics.identify({
+      userId: user._id.toString(),
+      traits: {
+        ...user
+      }
+    })
     
     const token = createAndSetToken(user, res);
 
@@ -153,22 +208,17 @@ router.route('/refreshToken').post(async (req, res, next) => {
 });
 
 router.route('/signout').post((req, res) => {
+  const token = req.cookies.refreshToken;
+  const payload = jwt.verify(token, process.env.JWT_PRIVATE_KEY!) as TokenPayload;
+
   res.clearCookie('refreshToken');
+
+  analytics.track({
+    userId: payload.uid.toString(),
+    event: 'User signed out'
+  })
+
   res.status(200).send({ message: 'User signed out successfully' });
-});
-
-router.route('/validate-referral').post(async (req, res, next) => {
-  try {
-    const { referral } = req.body;
-
-    if (await validateReferralCode(referral)) {
-      return res.status(200).send({ ok: 'Referral token is valid' });
-    }
-
-    throw new ServerError(Errors.INVALID_REFERRAL_CODE, 400)
-  } catch (err) {
-    next(err)
-  }
 });
 
 const createAndSetToken = (user: IContractor | IHomeowner, res: Response) => {
@@ -191,5 +241,6 @@ const createAndSetToken = (user: IContractor | IHomeowner, res: Response) => {
   
   return token;
 }
+
 
 export default router;

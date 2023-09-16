@@ -18,61 +18,366 @@
 
 .decorativeGridRight {
     position: absolute;
-    z-index: -1;
     right: 0;
     bottom: 0;
+    z-index: -2;
 
 }
 
 .Landing {
     display: flex;
     flex-direction: column;
-    gap: $spacing-20;
-    max-width: 1600px;
-    margin: 0 auto;
+    margin: 0;
 }
 
+
+
+.heroSectionContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #F5F7FF;
+    z-index: 1;
+}
 
 
 .heroSection {
-    width: 100%;
     display: flex;
+    max-width: 1280px;
+    margin: auto;
     justify-content: space-between;
-    gap: 15rem;
-    margin-top: 10rem;
+    align-items: center;
+    min-height: 830px;
+}
 
-    h1 {
-        color: $blue-950;
-        font-weight: 600;
-    }
+.heroLeft, .heroRight {
+    flex: 1 0 50%;
+}
 
-    p {
-        margin-top: $spacing-2;
-        font-size: $font-size-lg;
-        color: $grey-500;
-        font-weight: 400;
-    }
+.heroLeft {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
 
-    .heroLeft {
+    .textContent {
         display: flex;
         flex-direction: column;
-        gap: $spacing-4;
-        width: 100%;
-        max-width: 600px;
+        gap: $spacing-5;
     }
+
+    .heroHeader {
+        font-size: 4rem;
+        color: $blue-950;
+        font-weight: 700;
+    }
+
+    .heroSubtitle {
+        color: $grey-600;
+        font-size: 1.3rem;
+        line-height: 1.5;
+    }
+}
+
+.heroRight {
+    display: flex;
 }
 
 .heroImage {
-    width: 100%;
     box-shadow: 73px 91px 47px rgba(0, 0, 0, 0.01), 41px 51px 39px rgba(0, 0, 0, 0.02), 18px 23px 29px rgba(0, 0, 0, 0.04), 5px 6px 16px rgba(0, 0, 0, 0.04);
-    width: 80%;
     max-width: 500px;
     border-radius: 1rem;
+    width: 65%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.userTypeSelect {
+    position: absolute;
+    background-color: white;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 0.5rem;
+    padding: $spacing-6 $spacing-10;
+    box-shadow: 0px 59px 24px rgba(0, 0, 0, 0.01), 0px 33px 20px rgba(0, 0, 0, 0.03), 0px 15px 15px rgba(0, 0, 0, 0.05), 0px 4px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-6;
+    text-align: center;
+}
+
+.userTypeToggleContainer {
+    display: flex;
+    gap: $spacing-5;
+    justify-content: center;
+    background-color: $grey-50;
+    border-radius: 0.4rem;
+    padding: $spacing-2
+}
+
+.toggled {
+    background-color: white;
+    color: $grey-900;
+    border: solid 1px $blue-200;
+    filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05));
+}
+
+.toggleButton {
+    padding: $spacing-4 $spacing-8;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 400ms ease, border 0ms;
+
+    &:hover:not(.toggled) {
+        cursor: pointer;
+        background-color: darken(#FAFAFA, 4%);
+    }
+
+    &:focus {
+        border: none;
+    }
+    outline: none;
 }
 
 
-.sectionCaption {
-    color: $blue-700;
-    font-weight: 500;
+.sectionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 18rem;
+    margin: 15rem 0 0 0;
+}
 
+.sectionCaption {
+    margin-bottom: $spacing-1;
+    color: $blue-700;
+    font-weight: 600;
+    font-size: $font-size-lg;
+
+}
+
+.landingSection {
+    max-width: 1280px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.howItWorksTwoColumn {
+    display: flex;
+    margin-top: $spacing-15;
+}
+
+.howItWorksLeft {
+    flex: 0 0 42%;
+}
+
+.howItWorksRight {
+    flex: 1 0 50%;
+    display: flex;
+    justify-content: right;
+}
+
+.howItWorksImage {
+    width: 70%;
+}
+
+.howItWorksLeft {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+}
+
+.stepNotToggled, .stepToggled {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: $spacing-7;
+    gap: $spacing-6;
+    border-radius: 0.6rem;
+}
+
+.stepNotToggled {
+    transition: all 0.5s ease-in;
+
+
+    &:hover {
+        cursor: pointer;
+        background-color: $grey-100;
+    }
+}
+
+
+.stepToggled {
+    background-color: white;
+    box-shadow: 0px 10px 16px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03);
+
+
+    .stepTextContainer {
+        h3 {
+            color: $blue-600;
+        }
+    }
+
+    .stepIcon {
+        path {
+            stroke-width: 2;
+            stroke: $blue-600;
+        }
+    }
+}
+
+.stepIcon {
+    width: 2rem;
+    height: auto;
+    
+    path {
+        stroke-width: 1.5;
+    }
+}
+
+.stepTextContainer {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+}
+
+.stepText {
+    font-size: $font-size-lg;
+    color: $grey-700;
+}
+
+.calloutSection {
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+.leftCallout {
+    flex: 0 0 46%;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+
+    .callout {
+        color: $blue-700;
+    }
+
+    p {
+        font-size: $font-size-lg;
+        line-height: 1.7;
+        color: $grey-700;
+    }
+}
+
+.rightCallout {
+    display: flex;
+    justify-content: center;
+    flex: 1 0 50%;
+}
+
+.handymanImage {
+    width: 60%;
+}
+
+
+.featureContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: $spacing-20;
+    margin-top: $spacing-15;
+}
+
+.feature {
+    display: flex;
+    gap: $spacing-5;
+    box-sizing: border-box;
+    flex: 1;
+    max-width: 100%;
+
+    .featureTextContainer {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-1;
+    }
+
+    .featureHeader {
+        font-weight: 500;
+        font-size: $font-size-lg;
+    }
+
+    .featureBody {
+        line-height: 1.6;
+        color: $grey-700;
+    }
+
+    .featureIconContainer {
+        background-color: $blue-200;
+        height: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: $spacing-2;
+        border-radius: 0.4rem;
+
+        .featureIcon {
+            width: 1.5rem;
+            height: auto;
+            
+            path {
+                stroke: $blue-800;
+            }
+        }
+    }
+}
+
+
+
+
+.finalCallToAction {
+    background-color: $blue-100;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: $spacing-20 0;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.finalCTATextContainer {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-5;
+    margin-bottom: $spacing-12;
+
+    h1 {
+        color: $blue-950;
+    }
+
+    p {
+        font-size: $font-size-lg;
+        color: $grey-700;
+
+    }
+}
+
+footer {
+    border-top: solid 1px $grey-300;
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
+    margin: auto;
+    padding: $spacing-5 0;
+    align-items: center;
+    gap: $spacing-4;
+
+    svg {
+        width: 2.5rem;
+    }
+
+    p {
+        color: $grey-600;
+    }
 }

@@ -20,20 +20,21 @@ $border-color: $grey-300;
     font-weight: 500;
     border: solid 1px $border-color;
     border-right: none;
+    transition: all 0.2s ease-in-out;
 
 
-}
-
-.active {
-    background-color: white;
-    box-shadow: rgba(50, 50, 93, 0.06) 0px 2px 1px -1px, rgba(0, 0, 0, 0.02) 0px 1px 1px -1px;
 }
 
 .disabled {
-    background-color: $grey-100;
-    transition: all 0.1s ease-in-out;
+    background-color: white;
+    box-shadow: rgba(50, 50, 93, 0.06) 0px 2px 1px -1px, rgba(0, 0, 0, 0.02) 0px 1px 1px -1px;
 
     &:hover {
-        background-color: lighten($grey-100, 2%);
+        background-color: darken(white, 2%);
     }
+}
+
+.active {
+    background-color: $grey-100;
+    transition: all 0.1s ease-in-out;
 }

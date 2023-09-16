@@ -13,6 +13,7 @@ import { ReactComponent as PencilIcon } from '../../assets/PencilIcon.svg'
 import { ReactComponent as PersonAddIcon } from '../../assets/PersonAddIcon.svg'
 import { ReactComponent as TrashIcon } from '../../assets/TrashIcon.svg'
 import { ReactComponent as SaveIcon } from '../../assets/CheckIcon.svg'
+import { ReactComponent as Sciccors } from '../../assets/Scissors.svg'
 
 
 import { Bid, Project, Roles } from '../../types'
@@ -24,6 +25,7 @@ import CreateBidModal from '../../components/CreateBidModal/CreateBidModal';
 import DeleteProjectModal from '../../components/DeleteProjectModal/DeleteProjectModal';
 import EditableText from '../../components/EditableText/EditableText';
 import ImageSlides from '../../components/ImageSlides/ImageSlides';
+import { useToast } from '../../contexts/ToastContext';
 
 
 interface ProjectInfoTagProps {
@@ -45,6 +47,7 @@ const ProjectInfoTag = ({ Icon, title, info }: ProjectInfoTagProps) => (
 
 export default function ProjectView() {
   const { id } = useParams();
+  const { addToast } = useToast();
   const { useAuthReq, user } = useAuth();
   const authReq = useAuthReq();
 
@@ -55,6 +58,7 @@ export default function ProjectView() {
   const [ editProject, setEditProject ] = useState(false)
   const [ images, setImages ] = useState([]);
   const [ message, setMessage ] = useState('');
+  const [ bookmarked, setBookmarked ] = useState(false);
 
   useEffect(() => {
     authReq(`/api/project/${id}`, {
@@ -65,7 +69,20 @@ export default function ProjectView() {
         if (data.error) {
           console.error(data.error)
         } else {
-          console.log("images: " + data.project?.images)
+          const project = data.project;
+          authReq(`/api/contractor/${user.uid}/bookmarks`, {
+            method: 'GET',
+          })
+            .then(res => res?.json())
+            .then(data => {
+                const bookmarkedIds : string[] = data.bookmarks;
+                if (bookmarkedIds && bookmarkedIds.includes(project._id)) {
+                    setBookmarked(true);
+                } else {
+                    setBookmarked(false);
+                }
+          })
+
           authReq(`/api/image/project-image/${data.project?.images}`, {
             method: 'GET'
           })
@@ -81,17 +98,29 @@ export default function ProjectView() {
     
   }, [])
 
-  // const bookmarkProject = () => {
-  //   authReq(`/api/user/${user.uid}/bookmark/`, {
-  //     method: 'POST',
-  //     body: JSON.stringify({
-  //       project: id
-  //     })
-  //   })
-  //     .then((res) => res?.json())
-  //     .then(data => setUser(data.project))
+  const copyURL = async () => {
+    await navigator.clipboard.writeText(window.location.href)
+    addToast('Link copied to clipboard!', 'success', Sciccors)
+  }
 
-  // }
+  const bookmarkIcon = () => (
+    <BookmarkIcon className={styles[bookmarked ? 'bookmarked' : 'notBookmarked']} />
+  )
+
+  const bookmarkToggle = () => {
+    authReq(`/api/contractor/${user.uid}/bookmark/`, {
+      method: 'POST',
+      body: JSON.stringify({ 
+          project: project?._id,
+          bookmark: bookmarked 
+      })
+    })
+      .then(res => {
+          if (res?.status === 200) {
+              setBookmarked(prevBookmarked => !prevBookmarked);
+          }
+      })
+  }
 
   const postMessage = () => {
     authReq(`/api/project/${id}/message`, {
@@ -140,7 +169,7 @@ export default function ProjectView() {
               text={editProject ? 'Save Project' : 'Edit Project'}
               Icon={editProject ? SaveIcon : PencilIcon} 
               onClick={() => setEditProject(prevState => !prevState)} />
-            <Button buttonStyle={ButtonStyles.TERTIARY} text={'Invite Contractor'} Icon={PersonAddIcon} onClick={() => undefined} />
+            <Button buttonStyle={ButtonStyles.TERTIARY} text={'Invite Contractor'} Icon={PersonAddIcon} onClick={() => addToast('Link copied to clipboard!', 'success', Sciccors)} />
           </div>
           <Button buttonStyle={ButtonStyles.PRIMARY_ALT} text={'Delete Project'} Icon={TrashIcon} onClick={() => setShowDeleteModal(true)} />
         </div>
@@ -156,14 +185,14 @@ export default function ProjectView() {
         <div className={styles.projectInteractions}>
           <Button 
             buttonStyle={ButtonStyles.TERTIARY} 
-            onClick={() => undefined}
+            onClick={async () => await copyURL()}
             text={'Share'}
             Icon={ShareIcon} />
           {user.role === Roles.CONTRACTOR && <Button 
             buttonStyle={ButtonStyles.TERTIARY} 
-            onClick={() => undefined}
+            onClick={bookmarkToggle}
             text={'Bookmark'}
-            Icon={BookmarkIcon} />}
+            Icon={bookmarkIcon} />}
         </div>
       </div>
 
@@ -196,11 +225,18 @@ export default function ProjectView() {
               }
             </div>
             {user.role === Roles.CONTRACTOR && <div className={styles.bidCTASection}>
-              <Button 
-                buttonStyle={ButtonStyles.PRIMARY} 
-                onClick={() => setShowCreateBidModal(true)}
-                text={'Place a Bid'} 
-                wide />
+              {project?.bids && (project.bids.filter(({ contractorId }) => contractorId === user.uid)).length < 3 &&
+                <Button 
+                  buttonStyle={ButtonStyles.PRIMARY} 
+                  onClick={() => setShowCreateBidModal(true)}
+                  text={'Place a Bid'} 
+                  wide />
+              }
+              {project?.bids && (project.bids.filter(({ contractorId }) => contractorId === user.uid)).length >= 3 &&
+                <div className={styles.disabledBid}>
+                  <p className={styles.disabledBidText}>No bids left!</p>
+                </div>
+              }
               <Button 
                 buttonStyle={ButtonStyles.SECONDARY} 
                 onClick={() => setShowContactModal(true)}

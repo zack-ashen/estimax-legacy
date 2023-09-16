@@ -1,5 +1,6 @@
 import { JwtPayload } from "jwt-decode";
 import { MultiValue } from "react-select";
+import { AnalyticsSnippet } from "@segment/analytics-next"
 
 export interface TokenPayload extends JwtPayload {
   role: Roles; // Adjust the type according to your needs
@@ -233,3 +234,7 @@ export const ReviewStars = {
   FOUR_STAR: 'Four Stars',
   FIVE_STAR: 'Five Stars'
 } as const;
+
+export interface AnalyticsWindow extends Window {
+  analytics: AnalyticsSnippet
+}

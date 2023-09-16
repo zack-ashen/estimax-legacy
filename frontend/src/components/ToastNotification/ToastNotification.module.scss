@@ -1,0 +1,32 @@
+@import '../../styles/index';
+
+.toast {
+    position: absolute;
+    top: $spacing-4;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: fit-content;
+    max-width: 50ch;
+    text-wrap: nowrap;
+    color: white;
+    display: flex;
+    gap: $spacing-3;
+    justify-content: center;
+    align-items: center;
+    padding: $spacing-1 $spacing-3;
+    border-radius: 0.4rem;
+    box-shadow: rgba(50, 50, 93, 0.1) 0px 2px 1px -1px, rgba(0, 0, 0, 0.08) 0px 1px 1px -1px;
+}
+
+.icon {
+    height: 16px;
+    width: auto;
+    path {
+        stroke: white;
+    }
+}
+
+.success {
+    background-color: $green-500;
+    border: solid 1px $green-600;
+}
