@@ -19,7 +19,7 @@ const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
 
 const analytics = new Analytics({ 
   writeKey: process.env.SEGMENT_WRITE_KEY!,
-  // disable: process.env.ENV === 'dev'
+  disable: process.env.ENV === 'dev'
 })
 
 /*
