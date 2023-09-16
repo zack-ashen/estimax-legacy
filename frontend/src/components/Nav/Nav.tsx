@@ -13,6 +13,7 @@ import { ReactComponent as SearchIcon } from '../../assets/SearchIcon.svg'
 import { ReactComponent as PlusIcon } from '../../assets/PlusIcon.svg'
 import { ReactComponent as FriendsIcon } from '../../assets/FriendsIcon.svg'
 import TextInput from '../Inputs/TextInput/TextInput';
+import ProjectSearch from '../ProjectSearch/ProjectSearch';
 
 
 const ContractorNav = () => {
@@ -33,7 +34,7 @@ const ContractorNav = () => {
                     Icon={DashboardIcon} />
             </div>
             <div className={styles.navButtonContainer}>
-                <TextInput name='Search' value={''} onChange={() => undefined} Icon={SearchIcon} noLabel/>
+                <ProjectSearch />
                 <ProfileNav />
             </div>
         </>
@@ -141,18 +142,23 @@ function NoAuthNav() {
 
 function Nav({ auth=false }: NavProps) {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const smallWidth = ['/project/', '/', '/signin', '/signup', '/post-project/'].includes(location.pathname);
 
     return (
-        <nav className={styles.Nav}>
-            <div className={styles.logoSection} onClick={() => navigate('/')}>
-                <img alt='logo' src={Logo}/>
-                <h5>Estimax <span className={styles.betaTag}>BETA</span></h5>
-            </div>
+        <div className={styles.navContainer}>
+            <nav className={`${styles.Nav} ${styles[smallWidth ? 'smallWidthNav' : '']}`}>
+                <div className={styles.logoSection} onClick={() => navigate('/')}>
+                    <img alt='logo' src={Logo}/>
+                    <h5 className={styles.logoText}>Estimax <span className={styles.betaTag}>BETA</span></h5>
+                </div>
 
-            <div className={styles.navItems}>
-                {auth ? <AuthNav /> : <NoAuthNav />}
-            </div>
-        </nav>
+                <div className={styles.navItems}>
+                    {auth ? <AuthNav /> : <NoAuthNav />}
+                </div>
+            </nav>
+        </div>
     );
 }
 

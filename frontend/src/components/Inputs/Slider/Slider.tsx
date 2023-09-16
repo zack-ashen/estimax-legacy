@@ -15,7 +15,7 @@ export default function Slider({ sliderStates, label, setUpstreamState }: Slider
   const [ sliderState, setSliderState ] = useState(sliderStates[0])
 
   return (
-    <div>
+    <div className={styles.SliderParent}>
       <p className={styles.label}>{label}</p>
       <div className={styles.sliderContainer}>
         <ReactSlider

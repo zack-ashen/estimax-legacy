@@ -2,6 +2,19 @@ import express from 'express'
 import Stripe from 'stripe'
 
 
+const calculatePrice = (totalAmount: number) => {
+    if (totalAmount <= 10) {
+      return 5.00;
+    }
+  
+    const amount = (totalAmount * 0.07);
+    if (amount > 50.00) {
+      return 50.00;
+    }
+  
+    return isNaN(amount) ? 0.00 : amount;
+}
+
 const stripe = new Stripe(process.env.STRIPE_SECRET!, {
     apiVersion: '2023-08-16'
 });
@@ -13,7 +26,7 @@ router.route('/intent').post(async (req, res) => {
 
     try {
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: 1 * 100, // amount in cents
+            amount: calculatePrice(amount) * 100, // amount in cents
             currency: 'usd'
         });
         res.status(200).send({

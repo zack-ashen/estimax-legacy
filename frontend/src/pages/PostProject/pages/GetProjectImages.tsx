@@ -7,10 +7,14 @@ import MediaInput from "../../../components/Inputs/MediaInput/MediaInput";
 
 export default function GetProjectImages ({ submitComponent, formSize, content}: PageProps) {
   const { setFormData }  = useFormContext()!;
-  const [files, setFiles] = useState<File[]>([])
+  const [files, setFiles] = useState<File[]>([]);
+  const [ invalidInput, setInvalidInput ] = useState('');
 
   const validate = async () => {
-    console.log(files)
+    if (files.length === 0) {
+      setInvalidInput('You must submit an image.')
+      return false;
+    }
 
     setFormData(prevFormData => ({
       ...prevFormData,
@@ -24,7 +28,7 @@ export default function GetProjectImages ({ submitComponent, formSize, content}:
   return (
     <FormPage validate={validate} submitComponent={submitComponent} formSize={formSize} content={content}>
       <div className={styles.formInputContainer}>
-        <MediaInput setFiles={setFiles}/>
+        <MediaInput setFiles={setFiles} invalidInput={invalidInput}/>
       </div>
     </FormPage>
   );

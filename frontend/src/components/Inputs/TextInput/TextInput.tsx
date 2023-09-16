@@ -18,6 +18,7 @@ interface TextInputProps {
     error?: string;
     valid?: boolean
     onBlur?: () => void;
+    onFocus?: () => void;
     Icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
     noLabel?: boolean;
 }
@@ -31,6 +32,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                                                 error,
                                                 valid,
                                                 onBlur,
+                                                onFocus,
                                                 Icon,
                                                 noLabel=false}) => {
     
@@ -47,17 +49,19 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
             {!noLabel && 
                 <label className={`${styles.inputLabel} ${styles[inputSize]} ${styles[focused ? 'focused' : '']}`} htmlFor={name}>{name}</label>
             }
-            <input
-                name={name}
-                value={value}
-                type={type}
-                placeholder={placeholder}
-                onChange={onChange}
-                className={className}
-                onFocus={() => setFocused(true)}
-                onBlur={() => {setFocused(false); onBlur && onBlur()}}
-            />
-            {Icon && <Icon className={styles.icon}/>}
+            <div className={styles.inputContainer}>
+                <input
+                    name={name}
+                    value={value}
+                    type={type}
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    className={className}
+                    onFocus={() => { setFocused(true); onFocus && onFocus() } }
+                    onBlur={() => {setFocused(false); onBlur && onBlur()}}
+                />
+                {Icon && <Icon className={styles.icon}/>}
+            </div>
             {error && <p className={styles.errorText}>{error}</p> }
         </div>
     ) : (
@@ -71,8 +75,8 @@ const TextInput: FunctionComponent<TextInputProps> = ({ name,
                 placeholder={placeholder}
                 onChange={onChange}
                 className={className}
-                onFocus={() => setFocused(true)}
-                onBlur={() => {setFocused(false); onBlur && onBlur()}}
+                onFocus={() => { setFocused(true); onFocus && onFocus() }}
+                onBlur={() => { setFocused(false); onBlur && onBlur() }}
             />
             {error && <p className={styles.errorText}>{error}</p> }
         </div>

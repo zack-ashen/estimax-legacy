@@ -1,0 +1,60 @@
+@import '../../styles/index';
+
+.ProjectSearch {
+    width: auto;
+    transition: width 0.15s ease-in;
+    position: relative;
+
+}
+
+.ProjectSearch.focused {
+    width: 29ch;
+}
+
+.notFocused {
+    width: 22ch;
+}
+
+.resultsContainer {
+    position: absolute;
+    top: $spacing-11;
+    background-color: white;
+    width: 100%;
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border: solid 1px $grey-200;
+    padding: $spacing-2 $spacing-1;
+    border-radius: 0.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 29ch;
+}
+
+.ProjectSearchCard {
+    border-radius: 0.4rem;
+    padding: $spacing-2;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &:hover {
+        cursor: pointer;
+        background-color: $grey-100;
+    }
+
+    .name {
+        font-weight: 500;
+        font-size: $font-size-sm;
+    }
+
+    .location {
+        color: $grey-700;
+        font-size: $font-size-sm;
+    }
+
+    .bidCount {
+        font-size: $font-size-sm;
+        color: $grey-700;
+    }
+}

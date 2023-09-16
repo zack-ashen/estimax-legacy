@@ -44,11 +44,28 @@
     }
 
     .starIcon {
+        &:hover {
+            path {
+                fill: $grey-300;
+                stroke: $grey-500;
+            }
+        }
         width: 1.1rem;
     }
 
     .starIcon path {
-        stroke: $grey-600;
+        transition: fill 0.5s;
+        stroke: $grey-500;
+    }
+}
+
+.bookmarked {
+    svg {
+        path {
+            fill: $blue-600;
+            stroke: $blue-700 !important;
+            stroke-width: 2;
+        }
     }
 }
 

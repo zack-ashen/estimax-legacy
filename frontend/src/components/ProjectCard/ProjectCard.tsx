@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { Project } from '../../types';
+import { Project, Roles } from '../../types';
 import styles from './ProjectCard.module.scss';
 import { useAuth } from '../../contexts/AuthContext';
 import { ReactComponent as BookmarkIcon } from '../../assets/BookmarkIcon.svg'
@@ -14,7 +14,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
-    const { useAuthReq } = useAuth()!; 
+    const { useAuthReq, user } = useAuth()!; 
     const authReq = useAuthReq();
     const navigate = useNavigate();
     const [ bookmarked, setBookmarked ] = useState(false);
@@ -28,17 +28,35 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             .then(res => res?.json())
             .then(data => setUrls(data.urls))
         
-        authReq(`/api/contractor/bookmark/${project._id}`, {
-            method: 'POST'
+        authReq(`/api/contractor/${user.uid}/bookmarks`, {
+            method: 'GET',
         })
             .then(res => res?.json())
-            .then(data => setUrls(data.urls))
-        
-        
+            .then(data => {
+                const bookmarkedIds : string[] = data.bookmarks;
+                if (bookmarkedIds && bookmarkedIds.includes(project._id)) {
+                    setBookmarked(true);
+                } else {
+                    setBookmarked(false);
+                }
+            })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [project.images])
 
     const toggleBookmark = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        authReq(`/api/contractor/${user.uid}/bookmark/`, {
+            method: 'POST',
+            body: JSON.stringify({ 
+                project: project._id,
+                bookmark: bookmarked 
+            })
+        })
+            .then(res => {
+                if (res?.status === 200) {
+                    setBookmarked(prevBookmarked => !prevBookmarked);
+                }
+            })
+
 
 
 
@@ -50,7 +68,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <div className={styles.ProjectCard} onClick={() => navigate(`/project/${project._id}`)}>
             <div className={styles.header}>
                 <p>{project.name}</p>
-                <button className={styles.bookmarkToggle} onClick={toggleBookmark}><BookmarkIcon className={styles.starIcon}/></button>
+                {user.role === Roles.CONTRACTOR && <button className={`${styles.bookmarkToggle} ${styles[bookmarked ? 'bookmarked' : '']}`} onClick={toggleBookmark}><BookmarkIcon className={styles.starIcon}/></button> }
             </div>
             <ImageSlides images={urls} small/>
             {/* <img src={url} alt={'projectImage'} className={styles.projectImage}/> */}

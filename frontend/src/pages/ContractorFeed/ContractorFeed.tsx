@@ -40,7 +40,7 @@ export default function ContractorFeed() {
 
             <div className={styles.contractors}>
                 <div className={styles.searchResultsHeader}>
-                <p>Found 0 result on your search...</p>
+                <p>Found {contractors.length} result on your search...</p>
                 </div>
             
                 <div className={styles.projectGrid}>

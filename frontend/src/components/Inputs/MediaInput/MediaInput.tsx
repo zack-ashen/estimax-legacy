@@ -5,9 +5,10 @@ import styles from './MediaInput.module.scss'
 
 interface MediaInputProps {
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  invalidInput: string;
 }
 
-export default function MediaInput({ setFiles }: MediaInputProps) {
+export default function MediaInput({ setFiles, invalidInput }: MediaInputProps) {
   const [ error, setError ] = useState<string | undefined>();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
@@ -61,7 +62,7 @@ export default function MediaInput({ setFiles }: MediaInputProps) {
 
   return (
     <div className={styles.MediaInputContainer}>
-      <div className={`${styles.MediaInput} ${styles[error ? 'error' : '']}`}>
+      <div className={`${styles.MediaInput} ${styles[(error || invalidInput) ? 'error' : '']}`}>
         <div className={styles.iconContainer}>
           <ImageAddIcon className={styles.icon}/>
         </div>
@@ -72,7 +73,7 @@ export default function MediaInput({ setFiles }: MediaInputProps) {
           multiple
         />
       </div>
-      {error && <p className={styles.errorText}>{error}</p>}
+      {(error || invalidInput) && <p className={styles.errorText}>{error ? error : invalidInput}</p>}
       <div className={styles.imgPreviewContainer}>
         {selectedImages && selectedImages.map((image, index) => (
           <div className={styles.imgContainer} key={`Container ${index}`}>
