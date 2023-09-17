@@ -13,7 +13,7 @@ import CheckoutForm from '../CheckoutForm/CheckoutForm';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe('pk_test_51NF81eFgHcBqsf1Z2VN4WelbB2MLj1lkPygvyOwgy3HwNEYXD8LOuP395V0sVAGWZ5ri9qEjH34GRY69PUK9mYSB00B3w4IdNo');
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY!);
 
 interface CreateBidModalProps {
     showCreateBidModal: boolean;
@@ -30,6 +30,8 @@ const calculatePrice = (totalAmount: number) => {
   const amount = (totalAmount * 0.07);
   if (amount > 50.00) {
     return 50.00;
+  } else if (amount < 5.00) {
+    return 5.00;
   }
 
   return isNaN(amount) ? 0.00 : amount;
