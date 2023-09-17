@@ -26,7 +26,7 @@ router.route('/intent').post(async (req, res) => {
 
     try {
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(calculatePrice(amount) * 100) / 100, // amount in cents
+            amount: Math.round(calculatePrice(amount) * 100), // amount in cents
             currency: 'usd'
         });
         res.status(200).send({
