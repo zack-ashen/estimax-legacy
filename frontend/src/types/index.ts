@@ -3,7 +3,7 @@ import { MultiValue } from "react-select";
 import { AnalyticsSnippet } from "@segment/analytics-next"
 
 export interface TokenPayload extends JwtPayload {
-  role: Roles; // Adjust the type according to your needs
+  role: Roles;
   userId: string;
 }
 

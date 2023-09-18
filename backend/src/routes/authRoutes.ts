@@ -141,7 +141,9 @@ router.route('/signin').post(async (req, res, next) => {
 */
 router.post('/googleAuth', async (req, res, next) => {
   try {
-    const { newUser, clientId, credential, type } = req.body;
+    const { clientId, credential, type } = req.body;
+
+    const newUser = req.body.newUser;
 
     const ticket = await client.verifyIdToken({
       idToken: credential,
@@ -154,7 +156,7 @@ router.post('/googleAuth', async (req, res, next) => {
 
     let user = await getUser(payload.email!, true);
     if (!user && type === 'signup') {
-      user = await createUser({...newUser, email: payload.email!})
+      user = await createUser({...newUser, email: payload.email!, name: payload.name!})
 
       analytics.track({
         userId: user._id.toString(),
@@ -165,7 +167,7 @@ router.post('/googleAuth', async (req, res, next) => {
       })
 
       const msg = {
-        to: 'zachary.h.a@gmail.com', // Change to your recipient
+        to: payload.email!, // Change to your recipient
         from: 'andrew@estimax.us', // Change to your verified sender
         templateId: process.env.SENDGRID_SIGN_UP!
       }
