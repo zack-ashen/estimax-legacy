@@ -159,7 +159,6 @@ function App() {
 
   useEffect(() => {
     if (process.env.REACT_APP_ENV === 'prod') {
-      console.log('hi')
       window.analytics.page()
     }
   }, [location])
