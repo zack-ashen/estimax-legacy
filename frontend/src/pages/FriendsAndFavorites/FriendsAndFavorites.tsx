@@ -39,14 +39,12 @@ export default function FriendsAndFavorites() {
             })
     }, [])
 
-
-
     return (
         <>
         <div className={styles.FriendsAndFavorites}>
             <div className={styles.header}>
                 <div className={styles.headerText}>
-                    <h3 className={styles.title}>Your Friends and Favorites</h3>
+                    <h3 className={styles.title}>Your Friend's</h3>
                     <p className={styles.subtitle}>
                         {fnfType === fnfToggles.CONTRACTORS && 'Save your favorite contractors here so you can invite them to bid on your projects again later.'}
                         {fnfType === fnfToggles.HOMEOWNERS && 'Add family and neighbors as friends to see their favorite pros.'}

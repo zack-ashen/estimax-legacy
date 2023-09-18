@@ -16,9 +16,9 @@
 }
 
 .projectGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 330px);
-    grid-gap: $spacing-10;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-7;
     width: 100%;
 }
 

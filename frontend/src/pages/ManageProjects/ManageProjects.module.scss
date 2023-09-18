@@ -75,3 +75,10 @@
     }
 
 }
+
+.TabContent {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: $spacing-5;
+}

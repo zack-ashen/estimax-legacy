@@ -6,7 +6,7 @@ import Logo from '../../assets/Logo.svg';
 
 import styles from "./Nav.module.scss";
 import Button, { ButtonStyles } from "../Inputs/Button/Button";
-import ProfileNav from '../ProfileNav/ProfileNav';
+import ProfileNav from '../ProfileNav/ProfileNav'; 
 
 import { ReactComponent as DashboardIcon } from '../../assets/DashboardIcon.svg'
 import { ReactComponent as SearchIcon } from '../../assets/SearchIcon.svg'
@@ -60,7 +60,7 @@ const HomeownerNav = () => {
             <Button 
                     buttonStyle={ButtonStyles.TERTIARY}
                     onClick={() => navigate('/friends-and-favorites')}
-                    text={'Friends and Favorites'} 
+                    text={'Friends'} 
                     Icon={FriendsIcon} />
         </div>
         <div className={styles.navButtonContainer}>

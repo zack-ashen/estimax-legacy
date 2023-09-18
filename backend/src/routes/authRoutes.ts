@@ -13,6 +13,10 @@ import { Referral } from '../models/referral';
 import { IHomeowner } from '../models/homeowner';
 import { IContractor } from '../models/contractor';
 
+import sgMail from '@sendgrid/mail';
+
+sgMail.setApiKey(process.env.SENDGRID_KEY!);
+
 const router = express.Router();
 
 const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
@@ -62,6 +66,20 @@ router.route('/signup').post(async (req, res, next) => {
     // Generate a JWT token for the new user
     const token = createAndSetToken(user, res);
 
+    const msg = {
+      to: 'zachary.h.a@gmail.com', // Change to your recipient
+      from: 'andrew@estimax.us', // Change to your verified sender
+      templateId: process.env.SENDGRID_SIGN_UP!
+    }
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('Email sent')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+
     // Send the JWT token to the client
     res.status(200).send({ token, user });
   } catch (err) {
@@ -75,6 +93,7 @@ router.route('/signup').post(async (req, res, next) => {
 */
 router.route('/signin').post(async (req, res, next) => {
   try {
+
     // Validate the request body
     const { email, password } = req.body;
     if (!email || !password)
@@ -135,10 +154,6 @@ router.post('/googleAuth', async (req, res, next) => {
 
     let user: IHomeowner | IContractor | null = await getUser(payload.email!, true);
     if (!user) {
-      const referral = req.body.referral;
-      if (!referral || !(await validateReferralCode(referral)))
-        throw new ServerError(Errors.USER_NOT_FOUND, 400);
-  
       user = await createUser({...newUser, email: payload.email!})
 
       analytics.track({
@@ -149,8 +164,19 @@ router.post('/googleAuth', async (req, res, next) => {
         }
       })
 
-      const referralObj = new Referral({ referral })
-      await referralObj.save();
+      const msg = {
+        to: 'zachary.h.a@gmail.com', // Change to your recipient
+        from: 'andrew@estimax.us', // Change to your verified sender
+        templateId: process.env.SENDGRID_SIGN_UP!
+      }
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log('Email sent')
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     } else {
       analytics.track({
         userId: user._id.toString(),
