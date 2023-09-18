@@ -141,7 +141,7 @@ router.route('/signin').post(async (req, res, next) => {
 */
 router.post('/googleAuth', async (req, res, next) => {
   try {
-    const { newUser, clientId, credential } = req.body;
+    const { newUser, clientId, credential, type } = req.body;
 
     const ticket = await client.verifyIdToken({
       idToken: credential,
@@ -153,7 +153,7 @@ router.post('/googleAuth', async (req, res, next) => {
       throw new ServerError(Errors.INVALID_TOKEN, 400);
 
     let user: IHomeowner | IContractor | null = await getUser(payload.email!, true);
-    if (!user) {
+    if (!user && type === 'signup') {
       user = await createUser({...newUser, email: payload.email!})
 
       analytics.track({
@@ -177,9 +177,11 @@ router.post('/googleAuth', async (req, res, next) => {
         .catch((error) => {
           console.error(error)
         })
+    } else if (!user && type === 'signup') {
+      throw new ServerError('User does not exist', 400);
     } else {
       analytics.track({
-        userId: user._id.toString(),
+        userId: user?._id.toString(),
         event: 'User signed in',
         properties: {
           method: 'Google'
@@ -188,13 +190,13 @@ router.post('/googleAuth', async (req, res, next) => {
     }
 
     analytics.identify({
-      userId: user._id.toString(),
+      userId: user?._id.toString(),
       traits: {
         ...user
       }
     })
     
-    const token = createAndSetToken(user, res);
+    const token = createAndSetToken(user!, res);
 
     // Send the JWT token and refresh token to the client
     res.status(200).send({ token, user });
