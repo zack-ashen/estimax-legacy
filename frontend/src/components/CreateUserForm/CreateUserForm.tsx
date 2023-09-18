@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./CreateUserForm.module.scss";
 import { PreAuth } from "../../App";
 import { AuthContractor, AuthHomeowner, FormErrors, Roles } from "../../types/index";
@@ -110,7 +110,11 @@ const auth = (signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>,
 
 export function CreateUserForm({ signIn }: CreateUserFormProps) {
   const { formData, setSubmit, setErrors } = useFormContext()!;
+  const [ user, setUser] = useState<AuthContractor | AuthHomeowner>(createUserBody(formData));
+
+
   useEffect(() => {
+    setUser(createUserBody(formData));
     setSubmit(auth(signIn, setErrors))
   }, [formData])
 
@@ -120,7 +124,7 @@ export function CreateUserForm({ signIn }: CreateUserFormProps) {
 
   const submitForm = (
     <div className={styles.googleAuthButtonContainer}>
-      <GoogleAuth signIn={signIn} user={createUserBody(formData)} setErrors={setErrors} type={'signup'}/>
+      <GoogleAuth signIn={signIn} user={user} setErrors={setErrors} type={'signup'}/>
       <div className={styles.submitFormDivider} />
     </div>
   );
