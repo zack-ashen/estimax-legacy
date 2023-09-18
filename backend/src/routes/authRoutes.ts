@@ -152,7 +152,7 @@ router.post('/googleAuth', async (req, res, next) => {
     if (!payload)
       throw new ServerError(Errors.INVALID_TOKEN, 400);
 
-    let user: IHomeowner | IContractor | null = await getUser(payload.email!, true);
+    let user = await getUser(payload.email!, true);
     if (!user && type === 'signup') {
       user = await createUser({...newUser, email: payload.email!})
 
@@ -177,7 +177,7 @@ router.post('/googleAuth', async (req, res, next) => {
         .catch((error) => {
           console.error(error)
         })
-    } else if (!user && type === 'signup') {
+    } else if (!user && type !== 'signup') {
       throw new ServerError('User does not exist', 400);
     } else {
       analytics.track({

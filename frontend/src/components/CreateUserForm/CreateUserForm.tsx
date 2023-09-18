@@ -120,7 +120,7 @@ export function CreateUserForm({ signIn }: CreateUserFormProps) {
 
   const submitForm = (
     <div className={styles.googleAuthButtonContainer}>
-      <GoogleAuth signIn={signIn} user={createUserBody(formData)} setErrors={setErrors}/>
+      <GoogleAuth signIn={signIn} user={createUserBody(formData)} setErrors={setErrors} type={'signup'}/>
       <div className={styles.submitFormDivider} />
     </div>
   );
