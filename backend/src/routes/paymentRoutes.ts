@@ -10,6 +10,8 @@ const calculatePrice = (totalAmount: number) => {
     const amount = (totalAmount * 0.07);
     if (amount > 50.00) {
       return 50.00;
+    } else if (amount < 5.00) {
+        return 5.00;
     }
   
     return isNaN(amount) ? 0.00 : amount;

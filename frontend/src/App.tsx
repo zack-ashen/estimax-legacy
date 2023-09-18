@@ -158,7 +158,10 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    window.analytics.page()
+    if (process.env.REACT_APP_ENV === 'prod') {
+      console.log('hi')
+      window.analytics.page()
+    }
   }, [location])
   
 
@@ -187,43 +190,39 @@ function App() {
   }, []);
 
   const NotAuthenticated = () => (
-    <AnalyticsProvider>
-      <div className={styles.AppContainer}>
-        <Nav />
-        <Routes>
-          <Route path="/" Component={Landing} />
-          <Route 
-            path="/signup" 
-            element={<SignUp signIn={setPreAuthObj}/>} 
-          />
-          <Route 
-            path="/signin" 
-            element={<SignIn signIn={setPreAuthObj}/>} 
-          />
-          <Route path="*" 
-              element={
-                <Navigate to="/" />
-              } 
-          />
-        </Routes>
-      </div>
-    </AnalyticsProvider>
+    <div className={styles.AppContainer}>
+      <Nav />
+      <Routes>
+        <Route path="/" Component={Landing} />
+        <Route 
+          path="/signup" 
+          element={<SignUp signIn={setPreAuthObj}/>} 
+        />
+        <Route 
+          path="/signin" 
+          element={<SignIn signIn={setPreAuthObj}/>} 
+        />
+        <Route path="*" 
+            element={
+              <Navigate to="/" />
+            } 
+        />
+      </Routes>
+    </div>
   );
 
   // Routes if there is a VALID token and refresh token present
   const Authenticated = () => (
-    <AnalyticsProvider>
-      <AuthProvider 
-        removePreAuthObj={() => setPreAuthObj(undefined)}
-        preAuthObj={preAuthObj!}>
-          <ToastProvider>
-            <div className={styles.AppContainer}>
-              <Nav auth/>
-              <AuthRoutes />
-            </div>
-          </ToastProvider>
-      </AuthProvider>
-    </AnalyticsProvider>
+    <AuthProvider 
+      removePreAuthObj={() => setPreAuthObj(undefined)}
+      preAuthObj={preAuthObj!}>
+        <ToastProvider>
+          <div className={styles.AppContainer}>
+            <Nav auth/>
+            <AuthRoutes />
+          </div>
+        </ToastProvider>
+    </AuthProvider>
   );
 
 

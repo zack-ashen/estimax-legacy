@@ -1,3 +1,59 @@
 @import '../../styles/index';
 
 
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+    margin: 0 auto $spacing-8 auto;
+    text-align: center;
+    max-width: 20rem;
+
+    .iconContainer {
+        width: 3.5rem;
+        height: 3.5rem;
+        background-color: white;
+        border: solid 1px $grey-200;
+        border-radius: 0.6rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto $spacing-3 auto;
+
+        .icon path {
+            stroke: $grey-900;
+        }
+
+        span {
+            font-weight: 600;
+            font-size: 1.143rem;
+        }
+    }
+
+    p {
+        color: $grey-600;
+    }
+}
+
+.modalContent {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+    margin-bottom: $spacing-8;
+}
+
+.inviteByPhone {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+}
+
+.inviteByPhoneText, .findContractorText {
+    font-weight: 500;
+}
+
+.horizontalDivider {
+    width: 100%;
+    height: 1px;
+    background-color: $grey-300;
+}

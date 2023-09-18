@@ -86,8 +86,6 @@ function ManageProjects() {
         tab={tab}
     />
     <div className={styles.ManageProjects}>
-      
-      
       {tab === Tab.ACTIVE_PROJECTS &&
         <ProjectTabContent projects={projects.filter(project => project.status === 'In Progress')}/>
       }
