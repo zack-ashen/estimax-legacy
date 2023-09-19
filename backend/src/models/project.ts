@@ -4,7 +4,7 @@ import { ProjectStatus } from '../types';
 export interface IProject {
   id: Schema.Types.ObjectId;
   name: string;
-  homeowner_id: Schema.Types.ObjectId;
+  homeownerId: Schema.Types.ObjectId;
   description: String;
   location: String;
   category: String[];
@@ -12,6 +12,8 @@ export interface IProject {
   images: string[];
   lowestBid: IBid;
   bids: IBid[];
+  winningBid?: IBid;
+  winningBidder?: Schema.Types.ObjectId;
   timeline: string;
   messages: IMessage[];
   invitedContractors: Schema.Types.ObjectId;
@@ -77,7 +79,7 @@ const BidSchema = new Schema<IBid>({
 
 const projectSchema = new Schema<IProject>({
   name: String,
-  homeowner_id: Schema.Types.ObjectId,
+  homeownerId: Schema.Types.ObjectId,
   description: String,
   category: [ String ],
   status: {
@@ -102,9 +104,30 @@ const projectSchema = new Schema<IProject>({
   timeline: String,
   invitedContractors: {
     type: [ Schema.Types.ObjectId ],
-    ref: 'Contractors',
+    ref: 'Contractor',
     default: []
+  },
+  winningBid: {
+    type: BidSchema,
+    required: false
+  },
+  winningBidder: {
+    type: Schema.Types.ObjectId,
+    ref: 'Contractor',
+    required: false
   }
+}, {
+  toObject: { 
+    virtuals: true,
+    transform: function (_, ret) {
+      delete ret.__v;
+      delete ret._id;
+      return ret
+    }},
 });
 
-export const Project = mongoose.model('Projects', projectSchema);
+projectSchema.virtual('id').get(function() {
+  return this._id;
+});
+
+export const Project = mongoose.model('Project', projectSchema);

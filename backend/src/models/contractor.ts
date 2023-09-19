@@ -1,13 +1,45 @@
 import { Schema, model, Document, Types } from 'mongoose'
 import { IUser, User } from './user'
 
-export interface Review {
-  bio?: string;
-  uid?: string;
-  stars?: 1 | 2 | 3 | 4 | 5;
+export interface IReview {
+  reviewee: Types.ObjectId;
+  reviewer: Types.ObjectId;
+  title: string;
+  description: string;
+  photos: string[];
+  rating: 1 | 2 | 3 | 4 | 5;
 }
 
-export interface IContractor extends IUser, Document {
+const ReviewSchema = new Schema<IReview>({
+  reviewee: {
+    type: Schema.Types.ObjectId,
+    ref: 'Contractor',
+    required: true
+  },
+  reviewer: {
+    type: Schema.Types.ObjectId,
+    ref: 'Homeowner',
+    required: true
+  },
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  photos: {
+    type: [String],
+    required: true
+  },
+  rating: {
+    type: Number,
+    required: true
+  }
+}, { _id: false })
+
+export interface IContractor extends IUser {
   businessName: string;
   contractorType: string[];
   phoneNumber: string;
@@ -15,7 +47,7 @@ export interface IContractor extends IUser, Document {
   securedProjects: Types.ObjectId[];
   biddedProjects: Types.ObjectId[];
   invitedProjects: Types.ObjectId[];
-  reviews: Review[];
+  reviews: IReview[];
 }
 
 const contractorSchema = new Schema({
@@ -28,34 +60,26 @@ const contractorSchema = new Schema({
   phoneNumber: String,
   starredProjects: {
     type: [Schema.Types.ObjectId],
-    ref: 'Projects',
+    ref: 'Project',
     default: []
   },
   biddedProjects: {
     type: [Schema.Types.ObjectId],
-    ref: 'Projects',
+    ref: 'Project',
     default: []
   },
   securedProjects: {
     type: [Schema.Types.ObjectId],
-    ref: 'Projects',
+    ref: 'Project',
     default: []
   },
   invitedProjects: {
     type: [Schema.Types.ObjectId],
-    ref: 'Projects',
+    ref: 'Project',
     default: []
   },
   reviews: {
-    type: [{
-      bio: String,
-      uid: String,
-      stars: {
-        type: Number,
-        enum: [1, 2, 3, 4, 5],
-        default: 5
-      }
-    }],
+    type: [ ReviewSchema ],
     default: []
   }
 });

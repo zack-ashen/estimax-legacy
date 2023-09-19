@@ -1,5 +1,5 @@
 import CheckboxSection from "../Inputs/CheckboxSection/CheckboxSection";
-import { ContractorTypes, Locations, Prices, ReviewStars, Timeline, contractorTypes } from "../../types";
+import { ContractorTypes, Locations, Prices, Timeline, contractorTypes } from "../../types";
 import Slider from "../Inputs/Slider/Slider";
 import Filter, { FilterSection } from "../Filter/Filter";
 
@@ -53,7 +53,7 @@ export default function ContractorFilter({ filter, setFilter }: ContractorFilter
                 <CheckboxSection items={Object.values(ContractorTypes)} selectedItems={filter.contractorType} setSelectedItems={setContractorTypes}/>
             </FilterSection>
             <FilterSection title={'Reviews'}>
-                <CheckboxSection items={Object.values(ReviewStars)} selectedItems={filter.reviews} setSelectedItems={setReviews}/>
+                <CheckboxSection items={Object.values(1 | 2 | 3 | 4 | 5)} selectedItems={filter.reviews} setSelectedItems={setReviews}/>
             </FilterSection>
         </Filter>
     )

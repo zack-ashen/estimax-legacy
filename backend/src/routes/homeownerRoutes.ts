@@ -2,7 +2,10 @@ import express from 'express'
 
 const router = express.Router();
 
-router.route('/favoriteContractors').get((req, res) => {
+
+
+
+router.route('/:id/favoriteContractors').get((req, res) => {
 
 })
 

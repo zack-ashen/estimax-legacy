@@ -3,6 +3,7 @@ import { Project } from '../../types';
 import styles from './ProjectFeed.module.scss'
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import ProjectFilter, { ProjectFilters } from '../../components/ProjectFilter/ProjectFilter';
+import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
 
 function ProjectFeed() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -44,6 +45,7 @@ function ProjectFeed() {
   }, [page, filter]);
 
   return (
+    <AppLayout maxWidth={PageSizes.LARGE}>
     <div className={styles.ProjectFeed}>
       <ProjectFilter filter={filter} setFilter={setFilter}/>
 
@@ -60,6 +62,7 @@ function ProjectFeed() {
         </div>
       </div>
     </div>
+    </AppLayout>
   );
 }
 

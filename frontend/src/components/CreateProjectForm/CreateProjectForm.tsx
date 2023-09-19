@@ -7,7 +7,7 @@ import GetProjectImages from './pages/GetProjectImages';
 import { ReactComponent as PencilIcon } from '../../assets/PencilIcon.svg';
 import { ReactComponent as ImageAddIcon } from '../../assets/ImageAddIcon.svg';
 import GetExtraDetails from './pages/GetExtraDetails';
-import { ProjectDraft } from '../../types';
+import { Project, ProjectDraft } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -45,8 +45,6 @@ export default function CreateProjectForm() {
 
   const postProject = async (formObj: any) => {
     const projectDraft : ProjectDraft = formObj;
-
-    console.log(formObj)
 
     let imageData = new FormData();
     projectDraft.images.forEach((image, index) => {

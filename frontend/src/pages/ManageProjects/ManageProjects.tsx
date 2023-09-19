@@ -11,6 +11,7 @@ import { ReactComponent as AddIcon } from '../../assets/PlusIcon.svg';
 import { useNavigate } from 'react-router-dom';
 import { Project } from '../../types';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
+import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
 
 
 
@@ -66,7 +67,7 @@ function ManageProjects() {
   }, [])
 
   return projects.length === 0 ? (
-    <>
+    <AppLayout maxWidth={PageSizes.LARGE}>
     <DecorativeGrid className={styles.decorativeGrid}/>
     <div className={styles.EmptyManageProjects}>
       <div className={styles.emptyCubeContainer}><EmptyCubeIcon /></div>
@@ -76,10 +77,10 @@ function ManageProjects() {
       </div>
       <Button buttonStyle={ButtonStyles.PRIMARY} onClick={() => navigate('post-project/')} text={'Create Project'} Icon={AddIcon}/>
     </div>
-    </>
+    </AppLayout>
   ) : 
   (
-    <>
+    <AppLayout maxWidth={PageSizes.LARGE}>
     <Tabview<typeof Tab>
         pageTitles={[Tab.ACTIVE_PROJECTS, Tab.DRAFT_PROJECTS, Tab.FAVORITE_CONTRACTORS]} 
         setTab={(tab: TabType) => setTab(tab)}
@@ -96,7 +97,7 @@ function ManageProjects() {
         <FavoriteContractors />
       }
     </div>
-    </>
+    </AppLayout>
   );
 }
 

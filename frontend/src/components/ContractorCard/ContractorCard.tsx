@@ -18,14 +18,14 @@ export default function ContractorCard({ contractor }: ContractorCardProps) {
     const navigate = useNavigate();
     const authReq = useAuthReq();
     const [ isFavorite, setIsFavorite ] = useState(false)
-
+    
     useEffect(() => {
-        authReq(`/api/homeowner/${user.uid}`, {
+        authReq(`/api/user/${user.uid}`, {
             method: 'GET'
         })
             .then(res => res?.json())
             .then(data => {
-                const favorites : string[] = data.homeowner.preferredContractors;
+                const favorites : string[] = data.user.preferredContractors;
                 favorites.forEach((favorite, index) => {
                     if (favorite === contractor.uid) {
                         setIsFavorite(true);

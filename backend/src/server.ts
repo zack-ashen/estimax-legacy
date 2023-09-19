@@ -7,7 +7,6 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
 // Routes
-import waitlistRoutes from './routes/waitlistRoutes'
 import contractorRoutes from './routes/contractorRoutes'
 import homeownerRoutes from './routes/homeownerRoutes'
 import userRoutes from './routes/userRoutes'
@@ -39,14 +38,13 @@ mongoose.connect(process.env.DB_URL!)
   .catch(err => console.log(err));
 
 // Routes
-app.use('/api/waitlist', waitlistRoutes);
 app.use('/api/contractor', contractorRoutes);
 app.use('/api/homeowner', homeownerRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/project', projectRoutes);
-app.use('/api/auth', authRoutes)
-app.use('/api/image', imageRoutes)
-app.use('/api/payment', paymentRoutes)
+app.use('/api/auth', authRoutes);
+app.use('/api/image', imageRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // Error Handling
 app.use(errorHandler);

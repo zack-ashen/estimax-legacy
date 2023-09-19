@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt';
 import { ServerError } from "../middleware/errors";
 import Contractor, { IContractor } from "../models/contractor";
 import { Homeowner, IHomeowner } from "../models/homeowner";
-import { Icon } from "aws-sdk/clients/quicksight";
 
 
 /* 
@@ -16,7 +15,8 @@ export async function getUser(searchValue: string, useEmail:boolean=false): Prom
   if (useEmail)
     return await User.findOne({ email: searchValue })
   
-  return await User.findById(searchValue)
+  const user = await User.findById(searchValue);
+  return user ? user.toObject() : null;
 }
 
 export async function createUser(user: IUser): Promise<IContractor | IHomeowner> {
@@ -33,12 +33,12 @@ export async function createUser(user: IUser): Promise<IContractor | IHomeowner>
       return new Contractor({
         ...user,
         password: hashedPassword
-      }) as IContractor;
+      });
     }
     return new Homeowner({
         ...user,
         password: hashedPassword
-      }) as IHomeowner;
+      });
   }
 
   const newUser = buildNewUser();
@@ -47,7 +47,7 @@ export async function createUser(user: IUser): Promise<IContractor | IHomeowner>
   // Save the user to the database
   try {
     await newUser?.save();
-    return newUser;
+    return newUser.toObject();
   } catch (err) {
     throw new ServerError(Errors.RESOURCE_CREATION, 409);
   }

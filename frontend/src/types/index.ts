@@ -2,116 +2,112 @@ import { JwtPayload } from "jwt-decode";
 import { MultiValue } from "react-select";
 import { AnalyticsSnippet } from "@segment/analytics-next"
 
+import { Roles } from './user';
+
 export interface TokenPayload extends JwtPayload {
   role: Roles;
-  userId: string;
+  uid: string;
 }
+// export interface Review {
+//   reviewee: string;
+//   reviewer: string;
+//   title: string;
+//   description: string;
+//   photos: string[];
+//   rating: number;
+// }
 
-export interface Location {
-  longitude: number;
-  latitude: number;
-}
+// export type Message = {
+//   message: {
+//     posterName: string;
+//     poster: string;
+//     timestamp: Date;
+//     messageText: string;
+//   }
+//   replies: []
+// }
 
-export interface Review {
-  reviewee: string;
-  reviewer: string;
-  title: string;
-  description: string;
-  photos: string[];
-  rating: number;
-}
+// // Project Schema
+// export type Project = {
+//   _id: string;
+//   name: string;
+//   homeowner_id: string;
+//   description: string;
+//   category: string[];
+//   lowestBid: Bid;
+//   bids: Bid[];
+//   images: string[];
+//   location: string;
+//   timeline: string;
+//   messages: Message[];
+//   invitedContractors: string[];
+//   status?: string;
+// }
 
-export type Message = {
-  message: {
-    posterName: string;
-    poster: string;
-    timestamp: Date;
-    messageText: string;
-  }
-  replies: []
-}
-
-// Project Schema
-export type Project = {
-  _id: string;
-  name: string;
-  homeowner_id: string;
-  description: string;
-  category: string[];
-  lowestBid: Bid;
-  bids: Bid[];
-  images: string[];
-  location: string;
-  timeline: string;
-  messages: Message[];
-  invitedContractors: string[];
-  status?: string;
-}
-
-export interface ProjectDraft {
-  name: string;
-  description: string;
-  images: File[];
-  category: string[];
-  location: string;
-  projectTimeline: string;
-}
+// export interface ProjectDraft {
+//   name: string;
+//   description: string;
+//   images: File[];
+//   category: string[];
+//   location: string;
+//   projectTimeline: string;
+// }
 
 // User Schema
 
 // An AuthUser is a user that is not built yet but is sent to the backend
 // so there is no id field
-export interface AuthUser {
-  name?: string;
-  email?: string;
-  role: Roles;
-  location?: Locations;
-  searchRadius?: number;
-  bio?: string;
-  profilePhoto?: string;
-}
+// export interface AuthUser {
+//   name?: string;
+//   email?: string;
+//   role: Roles;
+//   location?: Locations;
+//   searchRadius?: number;
+//   bio?: string;
+//   profilePhoto?: string;
+// }
 
-export interface AuthContractor extends AuthUser {
-  businessName: string;
-  contractorType: string[];
-  phoneNumber: string;
-  starredProjects: string[];
-  securedProjects: string[];
-  biddedProjects: string[];
-  invitedProjects: string[];
-  reviews: Review[];
-}
+// export interface AuthContractor extends AuthUser {
+//   businessName: string;
+//   contractorType: string[];
+//   phoneNumber: string;
+//   starredProjects: string[];
+//   securedProjects: string[];
+//   biddedProjects: string[];
+//   invitedProjects: string[];
+//   reviews: Review[];
+// }
 
-export interface AuthHomeowner extends AuthUser {
-  preferredContractors: string[];
-  postedProjects: string[];
-  finishedProjects: string[];
-}
+// export interface AuthHomeowner extends AuthUser {
+//   preferredContractors: string[];
+//   postedProjects: string[];
+//   finishedProjects: string[];
+// }
 
-export interface Homeowner extends AuthHomeowner {
-  uid: string;
-  name: string;
-  email: string;
-}
+// export interface Homeowner extends AuthHomeowner {
+//   uid: string;
+//   name: string;
+//   email: string;
+// }
 
-export interface Contractor extends AuthContractor {
-  uid: string;
-  name: string;
-  email: string;
-}
+// export interface Contractor extends AuthContractor {
+//   uid: string;
+//   name: string;
+//   email: string;
+// }
 
-export interface User {
-  uid: string,
-  name: string,
-  email: string,
-  password?: string,
-  role: Roles,
-}
+// export interface User {
+//   uid: string,
+//   name: string,
+//   email: string,
+//   password?: string,
+//   role: Roles,
+// }
 
-export enum Roles {
-  CONTRACTOR = "Contractor",
-  HOMEOWNER = "Homeowner"
-}
+// export enum Roles {
+//   CONTRACTOR = "Contractors",
+//   HOMEOWNER = "Homeowners"
+// }
 
 export type OptionType = {
   value: string;
@@ -218,23 +214,28 @@ export const projectTypes: MultiValue<OptionType> = [
   {value: 'Home Automation', label: 'Home Automation'}
 ]
 
-export interface Bid {
-  contractorId: string;
-  time: Date;
-  amount: number;
-  description: string;
-  status: 'Accepted' | 'Overriden' | 'Declined' | 'Under Review';
-  expiration: Date;
-}
+// export interface Bid {
+//   contractorId: string;
+//   time: Date;
+//   amount: number;
+//   description: string;
+//   status: 'Accepted' | 'Overriden' | 'Declined' | 'Under Review';
+//   expiration: Date;
+// }
 
-export const ReviewStars = {
-  ONE_STAR: 'One Star',
-  TWO_STAR: 'Two Stars',
-  THREE_STAR: 'Three Stars',
-  FOUR_STAR: 'Four Stars',
-  FIVE_STAR: 'Five Stars'
-} as const;
+// export const ReviewStars = {
+//   ONE_STAR: 'One Star',
+//   TWO_STAR: 'Two Stars',
+//   THREE_STAR: 'Three Stars',
+//   FOUR_STAR: 'Four Stars',
+//   FIVE_STAR: 'Five Stars'
+// } as const;
 
 export interface AnalyticsWindow extends Window {
   analytics: AnalyticsSnippet
 }
+
+export { type User, Roles } from "./user";
+export { type Homeowner } from "./homeowner";
+export { type Contractor, type Review } from "./contractor";
+export { type Project, type Bid, type Message, type ProjectDraft } from "./project";

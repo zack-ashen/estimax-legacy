@@ -18,7 +18,7 @@ const ProjectSearchCard = ({ project }: ProjectSearchCardProps) => {
     const navigate = useNavigate();
 
     const goToProject = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        navigate(`/project/${project._id}`)
+        navigate(`/project/${project.id}`)
 
         event.preventDefault();
         event.stopPropagation();

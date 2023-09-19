@@ -16,8 +16,6 @@ export function addImage(image: any): string {
 
 
 export function getUrl(imageKey: string): string {
-  console.log(imageKey)
-
   const url = s3.getSignedUrl('getObject', {
     Bucket: process.env.AWS_BUCKET_NAME!,
     Key: imageKey, // replace with your image key

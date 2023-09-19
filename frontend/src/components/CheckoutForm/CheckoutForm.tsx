@@ -2,7 +2,6 @@ import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import Button, { ButtonStyles } from '../Inputs/Button/Button'
 import styles from './CheckoutForm.module.scss'
 import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 interface CheckoutFormProps {
     addBid: () => void;
@@ -25,23 +24,7 @@ export default function CheckoutForm({ addBid, returnURL }: CheckoutFormProps) {
         if (!clientSecret) {
           return;
         }
-    
-        stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-          switch (paymentIntent!.status) {
-            case "succeeded":
-              console.log("blah blah blah")
-              break;
-            case "processing":
-              console.log("Your payment is processing.");
-              break;
-            case "requires_payment_method":
-              console.log("Your payment was not successful, please try again.");
-              break;
-            default:
-              console.log("Something went wrong.");
-              break;
-          }
-        });
+
       }, [stripe]);
 
 

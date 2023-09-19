@@ -26,6 +26,7 @@ import DeleteProjectModal from '../../components/DeleteProjectModal/DeleteProjec
 import EditableText from '../../components/EditableText/EditableText';
 import ImageSlides from '../../components/ImageSlides/ImageSlides';
 import { useToast } from '../../contexts/ToastContext';
+import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
 
 
 interface ProjectInfoTagProps {
@@ -76,7 +77,7 @@ export default function ProjectView() {
             .then(res => res?.json())
             .then(data => {
                 const bookmarkedIds : string[] = data.bookmarks;
-                if (bookmarkedIds && bookmarkedIds.includes(project._id)) {
+                if (bookmarkedIds && bookmarkedIds.includes(project.id)) {
                     setBookmarked(true);
                 } else {
                     setBookmarked(false);
@@ -111,7 +112,7 @@ export default function ProjectView() {
     authReq(`/api/contractor/${user.uid}/bookmark/`, {
       method: 'POST',
       body: JSON.stringify({ 
-          project: project?._id,
+          project: project?.id,
           bookmark: bookmarked 
       })
     })
@@ -160,6 +161,7 @@ export default function ProjectView() {
 }
 
   return (
+    <AppLayout maxWidth={PageSizes.LARGE}>
     <div className={styles.Project}>
       {user.role === Roles.HOMEOWNER &&
         <div className={styles.EditProjectContainer}>
@@ -285,5 +287,6 @@ export default function ProjectView() {
           </div>
       </div>
     </div>
+    </AppLayout>
   )
 }
