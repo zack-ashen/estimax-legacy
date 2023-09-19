@@ -34,7 +34,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             .then(res => res?.json())
             .then(data => {
                 const bookmarkedIds : string[] = data.bookmarks;
-                if (bookmarkedIds && bookmarkedIds.includes(project._id)) {
+                if (bookmarkedIds && bookmarkedIds.includes(project.id)) {
                     setBookmarked(true);
                 } else {
                     setBookmarked(false);
@@ -47,7 +47,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         authReq(`/api/contractor/${user.uid}/bookmark/`, {
             method: 'POST',
             body: JSON.stringify({ 
-                project: project._id,
+                project: project.id,
                 bookmark: bookmarked 
             })
         })
@@ -65,7 +65,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     }
 
     return (
-        <div className={styles.ProjectCard} onClick={() => navigate(`/project/${project._id}`)}>
+        <div className={styles.ProjectCard} onClick={() => navigate(`/project/${project.id}`)}>
             <div className={styles.header}>
                 <p>{project.name}</p>
                 {user.role === Roles.CONTRACTOR && <button className={`${styles.bookmarkToggle} ${styles[bookmarked ? 'bookmarked' : '']}`} onClick={toggleBookmark}><BookmarkIcon className={styles.starIcon}/></button> }

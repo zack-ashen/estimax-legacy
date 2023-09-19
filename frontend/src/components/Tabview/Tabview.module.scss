@@ -5,8 +5,23 @@
     flex-direction: column;
     gap: $spacing-7;
     width: 100%;
-    background-color: $grey-100;
-    padding: $spacing-6 5% 0 5%;
+    padding: $spacing-6 0 0 0;
+    position: relative;
+
+    &::before {
+        content: ""; // Necessary for pseudo-elements
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $grey-100;
+        border-bottom: 1px solid $grey-300;
+        z-index: -1; // Places the background behind navbar content
+        width: 100vw; // Spans the entire viewport width
+        margin-left: -50vw; // Shifts the starting point to the middle
+        left: 50%; // Begins the pseudo-element in the middle
+      }
 
     h5 {
         font-weight: 600;
@@ -30,9 +45,4 @@
         border-bottom: solid 2px $blue-600;
         font-weight: 500;
     }
-}
-
-.divider {
-    height: 1px;
-    background-color: $grey-300;
 }

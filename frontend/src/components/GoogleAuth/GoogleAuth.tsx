@@ -1,23 +1,17 @@
 import { useEffect, useState } from "react"
-import { PreAuth } from "../../App"
-import { AuthContractor, AuthHomeowner, FormErrors } from "../../types";
+import { Homeowner, FormErrors, Contractor } from "../../types";
 
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useFormContext } from "../../contexts/MultiFormContext";
 
-interface SignInUser {
-  email: string;
-  password: string;
-}
-
 interface GoogleAuthProps {
-  signIn: (preAuthObj: PreAuth) => void;
-  user: AuthContractor | AuthHomeowner | SignInUser;
+  signIn: (token: string, user: Homeowner | Contractor) => void;
   setErrors?: React.Dispatch<React.SetStateAction<FormErrors>>;
   type: string;
+  user?: Omit<Homeowner, 'uid'> | Omit<Contractor, 'uid'>;
 }
 
-export default function GoogleAuth({signIn, user, setErrors, type}: GoogleAuthProps) {
+export default function GoogleAuth({signIn, setErrors, type, user}: GoogleAuthProps) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [buttonWidth, setButtonWidth] = useState(350);
   const formContext = useFormContext();
@@ -30,7 +24,7 @@ export default function GoogleAuth({signIn, user, setErrors, type}: GoogleAuthPr
         credential: credential,
         clientId: clientId,
         type,
-        user
+        user: user
       })
     })
       .then(response => response.json())
@@ -44,10 +38,7 @@ export default function GoogleAuth({signIn, user, setErrors, type}: GoogleAuthPr
             console.error(data.error)
           }
         } else {
-          signIn({
-            token: data.token,
-            user: data.user
-          })
+          signIn(data.token, data.user);
         }
       })
   }

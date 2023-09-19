@@ -4,6 +4,7 @@ import styles from './ContractorDashboard.module.scss'
 import { Contractor, Project } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
+import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
 
 export const Tab = {
     INVITED_PROJECTS: 'Invited Projects',
@@ -75,7 +76,7 @@ export default function ContractorDashboard() {
     }, [])
 
     return (
-        <>
+        <AppLayout maxWidth={PageSizes.LARGE}>
         <Tabview<typeof Tab>
             pageTitles={Object.values(Tab)} 
             setTab={(tab: TabType) => setTab(tab)}
@@ -95,6 +96,6 @@ export default function ContractorDashboard() {
                 <ProjectTabContent projects={activeProjects} />
             }
         </div>
-        </>
+        </AppLayout>
     )
 }

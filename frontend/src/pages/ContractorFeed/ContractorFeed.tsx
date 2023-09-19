@@ -3,6 +3,7 @@ import styles from './ContractorFeed.module.scss'
 import { Contractor } from '../../types';
 import ContractorFilter, { ContractorFilters } from '../../components/ContractorFilter/ContractorFilter';
 import ContractorCard from '../../components/ContractorCard/ContractorCard';
+import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
 
 export default function ContractorFeed() {
     const [contractors, setContractors] = useState<Contractor[]>([]);
@@ -35,6 +36,7 @@ export default function ContractorFeed() {
     }, [page, filter])
 
     return (
+        <AppLayout>
         <div className={styles.ContractorFeed}>
             <ContractorFilter filter={filter} setFilter={setFilter} />
 
@@ -43,13 +45,13 @@ export default function ContractorFeed() {
                 <p>Found {contractors.length} result on your search...</p>
                 </div>
             
-                <div className={styles.projectGrid}>
-                
-                {contractors.map((contractor, index) => (
-                    <ContractorCard contractor={contractor} />
-                ))}
+                <div className={styles.contractorGrid}>
+                    {contractors.map((contractor, index) => (
+                        <ContractorCard contractor={contractor} />
+                    ))}
                 </div>
             </div>
         </div>
+        </AppLayout>
     )
 }

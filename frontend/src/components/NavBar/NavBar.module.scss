@@ -1,0 +1,152 @@
+@import '../../styles/index';
+
+@import '../../styles/index';
+
+.navContainer {
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50%);
+  background-color: white;
+  border-bottom: 1px solid $grey-300;
+  width: 100%;
+}
+
+
+nav {
+    position: relative;
+    z-index: 1;
+    padding: $spacing-3 0;
+
+    &::before {
+        content: ""; // Necessary for pseudo-elements
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: white;
+        border-bottom: 1px solid $grey-300;
+        z-index: -1; // Places the background behind navbar content
+        width: 100vw; // Spans the entire viewport width
+        margin-left: -50vw; // Shifts the starting point to the middle
+        left: 50%; // Begins the pseudo-element in the middle
+      }
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  align-items: center;
+  gap: $spacing-8;
+
+  img {
+    height: 1.6rem;
+    margin-right: $spacing-2;
+  }
+
+  a:not(:last-of-type) {
+    margin-right: 1.75rem;
+  }
+}
+
+.betaTag {
+  font-weight: 300;
+  font-size: $font-size-xs;
+}
+
+
+.NavLinks {
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-3;
+  height: 100%;
+  margin-left: $spacing-8;
+  align-items: center;
+}
+
+.NavLink {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 $spacing-2;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-top: solid 2px transparent;
+  border-bottom: solid 2px transparent;
+  
+  a {
+    font-weight: 400;
+    color: $grey-800;
+  }
+
+  &:hover {
+    cursor: pointer;
+    border-bottom: solid 2px $blue-400;
+  }
+}
+
+.navItems, .logoSection {
+  display: inherit;
+  align-items: center;
+  height: 100%;
+
+  h5 {
+    font-weight: 600;
+    color: $grey-900;
+  }
+
+  .authNav {
+    display: flex;
+    gap: $spacing-4;
+  }
+}
+
+.navItems {
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.navLinks {
+  display: flex;
+  gap: $spacing-3;
+}
+
+.navButtonContainer {
+  display: flex;
+  gap: $spacing-5;
+  justify-self: end;
+  justify-content: flex-end;
+}
+
+.logoSection:hover {
+  cursor: pointer;
+}
+
+
+.divider {
+  height: 2rem;
+  width: 2px;
+  background-color: $grey-300;
+  margin: 0 $spacing-7;
+}
+
+.authNav {
+  display: flex;
+}
+
+
+@media screen and (max-width: 1024px) {
+  .logoText {
+    display: none;
+  }
+
+  .logoSection {
+    img {
+      margin: 0;
+    }
+  }
+
+  .Nav {
+    gap: $spacing-3;
+  }
+}

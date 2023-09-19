@@ -31,15 +31,19 @@ const upload = multer({
 const router = express.Router();
 
 router.post('/project-images', upload.array('images'), async (req, res, next) => {
-  const files = req.files as Express.MulterS3.File[];
+  try {
+    const files = req.files as Express.MulterS3.File[];
 
-  const keys = files.map(file => file.key); // 'location' contains the url of the image in S3
+    const keys = files.map(file => file.key); // 'location' contains the url of the image in S3
 
-  res.send({ images: keys }); // send the URLs of the images back to the client
+    res.send({ images: keys }); // send the URLs of the images back to the client
+  } catch (err) {
+    next(err)
+  }
 });
 
-router.get('/project-image/:key', async (req, res) => {
-  console.log("key: " + req.params.key)
+router.get('/project-image/:key', async (req, res, next) => {
+  try {
   let keys = (req.params.key).split(',');
   if (!Array.isArray(keys)) {
     keys = [req.params.key]
@@ -48,13 +52,14 @@ router.get('/project-image/:key', async (req, res) => {
   let urls : string[] = []
 
   keys.forEach(key => {
-    console.log("key: " + key)
     const url = getUrl(key as string);
-    console.log("url: " + url)
     urls = [...urls, url]
   })
 
   res.send({ urls });
+  } catch (err) {
+    next(err);
+  }
 
 })
 

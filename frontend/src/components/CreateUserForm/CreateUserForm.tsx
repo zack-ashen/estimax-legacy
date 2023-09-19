@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import styles from "./CreateUserForm.module.scss";
-import { PreAuth } from "../../App";
-import { AuthContractor, AuthHomeowner, FormErrors, Roles } from "../../types/index";
-import { ReactComponent as LockIcon } from "../../assets/LockIcon.svg";
+import { Contractor, Homeowner, FormErrors, Roles } from "../../types/index";
 import { ReactComponent as StoreIcon } from "../../assets/StoreIcon.svg";
 import { ReactComponent as UserIcon } from "../../assets/UserIcon.svg";
 import { ReactComponent as UserPickIcon } from "../../assets/UserPickIcon.svg";
@@ -13,8 +11,12 @@ import GetBusinessInfo from "./pages/GetBusinessInfo";
 import GetUserInfo from "./pages/GetUserInfo";
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
 
+type ContractorNoUid = Omit<Contractor, 'uid'>;
+type HomeownerNoUid = Omit<Homeowner, 'uid'>;
+
+
 export interface CreateUserFormProps {
-  signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>;
+  signIn: (token: string, user: Homeowner | Contractor) => void;
 }
 
 const homeownerSteps = [
@@ -49,7 +51,7 @@ const contractorSteps = [
   ...homeownerSteps.slice(1),
 ];
 
-const createUserBody = (finalData: any) : AuthHomeowner | AuthContractor => {
+const createUserBody = (finalData: any) : HomeownerNoUid | ContractorNoUid => {
   const userBase = {
     email: finalData.email,
     role: finalData.role,
@@ -67,18 +69,19 @@ const createUserBody = (finalData: any) : AuthHomeowner | AuthContractor => {
       securedProjects: [],
       biddedProjects: [],
       reviews: []
-    } as AuthContractor
+    } as ContractorNoUid
   }
 
   return {
     ...userBase,
     preferredContractors: [],
     postedProjects: [],
-    finishedProjects: []
-  } as AuthHomeowner
+    finishedProjects: [],
+    friends: []
+  } as HomeownerNoUid
 }
 
-const auth = (signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>, setErrors: React.Dispatch<React.SetStateAction<FormErrors>>) => {
+const auth = (signIn: (token: string, user: Homeowner | Contractor) => void, setErrors: React.Dispatch<React.SetStateAction<FormErrors>>) => {
   return () => (finalData: any) => {
     const newUser = createUserBody(finalData);
 
@@ -96,13 +99,7 @@ const auth = (signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>,
           setErrors({ email: data.error })
 
         } else {
-          signIn({
-            token: data.token,
-            user: {
-              ...data.user,
-              uid: data.user._id
-            }
-          })
+          signIn(data.token, data.user);
         }
       })
   }
@@ -110,13 +107,13 @@ const auth = (signIn: React.Dispatch<React.SetStateAction<PreAuth | undefined>>,
 
 export function CreateUserForm({ signIn }: CreateUserFormProps) {
   const { formData, setSubmit, setErrors } = useFormContext()!;
-  const [ user, setUser] = useState<AuthContractor | AuthHomeowner>(createUserBody(formData));
+  const [ user, setUser] = useState<HomeownerNoUid | ContractorNoUid>(createUserBody(formData));
 
 
   useEffect(() => {
     setUser(createUserBody(formData));
-    setSubmit(auth(signIn, setErrors))
-  }, [formData])
+    setSubmit(auth(signIn, setErrors));
+  }, [formData, signIn])
 
   const steps = useMemo(() => {
     return formData.role === Roles.CONTRACTOR ? contractorSteps : homeownerSteps;

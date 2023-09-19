@@ -7,6 +7,7 @@ import HandymanImage from '../../assets/handyman.jpeg';
 import { ContractorCopy, HomeownerCopy } from './copy';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
 
 
 
@@ -43,6 +44,7 @@ function Landing() {
   const navigate = useNavigate();
 
   return (
+    <AppLayout maxWidth={PageSizes.LARGE}>
     <div className={styles.Landing}>
       {/* <DecorativeGrid className={styles.decorativeGridLeft} /> */}
       <div className={styles.heroSectionContainer}>
@@ -123,10 +125,10 @@ function Landing() {
           <h2 className={styles.sectionHeader}>Tools to get the job</h2>
 
           <div className={styles.featureContainer}>
-            {userType.featureFlow.map(feature => {
+            {userType.featureFlow.map((feature, index) => {
               const Icon = feature.Icon;
               return (
-              <div className={styles.feature}>
+              <div className={styles.feature} key={index}>
                 <div className={styles.featureIconContainer}>
                     <Icon className={styles.featureIcon} />
                 </div>
@@ -156,6 +158,7 @@ function Landing() {
           <p>Copyright © 2023 Estimax Inc. All rights reserved.</p>
       </footer>
     </div>
+    </AppLayout>
   );
 }
 

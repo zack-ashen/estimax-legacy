@@ -36,8 +36,22 @@
     position: relative;
     width: 100%;
     height: 100%;
-    background: #F5F7FF;
     z-index: 1;
+
+    &::before {
+        content: ""; // Necessary for pseudo-elements
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #F5F7FF;
+        border-bottom: 1px solid $grey-300;
+        z-index: -2; // Places the background behind navbar content
+        width: 100vw; // Spans the entire viewport width
+        margin-left: -50vw; // Shifts the starting point to the middle
+        left: 50%; // Begins the pseudo-element in the middle
+      }
 }
 
 
@@ -336,7 +350,21 @@
 
 
 .finalCallToAction {
-    background-color: $blue-100;
+    position: relative;
+    &::before {
+        content: ""; // Necessary for pseudo-elements
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $blue-100;
+        border-bottom: 1px solid $grey-300;
+        z-index: -1; // Places the background behind navbar content
+        width: 100vw; // Spans the entire viewport width
+        margin-left: -50vw; // Shifts the starting point to the middle
+        left: 50%; // Begins the pseudo-element in the middle
+      }
     text-align: center;
     display: flex;
     flex-direction: column;

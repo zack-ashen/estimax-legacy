@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile
     image: estimax-backend
     container_name: estimax-node-backend
+    command: npm run dev
     volumes:
       - ./backend/:/usr/src/app/
       - /usr/src/app/node_modules

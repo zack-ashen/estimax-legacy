@@ -2,29 +2,18 @@ import express, { Response } from 'express'
 import jwt, { Secret } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { OAuth2Client } from 'google-auth-library';
-import { Analytics } from '@segment/analytics-node';
 
-import { IUser } from '../models/user'
-import { validateReferralCode } from '../util/referralCodes'
 import { Errors, TokenPayload, Roles } from '../types';
 import { createUser, getUser } from '../controllers/userController';
 import { ServerError } from '../middleware/errors';
-import { Referral } from '../models/referral';
 import { IHomeowner } from '../models/homeowner';
 import { IContractor } from '../models/contractor';
-
-import sgMail from '@sendgrid/mail';
-
-sgMail.setApiKey(process.env.SENDGRID_KEY!);
+import { signInEvent, signOutEvent, signUpEvent } from '../util/analytics';
+import { sendSignUpEmail } from '../util/email';
 
 const router = express.Router();
 
 const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
-
-const analytics = new Analytics({ 
-  writeKey: process.env.SEGMENT_WRITE_KEY!,
-  disable: process.env.ENV === 'dev'
-})
 
 /*
 * /signup verifies the referral token is valid and then creates the user
@@ -41,44 +30,19 @@ router.route('/signup').post(async (req, res, next) => {
     const userExists = await getUser(newUser.email, true);
     if (userExists)
       throw new ServerError(Errors.EMAIl_EXISTS, 409);
-    
-    // Create a new user and set token
-    const user = await createUser({
+
+    // Create a new user
+    const user : IHomeowner | IContractor = await createUser({
       ...newUser,
       password
-    })
-
-    analytics.identify({
-      userId: user._id.toString(),
-      traits: {
-        ...user
-      }
-    })
-
-    analytics.track({
-      userId: user._id.toString(),
-      event: 'User signed up',
-      properties: {
-        method: 'Standard Form'
-      }
     })
 
     // Generate a JWT token for the new user
     const token = createAndSetToken(user, res);
 
-    const msg = {
-      to: 'zachary.h.a@gmail.com', // Change to your recipient
-      from: 'andrew@estimax.us', // Change to your verified sender
-      templateId: process.env.SENDGRID_SIGN_UP!
-    }
-    sgMail
-      .send(msg)
-      .then(() => {
-        console.log('Email sent')
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    signUpEvent(user.uid.toString(), user);
+
+    sendSignUpEmail(user.email);
 
     // Send the JWT token to the client
     res.status(200).send({ token, user });
@@ -109,20 +73,7 @@ router.route('/signin').post(async (req, res, next) => {
     if (!match)
       throw new ServerError(Errors.INVALID_CRED, 400);
 
-    analytics.identify({
-      userId: user._id.toString(),
-      traits: {
-        ...user
-      }
-    })
-
-    analytics.track({
-      userId: user._id.toString(),
-      event: 'User signed in',
-      properties: {
-        method: 'Standard Form'
-      }
-    })
+    signInEvent(user.uid.toString(), user);
 
     // Generate a JWT token for the new user
     const token = createAndSetToken(user, res);
@@ -143,7 +94,7 @@ router.post('/googleAuth', async (req, res, next) => {
   try {
     const { clientId, credential, type } = req.body;
 
-    const newUser = req.body.newUser;
+    const newUser = req.body.user;
 
     const ticket = await client.verifyIdToken({
       idToken: credential,
@@ -156,47 +107,19 @@ router.post('/googleAuth', async (req, res, next) => {
 
     let user = await getUser(payload.email!, true);
     if (!user && type === 'signup') {
+      console.log(newUser.role)
       user = await createUser({...newUser, email: payload.email!, name: payload.name!})
 
-      analytics.track({
-        userId: user._id.toString(),
-        event: 'User signed up',
-        properties: {
-          method: 'Google'
-        }
-      })
+      signUpEvent(user.uid.toString(), user);
 
-      const msg = {
-        to: payload.email!, // Change to your recipient
-        from: 'andrew@estimax.us', // Change to your verified sender
-        templateId: process.env.SENDGRID_SIGN_UP!
-      }
-      sgMail
-        .send(msg)
-        .then(() => {
-          console.log('Email sent')
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+      sendSignUpEmail(payload.email!);
     } else if (!user && type !== 'signup') {
       throw new ServerError('User does not exist', 400);
+    } else if (user && type === 'signup') {
+      throw new ServerError('User already exists. Sign in instead.', 400);
     } else {
-      analytics.track({
-        userId: user?._id.toString(),
-        event: 'User signed in',
-        properties: {
-          method: 'Google'
-        }
-      })
+      signInEvent(user?.uid.toString()!, user!);
     }
-
-    analytics.identify({
-      userId: user?._id.toString(),
-      traits: {
-        ...user
-      }
-    })
     
     const token = createAndSetToken(user!, res);
 
@@ -243,21 +166,18 @@ router.route('/signout').post((req, res) => {
 
   res.clearCookie('refreshToken');
 
-  analytics.track({
-    userId: payload.uid.toString(),
-    event: 'User signed out'
-  })
+  signOutEvent(payload.uid);
 
   res.status(200).send({ message: 'User signed out successfully' });
 });
 
 const createAndSetToken = (user: IContractor | IHomeowner, res: Response) => {
-  if (!user._id)
+  if (!user.uid)
     throw new ServerError(Errors.FAILED_SET_TOKEN, 400);
 
   const tokenPayload : TokenPayload = {
-    uid: user._id.toString(),
-    scope: user.role
+    uid: user.uid.toString(),
+    role: user.role
   }
 
   const privateKey : Secret = (process.env.JWT_PRIVATE_KEY as string).replace(/\\n/g, '\n');

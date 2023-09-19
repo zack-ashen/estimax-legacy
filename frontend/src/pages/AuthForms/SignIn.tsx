@@ -1,16 +1,16 @@
 import { useState } from 'react';
 
 import styles from './AuthForms.module.scss'
-import { PreAuth } from '../../App';
 import { ReactComponent as LockIcon } from "../../assets/LockIcon.svg";
 import Button, { ButtonStyles } from '../../components/Inputs/Button/Button';
 import GoogleAuth from '../../components/GoogleAuth/GoogleAuth';
 import TextInput from '../../components/Inputs/TextInput/TextInput';
 import { ReactComponent as DecorativeGrid } from '../../assets/DecorativeGrid.svg';
-import { FormError } from '../../types';
+import { Contractor, FormError, Homeowner } from '../../types';
+import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
 
 interface SignInProps {
-  signIn: (preAuthObj: PreAuth) => void;
+  signIn: (token: string, user: Homeowner | Contractor) => void;
 }
 
 function SignIn({ signIn }: SignInProps) {
@@ -33,19 +33,13 @@ function SignIn({ signIn }: SignInProps) {
         if (data.error) {
           setErrors({email: data.error})
         } else {
-          signIn({
-            token: data.token,
-            user: {
-              ...data.user,
-              uid: data.user._id
-            }
-          })
+          signIn(data.token, data.user)
         }
       })
   }
 
   return (
-    <>
+    <AppLayout maxWidth={PageSizes.SMALL}>
     <DecorativeGrid className={styles.formDecorativeGrid}/>
     <div className={styles.container}>
       <div className={styles.form}>
@@ -79,12 +73,12 @@ function SignIn({ signIn }: SignInProps) {
               onClick={auth}
               text={'Continue'}
               wide />
-            <GoogleAuth signIn={signIn} user={{email, password}} type={'signin'} setErrors={setErrors}/>
+            <GoogleAuth signIn={signIn} type={'signin'} setErrors={setErrors}/>
           </div>
         </form>
       </div>
     </div>
-    </>
+    </AppLayout>
   );
 }
 

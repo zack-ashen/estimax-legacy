@@ -7,6 +7,7 @@ import { ReactComponent as PersonAdd } from '../../assets/PersonAddIcon.svg';
 import Button, { ButtonStyles } from '../../components/Inputs/Button/Button';
 import Toggles from '../../components/Inputs/Toggle/Toggle';
 import InviteModal from '../../components/InviteModal/InviteModal';
+import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
 
 
 enum fnfToggles {
@@ -40,7 +41,7 @@ export default function FriendsAndFavorites() {
     }, [])
 
     return (
-        <>
+        <AppLayout maxWidth={PageSizes.LARGE}>
         <div className={styles.FriendsAndFavorites}>
             <div className={styles.header}>
                 <div className={styles.headerText}>
@@ -69,6 +70,6 @@ export default function FriendsAndFavorites() {
         </div>
 
         <InviteModal showModal={showInviteModal} setShowModal={setShowInviteModal} />
-        </>
+        </AppLayout>
     )
 }

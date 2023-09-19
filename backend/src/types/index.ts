@@ -28,7 +28,7 @@ export enum Prices {
 // Auth Types
 export interface TokenPayload extends JwtPayload{
     uid: string;
-    scope: Roles;
+    role: Roles;
 }
   
 // User Schema

@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import styles from './Messages.module.scss'
 import { useAuth } from '../../contexts/AuthContext';
+import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
 
 export default function Messages() {
     const { useAuthReq, user } = useAuth();
@@ -19,6 +20,7 @@ export default function Messages() {
     }, [])
 
     return (
+        <AppLayout maxWidth={PageSizes.LARGE}>
         <div className={styles.Messages}>
             {messageIds.length === 0 &&
                 <div className={styles.noMessages}>
@@ -39,5 +41,6 @@ export default function Messages() {
             </>
             }
         </div>
+        </AppLayout>
     )
 }

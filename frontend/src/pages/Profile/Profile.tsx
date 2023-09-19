@@ -6,6 +6,7 @@ import { ReactComponent as ProfileImage } from '../../assets/UserIcon.svg'
 import { Contractor, Homeowner, Roles } from '../../types';
 import Button, { ButtonStyles } from '../../components/Inputs/Button/Button';
 import { ReactComponent as PencilIcon } from '../../assets/PencilIcon.svg';
+import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
 
 export default function Profile() {
     const { useAuthReq, user } = useAuth()!;
@@ -13,8 +14,6 @@ export default function Profile() {
     const [ fullUser, setFullUser ] = useState<Homeowner | Contractor>();
 
     useEffect(() => {
-        console.log(user)
-
         authReq(`/api/user/${user.uid}`, {
             method: 'GET'
         })
@@ -23,6 +22,7 @@ export default function Profile() {
     }, [])
 
     return (
+        <AppLayout maxWidth={PageSizes.SMALL}>
         <div className={styles.Profile}>
             <h4>Your Account</h4>
             <div className={styles.header}>
@@ -93,5 +93,6 @@ export default function Profile() {
             }
 
         </div>
+        </AppLayout>
     )
 }

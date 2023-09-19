@@ -15,9 +15,9 @@ interface PrivateRouteProps {
 
 const PrivateRoute = ({ children, forContractor=true, forHomeowner=true }: PrivateRouteProps ) => {
   // The authentication check could be a call to an actual authentication service.
-  const auth = useAuth();
+  const { token } = useAuth();
 
-  const decodedToken = jwt_decode(auth.token) as TokenPayload;
+  const decodedToken = jwt_decode(token) as TokenPayload;
 
   if (decodedToken.role === Roles.CONTRACTOR) {
     return forContractor ? <>{children}</> : <Navigate to="/" />

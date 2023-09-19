@@ -11,6 +11,7 @@ import { ProjectDraft } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import CreateProjectForm from '../../components/CreateProjectForm/CreateProjectForm';
+import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
 
 const steps = [
   {
@@ -105,6 +106,8 @@ export default function PostProject() {
   }
 
   return (
+    <AppLayout maxWidth={PageSizes.LARGE}>
     <CreateProjectForm />
+    </AppLayout>
   )
 }
