@@ -1,3 +1,4 @@
+import { LocationArea } from '.';
 import { User } from './user';
 
 
@@ -9,7 +10,9 @@ export interface Contractor extends User {
     securedProjects: string[];
     biddedProjects: string[];
     invitedProjects: string[];
+    searchRadius: number;
     reviews: Review[];
+    location: LocationArea;
   }
 
 export interface Review {

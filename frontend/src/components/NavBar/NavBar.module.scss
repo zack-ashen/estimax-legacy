@@ -54,7 +54,6 @@ nav {
   font-size: $font-size-xs;
 }
 
-
 .NavLinks {
   display: flex;
   flex-direction: row;
@@ -140,7 +139,22 @@ nav {
     display: none;
   }
 
+  .logoImage {
+    height: 2.25rem;
+    width: auto;
+    object-fit: cover;
+  }
+
+  .landingNavLinks {
+    display: none;
+  }
+
+  .navItems {
+    justify-content: flex-end;
+  }
+
   .logoSection {
+    margin-right: $spacing-4;
     img {
       margin: 0;
     }

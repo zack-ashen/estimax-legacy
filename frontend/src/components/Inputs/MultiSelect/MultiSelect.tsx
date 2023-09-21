@@ -10,10 +10,12 @@ interface MultiSelectProps {
   placeholder: string;
   isMulti?: true | undefined;
   setSelectedOptions: (options: string[] | string) => void;
+  setInputText?: React.Dispatch<React.SetStateAction<string>>;
   error?: string | undefined;
+  isClearable?: boolean;
 }
 
-const MultiSelect = ({ options, placeholder, isMulti, setSelectedOptions, error }: MultiSelectProps) => {
+const MultiSelect = ({ options, placeholder, isMulti, setSelectedOptions, error, setInputText, isClearable }: MultiSelectProps) => {
   // Define a state variable to store the selected options
   const [selectedOption, setSelectedOption] = useState<MultiValue<OptionType>| null>(null);
   const [selectIsFocused, setSelectIsFocused] = useState(false);
@@ -42,7 +44,9 @@ const MultiSelect = ({ options, placeholder, isMulti, setSelectedOptions, error 
         onChange={handleChange}
         onFocus={() => setSelectIsFocused(true)}
         onBlur={() => setSelectIsFocused(false)}
+        onInputChange={(value) => setInputText && setInputText(value)}
         placeholder={''}
+        isClearable={isClearable}
         styles={{
           control: (provided: CSSObjectWithLabel, state: ControlProps<OptionType, true, GroupBase<OptionType>>) => ({
             ...provided,
@@ -56,7 +60,7 @@ const MultiSelect = ({ options, placeholder, isMulti, setSelectedOptions, error 
             color: '#1D2939',
             boxSizing: 'border-box',
             boxShadow: error ? '0px 0px 0px 3px #FEE4E2' : (state.isFocused ? '0px 0px 0px 3px #EBEFFF' : '0px 1px 2px rgba(16, 24, 40, 0.05)'),
-            padding: '0.1rem 0.5rem',
+            padding: '0',
             margin: '0px 0',
             outline: 'none', // Removed outline
             '&:hover:not(:focus)': {

@@ -1,5 +1,6 @@
 import { Schema, model, Document, Types } from 'mongoose'
 import { IUser, User } from './user'
+import { LocationArea, LocationAreaSchema } from './location';
 
 export interface IReview {
   reviewee: Types.ObjectId;
@@ -48,6 +49,8 @@ export interface IContractor extends IUser {
   biddedProjects: Types.ObjectId[];
   invitedProjects: Types.ObjectId[];
   reviews: IReview[];
+  searchRadius: number;
+  location: LocationArea;
 }
 
 const contractorSchema = new Schema({
@@ -81,8 +84,15 @@ const contractorSchema = new Schema({
   reviews: {
     type: [ ReviewSchema ],
     default: []
-  }
+  },
+  searchRadius: {
+    type: Number,
+    default: 50
+  },
+  location: LocationAreaSchema
 });
+
+contractorSchema.index({ 'location.region' : '2dsphere' });
 
 const Contractor = User.discriminator<IContractor>('Contractor', contractorSchema);
 

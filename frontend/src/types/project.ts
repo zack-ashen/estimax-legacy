@@ -1,4 +1,13 @@
+import { Obj } from ".";
+import { Location } from './index';
 
+export type Address = {
+  unit?: string;
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+}
 
 export type Project = {
     id: string;
@@ -9,7 +18,7 @@ export type Project = {
     lowestBid: Bid;
     bids: Bid[];
     images: string[];
-    location: string;
+    location: Location;
     timeline: string;
     messages: Message[];
     invitedContractors: string[];
@@ -41,4 +50,6 @@ export type Message = {
 }
 
 
-export type ProjectDraft = Omit<Project, 'id'>
+export type ProjectDraft = Omit<Project, 'id'> & {
+  location: Obj
+}

@@ -1,3 +1,4 @@
+import { PlaceAutocompleteResponseData, PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
 import { JwtPayload } from "jsonwebtoken";
 import {Schema} from "mongoose";
 
@@ -59,7 +60,7 @@ export interface ProjectDraft {
     description: string;
     images: File[];
     category: string[];
-    location: string;
+    location: PlaceAutocompleteResult;
     projectTimeline: string;
 }
 

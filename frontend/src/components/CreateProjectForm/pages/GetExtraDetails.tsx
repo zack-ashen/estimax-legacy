@@ -12,7 +12,6 @@ export default function GetExtraDetails ({ submitComponent, formSize, content}: 
 
   const [ values, setValues ] = useState({
     'category': formData.category ? formData.category : [''],
-    'location': formData.location ? formData.location : '',
     'timeline': formData.timeline ? formData.timeline : ''
   })
   const [ errors, setErrors ] = useState<FormError>({});
@@ -28,11 +27,6 @@ export default function GetExtraDetails ({ submitComponent, formSize, content}: 
     if (values.category[0] === '' || values.category.length === 0) {
       setErrors({
         category: 'Select one or more categories to help contractors find your project.'
-      })
-      return false;
-    } else if (values.location === '') {
-      setErrors({
-        location: 'Select a location for your project.'
       })
       return false;
     }
@@ -58,7 +52,7 @@ export default function GetExtraDetails ({ submitComponent, formSize, content}: 
           })))}
           error={errors.category}
         />
-        <MultiSelect 
+        {/* <MultiSelect 
           options={locations} 
           placeholder={'Where is your project?'}
           isMulti={undefined}
@@ -67,7 +61,7 @@ export default function GetExtraDetails ({ submitComponent, formSize, content}: 
             location: options
           })))}
           error={errors.location}
-        />
+        /> */}
         <Slider 
           sliderStates={Object.values(Timeline)} 
           label={'What is your timeline?'}

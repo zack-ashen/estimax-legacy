@@ -25,3 +25,5 @@ yarn-error.log*
 .env
 
 landing/node_modules
+
+*.pem

@@ -25,9 +25,7 @@
 }
 
 .Landing {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
+    display: inherit;
 }
 
 
@@ -46,7 +44,7 @@
         right: 0;
         bottom: 0;
         background-color: #F5F7FF;
-        border-bottom: 1px solid $grey-300;
+        border-bottom: 1px solid $blue-200;
         z-index: -2; // Places the background behind navbar content
         width: 100vw; // Spans the entire viewport width
         margin-left: -50vw; // Shifts the starting point to the middle
@@ -62,6 +60,7 @@
     justify-content: space-between;
     align-items: center;
     min-height: 830px;
+    flex-wrap: wrap;
 }
 
 .heroLeft, .heroRight {
@@ -99,6 +98,7 @@
 .heroImage {
     box-shadow: 73px 91px 47px rgba(0, 0, 0, 0.01), 41px 51px 39px rgba(0, 0, 0, 0.02), 18px 23px 29px rgba(0, 0, 0, 0.04), 5px 6px 16px rgba(0, 0, 0, 0.04);
     max-width: 500px;
+    min-width: 350px;
     border-radius: 1rem;
     width: 65%;
     height: auto;
@@ -117,6 +117,7 @@
     flex-direction: column;
     gap: $spacing-6;
     text-align: center;
+    border: solid 1px $blue-100;
 }
 
 .userTypeToggleContainer {

@@ -46,7 +46,7 @@ export default function Profile() {
                         <p>{user && user.email}</p>
                     </div>
 
-                    <div className={styles.twoColumnContainer}>
+                    {/* <div className={styles.twoColumnContainer}>
                         <div className={styles.info}>
                             <p>Location</p>
                             <p>{fullUser && fullUser.location} {!(fullUser?.location) && 'No location specified'}</p>
@@ -55,7 +55,7 @@ export default function Profile() {
                             <p>Search Radius</p>
                             <p>{fullUser && fullUser.searchRadius} {!(fullUser?.searchRadius) && 'No search radius specified'}</p>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className={styles.info}>
                         <p>Bio</p>

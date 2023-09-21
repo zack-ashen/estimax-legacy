@@ -71,7 +71,6 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 {user.role === Roles.CONTRACTOR && <button className={`${styles.bookmarkToggle} ${styles[bookmarked ? 'bookmarked' : '']}`} onClick={toggleBookmark}><BookmarkIcon className={styles.starIcon}/></button> }
             </div>
             <ImageSlides images={urls} small/>
-            {/* <img src={url} alt={'projectImage'} className={styles.projectImage}/> */}
             <div className={styles.projectDetails}>
                 <div className={styles.priceSection}>
                     <p>Lowest Bid</p>
@@ -80,7 +79,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 <div className={styles.infoSection}>
                     <div className={styles.info}>
                         <MapIcon className={styles.infoIcon}/>
-                        <p>{project.location}</p>
+                        <p>{project.location.area}</p>
                     </div>
 
                     <div className={styles.info}>

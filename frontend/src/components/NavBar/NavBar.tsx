@@ -91,7 +91,7 @@ function NoAuthNav() {
     if (location === '/') {
         return (
             <> 
-                <div>
+                <div className={styles.landingNavLinks}>
                 <a href='#how-it-works'>How It Works</a>
                 <a href='#features'>Features</a>
                 <a href='#faq'>FAQ</a>
@@ -143,7 +143,7 @@ export default function Nav() {
     return (
         <nav className={styles.Nav}>
             <div className={styles.logoSection} onClick={() => navigate('/')}>
-                <img alt='logo' src={Logo}/>
+                <img alt='logo' src={Logo} className={styles.logoImage}/>
                 <h5 className={styles.logoText}>Estimax <span className={styles.betaTag}>BETA</span></h5>
             </div>
 

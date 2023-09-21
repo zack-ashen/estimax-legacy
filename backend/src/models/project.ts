@@ -1,12 +1,13 @@
 import mongoose, { Schema } from 'mongoose';
 import { ProjectStatus } from '../types';
+import { Location, LocationSchema } from './location';
 
 export interface IProject {
   id: Schema.Types.ObjectId;
   name: string;
   homeownerId: Schema.Types.ObjectId;
   description: String;
-  location: String;
+  location: Location;
   category: String[];
   status: string; 
   images: string[];
@@ -87,7 +88,7 @@ const projectSchema = new Schema<IProject>({
     enum: ProjectStatus,
     default: ProjectStatus.IN_PROGRESS,
   },
-  location: String, 
+  location: LocationSchema, 
   images: [ String ],
   bids: {
     type: [ BidSchema ],
@@ -125,6 +126,8 @@ const projectSchema = new Schema<IProject>({
       return ret
     }},
 });
+
+projectSchema.index({ 'location.point' : '2dsphere' });
 
 projectSchema.virtual('id').get(function() {
   return this._id;
