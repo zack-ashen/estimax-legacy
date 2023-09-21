@@ -10,7 +10,7 @@ import TextInput from "../../../components/Inputs/TextInput/TextInput";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('You must enter a project name.'),
-  description: Yup.string().min(40, 'You must write a longer description.').max(300, 'You must write a shorter description.').required('You must enter a project description.')
+  description: Yup.string().min(40, 'You must write a longer description.').required('You must enter a project description.')
 });
 
 export default function GetProjectInfo ({ submitComponent, formSize, content}: PageProps) {
@@ -18,7 +18,8 @@ export default function GetProjectInfo ({ submitComponent, formSize, content}: P
 
   const [ values, setValues ] = useState({
     'name': formData.name ? formData.name : '',
-    'description': formData.description ? formData.description : ''
+    'description': formData.description ? formData.description : '',
+    'location': formData.location ? formData.location : ''
   })
   const [ errors, setErrors ] = useState<FormError>({});
 

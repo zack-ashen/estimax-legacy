@@ -2,16 +2,18 @@ import { FilterQuery, UpdateQuery } from "mongoose";
 import { ServerError } from "../middleware/errors";
 import { IBid, IProject, Project } from "../models/project";
 import { Errors, ProjectDraft } from "../types";
+import { parseLocationData } from "../util/maps";
 
 export async function createProject(project: ProjectDraft): Promise<IProject> {
+  const parsedLocation = await parseLocationData(project.location);
+
   // Create a new Project
-  const newProject = new Project(project);
+  const newProject = new Project({ ...project, location: parsedLocation } );
 
   // Save the user to the database
   try {
     await newProject.save();
   } catch (err) {
-    console.log(err);
     throw new ServerError(Errors.RESOURCE_CREATION, 409);
   }
 

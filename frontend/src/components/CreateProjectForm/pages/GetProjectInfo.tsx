@@ -5,18 +5,24 @@ import { FormError } from "../../../types";
 import * as Yup from 'yup'
 import styles from '../../MultiForm/Pages.module.scss'
 import TextInput from "../../../components/Inputs/TextInput/TextInput";
+import LocationSearch from "../../LocationSearch/LocationSearch";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('You must enter a project name.'),
-  description: Yup.string().min(40, 'You must write a longer description.').max(300, 'You must write a shorter description.').required('You must enter a project description.')
+  description: Yup.string().min(40, 'You must write a longer description.').max(300, 'You must write a shorter description.').required('You must enter a project description.'),
+  location: Yup.object().required('You must enter a location for your project.')
 });
 
 export default function GetProjectInfo ({ submitComponent, formSize, content}: PageProps) {
   const { formData, setFormData }  = useFormContext()!;
 
+
+
   const [ values, setValues ] = useState({
     'name': formData.name ? formData.name : '',
-    'description': formData.description ? formData.description : ''
+    'description': formData.description ? formData.description : '',
+    'location': formData.location ? formData.location : '',
+    'unit': formData.unit ? formData.unit : ''
   })
   const [ errors, setErrors ] = useState<FormError>({});
 
@@ -63,6 +69,18 @@ export default function GetProjectInfo ({ submitComponent, formSize, content}: P
           value={values.name} 
           onChange={(e) => setValues({...values, name: e.target.value})}
           error={errors.name}
+        />
+        <LocationSearch 
+          type="address" 
+          label={'What is the address for your project?'} 
+          setLocation={(locationData) => setValues({...values, location: locationData})} 
+          error={errors.location}
+        />
+        <TextInput
+          name='Unit or Apt. #'
+          value={values.unit} 
+          onChange={(e) => setValues({...values, unit: e.target.value})}
+          error={errors.unit}
         />
         <TextInput
           type="textarea"

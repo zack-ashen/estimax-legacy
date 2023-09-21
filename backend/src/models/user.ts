@@ -42,7 +42,6 @@ export interface IUser {
   password?: string;
   role: Roles;
   name: string;
-  location?: string;
   searchRadius?: number;
   bio?: string;
   profilePhoto?: string;
@@ -57,7 +56,6 @@ const userSchema = new Schema<IUserDocument>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: false },
   name: { type: String },
-  location: { type: String, required: false },
   searchRadius: { type: String, required: false },
   bio: { type: String, required: false },
   profilePhoto: { type: String, required: false },

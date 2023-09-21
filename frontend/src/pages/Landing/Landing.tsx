@@ -45,7 +45,6 @@ function Landing() {
 
   return (
     <AppLayout maxWidth={PageSizes.LARGE}>
-    <div className={styles.Landing}>
       {/* <DecorativeGrid className={styles.decorativeGridLeft} /> */}
       <div className={styles.heroSectionContainer}>
         <DecorativeGrid className={styles.decorativeGridRight} />
@@ -157,7 +156,6 @@ function Landing() {
           <Logo />
           <p>Copyright © 2023 Estimax Inc. All rights reserved.</p>
       </footer>
-    </div>
     </AppLayout>
   );
 }

@@ -28,7 +28,7 @@ const ProjectSearchCard = ({ project }: ProjectSearchCardProps) => {
         <div className={styles.ProjectSearchCard} onClick={goToProject}>
             <div className={styles.cardDetails}>
                 <p className={styles.name}>{project.name}</p>
-                <p className={styles.location}>{project.location}</p>
+                <p className={styles.location}>{project.location.area}</p>
             </div>
 
             <p className={styles.bidCount}>

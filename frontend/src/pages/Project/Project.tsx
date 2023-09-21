@@ -209,7 +209,7 @@ export default function ProjectView() {
           </div>
 
           <div className={styles.projectInfo}>
-            <ProjectInfoTag Icon={MapPinIcon} title='Location' info={project?.location!} />
+            <ProjectInfoTag Icon={MapPinIcon} title='Location' info={project?.location.area!} />
             <ProjectInfoTag Icon={CalendarIcon} title='Timeline' info={project?.timeline!} />
             <ProjectInfoTag Icon={ActivityIcon} title='Activity' info={`${project?.bids.length.toString()!} Bids`} />
           </div>

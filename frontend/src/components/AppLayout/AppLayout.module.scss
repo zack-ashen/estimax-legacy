@@ -18,3 +18,17 @@
     width: 100%;
     flex-grow: 1;
 }
+
+// .content {
+//     display: grid;
+//     grid-template-columns: repeat(12, 1fr);
+//     gap: 30px; // This creates a gutter between columns
+//     height: 100vh;
+//     width: 100%;
+// }
+
+@media screen and (max-width: 1024px) {
+    .AppLayout {
+        padding: 0 $spacing-5;
+    }
+}

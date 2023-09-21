@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Homeowner, FormErrors, Contractor } from "../../types";
+import { Homeowner, FormErrors, Contractor, ContractorNoUid, HomeownerNoUid } from "../../types";
 
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useFormContext } from "../../contexts/MultiFormContext";
@@ -8,7 +8,7 @@ interface GoogleAuthProps {
   signIn: (token: string, user: Homeowner | Contractor) => void;
   setErrors?: React.Dispatch<React.SetStateAction<FormErrors>>;
   type: string;
-  user?: Omit<Homeowner, 'uid'> | Omit<Contractor, 'uid'>;
+  user?: ContractorNoUid | HomeownerNoUid;
 }
 
 export default function GoogleAuth({signIn, setErrors, type, user}: GoogleAuthProps) {

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import styles from "./CreateUserForm.module.scss";
-import { Contractor, Homeowner, FormErrors, Roles } from "../../types/index";
+import { Contractor, Homeowner, FormErrors, Roles, Obj, ContractorNoUid, HomeownerNoUid } from "../../types/index";
 import { ReactComponent as StoreIcon } from "../../assets/StoreIcon.svg";
 import { ReactComponent as UserIcon } from "../../assets/UserIcon.svg";
 import { ReactComponent as UserPickIcon } from "../../assets/UserPickIcon.svg";
@@ -10,10 +10,6 @@ import { useFormContext } from '../../contexts/MultiFormContext';
 import GetBusinessInfo from "./pages/GetBusinessInfo";
 import GetUserInfo from "./pages/GetUserInfo";
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
-
-type ContractorNoUid = Omit<Contractor, 'uid'>;
-type HomeownerNoUid = Omit<Homeowner, 'uid'>;
-
 
 export interface CreateUserFormProps {
   signIn: (token: string, user: Homeowner | Contractor) => void;
@@ -51,7 +47,7 @@ const contractorSteps = [
   ...homeownerSteps.slice(1),
 ];
 
-const createUserBody = (finalData: any) : HomeownerNoUid | ContractorNoUid => {
+const createUserBody = (finalData: any) => {
   const userBase = {
     email: finalData.email,
     role: finalData.role,
@@ -68,8 +64,9 @@ const createUserBody = (finalData: any) : HomeownerNoUid | ContractorNoUid => {
       starredProjects: [],
       securedProjects: [],
       biddedProjects: [],
+      location: finalData.location,
       reviews: []
-    } as ContractorNoUid
+    }
   }
 
   return {

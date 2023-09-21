@@ -3,12 +3,9 @@
 export interface User {
     uid: string;
     email: string;
-    location?: string;
     password?: string;
     role: Roles;
     name: string;
-    geoLocation?: string;
-    searchRadius?: number;
     bio?: string;
     profilePhoto?: string;
     messages?: MessageThread;

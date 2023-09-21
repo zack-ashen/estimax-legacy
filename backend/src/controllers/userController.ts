@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt';
 import { ServerError } from "../middleware/errors";
 import Contractor, { IContractor } from "../models/contractor";
 import { Homeowner, IHomeowner } from "../models/homeowner";
+import { PlaceAutocompleteResponseData, PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
+import { parseLocationAreaData, parseLocationData } from "../util/maps";
 
 
 /* 
@@ -28,10 +30,17 @@ export async function createUser(user: IUser): Promise<IContractor | IHomeowner>
     hashedPassword = await bcrypt.hash(password, 10);
   }
 
-  const buildNewUser = () => {
+  const buildNewUser = async () => {
     if (role === Roles.CONTRACTOR) {
+      const location = (user as IContractor).location as { [key: string] : any };
+
+      const parsedLocationData = await parseLocationAreaData(location as PlaceAutocompleteResult);
+
+      console.log(parsedLocationData)
+      
       return new Contractor({
         ...user,
+        location: parsedLocationData,
         password: hashedPassword
       });
     }
@@ -41,15 +50,14 @@ export async function createUser(user: IUser): Promise<IContractor | IHomeowner>
       });
   }
 
-  const newUser = buildNewUser();
-  
+  const newUser = await buildNewUser();
 
   // Save the user to the database
   try {
     await newUser?.save();
     return newUser.toObject();
   } catch (err) {
-    throw new ServerError(Errors.RESOURCE_CREATION, 409);
+    throw new ServerError(Errors.RESOURCE_CREATION + ': ' + err, 409);
   }
 }
 

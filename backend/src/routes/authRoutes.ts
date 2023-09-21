@@ -107,7 +107,6 @@ router.post('/googleAuth', async (req, res, next) => {
 
     let user = await getUser(payload.email!, true);
     if (!user && type === 'signup') {
-      console.log(newUser.role)
       user = await createUser({...newUser, email: payload.email!, name: payload.name!})
 
       signUpEvent(user.uid.toString(), user);

@@ -3,6 +3,14 @@ import { MultiValue } from "react-select";
 import { AnalyticsSnippet } from "@segment/analytics-next"
 
 import { Roles } from './user';
+import { Contractor } from "./contractor";
+import { Homeowner } from "./homeowner";
+
+
+// Auth
+export type ContractorNoUid = Omit<Contractor, 'uid' | 'searchRadius'> & { location: Obj };
+export type HomeownerNoUid = Omit<Homeowner, 'uid'>;
+
 
 export interface TokenPayload extends JwtPayload {
   role: Roles;
@@ -145,6 +153,33 @@ export const contractorTypes: MultiValue<OptionType> = [
   {value: 'TV Mounting', label: 'TV Mounting'},
   {value: 'Furniture Assembly', label: 'Furniture Assembly'}
 ]
+
+export interface Location {
+  area: string;
+  address: Address;
+  point: [number, number]; // long and lat
+  placeId: string;
+}
+
+export interface LocationArea {
+  name: string;
+  region: {
+      type: 'Polygon';
+      coordinates: [[number, number], [number, number], [number, number], [number, number]];
+  };
+  placeId: string;
+}
+
+
+export interface Address {
+  unit?: string;
+  addressLine1: string;
+  addressLine2: string;
+  postalCode?: string;
+}
+
+export type Obj = {[key: string]: any};
+
 
 export interface FormError {
   [error: string]: string | undefined,
