@@ -5,6 +5,8 @@ import { ServerError } from '../middleware/errors';
 import { Project } from '../models/project';
 import Contractor from '../models/contractor';
 import { updateContractor } from '../controllers/contractorController';
+import { updateUser } from '../controllers/userController';
+import { updateHomeowner } from '../controllers/homeownerController';
 
 const router = express.Router();
 
@@ -37,10 +39,7 @@ router.route('/').get(async (req, res, next) => {
          { $or: timelineQuery },
       ] }
    
-      const projects = await getProjects({
-         ...locationTimelineQuery,
-         ...lowestBidQuery,
-      }, limit, offset);
+      const projects = await getProjects({}, limit, offset);
    
       res.status(200).json(projects);
    } catch (err) {
@@ -71,6 +70,7 @@ router.route('/').post(async (req, res, next) => {
       }
 
       const newProject = await createProject({...project, homeownerId: homeownerId});
+      await updateHomeowner(homeownerId, { $push: { postedProjects: newProject.id } });
       return res.status(200).send({ projectId: newProject.id})
    } catch (err) {
       next(err);
