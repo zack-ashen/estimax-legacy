@@ -124,7 +124,7 @@ export function CreateUserForm({ signIn }: CreateUserFormProps) {
   );
 
   return (
-    <div className={styles.CreateUserForm}>
+    <div className={styles.formContainer}>
       <MultiForm steps={steps} submitComponent={submitForm}/>
     </div>
   );

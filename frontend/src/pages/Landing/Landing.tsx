@@ -8,6 +8,7 @@ import { ContractorCopy, HomeownerCopy } from './copy';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
+import { GridColumn, GridRow } from '../../components/GridLayout/GridLayout';
 
 
 
@@ -45,21 +46,62 @@ function Landing() {
 
   return (
     <AppLayout maxWidth={PageSizes.LARGE}>
-      {/* <DecorativeGrid className={styles.decorativeGridLeft} /> */}
-      <div className={styles.heroSectionContainer}>
+      <DecorativeGrid className={styles.decorativeGridLeft} />
+      <GridRow className={styles.heroRow}>
+        {/* <DecorativeGrid className={styles.decorativeGridRight} /> */}
+        <GridColumn xs={12} lg={[3,10]}>
+          <div className={styles.heroTextContainer}>
+            <div className={styles.textContent}>
+              <h1 className={styles.heroHeader}>An open-bidding home service marketplace.</h1>
+              <p className={styles.heroSubtitle}>We connect service-providers to homeowners through an open bidding platform. Making free, high quality lead generation as easy as scrolling and bidding. </p>
+            </div>
+            <Button buttonStyle={ButtonStyles.PRIMARY} text={'Get Started'} onClick={() => navigate('/signup')}/>
+          </div>
+        </GridColumn>
+
+        <div className={styles.userTypeSelect}>
+          <h2>Who are you?</h2>
+          <div className={styles.userTypeToggleContainer}>
+            <button 
+              className={`${styles.toggleButton} ${styles[userType === HomeownerCopy ? 'toggled' :'']}`} 
+              onClick={() => setUserType(HomeownerCopy)} 
+              disabled={userType === HomeownerCopy}>I'm a Homeowner</button>
+            <button 
+              className={`${styles.toggleButton} ${styles[userType === ContractorCopy ? 'toggled' :'']}`} 
+              onClick={() => setUserType(ContractorCopy)} 
+              disabled={userType === ContractorCopy}>I'm a Service Provider</button>
+          </div>
+        </div>
+      </GridRow>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      {/* <div className={styles.heroSectionContainer}>
         <DecorativeGrid className={styles.decorativeGridRight} />
         <div className={styles.heroSection}>
-          <div className={styles.heroLeft}>
+          <GridColumn span={4}>
             <div className={styles.textContent}>
               <h1 className={styles.heroHeader}>Get a fair price from your favorite pros.</h1>
               <p className={styles.heroSubtitle}>We connect service-providers to homeowners through an open bidding platform. Making free, high quality lead generation as easy as scrolling and bidding. </p>
             </div>
             <Button buttonStyle={ButtonStyles.PRIMARY} text={'Get Started'} onClick={() => navigate('/signup')}/>
-          </div>
-          <div className={styles.heroRight}>
+          </GridColumn>
+          <GridColumn span={4}>
             <div></div>
             <img src={HeroImage} alt={'hero'} className={styles.heroImage}/>
-          </div>
+          </GridColumn>
         </div>
 
         <div className={styles.userTypeSelect}>
@@ -84,13 +126,6 @@ function Landing() {
 
           <div className={styles.howItWorksTwoColumn}>
             <div className={styles.howItWorksLeft}>
-              {/* <div className={styles.stepToggled}>
-                <PencilIcon className={styles.stepIcon} />
-                <div className={styles.stepTextContainer}>
-                  <h3>Snap</h3>
-                  <p className={styles.stepText}>Bring together your internal teams and external partners for cleaner closes.</p>
-                </div>
-              </div> */}
               {userType.howItWorksFlow.map((step, index) => (
                 <HowItWorksToggle 
                   Icon={step.Icon} 
@@ -155,7 +190,7 @@ function Landing() {
       <footer>
           <Logo />
           <p>Copyright © 2023 Estimax Inc. All rights reserved.</p>
-      </footer>
+      </footer> */}
     </AppLayout>
   );
 }

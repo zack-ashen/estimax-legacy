@@ -8,6 +8,7 @@ import TextInput from '../../components/Inputs/TextInput/TextInput';
 import { ReactComponent as DecorativeGrid } from '../../assets/DecorativeGrid.svg';
 import { Contractor, FormError, Homeowner } from '../../types';
 import AppLayout, { PageSizes } from '../../components/AppLayout/AppLayout';
+import { GridColumn, GridRow } from '../../components/GridLayout/GridLayout';
 
 interface SignInProps {
   signIn: (token: string, user: Homeowner | Contractor) => void;
@@ -41,42 +42,40 @@ function SignIn({ signIn }: SignInProps) {
   return (
     <AppLayout maxWidth={PageSizes.SMALL}>
     <DecorativeGrid className={styles.formDecorativeGrid}/>
-    <div className={styles.container}>
-      <div className={styles.form}>
-        <div className={styles.formHeader}>
-          <div className={styles.formIconContainer}>
-            <LockIcon className={styles.formIcon}/>
-          </div>
-          <div className={styles.formTitle}>
-            <h3>Login to your account</h3>
-            <p className={styles.formSubtitle}>Welcome back! Please enter your details.</p>
-          </div>
+    <div className={styles.formContainer}>
+      <div className={styles.formHeader}>
+        <div className={styles.formIconContainer}>
+          <LockIcon className={styles.formIcon}/>
         </div>
-
-        <form className={styles.authForm} method="POST" onSubmit={((e) => e.preventDefault())}>
-          <TextInput 
-            type="text" 
-            name="Email:" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)}
-            error={errors.email}
-          />
-          <TextInput 
-            type="password" 
-            name="Password:" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <div className={styles.authButtonContainer}>
-            <Button 
-              buttonStyle={ButtonStyles.PRIMARY} 
-              onClick={auth}
-              text={'Continue'}
-              wide />
-            <GoogleAuth signIn={signIn} type={'signin'} setErrors={setErrors}/>
-          </div>
-        </form>
+        <div className={styles.formTitle}>
+          <h3>Login to your account</h3>
+          <p className={styles.formSubtitle}>Welcome back! Please enter your details.</p>
+        </div>
       </div>
+
+      <form className={styles.authForm} method="POST" onSubmit={((e) => e.preventDefault())}>
+        <TextInput 
+          type="text" 
+          name="Email:" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)}
+          error={errors.email}
+        />
+        <TextInput 
+          type="password" 
+          name="Password:" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <div className={styles.authButtonContainer}>
+          <Button 
+            buttonStyle={ButtonStyles.PRIMARY} 
+            onClick={auth}
+            text={'Continue'}
+            wide />
+          <GoogleAuth signIn={signIn} type={'signin'} setErrors={setErrors}/>
+        </div>
+      </form>
     </div>
     </AppLayout>
   );

@@ -1,0 +1,54 @@
+@import '../../styles/index';
+
+$gutter: 1.5rem;
+$columns: 12;
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+.container {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    flex-grow: 1;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: $gutter;
+}
+
+.column {
+  grid-column: span var(--span, 1);
+}
+
+// Generate the classes for each breakpoint
+@each $breakpoint, $min-width in $grid-breakpoints {
+  @media (min-width: $min-width) {
+    @for $i from 1 through $columns {
+      .#{$breakpoint}-#{$i} {
+        grid-column: span #{$i};
+      }
+
+      @for $j from 1 through $columns+1 {
+        .#{$breakpoint}-#{$i}-#{$j} {
+          grid-column: #{$i} / #{$j + 1};
+        }
+      }
+    }
+  }
+
+  @media (max-width: $min-width) {
+    .hidden-#{$breakpoint} {
+      display: none;
+    }
+  }
+
+  
+}

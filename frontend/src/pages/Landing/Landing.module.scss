@@ -1,6 +1,53 @@
 @import '../../styles/index';
 
 
+.heroRow {
+    position: relative;
+    padding: 12rem 0;
+    &::before {
+        content: ""; // Necessary for pseudo-elements
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $blue-25;
+        border-bottom: 1px solid $blue-200;
+        z-index: -2; // Places the background behind navbar content
+        width: 100vw; // Spans the entire viewport width
+        margin-left: 50%;; // Shifts the starting point to the middle
+        transform: translateX(-50%); // Begins the pseudo-element in the middle
+    }
+}
+
+.heroTextContainer {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+    text-align: center;
+    align-items: center;
+
+    .textContent {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-5;
+    }
+
+    .heroHeader {
+        font-size: 4rem;
+        color: $blue-950;
+        font-weight: 600;
+    }
+
+    .heroSubtitle {
+        color: $grey-700;
+        font-size: $font-size-lg;
+        line-height: 1.5;
+        font-weight: 300;
+    }
+}
+
+
 .decorativeGridLeft, .decorativeGridRight {
     width: 40%;
     height: auto;
@@ -18,8 +65,8 @@
 
 .decorativeGridRight {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 0%;
+    bottom: 0%;
     z-index: -2;
 
 }
@@ -67,29 +114,7 @@
     flex: 1 0 50%;
 }
 
-.heroLeft {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-8;
 
-    .textContent {
-        display: flex;
-        flex-direction: column;
-        gap: $spacing-5;
-    }
-
-    .heroHeader {
-        font-size: 4rem;
-        color: $blue-950;
-        font-weight: 700;
-    }
-
-    .heroSubtitle {
-        color: $grey-600;
-        font-size: 1.3rem;
-        line-height: 1.5;
-    }
-}
 
 .heroRight {
     display: flex;
@@ -97,19 +122,16 @@
 
 .heroImage {
     box-shadow: 73px 91px 47px rgba(0, 0, 0, 0.01), 41px 51px 39px rgba(0, 0, 0, 0.02), 18px 23px 29px rgba(0, 0, 0, 0.04), 5px 6px 16px rgba(0, 0, 0, 0.04);
-    max-width: 500px;
-    min-width: 350px;
     border-radius: 1rem;
-    width: 65%;
-    height: auto;
-    margin: 0 auto;
+    width: 100%;
 }
 
 .userTypeSelect {
     position: absolute;
     background-color: white;
+    bottom: 0;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 50%);
     border-radius: 0.5rem;
     padding: $spacing-6 $spacing-10;
     box-shadow: 0px 59px 24px rgba(0, 0, 0, 0.01), 0px 33px 20px rgba(0, 0, 0, 0.03), 0px 15px 15px rgba(0, 0, 0, 0.05), 0px 4px 8px rgba(0, 0, 0, 0.05);

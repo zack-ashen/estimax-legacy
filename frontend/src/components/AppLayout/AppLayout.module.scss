@@ -6,18 +6,19 @@
     padding: 0 $spacing-20;
     position: relative;
     width: 100%;
-    height: 100vh;
     display: flex;
     flex-flow: column;
+    min-height: 100vh;
+    min-height: 100dvh;
 }
 
-.content {
-    display: flex;
-    flex-flow: column;
-    height: 100vh;
-    width: 100%;
-    flex-grow: 1;
-}
+// .content {
+//     display: flex;
+//     flex-flow: column;
+//     height: 100vh;
+//     width: 100%;
+//     flex-grow: 1;
+// }
 
 // .content {
 //     display: grid;

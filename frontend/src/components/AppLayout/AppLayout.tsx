@@ -1,4 +1,5 @@
 
+import { GridContainer, GridRow } from '../GridLayout/GridLayout';
 import NavBar from '../NavBar/NavBar';
 import styles from './AppLayout.module.scss';
 
@@ -17,9 +18,9 @@ export default function AppLayout({ maxWidth, children } : AppLayoutProps) {
     return (
         <div className={styles.AppLayout} style={ { maxWidth } }>
             <NavBar />
-            <div className={styles.content}>
+            <GridContainer>
                 {children}
-            </div>
+            </GridContainer>
         </div>
     )
 }
