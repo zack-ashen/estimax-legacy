@@ -1,0 +1,8 @@
+@import '../../styles/index';
+
+
+.NavLinks {
+    display: flex;
+    flex-direction: row;
+    gap: $spacing-7;
+}

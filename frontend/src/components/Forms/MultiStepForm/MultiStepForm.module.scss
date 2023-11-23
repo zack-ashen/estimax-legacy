@@ -1,0 +1,47 @@
+@import '../../../styles/index';
+
+
+.MultiStepForm {
+}
+
+
+
+.stepsContainer {
+    padding: $spacing-3;
+    border: solid 1px $grey-200;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0.5rem;
+    background-color: $grey-25;
+    width: fit-content;
+    margin: 0 auto $spacing-6 auto;
+
+
+    .stepContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: $spacing-2;
+
+        .stepTitle, .stepTitleSelected {
+            @include typography('md', 'semi-bold');
+        }
+
+        .stepIndexContainerSelected {
+            background-color: $blue-800;
+            height: 1.5rem;
+            width: 1.5rem;
+            border-radius: 0.25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            .stepIndexSelected {
+                color: white;
+                @include typography('sm', 'medium');
+            }
+        }
+    }
+}

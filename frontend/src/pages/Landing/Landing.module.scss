@@ -41,7 +41,7 @@
 
     .heroSubtitle {
         color: $grey-700;
-        font-size: $font-size-lg;
+        font-size: typography('lg', 'regular');
         line-height: 1.5;
         font-weight: 300;
     }
@@ -187,7 +187,7 @@
     margin-bottom: $spacing-1;
     color: $blue-700;
     font-weight: 600;
-    font-size: $font-size-lg;
+    font-size: typography('lg', 'regular');
 
 }
 
@@ -280,7 +280,7 @@
 }
 
 .stepText {
-    font-size: $font-size-lg;
+    font-size: typography('lg', 'regular');;
     color: $grey-700;
 }
 
@@ -301,7 +301,7 @@
     }
 
     p {
-        font-size: $font-size-lg;
+        font-size: typography('lg', 'regular');;
         line-height: 1.7;
         color: $grey-700;
     }
@@ -322,7 +322,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: $spacing-20;
+    gap: $spacing-10;
     margin-top: $spacing-15;
 }
 
@@ -341,7 +341,7 @@
 
     .featureHeader {
         font-weight: 500;
-        font-size: $font-size-lg;
+        font-size: typography('lg', 'regular');;
     }
 
     .featureBody {
@@ -391,7 +391,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    padding: $spacing-20 0;
+    padding: $spacing-10 0;
     justify-content: center;
     align-items: center;
     margin: 0;
@@ -408,7 +408,7 @@
     }
 
     p {
-        font-size: $font-size-lg;
+        font-size: typography('lg', 'regular');;
         color: $grey-700;
 
     }

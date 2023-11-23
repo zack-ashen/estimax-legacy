@@ -1,48 +1,85 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
-@import './variables';
+@import './colors';
 
+$base-font-size: 16px;
+
+$scale: 1.2;
+$font-family: 'Inter', sans-serif;
+
+// Font weights
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semi-bold: 600;
+
+// Size names
+$size-names: ('xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'h4', 'h3', 'h2', 'h1');
+
+
+// FONT MIXIN CREATION //
+@function calculate-font-size($level) {
+  $size: 1rem;
+  @if $level > 4 {
+    @for $i from 1 through calc($level - 4) {
+      $size: $size * $scale;
+    }
+  } @else if $level < 4 {
+    @for $i from 1 through abs(4 - $level) {
+      $size: calc($size / $scale);
+    }
+  }
+  @return $size;
+}
+
+@mixin typography($size, $weight) {
+  $level: index($size-names, $size);
+  $line-height: if($level > 6, 1.2, 1.5);
+
+  @if $weight == 'regular' {
+    font-weight: $font-weight-regular;
+  } @else if $weight == 'medium' {
+    font-weight: $font-weight-medium;
+  } @else if $weight == 'semi-bold' {
+    font-weight: $font-weight-semi-bold;
+  }
+  font-family: $font-family;
+  line-height: $line-height;
+  letter-spacing: if($level > 6, -0.02em, normal);
+  font-size: calculate-font-size($level);
+}
+
+
+// Basic Typography
 html {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 body {
-  font-family: Inter, Roboto, Helvetica, sans-serif;
-  line-height: 1.4;
-  font-weight: normal;
+  @include typography('md', 'regular')
 }
 
 h1, h2, h3, h4 {
   color: $grey-800;
-  font-weight: bold;
 }
 
 h1 {
-  font-size: 3.3rem;
-  line-height: 1.2;
+  @include typography('h1', 'semi-bold');
 }
 
 h2 {
-  font-size: 2rem;
-  line-height: 1.2;
+  @include typography('h2', 'semi-bold');
 }
 
 h3 {
-  font-size: 1.571rem;
-  line-height: 1.2;
+  @include typography('h3', 'semi-bold');
 }
 
 h4 {
-  font-size: 1.429rem;
-  line-height: 1.2;
+  @include typography('h4', 'semi-bold');
 }
 
-h5 {
-  font-size: 1.286rem;
-  line-height: 1.2;
-}
 
 a {
-  font-weight: 500;
+  @include typography('md', 'medium');
   color: $grey-900;
 }
 
@@ -52,24 +89,16 @@ a:hover {
 
 p {
   color: $grey-900;
-
+  @include typography('md', 'medium');
+  word-wrap: break-word;
 }
 
-@mixin typography-large-regular {
-  font-family: Inter;
-  font-size: 1.286rem;
-  color: $grey-900;
+// Specialty Typography
+.SectionHeader {
+  @include typography('xl', 'semi-bold');
 }
 
-@mixin typography-small-regular {
-  font-family: Inter;
-  font-size: $font-size-sm;
-  color: $grey-900;
-}
-
-@mixin typography-small-medium {
-  font-family: Inter;
-  font-size: $font-size-sm;
-  color: $grey-900;
-  font-weight: 500;
+.SectionSubtitle {
+  @include typography('sm', 'medium');
+  color: $grey-700;
 }
