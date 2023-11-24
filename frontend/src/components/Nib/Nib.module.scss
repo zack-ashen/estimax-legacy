@@ -1,0 +1,30 @@
+@import '../../styles/index';
+
+.nib {
+  padding: $spacing-1 $spacing-4;
+  border-radius: 0.25rem;
+  font-size: 13px;
+  font-weight: $font-weight-medium;
+  width: fit-content;
+  cursor: default;
+
+  &.green {
+    background-color: $green-100;
+    color: $green-500;
+  }
+
+  &.red {
+    background-color: $red-100;
+    color: $red-500;
+  }
+
+  &.yellow {
+    // background-color: $yellow-100;
+    // color: $yellow-500;
+  }
+
+  &.primary {
+    background-color: $blue-100;
+    color: $blue-500;
+  }
+}
