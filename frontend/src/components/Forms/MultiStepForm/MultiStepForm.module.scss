@@ -1,10 +1,4 @@
-@import '../../../styles/index';
-
-
-.MultiStepForm {
-}
-
-
+@import '../shared';
 
 .stepsContainer {
     padding: $spacing-3;
@@ -17,31 +11,52 @@
     background-color: $grey-25;
     width: fit-content;
     margin: 0 auto $spacing-6 auto;
+    gap: $spacing-10;
 
 
     .stepContainer {
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: $spacing-2;
+        gap: $spacing-3;
 
-        .stepTitle, .stepTitleSelected {
-            @include typography('md', 'semi-bold');
+        .stepTitle {
+            @include typography('md', 'medium');
+            color: $grey-400;
         }
 
-        .stepIndexContainerSelected {
-            background-color: $blue-800;
+        .stepTitleSelected {
+            @include typography('md', 'semi-bold')
+        }
+
+        .stepIndexContainer, .stepIndexContainerSelected {
             height: 1.5rem;
             width: 1.5rem;
             border-radius: 0.25rem;
             display: flex;
             justify-content: center;
             align-items: center;
-            
-            .stepIndexSelected {
-                color: white;
+
+            .stepIndexSelected, .stepIndex {
                 @include typography('sm', 'medium');
             }
         }
+
+        .stepIndexContainer {
+            background-color: $grey-300;
+            
+        }
+
+        .stepIndexContainerSelected {
+            background-color: $blue-800;
+            
+            .stepIndexSelected {
+                color: white;
+            }
+        }
     }
+}
+
+.multiForm {
+    margin-top: $spacing-5;
 }

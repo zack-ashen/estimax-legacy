@@ -1,31 +1,60 @@
+import { FormProvider, useForm } from "react-hook-form";
 import Button, { ButtonStyles } from "../../Button/Button";
-import TextInput from "../../TextInput/TextInput";
-import Form from "../Form/Form";
+import TextInput from "../../Inputs/TextInput/TextInput";
+
+import styles from "./SignInForm.module.scss";
+
+interface SignInFormValues {
+  email: string;
+  password: string;
+}
 
 export default function SignInForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignInFormValues>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data: SignInFormValues) => {
+    console.log(data);
+  };
+
   return (
-    <Form
-      defaultValues={{ email: "", password: "" }}
-      submitButtonDetails={{
-        text: "Sign In",
-        action: () => {},
-        wide: true,
-      }}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={`${styles.SignInForm} ${styles.Form}`}
     >
       <TextInput
+        id="sign-in-email"
+        label="Email"
         type="email"
         placeholder="Email"
-        name={"Email"}
-        value={""}
-        onChange={() => {}}
+        autoComplete="email"
+        error={errors.email?.message}
+        {...register("email", { required: "Email is required" })}
       />
       <TextInput
+        id="sign-in-password"
+        label="Password"
         type="password"
         placeholder=""
-        name={"Password"}
-        value={""}
-        onChange={() => {}}
+        autoComplete="current-password"
+        error={errors.password?.message}
+        {...register("password", { required: "Password is required" })}
       />
-    </Form>
+
+      <Button
+        buttonStyle={ButtonStyles.PRIMARY}
+        text="Sign In"
+        type="submit"
+        wide
+      />
+    </form>
   );
 }

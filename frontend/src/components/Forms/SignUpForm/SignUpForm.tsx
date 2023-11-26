@@ -1,6 +1,3 @@
-import { ChangeEvent } from "react";
-import TextInput from "../../TextInput/TextInput";
-import Form from "../Form/Form";
 import { signUpRequest } from "../../../services/auth";
 import { MultiStepForm } from "../MultiStepForm/MultiStepForm";
 import { YourBusiness } from "./Steps/YourBusiness";
@@ -9,8 +6,13 @@ import { AccountType } from "./Steps/AccountType";
 
 type SignUpFormData = {
   // Define your sign-in form fields here
+  fullName: string;
+  email: string;
   username: string;
   password: string;
+  userType: "propertyManager" | "vendor";
+  vendorInfo?: {};
+  propertyManagerInfo?: {};
 };
 
 interface SignUpFormProps {
@@ -30,5 +32,16 @@ export default function SignUpForm({ setToken }: SignUpFormProps) {
 
   const steps = [BasicInfo, AccountType, YourBusiness];
 
-  return <MultiStepForm steps={steps} handleSubmit={onSubmit} />;
+  return (
+    <MultiStepForm
+      steps={steps}
+      submit={onSubmit}
+      defaultValues={{
+        name: "",
+        email: "",
+        password: "",
+        userRole: "",
+      }}
+    />
+  );
 }

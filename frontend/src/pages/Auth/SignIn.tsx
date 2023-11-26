@@ -1,5 +1,6 @@
 import Card, { CardWidth } from "../../components/Card/Card";
 import SignInForm from "../../components/Forms/SignInForm/SignInForm";
+import GoogleAuth from "../../components/GoogleAuth/GoogleAuth";
 import AuthLayout from "../../components/Layouts/AuthLayout/AuthLayout";
 import styles from "./Auth.module.scss";
 
@@ -17,6 +18,7 @@ export default function SignIn({ signIn }: SignInProps) {
         </p>
 
         <SignInForm />
+        <GoogleAuth type="signin" />
       </Card>
     </AuthLayout>
   );

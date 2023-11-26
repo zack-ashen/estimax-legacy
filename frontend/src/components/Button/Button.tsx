@@ -12,7 +12,6 @@ export enum ButtonStyles {
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonStyle: ButtonStyles;
-  fontSize?: string;
   wide?: boolean;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   text?: string;
@@ -23,6 +22,7 @@ const Button = ({
   buttonStyle,
   onClick,
   Icon,
+  type,
   text,
   selected = false,
   wide = false,
@@ -36,6 +36,7 @@ const Button = ({
       className={`${styles[buttonStyle]} ${styles[selected ? "selected" : ""]}`}
       onClick={onClick}
       style={style}
+      type={type}
     >
       {Icon && (
         <div className={styles.iconContainer}>

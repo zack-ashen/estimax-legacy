@@ -1,7 +1,7 @@
-@import '../../styles/index';
+@import '../../../styles/index';
 
 
-.inputBox {
+.textInputContainer {
   position: relative;
   width: 100%;
   display: flex;
@@ -79,17 +79,6 @@
 .errorText {
   @include typography('sm', 'medium');
   color: $red-500 !important;
-}
-
-.textarea {
-  resize: none;
-  font-family: inherit;
-  height: calc(1rem * 1.5 * 5);
-}
-
-.textarea:focus {
-  height: calc(1rem * 1.5 * 5);
-  margin: 1px;
 }
 
 .icon {

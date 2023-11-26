@@ -1,18 +1,18 @@
 import { FormProvider, useForm } from "react-hook-form";
-import Form from "../Form/Form";
 import { useState } from "react";
 
 import styles from "./MultiStepForm.module.scss";
+import FormActions from "../FormActions/FormActions";
 
 interface MultiStepFormProps {
   steps: {
     title: string;
     description: string;
     altHeader?: string;
-    element: JSX.Element;
-    defaultValues: any;
+    Element: () => JSX.Element;
   }[];
-  handleSubmit: (data: any) => void;
+  defaultValues: any;
+  submit: (formData: any) => void;
 }
 
 const Step = (title: string, index: number, selectedStep: number) => {
@@ -38,15 +38,24 @@ const Step = (title: string, index: number, selectedStep: number) => {
   );
 };
 
-export const MultiStepForm = ({ steps, handleSubmit }: MultiStepFormProps) => {
-  const methods = useForm();
+export const MultiStepForm = ({
+  steps,
+  submit,
+  defaultValues,
+}: MultiStepFormProps) => {
+  const methods = useForm({
+    defaultValues,
+  });
   const [currentStep, setCurrentStep] = useState(0);
 
   const nextStep = () => setCurrentStep((prevStep) => prevStep + 1);
   const prevStep = () => setCurrentStep((prevStep) => prevStep - 1);
 
+  const CurrentStepComponent = steps[currentStep].Element;
+
   const handleStepSubmit = (data: any) => {
     // Update formData with new data
+    console.log(data);
     nextStep();
   };
 
@@ -65,30 +74,22 @@ export const MultiStepForm = ({ steps, handleSubmit }: MultiStepFormProps) => {
         </p>
       </div>
       <FormProvider {...methods}>
-        <Form
-          defaultValues={steps[currentStep].defaultValues}
-          submitButtonDetails={
-            currentStep === steps.length - 1
-              ? {
-                  text: "Submit",
-                  action: handleSubmit,
-                }
-              : {
-                  text: "Next",
-                  action: nextStep,
-                }
-          }
-          altButtonDetails={
-            currentStep === 0
-              ? undefined
-              : {
-                  text: "Previous",
-                  action: prevStep,
-                }
-          }
+        <form
+          onSubmit={methods.handleSubmit(handleStepSubmit)}
+          className={`${styles.Form} ${styles.multiForm}`}
         >
-          {steps[currentStep].element}
-        </Form>
+          <CurrentStepComponent />
+
+          <FormActions
+            altButtonDetails={{
+              text: "Back",
+              action: prevStep,
+            }}
+            submitButtonDetails={{
+              text: currentStep === steps.length - 1 ? "Submit" : "Next",
+            }}
+          />
+        </form>
       </FormProvider>
     </div>
   );
