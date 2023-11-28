@@ -14,9 +14,6 @@ export default function SignUp({ setToken }: SignUpProps) {
       <Card width={CardWidth.SM} align={"left"}>
         <SignUpForm setToken={setToken} />
       </Card>
-      <Nib variant="primary" text="Sign Up" />
-      <Nib variant="green" text="Balls" />
-      <Nib variant="red" text="N word" />
     </AuthLayout>
   );
 }

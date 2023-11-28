@@ -26,7 +26,7 @@ const TextInput = React.forwardRef(
       : styles.Input;
 
     return (
-      <div className={styles.textInputContainer}>
+      <div className={`${styles.textInputContainer} ${styles.inputContainer}`}>
         {label && (
           <label htmlFor={props.id} className={styles.inputLabel}>
             {label}
