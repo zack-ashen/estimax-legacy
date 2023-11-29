@@ -1,54 +1,36 @@
-import { useEffect, useState } from "react";
-import {
-  Homeowner,
-  FormErrors,
-  Contractor,
-  ContractorNoUid,
-  HomeownerNoUid,
-} from "../../types";
-
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { useFormContext } from "../../contexts/MultiFormContext";
+import React from "react";
+import { useGoogleLogin } from "@react-oauth/google";
+import Button, { ButtonStyles } from "../Button/Button";
+import { useFormContext } from "react-hook-form";
 
 interface GoogleAuthProps {
-  setErrors?: React.Dispatch<React.SetStateAction<FormErrors>>;
+  setCredential?: (credential: string) => void;
   type: "signin" | "signup";
-  user?: ContractorNoUid | HomeownerNoUid;
 }
 
-export default function GoogleAuth({ type, user }: GoogleAuthProps) {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [buttonWidth, setButtonWidth] = useState(350);
+const GoogleAuth = ({ setCredential, type }: GoogleAuthProps) => {
+  const { formState } = useFormContext();
 
-  const handleCallbackResponse = ({
-    credential,
-    clientId,
-  }: CredentialResponse) => {
-    // auth with google service
-  };
-
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-
-    if (windowWidth < 500) {
-      setButtonWidth(250);
-    } else if (windowWidth >= 500 && buttonWidth === 250) {
-      setButtonWidth(420);
-    }
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, [windowWidth, buttonWidth]);
+  const googleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      setCredential && setCredential(tokenResponse.access_token);
+      // You can use the tokenResponse to get Google credentials or user info
+    },
+    onError: (error) => {
+      console.error("Login Failed:", error);
+    },
+    // You can add more configuration options here
+  });
 
   return (
-    <GoogleLogin
-      theme="outline"
-      width={350}
-      onSuccess={handleCallbackResponse}
-      onError={() => {
-        console.error("Login Failed");
-      }}
-      text="continue_with"
+    <Button
+      buttonStyle={ButtonStyles.SECONDARY}
+      text="Login with Google"
+      onClick={() => googleLogin()}
+      type="submit"
+      wide
     />
   );
-}
+};
+
+export default GoogleAuth;

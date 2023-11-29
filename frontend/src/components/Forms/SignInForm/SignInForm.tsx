@@ -3,6 +3,7 @@ import Button, { ButtonStyles } from "../../Button/Button";
 import TextInput from "../../Inputs/TextInput/TextInput";
 
 import styles from "./SignInForm.module.scss";
+import GoogleAuth from "../../GoogleAuth/GoogleAuth";
 
 interface SignInFormValues {
   email: string;
@@ -55,6 +56,7 @@ export default function SignInForm() {
         type="submit"
         wide
       />
+      <GoogleAuth type="signin" />
     </form>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import ReactSelect, {
   CSSObjectWithLabel,
   ControlProps,
@@ -18,57 +18,67 @@ interface SelectProps
   extends ReactSelectProps<OptionType, boolean>,
     AsyncProps<OptionType, boolean, GroupBase<OptionType>> {
   id: string;
+  onChange?: (...event: any[]) => void;
   label?: string;
   isAsync?: boolean;
   isMulti?: true;
   loadOptions?: (inputValue: string) => Promise<OptionType[]>;
 }
 
-export default function Select({
-  isMulti,
-  label,
-  id,
-  isAsync = false,
-  loadOptions,
-  ...props
-}: SelectProps) {
-  const [selectedOption, setSelectedOption] = useState<
-    OptionType | OptionType[] | null
-  >(null);
+const Select = forwardRef(
+  (
+    {
+      isMulti,
+      label,
+      id,
+      isAsync = false,
+      loadOptions,
+      onChange,
+      ...props
+    }: SelectProps,
+    ref: React.Ref<any>
+  ) => {
+    const [selectedOption, setSelectedOption] = useState<
+      OptionType | OptionType[] | null
+    >(null);
 
-  const handleChange = (option: OptionType | OptionType[] | null) => {
-    setSelectedOption(option);
-  };
+    const handleChange = (option: OptionType | OptionType[] | null) => {
+      onChange && onChange(option);
+      setSelectedOption(option);
+    };
 
-  return (
-    <div className={styles.inputContainer}>
-      {label && (
-        <label htmlFor={id} className={styles.inputLabel}>
-          {label}
-        </label>
-      )}
-      {isAsync ? (
-        <AsyncSelect
-          loadOptions={loadOptions}
-          styles={selectStyles}
-          id={id}
-          value={selectedOption as any}
-          onChange={handleChange as any}
-          isMulti={isMulti}
-        />
-      ) : (
-        <ReactSelect
-          {...props}
-          id={id}
-          isMulti={isMulti}
-          value={selectedOption}
-          onChange={handleChange as any}
-          styles={selectStyles}
-        />
-      )}
-    </div>
-  );
-}
+    return (
+      <div className={styles.inputContainer}>
+        {label && (
+          <label htmlFor={id} className={styles.inputLabel}>
+            {label}
+          </label>
+        )}
+        {isAsync ? (
+          <AsyncSelect
+            loadOptions={loadOptions}
+            styles={selectStyles}
+            id={id}
+            value={selectedOption as any}
+            onChange={handleChange as any}
+            isMulti={isMulti}
+            ref={ref}
+          />
+        ) : (
+          <ReactSelect
+            {...props}
+            id={id}
+            isMulti={isMulti}
+            value={selectedOption}
+            onChange={handleChange as any}
+            styles={selectStyles}
+            ref={ref}
+          />
+        )}
+      </div>
+    );
+  }
+);
 
 const selectStyles = {
   control: (
@@ -149,3 +159,5 @@ const selectStyles = {
     fontWeight: state.isFocused ? "600" : "500",
   }),
 };
+
+export default Select;

@@ -1,18 +1,28 @@
-import { signUpRequest } from "../../../services/auth";
 import { MultiStepForm } from "../MultiStepForm/MultiStepForm";
 import { YourBusiness } from "./Steps/YourBusiness";
 import { BasicInfo } from "./Steps/BasicInfo";
 import { AccountType } from "./Steps/AccountType";
+import { Role } from "../../../types/user";
+import { SignUpType } from "./Steps/SignUpType";
+import { useState } from "react";
+import FormHeader from "../FormHeader/FormHeader";
+import GoogleAuth from "../../GoogleAuth/GoogleAuth";
+import Button, { ButtonStyles } from "../../Button/Button";
 
 type SignUpFormData = {
-  // Define your sign-in form fields here
-  fullName: string;
+  name: string;
   email: string;
-  username: string;
   password: string;
-  userType: "propertyManager" | "vendor";
-  vendorInfo?: {};
-  propertyManagerInfo?: {};
+  role: Role;
+  vendorInfo?: {
+    businessName: string;
+    phone: string;
+    location: string;
+    services: string[];
+  };
+  propertyManagerInfo?: {
+    businessName: string;
+  };
 };
 
 interface SignUpFormProps {
@@ -20,28 +30,36 @@ interface SignUpFormProps {
 }
 
 export default function SignUpForm({ setToken }: SignUpFormProps) {
-  const onSubmit = async (signUpFormData: SignUpFormData) => {
+  const [googleCredential, setGoogleCredential] = useState<string | undefined>(
+    undefined
+  );
+  const [createUserStage, setCreateUserStage] = useState<boolean>(false);
+
+  const onSubmit = async (signUpFormData: any) => {
     console.log(signUpFormData);
 
-    const response = await signUpRequest(signUpFormData);
+    // const response = await signUpRequest(signUpFormData);
 
-    if (response.accessToken) {
-      setToken(response.accessToken);
-    }
+    // if (response.accessToken) {
+    //   setToken(response.accessToken);
+    // }
   };
 
-  const steps = [BasicInfo, AccountType, YourBusiness];
+  const steps = [SignUpType, BasicInfo, AccountType, YourBusiness];
 
   return (
     <MultiStepForm
       steps={steps}
       submit={onSubmit}
       defaultValues={{
-        name: "",
-        email: "",
-        password: "",
-        userRole: "",
+        role: Role.PROPERTY_MANAGER,
       }}
+      stepModificationRules={[
+        {
+          removeStepIndex: 1,
+          condition: (formData) => formData.googleCredential !== undefined,
+        },
+      ]}
     />
   );
 }

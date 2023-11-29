@@ -1,6 +1,6 @@
-import { useState } from "react";
-import styles from "./CardRadio.module.scss";
 import React from "react";
+
+import styles from "./CardRadio.module.scss";
 
 export interface RadioOption {
   value: string;
@@ -21,9 +21,9 @@ const CardRadioGroup = React.forwardRef<
   HTMLInputElement,
   RadioButtonGroupProps
 >(({ options, name, onChange, value }, ref) => (
-  <div className="radio-group">
+  <div className={styles.RadioCardGroup}>
     {options.map((option) => (
-      <React.Fragment key={option.value}>
+      <div key={option.value} className={styles.RadioCard}>
         <input
           ref={ref} // Attach ref provided by Controller to each radio input
           type="radio"
@@ -32,13 +32,13 @@ const CardRadioGroup = React.forwardRef<
           value={option.value}
           checked={value === option.value}
           onChange={(e) => onChange(option.value)} // Pass the value to the onChange handler
-          className="radio-input"
+          className={styles.RadioCardInput}
         />
-        <label htmlFor={option.value} className="radio-label">
+        <label htmlFor={option.value} className={styles.radioCardLabel}>
           {option.icon && <span className="icon">{option.icon}</span>}
           {option.label}
         </label>
-      </React.Fragment>
+      </div>
     ))}
   </div>
 ));

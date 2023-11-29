@@ -56,7 +56,6 @@ const userSchema = new Schema<IUserDocument>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: false },
   name: { type: String },
-  searchRadius: { type: String, required: false },
   bio: { type: String, required: false },
   profilePhoto: { type: String, required: false },
   messages: {

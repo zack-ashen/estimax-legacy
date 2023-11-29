@@ -1,4 +1,3 @@
-import { Obj } from ".";
 import { Location } from './index';
 
 export type Address = {
@@ -47,9 +46,4 @@ export type MessageText = {
 export type Message = {
   message: MessageText
   replies: MessageText[]
-}
-
-
-export type ProjectDraft = Omit<Project, 'id'> & {
-  location: Obj
 }

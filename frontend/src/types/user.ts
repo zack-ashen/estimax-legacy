@@ -4,7 +4,7 @@ export interface User {
     uid: string;
     email: string;
     password?: string;
-    role: Roles;
+    role: Role;
     name: string;
     bio?: string;
     profilePhoto?: string;
@@ -23,7 +23,7 @@ export interface Message {
     sender: boolean;
 }
 
-export enum Roles { 
-    CONTRACTOR = 'Contractor', 
-    HOMEOWNER = 'Homeowner' 
+export enum Role { 
+    VENDOR = 'vendor', 
+    PROPERTY_MANAGER = 'property_manager' 
 }

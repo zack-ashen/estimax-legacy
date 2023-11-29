@@ -1,62 +1,11 @@
 @import '../shared';
 
-.stepsContainer {
-    padding: $spacing-3;
-    border: solid 1px $grey-200;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 0.5rem;
-    background-color: $grey-25;
-    width: fit-content;
-    margin: 0 auto $spacing-6 auto;
-    gap: $spacing-10;
-
-
-    .stepContainer {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: $spacing-3;
-
-        .stepTitle {
-            @include typography('md', 'medium');
-            color: $grey-400;
-        }
-
-        .stepTitleSelected {
-            @include typography('md', 'semi-bold')
-        }
-
-        .stepIndexContainer, .stepIndexContainerSelected {
-            height: 1.5rem;
-            width: 1.5rem;
-            border-radius: 0.25rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            .stepIndexSelected, .stepIndex {
-                @include typography('sm', 'medium');
-            }
-        }
-
-        .stepIndexContainer {
-            background-color: $grey-300;
-            
-        }
-
-        .stepIndexContainerSelected {
-            background-color: $blue-800;
-            
-            .stepIndexSelected {
-                color: white;
-            }
-        }
-    }
-}
 
 .multiForm {
     margin-top: $spacing-5;
+}
+
+.stepIndicator {
+    @include typography('xs', 'medium');
+    color: $grey-500;
 }

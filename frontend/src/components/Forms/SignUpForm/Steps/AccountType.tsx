@@ -2,15 +2,16 @@ import { Controller, useFormContext } from "react-hook-form";
 import CardRadioGroup, {
   RadioOption,
 } from "../../../Inputs/CardRadio/CardRadio";
+import { Role } from "../../../../types";
 
 const radioOptions: RadioOption[] = [
   {
-    value: "property_manager",
+    value: Role.PROPERTY_MANAGER,
     label: "Property Manager",
     // icon: <PropertyManagerIcon />, // Your icon components here
   },
   {
-    value: "vendor",
+    value: Role.VENDOR,
     label: "Vendor",
     // icon: <VendorIcon />,
   },
@@ -22,7 +23,7 @@ function AccountTypeElement() {
   return (
     <Controller
       control={control}
-      name="userRole"
+      name="role"
       render={({ field: { onChange, onBlur, value, name, ref } }) => (
         <CardRadioGroup
           name={name}

@@ -1,11 +1,11 @@
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import TextInput from "../../../Inputs/TextInput/TextInput";
 import Select from "../../../Inputs/Select/Select";
 import LocationSelect from "../../../Inputs/LocationSelect/LocationSelect";
 import { ServicesOptions } from "../../../../data/options";
 
 const YourBusinessElement = () => {
-  const { register, watch } = useFormContext();
+  const { register, watch, control } = useFormContext();
 
   const userType = watch("userRole");
 
@@ -17,12 +17,30 @@ const YourBusinessElement = () => {
         {...register("businessName")}
       />
       <TextInput id="phone" label="Phone" {...register("phone")} />
-      <LocationSelect id={"location-search"} label={"Location"} type="cities" />
-      <Select
-        label="Services Offered"
-        options={ServicesOptions}
-        id="business-type"
-        isMulti
+      <Controller
+        name="location"
+        control={control}
+        render={({ field }) => (
+          <LocationSelect
+            id={"location-search"}
+            label={"Location"}
+            type="cities"
+            {...field}
+          />
+        )}
+      />
+      <Controller
+        name="services"
+        control={control}
+        render={({ field }) => (
+          <Select
+            label="Services Offered"
+            options={ServicesOptions}
+            id="business-type"
+            {...field}
+            isMulti
+          />
+        )}
       />
       <TextInput
         id="business-description"

@@ -8,8 +8,8 @@ import { createUser, getUser } from '../controllers/userController';
 import { ServerError } from '../middleware/errors';
 import { IHomeowner } from '../models/homeowner';
 import { IContractor } from '../models/contractor';
-import { signInEvent, signOutEvent, signUpEvent } from '../util/analytics';
-import { sendSignUpEmail } from '../util/email';
+import { signInEvent, signOutEvent, signUpEvent } from '../services/analytics';
+import { sendSignUpEmail } from '../services/email';
 
 const router = express.Router();
 

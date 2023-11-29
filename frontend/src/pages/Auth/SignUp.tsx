@@ -11,7 +11,7 @@ interface SignUpProps {
 export default function SignUp({ setToken }: SignUpProps) {
   return (
     <AuthLayout>
-      <Card width={CardWidth.SM} align={"left"}>
+      <Card width={CardWidth.XS} align={"left"}>
         <SignUpForm setToken={setToken} />
       </Card>
     </AuthLayout>
