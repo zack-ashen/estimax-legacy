@@ -65,7 +65,6 @@ export function MultiStepForm({
   const CurrentStepComponent = activeSteps[currentStep]?.Element;
 
   const handleStepSubmit = (data: any) => {
-    console.log(data);
     updateActiveSteps(data);
     if (currentStep === activeSteps.length - 1) {
       submit(data);

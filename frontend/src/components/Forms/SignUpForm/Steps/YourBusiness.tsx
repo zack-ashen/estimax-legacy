@@ -12,7 +12,7 @@ const YourBusinessElement = () => {
     formState: { errors },
   } = useFormContext();
 
-  const userType = watch("userRole");
+  const userType = watch("role");
 
   return userType === "vendor" ? (
     <>
@@ -31,7 +31,7 @@ const YourBusinessElement = () => {
       />
       <TextInput id="phone" label="Phone" {...register("phone")} />
       <Controller
-        name="vendor.location"
+        name="location"
         control={control}
         render={({ field }) => (
           <LocationSelect

@@ -2,8 +2,10 @@ import Vendor, { IVendor } from "../../models/Vendor/vendor";
 import PropertyManager, {
   IPropertyManager,
 } from "../../models/propertyManager";
+import { LocationArea } from "../../models/sub-schema/locationArea";
 import { Role } from "../../types";
 import { PropertyManagerDto, VendorDto } from "../../types/dtos";
+import LocationService from "../locationService";
 
 class UserFactory {
   public static async create(
@@ -20,7 +22,10 @@ class UserFactory {
   }
 
   private static async createVendor(vendorDto: VendorDto): Promise<IVendor> {
-    const vendor = new Vendor(vendorDto);
+    const vendorLocationArea: LocationArea =
+      await LocationService.locationAreaFromPlaceId(vendorDto.location);
+
+    const vendor = new Vendor({ ...vendorDto, location: vendorLocationArea });
     await vendor.save();
     return vendor;
   }

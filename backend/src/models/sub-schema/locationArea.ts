@@ -1,16 +1,21 @@
 import { Schema } from "mongoose";
 
+export type Coordinates = [
+  [number, number],
+  [number, number],
+  [number, number],
+  [number, number],
+  [number, number]
+];
+
+export interface Region {
+  type: "Polygon";
+  coordinates: Coordinates;
+}
+
 export interface LocationArea {
   name: string;
-  region: {
-    type: "Polygon";
-    coordinates: [
-      [number, number],
-      [number, number],
-      [number, number],
-      [number, number]
-    ];
-  };
+  region: Region;
   placeId: string;
 }
 

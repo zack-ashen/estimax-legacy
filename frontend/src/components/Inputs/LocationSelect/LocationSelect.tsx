@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
-import Select from "../Select/Select";
+import { LocationService } from "../../../services/location";
 import { OptionType } from "../../Inputs/Select/Select";
-import { locationSearch } from "../../../services/map";
+import Select from "../Select/Select";
 
 interface LocationSelectProps {
   id: string;
@@ -16,7 +16,7 @@ const LocationSelect = forwardRef(
       inputValue: string
     ): Promise<OptionType[]> => {
       try {
-        const response = await locationSearch(inputValue, type);
+        const response = await LocationService.search(inputValue, type, 5);
 
         return response.locations.map((location: any) => ({
           value: location.place_id, // or any unique identifier

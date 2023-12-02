@@ -12,7 +12,16 @@ export default function SignUpForm() {
   const { setToken } = useNonAuth();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const { confirmPassword, ...signUpData } = data;
+    const { confirmPassword, ...formData } = data;
+
+    // edit for vendor
+    let signUpData = formData;
+    if (formData.role === Role.VENDOR) {
+      signUpData.location = formData.location.value;
+      signUpData.services = formData.services.map(
+        (service: { value: string; label: string }) => service.value
+      );
+    }
 
     if (signUpData.googleCredential) {
       const { googleCredential, ...userDto } = signUpData;

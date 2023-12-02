@@ -9,6 +9,8 @@ export interface CreateUserDto
 
 export interface VendorDto
   extends CreateUserDto,
-    Pick<IVendor, "vendorType" | "phoneNumber" | "location"> {}
+    Pick<IVendor, "services" | "phoneNumber"> {
+  location: string; // placeid
+}
 
 export interface PropertyManagerDto extends CreateUserDto {}

@@ -1,14 +1,111 @@
+import {
+  Client,
+  LatLngBounds,
+  PlaceAutocompleteRequest,
+  PlaceAutocompleteResponseData,
+  PlaceAutocompleteType,
+} from "@googlemaps/google-maps-services-js";
 import { LRUCache } from "lru-cache";
 import { LocationArea } from "../models/sub-schema/locationArea";
+import { Coordinates, Region } from "./../models/sub-schema/locationArea";
 
 export class LocationService {
-  cache: LRUCache<string, LocationArea>;
+  cache: LRUCache<{ [x: string]: any }, PlaceAutocompleteResponseData>;
+  googleMapsClient: Client;
+  apiKey: string;
 
   constructor() {
-    this.cache = new LRUCache<string, LocationArea>({
+    this.cache = new LRUCache<
+      { [k: string]: any },
+      PlaceAutocompleteResponseData
+    >({
       max: 2000, // max number of items
       ttl: 1209600000, // items expire after 2 weeks
     });
+    this.googleMapsClient = new Client({});
+    this.apiKey = process.env.GOOGLE_MAPS_API!;
+  }
+
+  async search(limit: number, type: string, value: string) {
+    const cachedLocation = this.cache.get({ type, value });
+
+    if (cachedLocation) {
+      return cachedLocation.predictions.slice(0, limit);
+    }
+
+    const suggestions = await this.getPlaceSuggestions(value, type);
+
+    this.cache.set({ limit, type, value }, suggestions);
+
+    return suggestions.predictions.slice(0, limit);
+  }
+
+  public async getPlaceSuggestions(
+    value: string,
+    type: string
+  ): Promise<PlaceAutocompleteResponseData> {
+    const params: PlaceAutocompleteRequest = {
+      params: {
+        input: value,
+        components: ["country:us"],
+        key: this.apiKey,
+        types:
+          type === "cities"
+            ? PlaceAutocompleteType.cities
+            : PlaceAutocompleteType.address,
+      },
+    };
+
+    const response = await this.googleMapsClient.placeAutocomplete(params);
+    return response.data;
+  }
+
+  public async getPlaceDetails(placeId: string) {
+    const placeDetails = await this.googleMapsClient.placeDetails({
+      params: {
+        key: this.apiKey,
+        place_id: placeId,
+      },
+    });
+
+    return placeDetails.data.result;
+  }
+
+  // Precondition: placeId is for a region, not a specific address
+  public async locationAreaFromPlaceId(placeId: string): Promise<LocationArea> {
+    const placeDetails = await this.getPlaceDetails(placeId);
+
+    if (!placeDetails.geometry) {
+      throw new Error("Place details missing geometry");
+    }
+
+    const viewport = placeDetails.geometry.viewport;
+    const region: Region = {
+      type: "Polygon",
+      coordinates: this.viewportToPolygon(viewport),
+    };
+    const name = placeDetails.name!;
+
+    return {
+      placeId,
+      region,
+      name,
+    };
+  }
+
+  private viewportToPolygon(viewport: LatLngBounds): Coordinates {
+    const { northeast, southwest } = viewport;
+    const { lat: north, lng: east } = northeast;
+    const { lat: south, lng: west } = southwest;
+
+    // Coordinates array should form a closed loop, tracing around the rectangle
+    return [
+      [west, north], // Northwest corner
+      [east, north], // Northeast corner
+      [east, south], // Southeast corner
+      [west, south], // Southwest corner
+      [west, north], // Back to Northwest corner to close the loop
+    ];
   }
 }
 

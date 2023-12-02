@@ -4,7 +4,7 @@ import { IUser, User } from "../user";
 import ReviewSchema, { IReview } from "./review";
 
 export interface IVendor extends IUser {
-  vendorType: string[];
+  services: string[];
   phoneNumber: string;
   savedProjects: Types.ObjectId[];
   securedProjects: Types.ObjectId[];
@@ -18,7 +18,7 @@ export interface IVendor extends IUser {
 const Vendor = User.discriminator(
   "Vendor",
   new Schema<IVendor>({
-    vendorType: {
+    services: {
       type: [String],
       required: true,
       default: [],
