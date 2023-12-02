@@ -6,6 +6,7 @@ import { AuthProvider } from "./contexts/AuthContext/AuthProvider";
 import { NonAuthProvider } from "./contexts/NonAuthContext/NonAuthProvider";
 import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
+import CreateProperty from "./pages/CreateProperty/CreateProperty";
 import Landing from "./pages/Landing/Landing";
 import PMDashboard from "./pages/PMDashboard/PMDashboard";
 import VendorDashboard from "./pages/VendorDashboard/VendorDashboard";
@@ -50,7 +51,16 @@ function App() {
             />
           }
         />
-        <Route path="/" element={<PMDashboard />} />
+        <Route
+          path="/create-property"
+          element={
+            <PrivateRoute
+              componentMap={{
+                [Role.PROPERTY_MANAGER]: <CreateProperty />,
+              }}
+            />
+          }
+        />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </AuthProvider>

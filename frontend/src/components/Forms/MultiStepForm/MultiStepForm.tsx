@@ -22,15 +22,17 @@ interface MultiStepFormProps {
     noActionButtons?: boolean;
     Element: () => JSX.Element;
   }[];
-  defaultValues: any;
+  defaultValues?: any;
   submit: SubmitHandler<FieldValues>;
   stepModificationRules?: StepModificationRule[];
+  wideActionButtons?: boolean;
 }
 
 export function MultiStepForm({
   steps,
   submit,
   stepModificationRules,
+  wideActionButtons = true,
   defaultValues,
 }: MultiStepFormProps) {
   const methods = useForm({
@@ -95,12 +97,12 @@ export function MultiStepForm({
               altButtonDetails={{
                 text: "Back",
                 action: prevStep,
-                wide: true,
+                wide: wideActionButtons,
               }}
               submitButtonDetails={{
                 text:
                   currentStep === activeSteps.length - 1 ? "Submit" : "Next",
-                wide: true,
+                wide: wideActionButtons,
               }}
             />
           )}

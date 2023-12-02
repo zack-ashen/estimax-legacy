@@ -5,6 +5,7 @@ interface LinkSectionProps {
   links: {
     name: string;
     link: string;
+    Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   }[];
 }
 function LinkSection({ title, links }: LinkSectionProps) {
@@ -20,10 +21,42 @@ function LinkSection({ title, links }: LinkSectionProps) {
   );
 }
 
+const linkSections: LinkSectionProps[] = [
+  {
+    links: [
+      {
+        name: "Dashboard",
+        link: "/",
+      },
+      {
+        name: "Favorite Vendors",
+        link: "/vendors",
+      },
+    ],
+  },
+  {
+    title: "Properties",
+    links: [
+      {
+        name: "Properties",
+        link: "/properties",
+      },
+      {
+        name: "Add Property",
+        link: "/properties/add",
+      },
+    ],
+  },
+];
+
 export default function PMSidebar() {
   return (
     <div className={styles.PMSidebar}>
-      <h3>Estimax</h3>
+      <p className={styles.sectionHeader}>Estimax</p>
+      <div className={styles.options}>
+        <div className={styles.topSection}></div>
+        <div className={styles.bottomSection}></div>
+      </div>
     </div>
   );
 }

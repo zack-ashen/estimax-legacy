@@ -1,5 +1,18 @@
+import { useNavigate } from "react-router-dom";
+import Button, { ButtonStyles } from "../../components/Button/Button";
 import PMLayout from "../../components/Layouts/PMLayout/PMLayout";
 
 export default function PMDashboard() {
-  return <PMLayout pageTitle="Dashboard"></PMLayout>;
+  const navigate = useNavigate();
+  return (
+    <PMLayout pageTitle="Dashboard">
+      <div>
+        <Button
+          buttonStyle={ButtonStyles.PRIMARY}
+          onClick={() => navigate("/create-property")}
+          text="Create Property"
+        />
+      </div>
+    </PMLayout>
+  );
 }
