@@ -1,6 +1,10 @@
 import { createContext, useContext } from "react";
+import { User } from "./AuthProvider";
 
-interface AuthContextProps {}
+interface AuthContextProps {
+  user: User;
+  signout: () => void;
+}
 
 export const AuthContext = createContext<AuthContextProps | null>(null);
 
