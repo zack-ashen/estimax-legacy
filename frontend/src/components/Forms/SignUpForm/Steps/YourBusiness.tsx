@@ -37,6 +37,7 @@ const YourBusinessElement = () => {
           <LocationSelect
             id={"location-search"}
             label={"Location"}
+            currentOption={field.value}
             type="cities"
             {...field}
           />
@@ -50,6 +51,7 @@ const YourBusinessElement = () => {
             label="Services Offered"
             options={ServicesOptions}
             id="business-type"
+            currentOption={field.value}
             {...field}
             isMulti
           />

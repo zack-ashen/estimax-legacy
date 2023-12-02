@@ -1,13 +1,17 @@
+import { MediaInput } from "../../../Inputs/MediaInput/MediaInput";
+
 const UploadMediaElement = () => {
   return (
-    <div>
-      <h1>Basic Info</h1>
-    </div>
+    <MediaInput
+      id="property-media-input"
+      label="Please upload any PNGs, JPGs, or PDFs related to your property."
+    />
   );
 };
 
 export const UploadMedia = {
-  title: "Property Info",
+  title: "Upload Attachments",
   Element: UploadMediaElement,
-  description: "Please enter some basic details about your property.",
+  description:
+    "Please upload any relevant attachments or media for this property.",
 };

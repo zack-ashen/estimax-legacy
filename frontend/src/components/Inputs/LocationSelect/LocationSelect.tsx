@@ -1,17 +1,28 @@
 import { forwardRef } from "react";
 import { LocationService } from "../../../services/location";
-import { OptionType } from "../../Inputs/Select/Select";
-import Select from "../Select/Select";
+import Select, { OptionType } from "../Select/Select";
 
 interface LocationSelectProps {
   id: string;
   label?: string;
   type: "cities" | "address";
   onChange?: (...event: any[]) => void;
+  placeholder?: string;
+  currentOption?: OptionType | OptionType[] | null;
 }
 
 const LocationSelect = forwardRef(
-  ({ id, label, type, onChange }: LocationSelectProps, ref: React.Ref<any>) => {
+  (
+    {
+      id,
+      label,
+      type,
+      onChange,
+      placeholder,
+      currentOption,
+    }: LocationSelectProps,
+    ref: React.Ref<any>
+  ) => {
     const fetchLocations = async (
       inputValue: string
     ): Promise<OptionType[]> => {
@@ -35,6 +46,8 @@ const LocationSelect = forwardRef(
         defaultOptions
         loadOptions={fetchLocations}
         onChange={onChange}
+        placeholder={placeholder}
+        currentOption={currentOption}
         ref={ref}
       />
     );

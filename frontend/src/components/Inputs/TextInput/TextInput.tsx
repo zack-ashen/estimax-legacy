@@ -1,13 +1,6 @@
-import React, {
-  ChangeEvent,
-  FunctionComponent,
-  SVGProps,
-  ForwardedRef,
-  useState,
-} from "react";
+import React, { ForwardedRef } from "react";
 import styles from "./TextInput.module.scss";
 
-// Define the prop types
 interface TextInputProps {
   id: string;
   label?: string;
@@ -18,7 +11,7 @@ interface TextInputProps {
 
 const TextInput = React.forwardRef(
   (
-    { label, error, ...props }: TextInputProps,
+    { id, label, error, ...props }: TextInputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const inputClassName = error
@@ -28,11 +21,11 @@ const TextInput = React.forwardRef(
     return (
       <div className={`${styles.textInputContainer} ${styles.inputContainer}`}>
         {label && (
-          <label htmlFor={props.id} className={styles.inputLabel}>
+          <label htmlFor={id} className={styles.inputLabel}>
             {label}
           </label>
         )}
-        <input {...props} ref={ref} className={inputClassName} />
+        <input {...props} id={id} ref={ref} className={inputClassName} />
         {error && <span className={styles.errorText}>{error}</span>}
       </div>
     );
