@@ -1,9 +1,13 @@
-import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
-
-import styles from "./MultiStepForm.module.scss";
+import {
+  FieldValues,
+  FormProvider,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import FormActions from "../FormActions/FormActions";
 import FormHeader from "../FormHeader/FormHeader";
+import styles from "./MultiStepForm.module.scss";
 
 interface StepModificationRule {
   condition: (formData: any) => boolean;
@@ -19,20 +23,19 @@ interface MultiStepFormProps {
     Element: () => JSX.Element;
   }[];
   defaultValues: any;
-  submit: (formData: any) => void;
+  submit: SubmitHandler<FieldValues>;
   stepModificationRules?: StepModificationRule[];
 }
 
-export const MultiStepForm = ({
+export function MultiStepForm({
   steps,
   submit,
   stepModificationRules,
   defaultValues,
-}: MultiStepFormProps) => {
+}: MultiStepFormProps) {
   const methods = useForm({
     defaultValues,
   });
-  const [activeSteps, setActiveSteps] = useState([...steps]);
   const [activeStepFlags, setActiveStepFlags] = useState(steps.map(() => true));
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -51,39 +54,44 @@ export const MultiStepForm = ({
 
   const nextStep = () => setCurrentStep((prevStep) => prevStep + 1);
   const prevStep = () => {
-    const formData = methods.getValues(); // Get current form data
+    const formData = methods.getValues();
     updateActiveSteps(formData);
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
-  const CurrentStepComponent = steps.filter(
-    (_, index) => activeStepFlags[index]
-  )[currentStep]?.Element;
+  // Calculate active steps based on flags
+  const activeSteps = steps.filter((_, index) => activeStepFlags[index]);
+
+  const CurrentStepComponent = activeSteps[currentStep]?.Element;
 
   const handleStepSubmit = (data: any) => {
-    // Update formData with new data
     console.log(data);
     updateActiveSteps(data);
-    nextStep();
+    if (currentStep === activeSteps.length - 1) {
+      submit(data);
+    } else {
+      nextStep();
+    }
   };
 
   return (
     <div className={styles.MultiStepForm}>
       <p className={styles.stepIndicator}>
-        Step {currentStep + 1}/{activeStepFlags.filter(Boolean).length}
+        Step {currentStep + 1}/{activeSteps.length}
       </p>
       <FormHeader
-        title={steps[currentStep].altHeader || steps[currentStep].title}
-        subtitle={steps[currentStep].description}
+        title={
+          activeSteps[currentStep]?.altHeader || activeSteps[currentStep]?.title
+        }
+        subtitle={activeSteps[currentStep]?.description}
       />
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit(handleStepSubmit)}
           className={`${styles.Form} ${styles.multiForm}`}
         >
-          <CurrentStepComponent />
-
-          {!steps[currentStep].noActionButtons && (
+          {CurrentStepComponent && <CurrentStepComponent />}
+          {!activeSteps[currentStep]?.noActionButtons && (
             <FormActions
               altButtonDetails={{
                 text: "Back",
@@ -91,7 +99,8 @@ export const MultiStepForm = ({
                 wide: true,
               }}
               submitButtonDetails={{
-                text: currentStep === steps.length - 1 ? "Submit" : "Next",
+                text:
+                  currentStep === activeSteps.length - 1 ? "Submit" : "Next",
                 wide: true,
               }}
             />
@@ -100,4 +109,4 @@ export const MultiStepForm = ({
       </FormProvider>
     </div>
   );
-};
+}

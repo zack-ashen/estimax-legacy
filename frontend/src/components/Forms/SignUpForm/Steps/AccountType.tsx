@@ -24,7 +24,7 @@ function AccountTypeElement() {
     <Controller
       control={control}
       name="role"
-      render={({ field: { onChange, onBlur, value, name, ref } }) => (
+      render={({ field: { onChange, value, name } }) => (
         <CardRadioGroup
           name={name}
           onChange={onChange}

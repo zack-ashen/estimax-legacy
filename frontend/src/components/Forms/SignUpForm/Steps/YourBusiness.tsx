@@ -1,16 +1,29 @@
 import { Controller, useFormContext } from "react-hook-form";
-import TextInput from "../../../Inputs/TextInput/TextInput";
-import Select from "../../../Inputs/Select/Select";
-import LocationSelect from "../../../Inputs/LocationSelect/LocationSelect";
 import { ServicesOptions } from "../../../../data/options";
+import LocationSelect from "../../../Inputs/LocationSelect/LocationSelect";
+import Select from "../../../Inputs/Select/Select";
+import TextInput from "../../../Inputs/TextInput/TextInput";
 
 const YourBusinessElement = () => {
-  const { register, watch, control } = useFormContext();
+  const {
+    register,
+    watch,
+    control,
+    formState: { errors },
+  } = useFormContext();
 
   const userType = watch("userRole");
 
   return userType === "vendor" ? (
     <>
+      <TextInput
+        id="basic-info-name"
+        type="text"
+        placeholder="Full Name"
+        label="Full Name"
+        error={errors.name?.message}
+        {...register("name", { required: "Name is required" })}
+      />
       <TextInput
         id="business-name"
         label="Business Name"
@@ -18,7 +31,7 @@ const YourBusinessElement = () => {
       />
       <TextInput id="phone" label="Phone" {...register("phone")} />
       <Controller
-        name="location"
+        name="vendor.location"
         control={control}
         render={({ field }) => (
           <LocationSelect
@@ -51,6 +64,14 @@ const YourBusinessElement = () => {
   ) : (
     <>
       <TextInput
+        id="basic-info-name"
+        type="text"
+        placeholder="Full Name"
+        label="Full Name"
+        error={errors.name?.message}
+        {...register("name", { required: "Name is required" })}
+      />
+      <TextInput
         id="business-name"
         label="Business Name"
         {...register("businessName")}
@@ -63,5 +84,4 @@ export const YourBusiness = {
   title: "Business Info",
   Element: YourBusinessElement,
   description: "Enter your business information",
-  defaultValues: {},
 };

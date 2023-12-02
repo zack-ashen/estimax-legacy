@@ -1,7 +1,7 @@
 import jwt, { Secret } from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express';
 
-import { TokenPayload } from '../types';
+import { TokenPayload } from '../../types';
 
 export function authenticate(scope: string) {
     return (req: Request, res: Response, next: NextFunction) => {
@@ -23,3 +23,5 @@ export function authenticate(scope: string) {
         }
     }
   }
+
+  

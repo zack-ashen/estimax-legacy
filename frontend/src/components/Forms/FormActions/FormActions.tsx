@@ -27,13 +27,15 @@ export default function FormActions({
             altButtonDetails.action && altButtonDetails.action();
           }}
           wide={altButtonDetails.wide}
+          tabIndex={0}
         />
       )}
       <Button
         buttonStyle={ButtonStyles.PRIMARY}
         text={submitButtonDetails.text}
         wide={submitButtonDetails.wide}
-        type={"submit"}
+        tabIndex={0}
+        type="submit"
       />
     </div>
   );

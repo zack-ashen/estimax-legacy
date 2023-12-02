@@ -7,9 +7,9 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
 // Routes
-import authRoutes from './routes/authRoutes'
+import authRoutes from './api/routes/authRoutes'
 
-import { errorHandler } from './middleware/errors'
+import { errorHandler } from './api/middleware/errors'
 
 
 // Load environment variables from .env file

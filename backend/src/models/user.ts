@@ -1,87 +1,56 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import { Roles } from '../types';
-
-export interface MessageThread {
-  recipient: Schema.Types.ObjectId;
-  messages: Message[];
-  projectId?: string;
-}
-
-export interface Message {
-  messageText: string;
-  timestamp: Date;
-  sender: boolean;
-}
-
-const MessageSchema = new Schema<Message>({
-  messageText: String,
-  timestamp: Date,
-  sender: Boolean
-})
-
-const MessageThreadSchema = new Schema<MessageThread>({
-  recipient: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  messages: {
-    type: [ MessageSchema ],
-    default: []
-  },
-  projectId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Project',
-    required: false
-  }
-})
+import mongoose, { Schema } from "mongoose";
+import { Role } from "../types";
 
 export interface IUser {
-  uid: string;
+  id: string;
   email: string;
   password?: string;
-  role: Roles;
+  role: Role;
   name: string;
-  searchRadius?: number;
   bio?: string;
   profilePhoto?: string;
-  messages?: MessageThread;
+  businessName: string;
 }
 
-interface IUserDocument extends IUser, Document {
-  __t?: string;
-}
-
-const userSchema = new Schema<IUserDocument>({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: false },
-  name: { type: String },
-  bio: { type: String, required: false },
-  profilePhoto: { type: String, required: false },
-  messages: {
-    type: [ MessageThreadSchema ],
-    default: []
-  }
-}, {
-  toJSON: { virtuals: true },
-  toObject: { 
-    transform: function (_, ret) {
-      delete ret.password;
-      delete ret.__v;
-      delete ret.__t;
-      delete ret._id;
-      return ret
+const userSchema = new Schema<IUser>(
+  {
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: false },
+    name: { type: String },
+    bio: { type: String, required: false },
+    profilePhoto: { type: String, required: false },
+    businessName: { type: String, required: false },
+    role: {
+      type: String,
+      enum: [Role.PROPERTY_MANAGER, Role.VENDOR],
+      required: true,
     },
-    virtuals: true 
+  },
+  {
+    toJSON: {
+      virtuals: true,
+      transform: function (doc, ret, options) {
+        delete ret.password;
+        delete ret.__v;
+        delete ret.__t;
+        delete ret._id;
+        return ret;
+      },
+    },
+    toObject: {
+      virtuals: true,
+      transform: function (_, ret) {
+        delete ret.__v;
+        delete ret.__t;
+        delete ret._id;
+        return ret;
+      },
+    },
   }
-});
+);
 
-userSchema.virtual('uid').get(function() {
+userSchema.virtual("id").get(function () {
   return this._id;
 });
 
-userSchema.virtual('role').get(function () {
-  return this.__t;
-});
-
-export const User = mongoose.model('User', userSchema)
+export const User = mongoose.model("User", userSchema);
