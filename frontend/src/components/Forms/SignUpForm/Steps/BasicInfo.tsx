@@ -18,8 +18,8 @@ function BasicInfoElement() {
           email: string,
           callback: (isValid: boolean | string) => void
         ) => {
-          const isValid = await AuthService.checkEmail(email);
-          callback(isValid);
+          const { emailExists } = await AuthService.checkEmail(email);
+          callback(!emailExists);
         },
         1000 // debounce time in ms
       ),

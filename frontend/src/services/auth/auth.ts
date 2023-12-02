@@ -10,7 +10,7 @@ export const AuthService = {
       data: signUpData,
     });
 
-    return response.data.token;
+    return { token: response.data.token };
   },
 
   signin: async (signInData: any) => {
@@ -20,7 +20,7 @@ export const AuthService = {
       data: signInData,
     });
 
-    return response.data.token;
+    return { token: response.data.token };
   },
 
   signout: async () => {
@@ -30,7 +30,7 @@ export const AuthService = {
       withCredentials: true,
     });
 
-    return response.data.message;
+    return { message: response.data.message };
   },
 
   googleAuth: async (googleAuthData: any, signUp: boolean) => {
@@ -41,7 +41,7 @@ export const AuthService = {
       params: { signUp },
     });
 
-    return response.data.token;
+    return { token: response.data.token };
   },
 
   checkEmail: async (email: string) => {
@@ -51,7 +51,7 @@ export const AuthService = {
       data: { email },
     });
 
-    return response.data.emailExists;
+    return { emailExists: response.data.emailExists };
   },
 
   refreshToken: async () => {
@@ -60,6 +60,6 @@ export const AuthService = {
       url: authUrl + "refresh",
     });
 
-    return response.data.token;
+    return { token: response.data.token };
   },
 };

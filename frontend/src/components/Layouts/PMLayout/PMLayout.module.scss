@@ -1,1 +1,11 @@
 @import "../../../styles/index";
+
+.PMLayout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.rightSection {
+  flex-grow: 1;
+}

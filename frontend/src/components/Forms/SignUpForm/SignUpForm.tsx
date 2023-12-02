@@ -16,7 +16,7 @@ export default function SignUpForm() {
 
     if (signUpData.googleCredential) {
       const { googleCredential, ...userDto } = signUpData;
-      const token = await AuthService.googleAuth(
+      const { token } = await AuthService.googleAuth(
         {
           googleCredential,
           userDto,
