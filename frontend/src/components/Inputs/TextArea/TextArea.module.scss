@@ -1,0 +1,24 @@
+@import "../shared";
+
+.textAreaContainer {
+  @extend .inputContainer;
+}
+
+.textAreaLabel {
+  @extend .inputLabel;
+}
+
+.TextArea {
+  @include typography("sm", "regular");
+  color: $grey-700;
+  border: 1px solid $grey-300;
+  border-radius: 0.5rem;
+  padding: $spacing-2;
+  transition: border-color 0.2s ease-in-out;
+  resize: none;
+
+  &:focus {
+    outline: none;
+    border-color: $blue-500;
+  }
+}

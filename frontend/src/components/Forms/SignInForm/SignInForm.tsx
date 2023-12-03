@@ -1,9 +1,11 @@
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Button, { ButtonStyles } from "../../Button/Button";
 import TextInput from "../../Inputs/TextInput/TextInput";
 
-import styles from "./SignInForm.module.scss";
+import { useNonAuth } from "../../../contexts/NonAuthContext/NonAuthContext";
+import { AuthService } from "../../../services/auth/auth";
 import GoogleAuth from "../../GoogleAuth/GoogleAuth";
+import styles from "./SignInForm.module.scss";
 
 interface SignInFormValues {
   email: string;
@@ -22,8 +24,12 @@ export default function SignInForm() {
     },
   });
 
-  const onSubmit = (data: SignInFormValues) => {
-    console.log(data);
+  const { setToken } = useNonAuth();
+
+  const onSubmit = async (data: SignInFormValues) => {
+    const { token } = await AuthService.signin(data);
+
+    setToken(token);
   };
 
   return (

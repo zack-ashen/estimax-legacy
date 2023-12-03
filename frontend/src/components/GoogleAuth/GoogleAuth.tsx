@@ -1,34 +1,47 @@
-import React from "react";
-import { useGoogleLogin } from "@react-oauth/google";
-import Button, { ButtonStyles } from "../Button/Button";
-import { useFormContext } from "react-hook-form";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { useState } from "react";
+import { useNonAuth } from "../../contexts/NonAuthContext/NonAuthContext";
+import { AuthService } from "../../services/auth/auth";
 
 interface GoogleAuthProps {
   setCredential?: (credential: string) => void;
+  onSubmit?: () => void;
   type: "signin" | "signup";
 }
 
-const GoogleAuth = ({ setCredential, type }: GoogleAuthProps) => {
-  const { formState } = useFormContext();
+const GoogleAuth = ({ setCredential, type, onSubmit }: GoogleAuthProps) => {
+  const { setToken } = useNonAuth();
+  const [buttonWidth, setButtonWidth] = useState(335);
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      setCredential && setCredential(tokenResponse.access_token);
-      // You can use the tokenResponse to get Google credentials or user info
-    },
-    onError: (error) => {
-      console.error("Login Failed:", error);
-    },
-    // You can add more configuration options here
-  });
+  const handleCallbackResponse = async ({
+    credential,
+    clientId,
+  }: CredentialResponse) => {
+    if (type === "signup") {
+      setCredential && setCredential(credential!);
+      onSubmit && onSubmit();
+    }
+
+    const result = await AuthService.googleAuth(
+      { googleCredential: credential! },
+      false
+    );
+    if (result?.token) {
+      setToken(result.token);
+    } else {
+      console.error("User doesn't exist");
+    }
+  };
 
   return (
-    <Button
-      buttonStyle={ButtonStyles.SECONDARY}
-      text="Login with Google"
-      onClick={() => googleLogin()}
-      type="submit"
-      wide
+    <GoogleLogin
+      theme="outline"
+      width={buttonWidth}
+      onSuccess={handleCallbackResponse}
+      onError={() => {
+        console.error("Login Failed");
+      }}
+      text="continue_with"
     />
   );
 };

@@ -1,18 +1,12 @@
 import Card, { CardWidth } from "../../components/Card/Card";
 import SignUpForm from "../../components/Forms/SignUpForm/SignUpForm";
 import AuthLayout from "../../components/Layouts/AuthLayout/AuthLayout";
-import Nib from "../../components/Nib/Nib";
-import styles from "./Auth.module.scss";
 
-interface SignUpProps {
-  setToken: React.Dispatch<React.SetStateAction<string | undefined>>;
-}
-
-export default function SignUp({ setToken }: SignUpProps) {
+export default function SignUp() {
   return (
     <AuthLayout>
       <Card width={CardWidth.XS} align={"left"}>
-        <SignUpForm setToken={setToken} />
+        <SignUpForm />
       </Card>
     </AuthLayout>
   );

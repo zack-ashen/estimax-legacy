@@ -27,3 +27,5 @@ yarn-error.log*
 landing/node_modules
 
 *.pem
+
+.vscode*

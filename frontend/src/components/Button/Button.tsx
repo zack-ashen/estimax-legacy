@@ -22,7 +22,7 @@ const Button = ({
   buttonStyle,
   onClick,
   Icon,
-  type,
+  type = "button",
   text,
   selected = false,
   wide = false,

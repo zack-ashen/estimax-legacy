@@ -1,11 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./NavLinks.module.scss";
 import Button, { ButtonStyles } from "../Button/Button";
+import styles from "./NavLinks.module.scss";
 
 interface NavLinksProps {
   links: {
     name: string;
     route: string;
+    Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   }[];
 }
 
@@ -15,12 +16,13 @@ export default function NavLinks({ links }: NavLinksProps) {
 
   return (
     <div className={styles.NavLinks}>
-      {links.map(({ name, route }) => (
+      {links.map(({ name, route, Icon }) => (
         <Button
           buttonStyle={ButtonStyles.TERTIARY}
           key={name}
           text={name}
           selected={location.pathname === route}
+          Icon={Icon}
           onClick={() => {
             location.pathname !== route && navigate(route);
           }}

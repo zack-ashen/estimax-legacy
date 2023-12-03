@@ -1,34 +1,70 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
-import Landing from "./pages/Landing/Landing";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import { AuthProvider } from "./contexts/AuthContext/AuthProvider";
+import { NonAuthProvider } from "./contexts/NonAuthContext/NonAuthProvider";
 import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
-import { signOutRequest } from "./services/auth";
+import CreateProperty from "./pages/CreateProperty/CreateProperty";
+import Landing from "./pages/Landing/Landing";
+import PMDashboard from "./pages/PMDashboard/PMDashboard";
+import VendorDashboard from "./pages/VendorDashboard/VendorDashboard";
+import { AuthService } from "./services/auth/auth";
+import { Role } from "./types";
 
 function App() {
   const [token, setToken] = useState<string | undefined>();
 
   useEffect(() => {
-    // Get an access token
+    AuthService.refreshToken()
+      .then((res) => setToken(res.token))
+      .catch((err) => {
+        console.error("Error refreshing token:", err);
+        // Handle the error appropriately
+      });
   }, []);
 
-  const signOut = () => {
-    setToken(undefined);
-    signOutRequest();
-  };
-
   const NotAuthenticated = () => (
-    <Routes>
-      <Route path="/" Component={Landing} />
-      <Route path="/signup" element={<SignUp setToken={setToken} />} />
-      <Route path="/signin" element={<SignIn signIn={setToken} />} />
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+    <NonAuthProvider setToken={setToken}>
+      <Routes>
+        <Route path="/" Component={Landing} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </NonAuthProvider>
   );
 
   // Routes if there is a VALID token and refresh token present
-  const Authenticated = () => <></>;
+  const Authenticated = () => (
+    <AuthProvider setToken={setToken} token={token!}>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PrivateRoute
+              componentMap={{
+                [Role.PROPERTY_MANAGER]: <PMDashboard />,
+                [Role.VENDOR]: <VendorDashboard />,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/create-property"
+          element={
+            <PrivateRoute
+              componentMap={{
+                [Role.PROPERTY_MANAGER]: <CreateProperty />,
+              }}
+            />
+          }
+        />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </AuthProvider>
+  );
 
   return token ? <Authenticated /> : <NotAuthenticated />;
 }

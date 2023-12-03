@@ -1,27 +1,20 @@
 import Button, { ButtonStyles } from "../../components/Button/Button";
-import {
-  GridColumn,
-  GridContainer,
-  GridRow,
-} from "../../components/GridLayout/GridLayout";
+import { GridContainer } from "../../components/GridLayout/GridLayout";
 import NavBar from "../../components/NavBar/NavBar";
-import NavLinks from "../../components/NavLinks/NavLinks";
 import styles from "./Landing.module.scss";
 
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Faq from "./FAQ/Faq";
 import Cta from "./CTA/Cta";
 import Footer from "./Footer/Footer";
 
 const LandingNavLinks = (
-  <NavLinks
-    links={[
-      { name: "Home", route: "/" },
-      { name: "About", route: "/about" },
-      { name: "Contact", route: "/contact" },
-    ]}
-  />
+  <div className={styles.landingLinks}>
+    <Button buttonStyle={ButtonStyles.LINK} text="How it Works" />
+    <Button buttonStyle={ButtonStyles.LINK} text="Features" />
+    <Button buttonStyle={ButtonStyles.LINK} text="Pricing" />
+    <Button buttonStyle={ButtonStyles.LINK} text="FAQ" />
+  </div>
 );
 
 const AuthButtons = () => {

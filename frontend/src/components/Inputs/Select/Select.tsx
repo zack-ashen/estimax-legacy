@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import ReactSelect, {
   CSSObjectWithLabel,
   ControlProps,
@@ -22,6 +22,7 @@ interface SelectProps
   label?: string;
   isAsync?: boolean;
   isMulti?: true;
+  currentOption?: OptionType | OptionType[] | null;
   loadOptions?: (inputValue: string) => Promise<OptionType[]>;
 }
 
@@ -34,6 +35,7 @@ const Select = forwardRef(
       isAsync = false,
       loadOptions,
       onChange,
+      currentOption,
       ...props
     }: SelectProps,
     ref: React.Ref<any>
@@ -41,6 +43,10 @@ const Select = forwardRef(
     const [selectedOption, setSelectedOption] = useState<
       OptionType | OptionType[] | null
     >(null);
+
+    useEffect(() => {
+      if (currentOption) setSelectedOption(currentOption);
+    }, []);
 
     const handleChange = (option: OptionType | OptionType[] | null) => {
       onChange && onChange(option);

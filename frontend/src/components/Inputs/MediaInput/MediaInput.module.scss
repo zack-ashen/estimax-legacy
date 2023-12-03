@@ -1,0 +1,49 @@
+@import "../shared";
+
+.mediaInput {
+  width: 100%;
+  border: solid 2px $blue-500;
+  border-radius: 0.5rem;
+  position: relative;
+  padding: $spacing-6;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.inputButton {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  &::file-selector-button {
+    display: block;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  &::file-selector-text {
+    display: none;
+  }
+}
+
+.mediaInputTextContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+}
+
+.mediaInputCTA {
+  @include typography("md", "semi-bold");
+  color: $blue-500;
+}
+
+.mediaInputLabel {
+  @include typography("sm", "regular");
+  color: $grey-600;
+}
