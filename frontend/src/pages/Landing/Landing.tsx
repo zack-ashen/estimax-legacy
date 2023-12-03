@@ -10,6 +10,9 @@ import styles from "./Landing.module.scss";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Faq from "./FAQ/Faq";
+import Cta from "./CTA/Cta";
+import Footer from "./Footer/Footer";
 
 const LandingNavLinks = (
   <NavLinks
@@ -50,7 +53,13 @@ function Landing() {
         middleChild={LandingNavLinks}
         rightChild={<AuthButtons />}
       />
-      <GridContainer></GridContainer>
+      <GridContainer>
+        <Faq />
+        <Cta />
+        <Footer />
+
+
+      </GridContainer>
     </div>
   );
 }

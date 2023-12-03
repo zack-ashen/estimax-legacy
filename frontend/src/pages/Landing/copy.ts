@@ -50,10 +50,10 @@ export type Copy = {
   featureHeader: string,
   featureFlow: IconSection[],
   faq: QuestionAnswer[],
-  finalPitchHeader: string
+  cta: string,
 }
 
-export const HomeownerCopy : Copy = {
+export const Copy : Copy = {
   howItWorksFlow: [
     {
       title: "Snap",
@@ -110,65 +110,5 @@ export const HomeownerCopy : Copy = {
       answer: "fdasfsadfasfsafd"
     }
   ],
-  finalPitchHeader: "It’s never been easier to connect with home service pros."
-}
-
-export const ContractorCopy : Copy = {
-  howItWorksFlow: [
-    {
-      title: "Scroll",
-      body: "Take pictures of your job and write a description about the project. ",
-      Icon: PhoneIcon,
-      image: ScrollImage
-    },
-    {
-      title: "Bid",
-      body: "Post your job and message service providers to understand their work.",
-      Icon: DollarIcon,
-      image: BidImage
-    },
-    {
-      title: "Win",
-      body: "Look at your service pros bids and background and pick your winner.",
-      Icon: TrophyIcon,
-      image: WinImage
-    }
-  ],
-  pitch: {
-    header: "Get Cheap Leads Faster",
-    body: "No more having to deal with not knowing whether the price a contractor is offering you is actually a fair or price or the lowest price you can get. With Estimax you get complete transparency. Multiple service providers bid against each other and legitimatize their bid with descriptions of the work they will provide."
-  },
-  featureHeader: "Tools to get your job done",
-  featureFlow: [
-    {
-      title: "Message",
-      body: "Homeowners post projects with written description, photos, and videos including any key details.",
-      Icon: MessageIcon
-    },
-    {
-      title: "Get Clear Estimates",
-      body: "Vetted service pros access a “social media” feed of projects in their area of expertise and submit anonymous questions and bids to homeowners.",
-      Icon: CalculatorIcon
-    },
-    {
-      title: "Invite Contractors",
-      body: "Homeowners answer questions in the public Q&A, evaluate their list of blinded bids alongside reviews of each pro, and select their winner.",
-      Icon: PersonAddIcon
-    }
-  ],
-  faq: [
-    {
-      question: "What if I already know a contractor that would be great for the job?",
-      answer: ""
-    },
-    {
-      question: "I’m on a time crunch though and I don’t have time to wait for bids. How quickly can I find a contractor?",
-      answer: ""
-    },
-    {
-      question: "Do I always have to pick the contractor with the lowest bid?",
-      answer: ""
-    }
-  ],
-  finalPitchHeader: "It’s never been easier to connect with homeowners."
+  cta: "Start your one month free trial today"
 }
