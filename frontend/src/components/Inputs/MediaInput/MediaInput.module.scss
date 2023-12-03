@@ -7,6 +7,9 @@
   position: relative;
   padding: $spacing-6;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
 }
 
 .inputButton {
@@ -27,4 +30,20 @@
   &::file-selector-text {
     display: none;
   }
+}
+
+.mediaInputTextContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+}
+
+.mediaInputCTA {
+  @include typography("md", "semi-bold");
+  color: $blue-500;
+}
+
+.mediaInputLabel {
+  @include typography("sm", "regular");
+  color: $grey-600;
 }
