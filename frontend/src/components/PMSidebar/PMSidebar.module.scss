@@ -24,10 +24,10 @@
   color: $grey-400;
 }
 
-.linkSection {
+.linksContainer {
   display: flex;
   flex-direction: column;
-  gap: $spacing-2;
+  gap: $spacing-3;
 }
 
 .sidebarLink {
@@ -37,10 +37,9 @@
   flex-direction: row;
   gap: $spacing-2;
   align-items: center;
-  padding: $spacing-3 $spacing-4;
+  padding: $spacing-2 $spacing-3;
   border-radius: 0.5rem;
   transition: background-color 0.2s ease-in-out;
-  border: solid 1px transparent;
 
   .sidebarIcon {
     width: 1rem;
@@ -54,15 +53,13 @@
   }
 
   &.selected {
-    background-color: white;
-    border: solid 1px $blue-100;
-    color: $grey-800;
-    box-shadow: 0.4px 0.4px 2.5px rgba(177, 182, 216, 0.3);
+    background-color: $blue-100;
+    color: $blue-700;
 
     .sidebarIcon {
       width: 1rem;
       path {
-        stroke: $grey-800;
+        stroke: $blue-700;
       }
     }
   }

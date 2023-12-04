@@ -43,18 +43,20 @@ function LinkSection({ title, links }: LinkSectionProps) {
   return (
     <div className={styles.linkSection}>
       {title && <p className={styles.sidebarTitle}>{title.toUpperCase()}</p>}
-      {links.map(({ name, link, Icon }) => (
-        <button
-          className={`${styles.sidebarLink} ${
-            styles[location.pathname === link ? "selected" : ""]
-          }`}
-          key={name}
-          onClick={() => navigate(link)}
-        >
-          {Icon && <Icon className={styles.sidebarIcon} />}
-          {name}
-        </button>
-      ))}
+      <div className={styles.linksContainer}>
+        {links.map(({ name, link, Icon }) => (
+          <button
+            className={`${styles.sidebarLink} ${
+              styles[location.pathname === link ? "selected" : ""]
+            }`}
+            key={name}
+            onClick={() => navigate(link)}
+          >
+            {Icon && <Icon className={styles.sidebarIcon} />}
+            {name}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
