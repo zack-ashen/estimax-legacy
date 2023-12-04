@@ -76,6 +76,16 @@ export function MultiStepForm({
     }
   };
 
+  const backStep = () => {
+    if (currentStep !== 0)
+      return {
+        text: "Back",
+        action: prevStep,
+        wide: wideActionButtons,
+      };
+    return undefined;
+  };
+
   return (
     <div className={styles.MultiStepForm}>
       <p className={styles.stepIndicator}>
@@ -95,11 +105,7 @@ export function MultiStepForm({
           {CurrentStepComponent && <CurrentStepComponent />}
           {!activeSteps[currentStep]?.noActionButtons && (
             <FormActions
-              altButtonDetails={{
-                text: "Back",
-                action: prevStep,
-                wide: wideActionButtons,
-              }}
+              altButtonDetails={backStep()}
               submitButtonDetails={{
                 text:
                   currentStep === activeSteps.length - 1 ? "Submit" : "Next",

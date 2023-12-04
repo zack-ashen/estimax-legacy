@@ -1,0 +1,31 @@
+@import "../../../styles/index";
+
+.MetricCard {
+  @include card;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: $spacing-9;
+  align-items: center;
+  padding: $spacing-5 $spacing-6;
+}
+
+.metricLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  @include typography("md", "regular");
+  color: $grey-700;
+}
+
+.metric {
+  @include typography("lg", "medium");
+}
+
+.Icon {
+  path {
+    stroke-width: 1.5px;
+  }
+}

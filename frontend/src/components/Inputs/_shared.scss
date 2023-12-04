@@ -1,16 +1,19 @@
-@import '../../styles/index';
-
+@import "../../styles/index";
 
 .inputContainer {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-2;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
 }
 
-
 .inputLabel {
-    @include typography('sm', 'medium');
+  @include typography("sm", "medium");
   color: $grey-700;
   font-weight: 500;
   pointer-events: none;
+}
+
+.errorText {
+  @include typography("sm", "medium");
+  color: $red-500 !important;
 }

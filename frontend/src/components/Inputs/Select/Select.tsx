@@ -46,7 +46,7 @@ const Select = forwardRef(
 
     useEffect(() => {
       if (currentOption) setSelectedOption(currentOption);
-    }, []);
+    }, [currentOption]);
 
     const handleChange = (option: OptionType | OptionType[] | null) => {
       onChange && onChange(option);

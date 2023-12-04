@@ -1,13 +1,14 @@
 const VendorSelectionElement = () => {
   return (
     <div>
-      <h1>Basic Info</h1>
+      <h1>TODO</h1>
     </div>
   );
 };
 
 export const VendorSelection = {
-  title: "Property Info",
+  title: "Preferred Vendors",
   Element: VendorSelectionElement,
-  description: "Please enter some basic details about your property.",
+  description:
+    "Add some of your preferred vendors for this property, if you have them.",
 };

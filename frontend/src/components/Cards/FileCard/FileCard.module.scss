@@ -1,0 +1,33 @@
+@import "../../../styles/index";
+
+.FileCard {
+  @include card;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-3 $spacing-4;
+}
+
+.fileLeft {
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-4;
+  align-items: center;
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.fileName {
+  @include typography("sm", "medium");
+  color: $grey-700;
+}
+
+.fileSize {
+  @include typography("sm", "regular");
+  color: $grey-600;
+}

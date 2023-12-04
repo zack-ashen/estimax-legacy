@@ -1,5 +1,4 @@
-@import '../shared';
-
+@import "../shared";
 
 .textInputContainer {
   position: relative;
@@ -17,13 +16,13 @@
   margin: 1px;
   transition: border-color 0.2s ease-in-out;
   transition: width 0.5s ease-in-out;
-  font-family: 'Inter';
-  @include typography('md', 'regular');
+  font-family: "Inter";
+  @include typography("md", "regular");
   padding: 0.5rem 0.75rem;
   vertical-align: middle;
 
   &.medium {
-    @include typography('sm', 'medium');
+    @include typography("sm", "medium");
     color: $grey-800;
   }
 
@@ -44,7 +43,8 @@
   }
 }
 
-.error, .error:focus {
+.error,
+.error:focus {
   margin: 0;
   border-color: $red-500;
   border: 2px solid $red-400;
@@ -55,7 +55,8 @@
   }
 }
 
-.valid, .valid:focus {
+.valid,
+.valid:focus {
   margin: 0;
   border-color: $green-500;
   border: 2px solid $green-400;
@@ -66,14 +67,9 @@
   }
 }
 
-.errorText {
-  @include typography('sm', 'medium');
-  color: $red-500 !important;
-}
-
 .icon {
   position: absolute;
-  width: 0.90rem;
+  width: 0.9rem;
   top: 50%;
   transform: translate(0, -50%);
   left: 0.9rem;
