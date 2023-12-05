@@ -1,12 +1,18 @@
 import Vendor, { IVendor } from "../models/Vendor/vendor";
-import { VendorDto } from "../types/dtos";
 import { UserService } from "./user/userService";
 
 class VendorService extends UserService {
-  async create(user: VendorDto): Promise<IVendor> {
-    let newVendor = await Vendor.create(user);
+  async search(
+    name: string,
+    phoneNumber: string,
+    limit: number
+  ): Promise<IVendor[]> {
+    const vendors = await Vendor.find({
+      name: { $regex: name, $options: "i" },
+      phoneNumber: { $regex: phoneNumber, $options: "i" },
+    }).limit(limit);
 
-    return await newVendor.toObject();
+    return vendors;
   }
 }
 

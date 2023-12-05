@@ -36,8 +36,11 @@ class AuthController {
       // Create User
       let user: IVendor | IPropertyManager = await UserFactory.create(dtoWSalt);
 
+      // Get org id if it exists
+      const orgId = UserService.getOrgId(user);
+
       // Create Token
-      const token = AuthService.createAccessToken(user.id, user.role);
+      const token = AuthService.createAccessToken(user.id, user.role, orgId);
 
       // Create and set refresh token
       AuthService.createAndSetRefreshToken(token, res);
@@ -69,8 +72,11 @@ class AuthController {
         throw new ServerError(Errors.INVALID_CRED, 401);
       }
 
+      // Get org id if it exists
+      const orgId = UserService.getOrgId(user);
+
       // Create Token
-      const token = AuthService.createAccessToken(user.id, user.role);
+      const token = AuthService.createAccessToken(user.id, user.role, orgId);
       AuthService.createAndSetRefreshToken(token, res);
 
       // Send token

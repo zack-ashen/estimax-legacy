@@ -27,18 +27,20 @@ const YourBusinessElement = () => {
       <TextInput
         id="business-name"
         label="Business Name"
-        {...register("businessName")}
+        {...register("businessName", { required: "Business name is required" })}
       />
       <TextInput id="phone" label="Phone" {...register("phone")} />
       <Controller
         name="location"
         control={control}
-        render={({ field }) => (
+        rules={{ required: "Location is required" }}
+        render={({ field, fieldState: { error } }) => (
           <LocationSelect
             id={"location-search"}
             label={"Location"}
             currentOption={field.value}
             type="cities"
+            error={error?.message}
             {...field}
           />
         )}
@@ -46,12 +48,14 @@ const YourBusinessElement = () => {
       <Controller
         name="services"
         control={control}
-        render={({ field }) => (
+        rules={{ required: "Services Offered is required" }}
+        render={({ field, fieldState: { error } }) => (
           <Select
             label="Services Offered"
             options={ServicesOptions}
             id="business-type"
             currentOption={field.value}
+            error={error?.message}
             {...field}
             isMulti
           />
@@ -76,7 +80,7 @@ const YourBusinessElement = () => {
       <TextInput
         id="business-name"
         label="Business Name"
-        {...register("businessName")}
+        {...register("businessName", { required: "Business name is required" })}
       />
     </>
   );

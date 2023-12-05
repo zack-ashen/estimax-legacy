@@ -9,9 +9,10 @@ interface AuthProviderProps extends React.PropsWithChildren {
   setToken: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
-export interface User {
+export interface UserDetails {
   id: string;
   role: Role;
+  orgId?: string;
 }
 
 /*
@@ -26,26 +27,28 @@ export const AuthProvider = ({
   children,
 }: AuthProviderProps) => {
   const [accessToken, setAccessToken] = useState<string>(token);
-  const [user, setUser] = useState<User>(() => {
+  const [userDetails, setUserDetails] = useState<UserDetails>(() => {
     const decoded = jwt_decode<TokenPayload>(token);
     return {
       id: decoded.uid,
       role: decoded.role,
+      orgId: decoded.orgId ? decoded.orgId : undefined,
     };
   });
 
   useEffect(() => {
     // Decode the token again to get the latest user info
     const decodedUser = jwt_decode<TokenPayload>(accessToken);
-    if (user.role !== decodedUser.role) {
+    if (userDetails.role !== decodedUser.role) {
       console.log("Role change detected. Logging out.");
       signout(); // Call your signout function
     }
 
     // Update the current user state
-    setUser({
+    setUserDetails({
       id: decodedUser.uid,
       role: decodedUser.role,
+      orgId: decodedUser.orgId ? decodedUser.orgId : undefined,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken]); // This effect runs when accessToken changes
@@ -56,7 +59,7 @@ export const AuthProvider = ({
   };
 
   return (
-    <AuthContext.Provider value={{ user, signout }}>
+    <AuthContext.Provider value={{ userDetails, signout }}>
       {children}
     </AuthContext.Provider>
   );

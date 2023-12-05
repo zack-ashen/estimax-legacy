@@ -20,14 +20,6 @@ function Link({ name, link, Icon }: LinkProps) {
   );
 }
 
-interface DropdownLinkProps {
-  name: string;
-  links: LinkProps[];
-  Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-}
-
-function dropdownLink({ name, links, Icon }: DropdownLinkProps) {}
-
 interface LinkSectionProps {
   title?: string;
   links: {
@@ -103,8 +95,8 @@ export default function PMSidebar() {
       <p className={styles.sectionHeader}>Estimax</p>
       <div className={styles.options}>
         <div className={styles.topSection}>
-          {linkSections.map((linkSection) => (
-            <LinkSection {...linkSection} />
+          {linkSections.map((linkSection, index) => (
+            <LinkSection {...linkSection} key={index} />
           ))}
         </div>
         <div className={styles.bottomSection}></div>

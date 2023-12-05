@@ -9,6 +9,7 @@ import SignUp from "./pages/Auth/SignUp";
 import CreateProperty from "./pages/CreateProperty/CreateProperty";
 import Landing from "./pages/Landing/Landing";
 import PMDashboard from "./pages/PMDashboard/PMDashboard";
+import Property from "./pages/Property/Property";
 import VendorDashboard from "./pages/VendorDashboard/VendorDashboard";
 import { AuthService } from "./services/auth/auth";
 import { Role } from "./types";
@@ -61,6 +62,7 @@ function App() {
             />
           }
         />
+        <Route path="/property/:id" element={<Property />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </AuthProvider>

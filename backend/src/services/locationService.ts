@@ -1,4 +1,5 @@
 import {
+  AddressType,
   Client,
   LatLngBounds,
   PlaceAutocompleteRequest,
@@ -6,7 +7,9 @@ import {
   PlaceAutocompleteType,
 } from "@googlemaps/google-maps-services-js";
 import { LRUCache } from "lru-cache";
+import { Address } from "../models/sub-schema/address";
 import { LocationArea } from "../models/sub-schema/locationArea";
+import { Location } from "./../models/sub-schema/location";
 import { Coordinates, Region } from "./../models/sub-schema/locationArea";
 
 export class LocationService {
@@ -91,6 +94,61 @@ export class LocationService {
       region,
       name,
     };
+  }
+
+  public async getLocation(placeId: string): Promise<Location> {
+    const placeDetails = await this.getPlaceDetails(placeId);
+
+    if (!placeDetails.geometry) {
+      throw new Error("Place details missing geometry");
+    }
+
+    // Extract the latitude and longitude
+    const { lat, lng } = placeDetails.geometry.location;
+    const point: [number, number] = [lng, lat];
+
+    // Initialize an empty address object
+    const address: Address = {
+      addressLine1: "",
+      addressLine2: "",
+    };
+
+    // Populate the address object based on the address components
+    placeDetails.address_components?.forEach((component) => {
+      if (!component.types.every(this.isValidAddressType)) {
+        throw new Error("Invalid address type encountered");
+      }
+
+      const types = component.types as AddressType[];
+      if (types.includes("street_number" as AddressType)) {
+        address.addressLine1 += `${component.long_name} `;
+      } else if (types.includes("route" as AddressType)) {
+        address.addressLine1 += component.long_name;
+      } else if (types.includes("subpremise" as AddressType)) {
+        address.unit = component.long_name;
+      } else if (types.includes("postal_code" as AddressType)) {
+        address.postalCode = component.long_name;
+      } else if (
+        types.includes("locality" as AddressType) ||
+        types.includes("administrative_area_level_1" as AddressType)
+      ) {
+        address.addressLine2 += `${component.long_name}, `;
+      }
+    });
+
+    // Trim the trailing comma and space from addressLine2
+    address.addressLine2 = address.addressLine2.trim().replace(/,$/, "");
+
+    return {
+      area: placeDetails.name!,
+      address: address,
+      point: point,
+      placeId: placeId,
+    };
+  }
+
+  private isValidAddressType(type: string): type is AddressType {
+    return Object.values(AddressType).includes(type as AddressType);
   }
 
   private viewportToPolygon(viewport: LatLngBounds): Coordinates {

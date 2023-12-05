@@ -9,7 +9,6 @@ export interface IUser {
   name: string;
   bio?: string;
   profilePhoto?: string;
-  businessName: string;
 }
 
 const userSchema = new Schema<IUser>(
@@ -19,7 +18,6 @@ const userSchema = new Schema<IUser>(
     name: { type: String },
     bio: { type: String, required: false },
     profilePhoto: { type: String, required: false },
-    businessName: { type: String, required: false },
     role: {
       type: String,
       enum: [Role.PROPERTY_MANAGER, Role.VENDOR],

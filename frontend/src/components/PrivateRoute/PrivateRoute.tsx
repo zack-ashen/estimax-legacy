@@ -10,10 +10,12 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute = ({ componentMap }: PrivateRouteProps) => {
-  const { user } = useAuth();
+  const {
+    userDetails: { role },
+  } = useAuth();
 
   // Render the component associated with the user's role or redirect
-  return componentMap[user.role] || <Navigate to="/" />;
+  return componentMap[role] || <Navigate to="/" />;
 };
 
 export default PrivateRoute;

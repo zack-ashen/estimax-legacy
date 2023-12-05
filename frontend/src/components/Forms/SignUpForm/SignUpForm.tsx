@@ -56,6 +56,7 @@ export default function SignUpForm() {
           condition: (formData) => formData.googleCredential !== undefined,
         },
       ]}
+      submitButtonText="Finish signing up"
     />
   );
 }

@@ -18,10 +18,11 @@ const AuthService = {
     return await bcrypt.hash(password, 10);
   },
 
-  createAccessToken(id: string, role: Role) {
+  createAccessToken(id: string, role: Role, organization?: string) {
     const tokenPayload: TokenPayload = {
       id,
       role,
+      organization,
     };
 
     const token = jwt.sign(tokenPayload, PRIVATE_KEY, {

@@ -1,4 +1,5 @@
 import Vendor, { IVendor } from "../../models/Vendor/vendor";
+import { Organization } from "../../models/organization";
 import PropertyManager, {
   IPropertyManager,
 } from "../../models/propertyManager";
@@ -34,6 +35,14 @@ class UserFactory {
     pmDto: PropertyManagerDto
   ): Promise<IPropertyManager> {
     const pm = new PropertyManager(pmDto);
+
+    const organization = new Organization({
+      name: "Personal",
+      users: [pm.id],
+    });
+
+    await organization.save();
+
     await pm.save();
     return pm;
   }

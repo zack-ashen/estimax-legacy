@@ -9,6 +9,8 @@ import morgan from "morgan";
 // Routes
 import authRoutes from "./api/routes/authRoutes";
 import locationRoutes from "./api/routes/locationRoutes";
+import propertyRoutes from "./api/routes/propertyRoutes";
+import vendorRoutes from "./api/routes/vendorRoutes";
 
 import { errorHandler } from "./api/middleware/errors";
 
@@ -35,6 +37,8 @@ mongoose
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/location", locationRoutes);
+app.use("/api/vendor", vendorRoutes);
+app.use("/api/property", propertyRoutes);
 
 // Error Handling
 app.use(errorHandler);

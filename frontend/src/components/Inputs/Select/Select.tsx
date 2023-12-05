@@ -18,6 +18,7 @@ interface SelectProps
   extends ReactSelectProps<OptionType, boolean>,
     AsyncProps<OptionType, boolean, GroupBase<OptionType>> {
   id: string;
+  error?: string;
   onChange?: (...event: any[]) => void;
   label?: string;
   isAsync?: boolean;
@@ -36,6 +37,7 @@ const Select = forwardRef(
       loadOptions,
       onChange,
       currentOption,
+      error,
       ...props
     }: SelectProps,
     ref: React.Ref<any>
@@ -81,6 +83,7 @@ const Select = forwardRef(
             ref={ref}
           />
         )}
+        {error && <p className={styles.errorText}>{error}</p>}
       </div>
     );
   }

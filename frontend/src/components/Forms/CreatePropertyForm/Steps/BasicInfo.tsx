@@ -6,7 +6,11 @@ import TextArea from "../../../Inputs/TextArea/TextArea";
 import TextInput from "../../../Inputs/TextInput/TextInput";
 
 const BasicInfoElement = () => {
-  const { register, control } = useFormContext();
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <>
@@ -14,31 +18,36 @@ const BasicInfoElement = () => {
         id="basic-info-property-name"
         placeholder="Enter your property name"
         label="Property Name"
-        {...register("propertyName", { required: "Property name is required" })}
+        error={errors.propertyName?.message}
+        {...register("name", { required: "Property name is required" })}
       />
       <Controller
-        name="propertyType"
+        name="type"
         control={control}
-        render={({ field }) => (
+        rules={{ required: "Property Type is required" }}
+        render={({ field, fieldState: { error } }) => (
           <Select
             label="Property Type"
             options={PropertyTypeOptions}
             currentOption={field.value}
             id="property-type"
             placeholder="Select property type"
+            error={error?.message}
             {...field}
           />
         )}
       />
       <Controller
-        name="address"
+        name="location"
         control={control}
-        render={({ field }) => (
+        rules={{ required: "Address is required" }}
+        render={({ field, fieldState: { error } }) => (
           <LocationSelect
             id={"address-search"}
             label={"Address"}
             currentOption={field.value}
             type="address"
+            error={error?.message}
             placeholder="Enter your property address"
             {...field}
           />

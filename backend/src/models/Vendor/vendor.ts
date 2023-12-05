@@ -13,11 +13,13 @@ export interface IVendor extends IUser {
   reviews: IReview[];
   searchRadius: number;
   location: LocationArea;
+  businessName: string;
 }
 
 const Vendor = User.discriminator(
   "Vendor",
   new Schema<IVendor>({
+    businessName: { type: String, required: false },
     services: {
       type: [String],
       required: true,

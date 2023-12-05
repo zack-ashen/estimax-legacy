@@ -19,8 +19,8 @@
 }
 
 .sidebarTitle {
-  margin-bottom: $spacing-4;
-  @include typography("sm", "semi-bold");
+  margin-bottom: $spacing-3;
+  @include typography("sm", "medium");
   color: $grey-400;
 }
 

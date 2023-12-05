@@ -27,6 +27,7 @@ export enum Timeline {
 export interface TokenPayload extends JwtPayload {
   id: string;
   role: Role;
+  organization?: string;
 }
 
 // User Schema

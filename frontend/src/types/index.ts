@@ -1,13 +1,13 @@
-
+import { AnalyticsSnippet } from "@segment/analytics-next";
 import { JwtPayload } from "jwt-decode";
-import { AnalyticsSnippet } from "@segment/analytics-next"
 import { Role } from "./user";
-
 
 export interface TokenPayload extends JwtPayload {
   role: Role;
   uid: string;
+  orgId: string;
 }
+
 // export interface Review {
 //   reviewee: string;
 //   reviewer: string;
@@ -53,7 +53,6 @@ export interface TokenPayload extends JwtPayload {
 //   projectTimeline: string;
 // }
 
-
 export interface Location {
   area: string;
   address: Address;
@@ -64,12 +63,16 @@ export interface Location {
 export interface LocationArea {
   name: string;
   region: {
-      type: 'Polygon';
-      coordinates: [[number, number], [number, number], [number, number], [number, number]];
+    type: "Polygon";
+    coordinates: [
+      [number, number],
+      [number, number],
+      [number, number],
+      [number, number]
+    ];
   };
   placeId: string;
 }
-
 
 export interface Address {
   unit?: string;
@@ -78,10 +81,9 @@ export interface Address {
   postalCode?: string;
 }
 
-
 export interface AnalyticsWindow extends Window {
-  analytics: AnalyticsSnippet
+  analytics: AnalyticsSnippet;
 }
 
-export { type User, Role } from "./user";
-export { type Project, type Bid, type Message } from "./project";
+export { type Bid, type Message, type Project } from "./project";
+export { Role, type User } from "./user";

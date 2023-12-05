@@ -8,6 +8,7 @@ interface LocationSelectProps {
   type: "cities" | "address";
   onChange?: (...event: any[]) => void;
   placeholder?: string;
+  error?: string;
   currentOption?: OptionType | OptionType[] | null;
 }
 
@@ -20,6 +21,7 @@ const LocationSelect = forwardRef(
       onChange,
       placeholder,
       currentOption,
+      error,
     }: LocationSelectProps,
     ref: React.Ref<any>
   ) => {
@@ -48,6 +50,7 @@ const LocationSelect = forwardRef(
         onChange={onChange}
         placeholder={placeholder}
         currentOption={currentOption}
+        error={error}
         ref={ref}
       />
     );
