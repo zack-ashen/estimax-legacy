@@ -25,7 +25,6 @@ export default function CreatePropertyForm() {
     const response = await PropertyService.create(property);
 
     if (!response.error) {
-      console.log(response);
       const { property } = response;
       navigate(`/property/${property}`);
     }

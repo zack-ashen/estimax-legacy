@@ -47,7 +47,6 @@ class PropertyController {
         throw new Error("No property found.");
       }
 
-      console.log(property);
       const response: GetResponse = { property };
       res.status(200).json(response);
     } catch (e) {

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext/AuthContext";
 import PMLayout from "../../layouts/PMLayout/PMLayout";
 import VendorLayout from "../../layouts/VendorLayout/VendorLayout";
 import { PropertyService } from "../../services/propertyService";
 import { Property as PropertyT, Role } from "../../types";
 
+import { PlusIcon } from "../../assets/icons";
+import Button, { ButtonStyles } from "../../components/Button/Button";
 import Nib from "../../components/Nib/Nib";
 import styles from "./Property.module.scss";
 
@@ -14,6 +16,7 @@ export default function Property() {
   const {
     userDetails: { role },
   } = useAuth();
+  const navigate = useNavigate();
 
   const [property, setProperty] = useState<PropertyT | undefined>();
 
@@ -42,6 +45,12 @@ export default function Property() {
           </p>
         </div>
         <Nib variant="primary" text={property.type} />
+        <Button
+          buttonStyle={ButtonStyles.PRIMARY}
+          text="Create Project"
+          RightIcon={PlusIcon}
+          onClick={() => navigate(`/create-project`)}
+        />
       </PMLayout>
     )
   ) : (

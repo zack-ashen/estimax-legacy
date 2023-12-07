@@ -1,11 +1,10 @@
-import { useState } from "react";
+import CreateProjectForm from "../../components/Forms/CreateProjectForm/CreateProjectForm";
+import PMLayout from "../../layouts/PMLayout/PMLayout";
 
 export default function CreateProject() {
-  const [name, setName] = useState<string>("");
-
   return (
-    <div>
-      <h1>Create Project</h1>
-    </div>
+    <PMLayout pageTitle={""}>
+      <CreateProjectForm />
+    </PMLayout>
   );
 }
