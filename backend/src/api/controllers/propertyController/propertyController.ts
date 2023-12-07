@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { Types } from "mongoose";
 import AuthService from "../../../services/authService";
 import LocationService from "../../../services/locationService";
 import OrganizationService from "../../../services/organizationService";
@@ -25,10 +26,8 @@ class PropertyController {
         location,
       });
 
-      await OrganizationService.addProperty(
-        organization,
-        newProperty.id.toString()
-      );
+      const organizationId = new Types.ObjectId(organization);
+      await OrganizationService.addProperty(organizationId, newProperty.id);
 
       const result: CreateResponse = { property: newProperty.id.toString() };
       res.status(200).json(result);
@@ -41,7 +40,8 @@ class PropertyController {
     try {
       const { id } = req.params;
 
-      const property = await PropertyService.get(id);
+      const objId = new Types.ObjectId(id);
+      const property = await PropertyService.get(objId);
 
       if (!property) {
         throw new Error("No property found.");

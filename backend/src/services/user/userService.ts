@@ -1,9 +1,10 @@
+import { Types } from "mongoose";
 import { IPropertyManager } from "../../models/propertyManager";
 import { IUser, User } from "../../models/user";
 import { Role } from "../../types";
 
 export class UserService {
-  async getById(id: string): Promise<IUser> {
+  async getById(id: Types.ObjectId): Promise<IUser> {
     const user = await User.findById(id);
     if (!user) throw new Error("User not found");
     return user;

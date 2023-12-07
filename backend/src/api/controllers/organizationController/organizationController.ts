@@ -1,29 +1,25 @@
 import { NextFunction, Request, Response } from "express";
-
-import mongoose from "mongoose";
-import { IProperty } from "../../../models/property";
+import { Types } from "mongoose";
 import OrganizationService from "../../../services/organizationService";
 
 class OrganizationController {
   async getProperties(req: Request, res: Response, next: NextFunction) {
     try {
       const organizationId = req.params.id;
+
+      // TODO: Move this stuff to middleware validation
       if (!organizationId) {
         throw new Error("Organization was not provided");
       }
 
-      if (!mongoose.Types.ObjectId.isValid(organizationId)) {
+      if (!Types.ObjectId.isValid(organizationId)) {
         throw new Error("Invalid organization ID");
       }
 
-      const properties: IProperty[] = await OrganizationService.getProperties(
-        organizationId
-      );
+      const orgObjectId = new Types.ObjectId(organizationId);
+      const properties = await OrganizationService.getProperties(orgObjectId);
 
-      console.log(properties);
-
-      // const response: GetPropertiesResponse = { properties };
-      res.status(200).json({ properties: properties as IProperty[] });
+      res.status(200).json({ properties });
     } catch (e) {
       next(e);
     }

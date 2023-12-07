@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { Response } from "express";
 import { OAuth2Client } from "google-auth-library";
 import jwt, { Secret } from "jsonwebtoken";
+import { Types } from "mongoose";
 import { ServerError } from "../api/middleware/errors";
 import { Errors, Role, TokenPayload } from "../types";
 
@@ -18,9 +19,9 @@ const AuthService = {
     return await bcrypt.hash(password, 10);
   },
 
-  createAccessToken(id: string, role: Role, organization?: string) {
+  createAccessToken(id: Types.ObjectId, role: Role, organization?: string) {
     const tokenPayload: TokenPayload = {
-      id,
+      id: id.toString(),
       role,
       organization,
     };

@@ -39,11 +39,7 @@ class AuthController {
       const orgId = UserService.getOrgId(user);
 
       // Create Token
-      const token = AuthService.createAccessToken(
-        user.id.toString(),
-        user.role,
-        orgId
-      );
+      const token = AuthService.createAccessToken(user.id, user.role, orgId);
 
       // Create and set refresh token
       AuthService.createAndSetRefreshToken(token, res);
@@ -79,11 +75,7 @@ class AuthController {
       const orgId = UserService.getOrgId(user);
 
       // Create Token
-      const token = AuthService.createAccessToken(
-        user.id.toString(),
-        user.role,
-        orgId
-      );
+      const token = AuthService.createAccessToken(user.id, user.role, orgId);
       AuthService.createAndSetRefreshToken(token, res);
 
       // Send token
@@ -134,10 +126,7 @@ class AuthController {
       }
 
       // Create Token
-      const token = AuthService.createAccessToken(
-        user!.id.toString(),
-        user!.role
-      );
+      const token = AuthService.createAccessToken(user!.id, user!.role);
       AuthService.createAndSetRefreshToken(token, res);
 
       const result: GoogleAuthResponse = { token };

@@ -71,6 +71,7 @@ const Select = forwardRef(
             onChange={handleChange as any}
             isMulti={isMulti}
             ref={ref}
+            {...props}
           />
         ) : (
           <ReactSelect
@@ -81,6 +82,7 @@ const Select = forwardRef(
             onChange={handleChange as any}
             styles={selectStyles}
             ref={ref}
+            {...props}
           />
         )}
         {error && <p className={styles.errorText}>{error}</p>}

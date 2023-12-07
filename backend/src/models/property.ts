@@ -2,7 +2,7 @@ import mongoose, { Schema, Types } from "mongoose";
 import { Location, LocationSchema } from "./sub-schema/location";
 
 export interface IProperty {
-  id: string;
+  id: Types.ObjectId;
   name: string;
   location: Location;
   organization: Types.ObjectId;

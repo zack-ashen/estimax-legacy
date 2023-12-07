@@ -1,7 +1,7 @@
+import { Types } from "mongoose";
 import { IOrganization, Organization } from "../models/organization";
-import { IProperty } from "../models/property";
+import { IProperty, Property } from "../models/property";
 import { OrganizationDto } from "../types/dtos";
-import PropertyService from "./propertyService";
 
 class OrganizationService {
   async create(organization: OrganizationDto): Promise<IOrganization> {
@@ -10,29 +10,23 @@ class OrganizationService {
     return newOrganization.toObject();
   }
 
-  async get(id: string): Promise<IOrganization> {
+  async get(id: Types.ObjectId): Promise<IOrganization> {
     const organization = await Organization.findById(id);
     if (!organization) throw new Error("Organization not found");
     return organization.toObject();
   }
 
-  async getProperties(id: string): Promise<IProperty[]> {
-    const org = await Organization.findById(id);
-    if (!org) throw new Error("Organization not found");
-
-    // Manually fetch each property
-    const properties = await Promise.all(
-      org.properties.map((propertyId) =>
-        PropertyService.get(propertyId.toString())
-      )
-    );
-
-    return properties as IProperty[];
+  async getProperties(orgId: Types.ObjectId): Promise<IProperty[]> {
+    const properties = await Property.find({ organization: orgId });
+    return properties.map((property) => property.toObject());
   }
 
-  async addProperty(id: string, propertyId: string): Promise<void> {
+  async addProperty(
+    orgId: Types.ObjectId,
+    propertyId: Types.ObjectId
+  ): Promise<void> {
     await Organization.updateOne(
-      { _id: id },
+      { _id: orgId },
       { $push: { properties: propertyId } }
     );
   }

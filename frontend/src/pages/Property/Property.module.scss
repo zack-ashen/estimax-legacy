@@ -1,0 +1,11 @@
+@import "../../styles/index";
+
+.name {
+  @include typography("lg", "medium");
+  color: $grey-800;
+}
+
+.addressLine {
+  @include typography("sm", "regular");
+  color: $grey-600;
+}
