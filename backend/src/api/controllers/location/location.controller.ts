@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import LocationService from "../../../services/locationService";
+import LocationService from "../../../services/location.service";
 import { SearchQuery, SearchResponse } from "./types";
 
 class LocationController {

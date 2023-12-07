@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import { IOrganization, Organization } from "../models/organization";
-import { IProperty, Property } from "../models/property";
+import { IOrganization, Organization } from "../models/organization.model";
+import { IProperty, Property } from "../models/property.model";
 import { OrganizationDto } from "../types/dtos";
 
 class OrganizationService {

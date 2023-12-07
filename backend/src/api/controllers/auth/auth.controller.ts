@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-import AuthService from "../../../services/authService";
+import AuthService from "../../../services/auth.service";
 
-import { IVendor } from "../../../models/Vendor/vendor";
-import { IPropertyManager } from "../../../models/propertyManager";
+import { IPropertyManager } from "../../../models/propertyManager.model";
+import { IVendor } from "../../../models/vendor.model";
+import UserService from "../../../services/user/user.service";
 import UserFactory from "../../../services/user/userFactory";
-import UserService from "../../../services/user/userService";
 import { Errors } from "../../../types";
 import { ServerError } from "../../middleware/errors";
 import {

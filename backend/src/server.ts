@@ -7,11 +7,11 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 
 // Routes
-import authRoutes from "./api/routes/authRoutes";
-import locationRoutes from "./api/routes/locationRoutes";
-import organizationRoutes from "./api/routes/organizationRoutes";
-import propertyRoutes from "./api/routes/propertyRoutes";
-import vendorRoutes from "./api/routes/vendorRoutes";
+import authRoutes from "./api/routes/auth.routes";
+import locationRoutes from "./api/routes/location.routes";
+import organizationRoutes from "./api/routes/organization.routes";
+import propertyRoutes from "./api/routes/property.routes";
+import vendorRoutes from "./api/routes/vendor.routes";
 
 import { errorHandler } from "./api/middleware/errors";
 

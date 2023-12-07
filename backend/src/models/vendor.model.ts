@@ -1,7 +1,7 @@
 import { Schema, Types } from "mongoose";
-import { ILocationArea, LocationAreaSchema } from "../sub-schema/locationArea";
-import { IUser, User } from "../user";
-import ReviewSchema, { IReview } from "./review";
+import { ILocationArea, LocationAreaSchema } from "./sub-schema/locationArea";
+import ReviewSchema, { IReview } from "./sub-schema/review";
+import { IUser, User } from "./user.model";
 
 export interface IVendor extends IUser {
   services: string[];

@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import { IPropertyManager } from "../../models/propertyManager";
-import { IUser, User } from "../../models/user";
+import { IPropertyManager } from "../../models/propertyManager.model";
+import { IUser, User } from "../../models/user.model";
 import { Role } from "../../types";
 
 export class UserService {

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import VendorService from "../../../services/vendorService";
+import VendorService from "../../../services/vendor.service";
 import { SearchQuery, SearchResponse } from "./types";
 
 class VendorController {

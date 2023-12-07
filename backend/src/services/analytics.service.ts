@@ -1,18 +1,15 @@
 import { Analytics } from "@segment/analytics-node";
-import { IVendor } from "../models/Vendor/vendor";
-import { IHomeowner } from "../models/propertyManager";
+import { IPropertyManager } from "../models/propertyManager.model";
+import { IVendor } from "../models/vendor.model";
 
 const analytics = new Analytics({
   writeKey: process.env.SEGMENT_WRITE_KEY!,
   disable: process.env.ENV === "dev",
 });
 
-export const signUpEvent = (uid: string, user: IVendor | IHomeowner) => {
+export const signUpEvent = (uid: string, user: IVendor | IPropertyManager) => {
   analytics.identify({
     userId: uid,
-    traits: {
-      ...user,
-    },
   });
 
   analytics.track({
@@ -24,12 +21,9 @@ export const signUpEvent = (uid: string, user: IVendor | IHomeowner) => {
   });
 };
 
-export const signInEvent = (uid: string, user: IVendor | IHomeowner) => {
+export const signInEvent = (uid: string, user: IVendor | IPropertyManager) => {
   analytics.identify({
     userId: uid,
-    traits: {
-      ...user,
-    },
   });
 
   analytics.track({

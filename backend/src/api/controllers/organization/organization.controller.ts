@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
-import OrganizationService from "../../../services/organizationService";
+import OrganizationService from "../../../services/organization.service";
 
 class OrganizationController {
   async getProperties(req: Request, res: Response, next: NextFunction) {

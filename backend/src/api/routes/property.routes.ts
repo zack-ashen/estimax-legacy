@@ -1,5 +1,5 @@
 import express from "express";
-import PropertyController from "../controllers/propertyController/propertyController";
+import PropertyController from "../controllers/property/property.controller";
 
 const router = express.Router();
 

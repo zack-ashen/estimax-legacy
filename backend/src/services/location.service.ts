@@ -8,9 +8,12 @@ import {
 } from "@googlemaps/google-maps-services-js";
 import { LRUCache } from "lru-cache";
 import { IAddress } from "../models/sub-schema/address";
-import { ILocationArea } from "../models/sub-schema/locationArea";
-import { Location } from "./../models/sub-schema/location";
-import { Coordinates, Region } from "./../models/sub-schema/locationArea";
+import { Location } from "../models/sub-schema/location";
+import {
+  Coordinates,
+  ILocationArea,
+  Region,
+} from "../models/sub-schema/locationArea";
 
 export class LocationService {
   cache: LRUCache<{ [x: string]: any }, PlaceAutocompleteResponseData>;

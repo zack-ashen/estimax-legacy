@@ -1,5 +1,5 @@
-import Vendor, { IVendor } from "../models/Vendor/vendor";
-import { UserService } from "./user/userService";
+import Vendor, { IVendor } from "../models/vendor.model";
+import { UserService } from "./user/user.service";
 
 import { Document } from "mongoose";
 

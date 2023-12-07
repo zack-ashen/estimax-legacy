@@ -1,12 +1,12 @@
-import Vendor, { IVendor } from "../../models/Vendor/vendor";
 import PropertyManager, {
   IPropertyManager,
-} from "../../models/propertyManager";
+} from "../../models/propertyManager.model";
 import { ILocationArea } from "../../models/sub-schema/locationArea";
+import Vendor, { IVendor } from "../../models/vendor.model";
 import { Role } from "../../types";
 import { PropertyManagerDto, VendorDto } from "../../types/dtos";
-import LocationService from "../locationService";
-import OrganizationService from "../organizationService";
+import LocationService from "../location.service";
+import OrganizationService from "../organization.service";
 
 class UserFactory {
   public static async create(

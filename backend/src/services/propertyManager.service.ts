@@ -1,4 +1,4 @@
-import { UserService } from "./user/userService";
+import { UserService } from "./user/user.service";
 
 class PropertyManagerService extends UserService {}
 

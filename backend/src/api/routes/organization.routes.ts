@@ -1,5 +1,5 @@
 import express from "express";
-import OrganizationController from "../controllers/organizationController/organizationController";
+import OrganizationController from "../controllers/organization/organization.controller";
 
 const router = express.Router();
 

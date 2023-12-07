@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { IProperty, Property } from "../models/property";
+import { IProperty, Property } from "../models/property.model";
 import { Location } from "../models/sub-schema/location";
-import { PropertyDto } from "./../types/dtos";
+import { PropertyDto } from "../types/dtos";
 
 interface CreatePropertyObj extends Omit<PropertyDto, "location"> {
   location: Location;

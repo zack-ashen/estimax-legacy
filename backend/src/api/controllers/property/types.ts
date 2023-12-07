@@ -1,4 +1,4 @@
-import { IProperty } from "../../../models/property";
+import { IProperty } from "../../../models/property.model";
 import { PropertyDto } from "../../../types/dtos";
 
 // Create Property

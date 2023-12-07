@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
-import AuthService from "../../../services/authService";
-import LocationService from "../../../services/locationService";
-import OrganizationService from "../../../services/organizationService";
-import PropertyService from "../../../services/propertyService";
+import AuthService from "../../../services/auth.service";
+import LocationService from "../../../services/location.service";
+import OrganizationService from "../../../services/organization.service";
+import PropertyService from "../../../services/property.service";
 import { CreateRequest, CreateResponse, GetResponse } from "./types";
 
 class PropertyController {

@@ -1,8 +1,8 @@
-import { IVendor } from "../models/Vendor/vendor";
-import { IOrganization } from "../models/organization";
-import { IProperty } from "../models/property";
-import { IPropertyManager } from "../models/propertyManager";
-import { IUser } from "../models/user";
+import { IOrganization } from "../models/organization.model";
+import { IProperty } from "../models/property.model";
+import { IPropertyManager } from "../models/propertyManager.model";
+import { IUser } from "../models/user.model";
+import { IVendor } from "../models/vendor.model";
 
 export interface CreateUserDto extends Partial<IUser> {}
 
