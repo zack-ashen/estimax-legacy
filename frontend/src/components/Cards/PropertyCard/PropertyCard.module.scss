@@ -1,1 +1,32 @@
 @import "../../../styles/index";
+
+.PropertyCard {
+  @include card;
+  width: fit-content;
+  flex-direction: row;
+  gap: $spacing-11;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    background-color: $blue-25;
+    border-color: $blue-200;
+    cursor: pointer;
+  }
+}
+
+.title {
+  @include typography("lg", "medium");
+  color: $grey-800;
+}
+
+.addressLine {
+  @include typography("sm", "regular");
+  color: $grey-600;
+}
+
+.rightContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $spacing-2;
+}

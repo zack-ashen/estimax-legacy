@@ -10,6 +10,8 @@ export interface IProperty {
   media: string[];
   type: string;
   description?: string;
+  projects: Types.ObjectId[];
+  activeProjects: Types.ObjectId[];
 }
 
 const propertySchema = new Schema<IProperty>(
@@ -21,6 +23,10 @@ const propertySchema = new Schema<IProperty>(
     media: [{ type: String, default: [] }],
     type: { type: String },
     description: { type: String, required: false },
+    projects: [{ type: Schema.Types.ObjectId, ref: "Project", default: [] }],
+    activeProjects: [
+      { type: Schema.Types.ObjectId, ref: "Project", default: [] },
+    ],
   },
   {
     toJSON: {

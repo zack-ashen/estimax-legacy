@@ -1,3 +1,5 @@
+import { Location } from "./location";
+
 export type Property = {
   id: string;
   name: string;
@@ -7,4 +9,6 @@ export type Property = {
   media?: string[];
   type: string;
   description?: string;
+  projects: string[];
+  activeProjects: string[];
 };
