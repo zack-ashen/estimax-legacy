@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import PMLayout from "../../components/Layouts/PMLayout/PMLayout";
-import VendorLayout from "../../components/Layouts/VendorLayout/VendorLayout";
 import { useAuth } from "../../contexts/AuthContext/AuthContext";
+import PMLayout from "../../layouts/PMLayout/PMLayout";
+import VendorLayout from "../../layouts/VendorLayout/VendorLayout";
 import { PropertyService } from "../../services/propertyService";
 import { Role } from "../../types";
 

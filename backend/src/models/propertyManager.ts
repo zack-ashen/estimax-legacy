@@ -1,8 +1,8 @@
-import { ObjectId, Schema } from "mongoose";
+import { Schema, Types } from "mongoose";
 import { IUser, User } from "./user";
 
 export interface IPropertyManager extends IUser {
-  organization: ObjectId;
+  organization: Types.ObjectId;
   personal: boolean;
 }
 

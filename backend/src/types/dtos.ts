@@ -1,18 +1,19 @@
 import { IVendor } from "../models/Vendor/vendor";
+import { OrganizationType } from "../models/organization";
 import { IProperty } from "../models/property";
-import { IUser } from "../models/user";
+import { IPropertyManager } from "../models/propertyManager";
+import { UserType } from "../models/user";
 
-export interface CreateUserDto
-  extends Pick<IUser, "email" | "password" | "role" | "name"> {}
+export interface CreateUserDto extends Partial<UserType> {}
 
-export interface VendorDto
-  extends CreateUserDto,
-    Pick<IVendor, "services" | "phoneNumber" | "businessName"> {
+export interface VendorDto extends Partial<Omit<IVendor, "location">> {
   location: string; // placeid
 }
 
-export interface PropertyManagerDto extends CreateUserDto {}
+export interface PropertyManagerDto extends Partial<IPropertyManager> {}
 
-export interface PropertyDto extends Omit<IProperty, "id" | "location"> {
+export interface PropertyDto extends Partial<Omit<IProperty, "location">> {
   location: string;
 }
+
+export interface OrganizationDto extends Partial<OrganizationType> {}

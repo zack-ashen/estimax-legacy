@@ -1,27 +1,32 @@
-import jwt, { Secret } from 'jsonwebtoken'
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from "express";
+import jwt, { Secret } from "jsonwebtoken";
 
-import { TokenPayload } from '../../types';
+const PRIVATE_KEY: Secret = (process.env.JWT_PRIVATE_KEY as string).replace(
+  /\\n/g,
+  "\n"
+);
 
-export function authenticate(scope: string) {
-    return (req: Request, res: Response, next: NextFunction) => {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) {
-            return res.status(401).json({ message: 'Auth Error: Token not provided' });
-        }
+export const authenticateToken = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
 
-        try {
-            const payload = jwt.verify(token, process.env.JWT_PUBLIC_KEY!) as TokenPayload;
+    if (token == null) return res.sendStatus(401); // No token found
 
-            if (scope !== 'both' && payload.scope !== scope) {
-                return res.status(403).json({ message: 'Forbidden: insufficient scope' });
-            }
-            next()
-        } catch (e) {
-            console.error(e);
-            return res.status(401).send({ message: 'Invalid Token' });
-        }
+    jwt.verify(token, PRIVATE_KEY, (err, user) => {
+      if (err) return res.sendStatus(403); // Invalid token
+      next();
+    });
+  } catch (e) {
+    console.error(e);
+
+    if (e instanceof Error) {
+      return res.status(401).send({ message: e.message });
     }
+    return res.status(401).send({ message: "Token validation failed" });
   }
-
-  
+};

@@ -11,6 +11,11 @@ const propertyController = new PropertyController();
 router.post("/", propertyController.create);
 
 /*
+ * /: gets all properties.
+ */
+// router.get("/", propertyController.getAll);
+
+/*
  * /:id: gets a property.
  */
 router.get("/:id", propertyController.get);

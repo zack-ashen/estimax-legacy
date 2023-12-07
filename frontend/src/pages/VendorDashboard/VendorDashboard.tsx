@@ -1,4 +1,4 @@
-import VendorLayout from "../../components/Layouts/VendorLayout/VendorLayout";
+import VendorLayout from "../../layouts/VendorLayout/VendorLayout";
 
 export default function VendorDashboard() {
   return (

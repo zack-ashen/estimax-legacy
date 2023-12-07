@@ -1,5 +1,5 @@
-import NavBar from "../../NavBar/NavBar";
-import PMSidebar from "../../PMSidebar/PMSidebar";
+import NavBar from "../../components/NavBar/NavBar";
+import PMSidebar from "../../components/PMSidebar/PMSidebar";
 import styles from "./PMLayout.module.scss";
 
 interface PMLayoutProps extends React.PropsWithChildren {

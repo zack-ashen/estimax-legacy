@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 
-import { IVendor } from "../../../models/Vendor/vendor";
-import { IPropertyManager } from "../../../models/propertyManager";
-
 import AuthService from "../../../services/authService";
 
+import { IVendor } from "../../../models/Vendor/vendor";
+import { IPropertyManager } from "../../../models/propertyManager";
 import UserFactory from "../../../services/user/userFactory";
 import UserService from "../../../services/user/userService";
 import { Errors } from "../../../types";
@@ -28,7 +27,7 @@ class AuthController {
       const saltedPassword = await AuthService.saltPassword(userDto.password!);
       const dtoWSalt = { ...userDto, password: saltedPassword };
 
-      const userExists = await UserService.getByEmail(dtoWSalt.email);
+      const userExists = await UserService.getByEmail(dtoWSalt.email!);
       if (userExists) {
         throw new ServerError(Errors.EMAIl_EXISTS, 400);
       }
@@ -40,7 +39,11 @@ class AuthController {
       const orgId = UserService.getOrgId(user);
 
       // Create Token
-      const token = AuthService.createAccessToken(user.id, user.role, orgId);
+      const token = AuthService.createAccessToken(
+        user.id.toString(),
+        user.role,
+        orgId
+      );
 
       // Create and set refresh token
       AuthService.createAndSetRefreshToken(token, res);
@@ -76,7 +79,11 @@ class AuthController {
       const orgId = UserService.getOrgId(user);
 
       // Create Token
-      const token = AuthService.createAccessToken(user.id, user.role, orgId);
+      const token = AuthService.createAccessToken(
+        user.id.toString(),
+        user.role,
+        orgId
+      );
       AuthService.createAndSetRefreshToken(token, res);
 
       // Send token
@@ -127,7 +134,10 @@ class AuthController {
       }
 
       // Create Token
-      const token = AuthService.createAccessToken(user!.id, user!.role);
+      const token = AuthService.createAccessToken(
+        user!.id.toString(),
+        user!.role
+      );
       AuthService.createAndSetRefreshToken(token, res);
 
       const result: GoogleAuthResponse = { token };

@@ -1,5 +1,6 @@
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext/AuthContext";
 import { PropertyService } from "../../../services/propertyService";
 import { MultiStepForm } from "../MultiStepForm/MultiStepForm";
 import { BasicInfo } from "./Steps/BasicInfo";
@@ -7,6 +8,10 @@ import { UploadMedia } from "./Steps/UploadMedia";
 import { VendorSelection } from "./Steps/VendorSelection";
 
 export default function CreatePropertyForm() {
+  const {
+    userDetails: { organization },
+  } = useAuth();
+
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -14,11 +19,10 @@ export default function CreatePropertyForm() {
       ...data,
       location: data.location.value,
       type: data.type.value,
+      organization: organization,
     };
 
-    const response = await PropertyService.create({
-      property: property,
-    });
+    const response = await PropertyService.create(property);
 
     if (!response.error) {
       console.log(response);

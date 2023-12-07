@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import NavBar from "../../NavBar/NavBar";
+import Button, { ButtonStyles } from "../../components/Button/Button";
+import NavBar from "../../components/NavBar/NavBar";
 import styles from "./AuthLayout.module.scss";
-import Button, { ButtonStyles } from "../../Button/Button";
 
 export default function AuthLayout({ children }: React.PropsWithChildren) {
   const location = useLocation();

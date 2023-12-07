@@ -13,7 +13,8 @@ export enum ButtonStyles {
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonStyle: ButtonStyles;
   wide?: boolean;
-  Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  LeftIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  RightIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   text?: string;
   selected?: boolean;
 }
@@ -21,7 +22,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = ({
   buttonStyle,
   onClick,
-  Icon,
+  LeftIcon,
+  RightIcon,
   type = "button",
   text,
   selected = false,
@@ -38,12 +40,17 @@ const Button = ({
       style={style}
       type={type}
     >
-      {Icon && (
+      {LeftIcon && (
         <div className={styles.iconContainer}>
-          <Icon className={styles.icon} />
+          <LeftIcon className={styles.icon} />
         </div>
       )}
       {text && <span className={styles.buttonText}>{text}</span>}
+      {RightIcon && (
+        <div className={styles.iconContainer}>
+          <RightIcon className={styles.icon} />
+        </div>
+      )}
     </button>
   );
 };

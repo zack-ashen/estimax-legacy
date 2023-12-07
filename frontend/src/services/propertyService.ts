@@ -7,7 +7,7 @@ export const PropertyService = {
     const response = await api.request({
       method: "POST",
       url: propertyUrl,
-      data: property,
+      data: { property },
     });
 
     if (response.status === 200) {
@@ -24,6 +24,19 @@ export const PropertyService = {
 
     if (response.status === 200) {
       return { property: response.data.property };
+    } else {
+      return { error: response.data.error };
+    }
+  },
+  getAll: async () => {
+    const response = await api.request({
+      method: "GET",
+      url: propertyUrl,
+    });
+
+    console.log("response", response);
+    if (response.status === 200) {
+      return { properties: response.data.properties };
     } else {
       return { error: response.data.error };
     }

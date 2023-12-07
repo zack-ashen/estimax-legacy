@@ -1,23 +1,23 @@
-import mongoose, { ObjectId } from "mongoose";
+import mongoose, { Types } from "mongoose";
 
-interface IOrganization {
-  id: string;
+export interface IOrganization {
+  id: Types.ObjectId;
   name: string;
   logo?: string;
   website?: string;
-  users: ObjectId[];
-  properties: ObjectId[];
-  preferredVendors: ObjectId[];
-  postedProjects: ObjectId[];
-  finishedProjects: ObjectId[];
+  users: Types.ObjectId[];
+  properties: Types.ObjectId[];
+  preferredVendors: Types.ObjectId[];
+  postedProjects: Types.ObjectId[];
+  finishedProjects: Types.ObjectId[];
 }
 
-const organizationSchema = new mongoose.Schema(
+const organizationSchema = new mongoose.Schema<IOrganization>(
   {
-    name: { type: String, required: true },
+    name: { type: String },
     logo: { type: String, required: false },
     website: { type: String, required: false },
-    users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] }],
     properties: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Property", default: [] },
     ],
@@ -50,8 +50,7 @@ const organizationSchema = new mongoose.Schema(
   }
 );
 
-organizationSchema.virtual("id").get(function () {
-  return this._id;
-});
-
-export const Organization = mongoose.model("Organization", organizationSchema);
+export const Organization = mongoose.model<IOrganization>(
+  "Organization",
+  organizationSchema
+);

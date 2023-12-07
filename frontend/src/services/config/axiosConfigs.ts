@@ -1,9 +1,19 @@
 import axios, { AxiosError } from "axios";
 
-export const api = axios.create({
-  withCredentials: true,
-  baseURL: "/api",
-});
+export const createAPI = () => {
+  const api = axios.create({
+    withCredentials: true,
+    baseURL: "/api",
+  });
+
+  // Registering the custom error handler to the
+  // "api" axios instance
+  api.interceptors.response.use(undefined, (error) => {
+    return errorHandler(error);
+  });
+
+  return api;
+};
 
 // Defining a custom error handler for all APIs
 const errorHandler = (error: AxiosError) => {
@@ -15,8 +25,4 @@ const errorHandler = (error: AxiosError) => {
   }
 };
 
-// Registering the custom error handler to the
-// "api" axios instance
-api.interceptors.response.use(undefined, (error) => {
-  return errorHandler(error);
-});
+export const api = createAPI();

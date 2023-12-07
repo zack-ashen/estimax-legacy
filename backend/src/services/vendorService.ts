@@ -1,6 +1,8 @@
 import Vendor, { IVendor } from "../models/Vendor/vendor";
 import { UserService } from "./user/userService";
 
+import { Document } from "mongoose";
+
 class VendorService extends UserService {
   async search(
     name: string,
@@ -12,7 +14,7 @@ class VendorService extends UserService {
       phoneNumber: { $regex: phoneNumber, $options: "i" },
     }).limit(limit);
 
-    return vendors;
+    return vendors.map((vendor: Document<IVendor>) => vendor.toObject());
   }
 }
 

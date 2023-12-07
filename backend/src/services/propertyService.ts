@@ -13,9 +13,18 @@ const PropertyService = {
     return await newProperty.toObject();
   },
 
-  get: async (id: string): Promise<IProperty | null> => {
+  get: async (id: string): Promise<IProperty> => {
     const property = await Property.findById(id);
-    return property ? property.toObject() : null;
+    if (!property) throw new Error("Property not found");
+
+    return property.toObject() as IProperty;
+  },
+
+  getAll: async (organizationId: string): Promise<IProperty[]> => {
+    const properties = await Property.find({
+      organization: organizationId,
+    });
+    return properties.map((property) => property.toObject());
   },
 };
 

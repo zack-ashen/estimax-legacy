@@ -1,5 +1,5 @@
 import { Schema, Types } from "mongoose";
-import { LocationArea, LocationAreaSchema } from "../sub-schema/locationArea";
+import { ILocationArea, LocationAreaSchema } from "../sub-schema/locationArea";
 import { IUser, User } from "../user";
 import ReviewSchema, { IReview } from "./review";
 
@@ -12,7 +12,7 @@ export interface IVendor extends IUser {
   invitedProjects: Types.ObjectId[];
   reviews: IReview[];
   searchRadius: number;
-  location: LocationArea;
+  location: ILocationArea;
   businessName: string;
 }
 

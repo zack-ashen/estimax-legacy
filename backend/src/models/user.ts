@@ -1,14 +1,15 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 import { Role } from "../types";
 
 export interface IUser {
-  id: string;
+  id: Types.ObjectId;
   email: string;
   password?: string;
   role: Role;
   name: string;
   bio?: string;
   profilePhoto?: string;
+  businessName?: string;
 }
 
 const userSchema = new Schema<IUser>(
@@ -18,6 +19,7 @@ const userSchema = new Schema<IUser>(
     name: { type: String },
     bio: { type: String, required: false },
     profilePhoto: { type: String, required: false },
+    businessName: { type: String, required: false },
     role: {
       type: String,
       enum: [Role.PROPERTY_MANAGER, Role.VENDOR],
@@ -51,4 +53,4 @@ userSchema.virtual("id").get(function () {
   return this._id;
 });
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model<IUser>("User", userSchema);

@@ -4,6 +4,8 @@ import { UserDetails } from "./AuthProvider";
 interface AuthContextProps {
   userDetails: UserDetails;
   signout: () => void;
+  accessToken: string;
+  setAccessToken: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const AuthContext = createContext<AuthContextProps | null>(null);

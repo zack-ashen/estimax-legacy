@@ -17,9 +17,11 @@ class VendorController {
         +limit!
       );
 
-      const vendorIds = vendors.map((vendor) => vendor.id);
+      const vendorIds = vendors.map((vendor) => vendor.id.toString());
 
-      const result: SearchResponse = { vendors: vendorIds };
+      const result: SearchResponse = {
+        vendors: vendorIds,
+      };
       res.status(200).json(result);
     } catch (e) {
       next(e);

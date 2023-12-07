@@ -1,5 +1,5 @@
 import CreatePropertyForm from "../../components/Forms/CreatePropertyForm/CreatePropertyForm";
-import PMLayout from "../../components/Layouts/PMLayout/PMLayout";
+import PMLayout from "../../layouts/PMLayout/PMLayout";
 
 export default function CreateProperty() {
   return (

@@ -40,7 +40,7 @@ export default function FileCard({ file, onRemove }: FileCardProps) {
         {onRemove && (
           <Button
             buttonStyle={ButtonStyles.TERTIARY}
-            Icon={TrashIcon}
+            LeftIcon={TrashIcon}
             onClick={() => onRemove(file)}
           />
         )}

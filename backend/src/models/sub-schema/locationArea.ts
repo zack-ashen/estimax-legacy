@@ -13,30 +13,33 @@ export interface Region {
   coordinates: Coordinates;
 }
 
-export interface LocationArea {
+export interface ILocationArea {
   name: string;
   region: Region;
   placeId: string;
 }
 
-export const LocationAreaSchema = new Schema<LocationArea>({
-  name: {
-    required: true,
-    type: String,
-  },
-  region: {
-    type: {
+export const LocationAreaSchema = new Schema<ILocationArea>(
+  {
+    name: {
+      required: true,
       type: String,
-      enum: ["Polygon"],
-      required: true,
     },
-    coordinates: {
-      type: [[[Number]]],
+    region: {
+      type: {
+        type: String,
+        enum: ["Polygon"],
+        required: true,
+      },
+      coordinates: {
+        type: [[[Number]]],
+        required: true,
+      },
+    },
+    placeId: {
       required: true,
+      type: String,
     },
   },
-  placeId: {
-    required: true,
-    type: String,
-  },
-});
+  { _id: false }
+);

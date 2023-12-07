@@ -3,14 +3,15 @@ import { IUser, User } from "../../models/user";
 import { Role } from "../../types";
 
 export class UserService {
-  async getById(id: string): Promise<IUser | null> {
+  async getById(id: string): Promise<IUser> {
     const user = await User.findById(id);
-    return user ? await user.toObject() : null;
+    if (!user) throw new Error("User not found");
+    return user;
   }
 
-  async getByEmail(email: string): Promise<IUser | null> {
+  async getByEmail(email: string): Promise<IUser | undefined> {
     const user = await User.findOne({ email });
-    return user ? await user.toObject() : null;
+    if (user) return user;
   }
 
   getOrgId(user: IUser): string | undefined {

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Button, { ButtonStyles } from "../../components/Button/Button";
-import PMLayout from "../../components/Layouts/PMLayout/PMLayout";
+import PMLayout from "../../layouts/PMLayout/PMLayout";
 
 import { MetricCard } from "../../components/Cards/MetricCard/MetricCard";
 import styles from "./PMDashboard.module.scss";

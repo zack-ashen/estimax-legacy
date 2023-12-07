@@ -18,10 +18,21 @@
   gap: $spacing-7;
 }
 
+.bottomSection {
+  width: 100%;
+}
+
 .sidebarTitle {
   margin-bottom: $spacing-3;
   @include typography("sm", "medium");
   color: $grey-400;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .linksContainer {
@@ -35,11 +46,19 @@
   color: $grey-600;
   display: flex;
   flex-direction: row;
-  gap: $spacing-2;
+  justify-content: space-between;
   align-items: center;
   padding: $spacing-2 $spacing-3;
   border-radius: 0.5rem;
   transition: background-color 0.2s ease-in-out;
+  width: 100%;
+
+  .linkContent {
+    display: flex;
+    flex-direction: row;
+    gap: $spacing-2;
+    align-items: center;
+  }
 
   .sidebarIcon {
     width: 1rem;
@@ -62,5 +81,33 @@
         stroke: $blue-700;
       }
     }
+  }
+}
+
+.actionButton {
+  border-radius: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem;
+  transition: all ease-in-out 0.15s;
+
+  &:hover {
+    background-color: darken($grey-200, 10%);
+
+    path {
+      stroke: $grey-900;
+    }
+  }
+}
+
+.actionIcon {
+  width: 1rem;
+  height: 1rem;
+  path {
+    stroke: $grey-600;
   }
 }

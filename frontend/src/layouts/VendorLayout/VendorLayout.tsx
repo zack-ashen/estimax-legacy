@@ -1,5 +1,5 @@
-import NavBar from "../../NavBar/NavBar";
-import NavLinks from "../../NavLinks/NavLinks";
+import NavBar from "../../components/NavBar/NavBar";
+import NavLinks from "../../components/NavLinks/NavLinks";
 import styles from "./VendorLayout.module.scss";
 
 const VendorNavLinks = (

@@ -1,5 +1,5 @@
 import SignUpForm from "../../components/Forms/SignUpForm/SignUpForm";
-import AuthLayout from "../../components/Layouts/AuthLayout/AuthLayout";
+import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
 
 import styles from "./Auth.module.scss";
 

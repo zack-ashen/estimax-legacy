@@ -1,52 +1,68 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import {
+  BankIcon,
+  BookmarkIcon,
+  BuildingIcon,
+  DashboardIcon,
+  DocumentIcon,
+  PlusIcon,
+  SearchIcon,
+  SettingsIcon,
+} from "../../assets/icons";
 import styles from "./PMSidebar.module.scss";
 
-import { ReactComponent as BookmarkIcon } from "../../assets/icons/bookmark.svg";
-import { ReactComponent as BuildingIcon } from "../../assets/icons/building.svg";
-import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
-import { ReactComponent as SearchIcon } from "../../assets/icons/search.svg";
-
-interface LinkProps {
+interface SidebarLinkProps {
   name: string;
   link: string;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  action?: {
+    Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+    navigate: string;
+  };
 }
 
-function Link({ name, link, Icon }: LinkProps) {
+function SidebarLink({ name, link, Icon, action }: SidebarLinkProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
-    <div className={styles.link}>
-      <p className={styles.linkText}></p>
-    </div>
+    <button
+      className={`${styles.sidebarLink} ${
+        styles[location.pathname === link ? "selected" : ""]
+      }`}
+      key={name}
+      onClick={() => navigate(link)}
+    >
+      <div className={styles.linkContent}>
+        {Icon && <Icon className={styles.sidebarIcon} />}
+        {name}
+      </div>
+      {action && (
+        <button
+          className={styles.actionButton}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(action.navigate);
+          }}
+        >
+          {<action.Icon className={styles.actionIcon} />}
+        </button>
+      )}
+    </button>
   );
 }
 
 interface LinkSectionProps {
   title?: string;
-  links: {
-    name: string;
-    link: string;
-    Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  }[];
+  links: SidebarLinkProps[];
 }
 function LinkSection({ title, links }: LinkSectionProps) {
-  const navigate = useNavigate();
-  const location = useLocation();
-
   return (
     <div className={styles.linkSection}>
       {title && <p className={styles.sidebarTitle}>{title.toUpperCase()}</p>}
       <div className={styles.linksContainer}>
-        {links.map(({ name, link, Icon }) => (
-          <button
-            className={`${styles.sidebarLink} ${
-              styles[location.pathname === link ? "selected" : ""]
-            }`}
-            key={name}
-            onClick={() => navigate(link)}
-          >
-            {Icon && <Icon className={styles.sidebarIcon} />}
-            {name}
-          </button>
+        {links.map((sidebarLinkProps) => (
+          <SidebarLink {...sidebarLinkProps} />
         ))}
       </div>
     </div>
@@ -71,19 +87,29 @@ const linkSections: LinkSectionProps[] = [
         link: "/find-vendors",
         Icon: SearchIcon,
       },
+      {
+        name: "My Properties",
+        link: "/properties",
+        Icon: BuildingIcon,
+        action: {
+          Icon: PlusIcon,
+          navigate: "/create-property",
+        },
+      },
     ],
   },
   {
-    title: "Properties",
+    title: "Financials",
     links: [
       {
-        name: "Properties",
-        link: "/properties",
-        Icon: BuildingIcon,
+        name: "Billing",
+        link: "/financials/billing",
+        Icon: BankIcon,
       },
       {
-        name: "Add Property",
-        link: "/create-property",
+        name: "Documents",
+        link: "/financials/documents",
+        Icon: DocumentIcon,
       },
     ],
   },
@@ -99,7 +125,9 @@ export default function PMSidebar() {
             <LinkSection {...linkSection} key={index} />
           ))}
         </div>
-        <div className={styles.bottomSection}></div>
+        <div className={styles.bottomSection}>
+          <SidebarLink name="Settings" link="/settings" Icon={SettingsIcon} />
+        </div>
       </div>
     </div>
   );

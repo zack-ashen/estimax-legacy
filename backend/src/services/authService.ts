@@ -88,6 +88,22 @@ const AuthService = {
   comparePasswords(password: string, hashedPassword: string) {
     return bcrypt.compare(password, hashedPassword);
   },
+
+  getDecodedToken(token: string): TokenPayload {
+    const { iat, exp, ...payload } = jwt.verify(
+      token,
+      PRIVATE_KEY
+    ) as TokenPayload;
+
+    return payload;
+  },
+
+  getTokenFromHeader(authHeader: string): TokenPayload {
+    const token = authHeader.split(" ")[1];
+    const tokenPayload = AuthService.getDecodedToken(token);
+
+    return tokenPayload;
+  },
 };
 
 export default AuthService;

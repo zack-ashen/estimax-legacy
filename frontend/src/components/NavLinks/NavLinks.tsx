@@ -22,7 +22,7 @@ export default function NavLinks({ links }: NavLinksProps) {
           key={name}
           text={name}
           selected={location.pathname === route}
-          Icon={Icon}
+          LeftIcon={Icon}
           onClick={() => {
             location.pathname !== route && navigate(route);
           }}

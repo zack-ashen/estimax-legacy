@@ -1,12 +1,12 @@
 import Vendor, { IVendor } from "../../models/Vendor/vendor";
-import { Organization } from "../../models/organization";
 import PropertyManager, {
   IPropertyManager,
 } from "../../models/propertyManager";
-import { LocationArea } from "../../models/sub-schema/locationArea";
+import { ILocationArea } from "../../models/sub-schema/locationArea";
 import { Role } from "../../types";
 import { PropertyManagerDto, VendorDto } from "../../types/dtos";
 import LocationService from "../locationService";
+import OrganizationService from "../organizationService";
 
 class UserFactory {
   public static async create(
@@ -23,28 +23,33 @@ class UserFactory {
   }
 
   private static async createVendor(vendorDto: VendorDto): Promise<IVendor> {
-    const vendorLocationArea: LocationArea =
+    const vendorLocationArea: ILocationArea =
       await LocationService.locationAreaFromPlaceId(vendorDto.location);
 
-    const vendor = new Vendor({ ...vendorDto, location: vendorLocationArea });
+    const vendor = new Vendor({
+      ...vendorDto,
+      location: vendorLocationArea,
+    });
     await vendor.save();
-    return vendor;
+    return vendor.toObject();
   }
 
   private static async createPropertyManager(
     pmDto: PropertyManagerDto
   ): Promise<IPropertyManager> {
-    const pm = new PropertyManager(pmDto);
-
-    const organization = new Organization({
+    const organization = await OrganizationService.create({
       name: "Personal",
-      users: [pm.id],
     });
 
-    await organization.save();
-
+    const pm = new PropertyManager({
+      ...pmDto,
+      organization: organization.id,
+    });
     await pm.save();
-    return pm;
+
+    await organization.users.push(pm.id);
+
+    return pm.toObject();
   }
 }
 

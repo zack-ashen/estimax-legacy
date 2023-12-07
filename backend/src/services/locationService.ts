@@ -7,8 +7,8 @@ import {
   PlaceAutocompleteType,
 } from "@googlemaps/google-maps-services-js";
 import { LRUCache } from "lru-cache";
-import { Address } from "../models/sub-schema/address";
-import { LocationArea } from "../models/sub-schema/locationArea";
+import { IAddress } from "../models/sub-schema/address";
+import { ILocationArea } from "../models/sub-schema/locationArea";
 import { Location } from "./../models/sub-schema/location";
 import { Coordinates, Region } from "./../models/sub-schema/locationArea";
 
@@ -75,7 +75,9 @@ export class LocationService {
   }
 
   // Precondition: placeId is for a region, not a specific address
-  public async locationAreaFromPlaceId(placeId: string): Promise<LocationArea> {
+  public async locationAreaFromPlaceId(
+    placeId: string
+  ): Promise<ILocationArea> {
     const placeDetails = await this.getPlaceDetails(placeId);
 
     if (!placeDetails.geometry) {
@@ -108,7 +110,7 @@ export class LocationService {
     const point: [number, number] = [lng, lat];
 
     // Initialize an empty address object
-    const address: Address = {
+    const address: IAddress = {
       addressLine1: "",
       addressLine2: "",
     };

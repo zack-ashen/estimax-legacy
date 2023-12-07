@@ -9,6 +9,7 @@ import SignUp from "./pages/Auth/SignUp";
 import CreateProperty from "./pages/CreateProperty/CreateProperty";
 import Landing from "./pages/Landing/Landing";
 import PMDashboard from "./pages/PMDashboard/PMDashboard";
+import Properties from "./pages/Properties/Properties";
 import Property from "./pages/Property/Property";
 import VendorDashboard from "./pages/VendorDashboard/VendorDashboard";
 import { AuthService } from "./services/auth/auth";
@@ -58,6 +59,16 @@ function App() {
             <PrivateRoute
               componentMap={{
                 [Role.PROPERTY_MANAGER]: <CreateProperty />,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/properties"
+          element={
+            <PrivateRoute
+              componentMap={{
+                [Role.PROPERTY_MANAGER]: <Properties />,
               }}
             />
           }
