@@ -6,7 +6,11 @@ import { ReactComponent as PlusIcon } from "../../assets/icons/plus.svg";
 
 import { useEffect, useState } from "react";
 import PropertyCard from "../../components/Cards/PropertyCard/PropertyCard";
-import { GridContainer } from "../../components/GridLayout/GridLayout";
+import {
+  GridColumn,
+  GridContainer,
+  GridRow,
+} from "../../components/GridLayout/GridLayout";
 import { useAuth } from "../../contexts/AuthContext/AuthContext";
 import { OrganizationService } from "../../services/organizationService";
 import { Property } from "../../types";
@@ -43,9 +47,13 @@ export default function Properties() {
       </div>
 
       <GridContainer>
-        {properties?.map((property, ind) => (
-          <PropertyCard key={ind} property={property} />
-        ))}
+        <GridRow>
+          {properties?.map((property, ind) => (
+            <GridColumn key={ind} xs={5}>
+              <PropertyCard key={ind} property={property} />
+            </GridColumn>
+          ))}
+        </GridRow>
       </GridContainer>
     </PMLayout>
   );

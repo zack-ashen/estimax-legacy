@@ -17,3 +17,32 @@
   @include typography("sm", "medium");
   color: $red-500 !important;
 }
+
+@mixin inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+@mixin inputGroupHeader {
+  @include typography("md", "medium");
+  color: $grey-800;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+@mixin inputGroupOptions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+@mixin inputRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

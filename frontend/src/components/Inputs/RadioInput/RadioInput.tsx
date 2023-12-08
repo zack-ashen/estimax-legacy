@@ -1,5 +1,7 @@
 import { forwardRef, Ref } from "react";
 
+import styles from "./RadioInput.module.scss";
+
 interface Option {
   label: string;
   value: string | number;
@@ -18,14 +20,23 @@ const RadioInput = forwardRef(
     ref: Ref<HTMLInputElement>
   ) => {
     return (
-      <div>
-        <label>{label}</label>
-        {options.map((option, index) => (
-          <label key={option.value}>
-            {option.label}
-            <input type="radio" value={option.value} ref={ref} {...rest} />
-          </label>
-        ))}
+      <div className={styles.RadioGroup}>
+        <label className={styles.radioGroupHeader}>{label}</label>
+        <div className={styles.radioOptions}>
+          {options.map((option, index) => (
+            <label key={option.value} className={styles.radioRow}>
+              <input
+                className={styles.radio}
+                type="radio"
+                name={name}
+                value={option.value}
+                ref={register ? register(name) : ref}
+                {...rest}
+              />
+              <span className={styles.radioLabel}>{option.label}</span>
+            </label>
+          ))}
+        </div>
       </div>
     );
   }

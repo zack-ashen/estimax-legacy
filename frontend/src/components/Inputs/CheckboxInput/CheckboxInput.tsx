@@ -1,5 +1,7 @@
 import { forwardRef, Ref } from "react";
 
+import styles from "./CheckboxInput.module.scss";
+
 interface Option {
   label: string;
   value: string | number;
@@ -18,14 +20,23 @@ const CheckboxInput = forwardRef(
     ref: Ref<HTMLInputElement>
   ) => {
     return (
-      <div>
-        <label>{label}</label>
-        {options.map((option, index) => (
-          <label key={option.value}>
-            {option.label}
-            <input type="checkbox" value={option.value} ref={ref} {...rest} />
-          </label>
-        ))}
+      <div className={styles.CheckboxGroup}>
+        <label className={styles.checkboxGroupHeader}>{label}</label>
+        <div className={styles.checkboxOptions}>
+          {options.map((option, index) => (
+            <label key={option.value} className={styles.checkboxRow}>
+              <input
+                className={styles.checkbox}
+                type="checkbox"
+                name={name}
+                value={option.value}
+                ref={register ? register(name) : ref}
+                {...rest}
+              />
+              <span className={styles.checkboxLabel}>{option.label}</span>
+            </label>
+          ))}
+        </div>
       </div>
     );
   }

@@ -30,8 +30,10 @@ const BiddingSettingsElement = () => {
         ]}
         {...register("myRadio")}
       />
-      <p>Calendar Settings</p>
-      <DatePicker selected={new Date()} onChange={() => {}} />
+      <div>
+        <p>Bidding End Date</p>
+        <DatePicker selected={new Date()} onChange={() => {}} />
+      </div>
     </>
   );
 };
