@@ -18,6 +18,7 @@ export default function DatePicker({
 
   return (
     <ReactDatePicker
+      showTimeSelect
       selected={selected || startDate}
       onChange={(date: Date | null) => {
         onChange && onChange(date);
