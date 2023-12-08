@@ -1,21 +1,49 @@
 import React from 'react';
 import styles from './TablePagination.module.scss';
-import Button, { ButtonStyles } from '../../Button/Button';
+import { ChevronLeft, ChevronLeftDouble, ChevronRight, ChevronRightDouble } from '../../../assets/icons';
 
 interface TablePaginationProps {
   currentPage: number;
   totalPages: number;
   onPrevious: () => void;
   onNext: () => void;
+  onFirst: () => void;
+  onLast: () => void;
 }
 
-const TablePagination: React.FC<TablePaginationProps> = ({ currentPage, totalPages, onPrevious, onNext }) => {
+const TablePagination: React.FC<TablePaginationProps> = ({ currentPage, totalPages, onPrevious, onNext, onFirst, onLast }) => {
   return (
     <div className={styles.tablePaginationContainer}>
       <div className={styles.pageCounter}>Page {currentPage} of {totalPages}</div>
       <div className={styles.buttonsContainer}>
-        {currentPage > 1 && <Button buttonStyle={ButtonStyles.SECONDARY} text={"Previous"} onClick={onPrevious} />}
-        {currentPage < totalPages && <Button buttonStyle={ButtonStyles.SECONDARY} text={"Next"} onClick={onNext} />}
+        <button 
+          className={styles.paginationButton}
+          onClick={onFirst}
+          disabled={currentPage <= 1}
+        >
+          {<ChevronLeftDouble className={styles.paginationIcon} />}
+        </button>
+        <button
+          className={styles.paginationButton}
+          onClick={onPrevious}
+          disabled={currentPage <= 1}
+        >
+          {<ChevronLeft className={styles.paginationIcon} />}
+        </button>
+        <button
+          className={styles.paginationButton}
+          onClick={onNext}
+          disabled={currentPage >= totalPages}
+        >
+          {<ChevronRight className={styles.paginationIcon} />}
+        </button>
+        <button 
+          className={styles.paginationButton}
+          onClick={onLast}
+          disabled={currentPage >= totalPages}
+        >
+          {<ChevronRightDouble className={styles.paginationIcon} />}
+        </button>
       </div>
     </div>
   );

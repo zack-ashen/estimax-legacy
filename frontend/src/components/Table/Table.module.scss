@@ -13,17 +13,24 @@
   }
 }
 
-tr {
+.columnTitleRow {
+  height: 2.5rem;
+  background-color: $grey-50;
+}
+
+.regularRow {
   height: 3rem;
 
   &:not(:last-child) td {
     border-bottom: 1px solid $grey-200;
   }
+
+  &:hover {
+    background-color: $grey-100;
+  }
 }
 
-.columnTitleRow {
-  background-color: $grey-50;
-}
+
 
 .columnTitleCell {
   @include typography("sm", "medium");

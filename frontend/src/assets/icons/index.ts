@@ -10,3 +10,7 @@ export { ReactComponent as PlusIcon } from "./plus.svg";
 export { ReactComponent as SearchIcon } from "./search.svg";
 export { ReactComponent as SettingsIcon } from "./settings.svg";
 export { ReactComponent as TrashIcon } from "./trash.svg";
+export { ReactComponent as ChevronLeft } from "./chevron_left.svg";
+export { ReactComponent as ChevronRight } from "./chevron_right.svg";
+export { ReactComponent as ChevronLeftDouble } from "./chevron_left_double.svg";
+export { ReactComponent as ChevronRightDouble } from "./chevron_right_double.svg";

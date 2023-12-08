@@ -39,9 +39,17 @@ const Table: React.FC<TableProps> = ({ data, columns, pageSize = 10, header, fil
     setCurrentPage(current => Math.max(1, current - 1));
   };
 
+  const handleFirstPage = () => {
+    setCurrentPage(1);
+  };
+
   const handleNextPage = () => {
     setCurrentPage(current => Math.min(totalPages, current + 1));
   };
+
+  const handleLastPage = () => {
+    setCurrentPage(totalPages);
+  }
 
   return (
     <div>
@@ -56,7 +64,7 @@ const Table: React.FC<TableProps> = ({ data, columns, pageSize = 10, header, fil
           </tr>
           <tbody>
             {currentPageData.map((row, rowIndex) => (
-              <tr key={rowIndex}>
+              <tr key={rowIndex} className={styles.regularRow}>
                 {row.map((cell, cellIndex) => (
                   <td key={cellIndex} className={styles.tableCell}>{cell.content}</td>
                 ))}
@@ -64,7 +72,16 @@ const Table: React.FC<TableProps> = ({ data, columns, pageSize = 10, header, fil
             ))}
           </tbody>
         </table>
-        {totalPages > 1 && <TablePagination currentPage={currentPage} totalPages={totalPages} onPrevious={handlePreviousPage} onNext={handleNextPage} />}
+        {totalPages > 1 && 
+          <TablePagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPrevious={handlePreviousPage}
+            onNext={handleNextPage} 
+            onFirst={handleFirstPage}
+            onLast={handleLastPage}
+          />
+        }
       </div>
     </div>
   );

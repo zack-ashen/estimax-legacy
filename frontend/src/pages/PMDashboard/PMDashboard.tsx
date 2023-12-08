@@ -63,7 +63,7 @@ export default function PMDashboard() {
   const tableData = mockTableData.map(row => ([
     { content: <b>{row.boldText}</b>, filterValue: row.boldText },
     { content: row.regularText, filterValue: row.regularText },
-    { content: <button onClick={() => handleButtonClick(row.id)}>{row.buttonText}</button> },
+    { content: <Button buttonStyle={ButtonStyles.PRIMARY} text={row.buttonText} onClick={() => handleButtonClick(row.id)} /> },
   ]));
 
   const tableCols = [
