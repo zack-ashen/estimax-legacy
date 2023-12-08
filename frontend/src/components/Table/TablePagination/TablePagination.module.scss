@@ -14,7 +14,7 @@
 }
 
 .pageCounter {
-  @include typography("sm", "medium");
+  @include typography("xs", "medium");
   color: $grey-800;
 }
 

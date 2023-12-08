@@ -20,6 +20,8 @@
 
 .regularRow {
   height: 3rem;
+  @include typography("sm", "medium");
+  color: $grey-800;
 
   &:not(:last-child) td {
     border-bottom: 1px solid $grey-200;
