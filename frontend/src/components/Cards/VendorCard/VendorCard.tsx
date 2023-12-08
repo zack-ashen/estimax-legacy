@@ -41,16 +41,11 @@ export default function VendorCard({ id, vendor }: VendorCardProps) {
           <p className={styles.vendorLocation}>Gaza City, Gaza</p>
         </div>
         <div> 
-          <button 
-            className={styles.saveButton}
-            // onClick={} save the vendor
-          >
-            {<BookmarkIcon className={styles.saveIcon} />}
-          </button>
-          {/* <Button 
+          <Button 
             buttonStyle={ButtonStyles.TERTIARY}
             LeftIcon={BookmarkIcon}
-          /> */}
+            iconOnly
+          />
         </div>
       </div>
       <div className={styles.servicesContainer}>

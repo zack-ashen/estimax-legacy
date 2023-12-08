@@ -17,37 +17,3 @@
   @include typography("xs", "medium");
   color: $grey-800;
 }
-
-.paginationButton {
-  border-radius: 0.25rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0.2rem;
-  transition: all ease-in-out 0.15s;
-
-  &:hover {
-    background-color: darken($grey-200, 10%);
-
-    path {
-      stroke: $grey-900;
-    }
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-    pointer-events: none;
-  }
-}
-
-.paginationIcon {
-  width: 1rem;
-  height: 1rem;
-  path {
-    stroke: $grey-600;
-  }
-}

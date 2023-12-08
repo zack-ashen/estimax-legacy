@@ -10,6 +10,7 @@ import {
   SettingsIcon,
 } from "../../assets/icons";
 import styles from "./PMSidebar.module.scss";
+import Button, { ButtonStyles } from "../Button/Button";
 
 interface SidebarLinkProps {
   name: string;
@@ -38,15 +39,15 @@ function SidebarLink({ name, link, Icon, action }: SidebarLinkProps) {
         {name}
       </div>
       {action && (
-        <button
-          className={styles.actionButton}
+        <Button 
+          buttonStyle={ButtonStyles.TERTIARY}
+          LeftIcon={action.Icon}
           onClick={(e) => {
             e.stopPropagation();
             navigate(action.navigate);
           }}
-        >
-          {<action.Icon className={styles.actionIcon} />}
-        </button>
+          iconOnly
+        />
       )}
     </button>
   );

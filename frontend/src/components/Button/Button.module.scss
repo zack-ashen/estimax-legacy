@@ -14,6 +14,29 @@
   align-items: center;
   transition: background-color 0.3s ease-in-out, box-shadow 0.4s ease-in-out,
     border-color 0.4s ease-in-out;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.iconOnly {
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+
+  .icon path {
+    stroke: $grey-600 !important;
+  }
+
+  &:hover {
+    background-color: darken($grey-200, 10%) !important;
+
+    path {
+      stroke: $grey-900 !important;
+    }
+  }
 }
 
 .iconContainer {

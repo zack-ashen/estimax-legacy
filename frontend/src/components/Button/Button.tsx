@@ -15,6 +15,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   LeftIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   RightIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   text?: string;
+  iconOnly?: boolean;
   selected?: boolean;
 }
 
@@ -27,6 +28,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       RightIcon,
       type = "button",
       text,
+      iconOnly = false,
       selected = false,
       wide = false,
     },
@@ -36,30 +38,27 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       width: wide ? "100%" : "fit-content",
     };
 
-    return (
-      <button
-        className={`${styles[buttonStyle]} ${
-          styles[selected ? "selected" : ""]
-        }`}
-        onClick={onClick}
-        style={style}
-        type={type}
-        ref={ref}
-      >
-        {LeftIcon && (
-          <div className={styles.iconContainer}>
-            <LeftIcon className={styles.icon} />
-          </div>
-        )}
-        {text && <span className={styles.buttonText}>{text}</span>}
-        {RightIcon && (
-          <div className={styles.iconContainer}>
-            <RightIcon className={styles.icon} />
-          </div>
-        )}
-      </button>
-    );
-  }
-);
+  return (
+    <button
+      className={`${styles[buttonStyle]} ${styles[iconOnly ? "iconOnly" : ""]} ${styles[selected ? "selected" : ""]}`}
+      onClick={onClick}
+      style={style}
+      type={type}
+      ref={ref}
+    >
+      {LeftIcon && (
+        <div className={styles.iconContainer}>
+          <LeftIcon className={styles.icon} />
+        </div>
+      )}
+      {text && <span className={styles.buttonText}>{text}</span>}
+      {RightIcon && (
+        <div className={styles.iconContainer}>
+          <RightIcon className={styles.icon} />
+        </div>
+      )}
+    </button>
+  );
+};
 
 export default Button;

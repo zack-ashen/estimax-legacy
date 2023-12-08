@@ -84,31 +84,3 @@
     }
   }
 }
-
-.actionButton {
-  border-radius: 0.25rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0.2rem;
-  transition: all ease-in-out 0.15s;
-
-  &:hover {
-    background-color: darken($grey-200, 10%);
-
-    path {
-      stroke: $grey-900;
-    }
-  }
-}
-
-.actionIcon {
-  width: 1rem;
-  height: 1rem;
-  path {
-    stroke: $grey-600;
-  }
-}
