@@ -1,5 +1,4 @@
-import { Controller, useFormContext } from "react-hook-form";
-import LocationSelect from "../../../Inputs/LocationSelect/LocationSelect";
+import { useFormContext } from "react-hook-form";
 import TextArea from "../../../Inputs/TextArea/TextArea";
 import TextInput from "../../../Inputs/TextInput/TextInput";
 
@@ -18,22 +17,6 @@ const GeneralDetailsElement = () => {
         label="Project Name"
         error={errors.propertyName?.message}
         {...register("name", { required: "Property name is required" })}
-      />
-      <Controller
-        name="location"
-        control={control}
-        rules={{ required: "Address is required" }}
-        render={({ field, fieldState: { error } }) => (
-          <LocationSelect
-            id={"address-search"}
-            label={"Address"}
-            currentOption={field.value}
-            type="address"
-            error={error?.message}
-            placeholder="Enter your property address"
-            {...field}
-          />
-        )}
       />
       <TextArea
         id="basic-info-description"

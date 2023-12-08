@@ -31,10 +31,6 @@ button {
   font-family: inherit;
 }
 
-input[type="button"] {
-  all: unset;
-}
-
 @mixin card {
   padding: $spacing-6;
   display: flex;
