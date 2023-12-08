@@ -1,5 +1,4 @@
-import { ButtonHTMLAttributes } from "react";
-
+import React, { ButtonHTMLAttributes, ForwardedRef } from "react";
 import styles from "./Button.module.scss";
 
 export enum ButtonStyles {
@@ -19,40 +18,48 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   selected?: boolean;
 }
 
-const Button = ({
-  buttonStyle,
-  onClick,
-  LeftIcon,
-  RightIcon,
-  type = "button",
-  text,
-  selected = false,
-  wide = false,
-}: ButtonProps) => {
-  const style = {
-    width: wide ? "100%" : "fit-content",
-  };
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      buttonStyle,
+      onClick,
+      LeftIcon,
+      RightIcon,
+      type = "button",
+      text,
+      selected = false,
+      wide = false,
+    },
+    ref: ForwardedRef<HTMLButtonElement>
+  ) => {
+    const style = {
+      width: wide ? "100%" : "fit-content",
+    };
 
-  return (
-    <button
-      className={`${styles[buttonStyle]} ${styles[selected ? "selected" : ""]}`}
-      onClick={onClick}
-      style={style}
-      type={type}
-    >
-      {LeftIcon && (
-        <div className={styles.iconContainer}>
-          <LeftIcon className={styles.icon} />
-        </div>
-      )}
-      {text && <span className={styles.buttonText}>{text}</span>}
-      {RightIcon && (
-        <div className={styles.iconContainer}>
-          <RightIcon className={styles.icon} />
-        </div>
-      )}
-    </button>
-  );
-};
+    return (
+      <button
+        className={`${styles[buttonStyle]} ${
+          styles[selected ? "selected" : ""]
+        }`}
+        onClick={onClick}
+        style={style}
+        type={type}
+        ref={ref}
+      >
+        {LeftIcon && (
+          <div className={styles.iconContainer}>
+            <LeftIcon className={styles.icon} />
+          </div>
+        )}
+        {text && <span className={styles.buttonText}>{text}</span>}
+        {RightIcon && (
+          <div className={styles.iconContainer}>
+            <RightIcon className={styles.icon} />
+          </div>
+        )}
+      </button>
+    );
+  }
+);
 
 export default Button;

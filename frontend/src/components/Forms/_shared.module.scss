@@ -7,3 +7,9 @@
   width: 100%;
   max-width: 40rem;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}

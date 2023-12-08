@@ -1,11 +1,32 @@
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { useFormContext } from "react-hook-form";
+import { forwardRef } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { CalendarIcon } from "../../../../assets/icons";
+import Button, { ButtonStyles } from "../../../Button/Button";
+import DatePicker from "../../../DatePicker/DatePicker";
 import CheckboxInput from "../../../Inputs/CheckboxInput/CheckboxInput";
 import RadioInput from "../../../Inputs/RadioInput/RadioInput";
 
+import styles from "../../_shared.module.scss";
+
+interface ExampleCustomInputProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  value?: string;
+}
+
+const DateButton = forwardRef<HTMLButtonElement, ExampleCustomInputProps>(
+  ({ value, onClick }, ref) => (
+    <Button
+      buttonStyle={ButtonStyles.SECONDARY}
+      LeftIcon={CalendarIcon}
+      onClick={onClick}
+      ref={ref}
+      text={value}
+    />
+  )
+);
+
 const BiddingSettingsElement = () => {
-  const { register } = useFormContext();
+  const { register, control } = useFormContext();
 
   return (
     <>
@@ -18,7 +39,7 @@ const BiddingSettingsElement = () => {
             value: "public",
           },
         ]}
-        {...register("myRadio")}
+        {...register("privacy")}
       />
       <CheckboxInput
         label="Dynamic Bidding"
@@ -28,11 +49,22 @@ const BiddingSettingsElement = () => {
             value: "dynamicBidding",
           },
         ]}
-        {...register("myRadio")}
+        {...register("dynamicBidding")}
       />
-      <div>
+      <div className={styles.container}>
         <p>Bidding End Date</p>
-        <DatePicker selected={new Date()} onChange={() => {}} />
+        <Controller
+          control={control}
+          name={"biddingEndDate"}
+          render={({ field }) => (
+            <DatePicker
+              selected={field.value as Date}
+              onChange={(date: Date | null) => field.onChange(date)}
+              customInput={<DateButton />}
+              // ... other props
+            />
+          )}
+        />
       </div>
     </>
   );

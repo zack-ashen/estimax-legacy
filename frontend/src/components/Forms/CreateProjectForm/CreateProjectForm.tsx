@@ -6,7 +6,9 @@ import { UploadMedia } from "./Steps/UploadMedia";
 import { VendorInvite } from "./Steps/VendorInvite";
 
 export default function CreateProject() {
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {};
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
+  };
 
   const steps = [GeneralDetails, UploadMedia, VendorInvite, BiddingSettings];
   return (
