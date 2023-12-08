@@ -29,6 +29,7 @@ const Table: React.FC<TableProps> = ({ data, columns, pageSize = 10, header, fil
   useEffect(() => {
     if (activeFilters.length > 0) {
       setFilteredData(data.filter(row => activeFilters.some(filter => filter(row))));
+      setCurrentPage(1);
     } else {
       setFilteredData(data);
     }
