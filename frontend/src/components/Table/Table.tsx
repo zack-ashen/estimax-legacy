@@ -23,25 +23,16 @@ const Table: React.FC<TableProps> = ({ data, columns, pageSize = 10, header, fil
   const [activeFilters, setActiveFilters] = useState<((row: TableRow) => boolean)[]>([]);
   const [filteredData, setFilteredData] = useState<TableRow[]>([]);
 
+  const totalPages = Math.ceil(filteredData.length / pageSize);
+  const currentPageData = filteredData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
   useEffect(() => {
     if (activeFilters.length > 0) {
       setFilteredData(data.filter(row => activeFilters.some(filter => filter(row))));
     } else {
-      setFilteredData(data); // Show all data if no filter is active
+      setFilteredData(data);
     }
   }, [data, activeFilters]);
-
-  const handleFilterChange = (filterLogic: (row: TableRow) => boolean) => {
-    setActiveFilters(prev => {
-      // Check if filter is already active, then toggle it
-      const index = prev.indexOf(filterLogic);
-      if (index > -1) {
-        return [...prev.slice(0, index), ...prev.slice(index + 1)];
-      } else {
-        return [...prev, filterLogic];
-      }
-    });
-  };
 
   const handlePreviousPage = () => {
     setCurrentPage(current => Math.max(1, current - 1));
@@ -51,13 +42,10 @@ const Table: React.FC<TableProps> = ({ data, columns, pageSize = 10, header, fil
     setCurrentPage(current => Math.min(totalPages, current + 1));
   };
 
-  const totalPages = Math.ceil(filteredData.length / pageSize);
-  const currentPageData = filteredData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-
   return (
     <div>
       {header && <TableHeader title={header.title} buttonLabel={header.buttonLabel} buttonIcon={header.buttonIcon} onButtonClick={header.onButtonClick} />}
-      {filters && <TableToggleFilter filters={filters} onFilterChange={handleFilterChange} />}
+      {filters && <TableToggleFilter filters={filters} setFilters={setActiveFilters} />}
       <div className={styles.tableContentContainer}>
         <table>
           <tr className={styles.columnTitleRow}>
