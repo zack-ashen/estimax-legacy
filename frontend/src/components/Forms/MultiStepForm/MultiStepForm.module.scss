@@ -1,11 +1,10 @@
-@import '../shared';
-
+@import "../shared.module";
 
 .multiForm {
-    margin-top: $spacing-5;
+  margin-top: $spacing-5;
 }
 
 .stepIndicator {
-    @include typography('xs', 'medium');
-    color: $grey-500;
+  @include typography("xs", "medium");
+  color: $grey-500;
 }
