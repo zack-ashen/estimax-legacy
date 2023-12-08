@@ -17,3 +17,7 @@ export interface PropertyDto extends Partial<Omit<IProperty, "location">> {
 }
 
 export interface OrganizationDto extends Partial<IOrganization> {}
+
+export interface ProjectDto extends Partial<IProperty> {
+  expirationDate: string;
+}

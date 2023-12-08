@@ -10,6 +10,7 @@ import CreateProject from "./pages/CreateProject/CreateProject";
 import CreateProperty from "./pages/CreateProperty/CreateProperty";
 import Landing from "./pages/Landing/Landing";
 import PMDashboard from "./pages/PMDashboard/PMDashboard";
+import Project from "./pages/Project/Project";
 import Properties from "./pages/Properties/Properties";
 import Property from "./pages/Property/Property";
 import VendorDashboard from "./pages/VendorDashboard/VendorDashboard";
@@ -75,6 +76,7 @@ function App() {
           }
         />
         <Route path="/property/:id" element={<Property />} />
+        <Route path="/project/:id" element={<Project />} />
         <Route
           path="/create-project"
           element={

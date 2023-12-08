@@ -39,7 +39,7 @@ const BiddingSettingsElement = () => {
             value: "public",
           },
         ]}
-        {...register("privacy")}
+        {...register("public")}
       />
       <CheckboxInput
         label="Dynamic Bidding"
@@ -55,7 +55,7 @@ const BiddingSettingsElement = () => {
         <p>Bidding End Date</p>
         <Controller
           control={control}
-          name={"biddingEndDate"}
+          name={"expirationDate"}
           render={({ field }) => (
             <DatePicker
               selected={field.value as Date}

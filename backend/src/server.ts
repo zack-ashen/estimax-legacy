@@ -10,6 +10,7 @@ import morgan from "morgan";
 import authRoutes from "./api/routes/auth.routes";
 import locationRoutes from "./api/routes/location.routes";
 import organizationRoutes from "./api/routes/organization.routes";
+import projectRoutes from "./api/routes/project.routes";
 import propertyRoutes from "./api/routes/property.routes";
 import vendorRoutes from "./api/routes/vendor.routes";
 
@@ -41,6 +42,7 @@ app.use("/api/location", locationRoutes);
 app.use("/api/vendor", vendorRoutes);
 app.use("/api/property", propertyRoutes);
 app.use("/api/organization", organizationRoutes);
+app.use("/api/project", projectRoutes);
 
 // Error Handling
 app.use(errorHandler);

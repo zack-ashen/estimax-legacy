@@ -30,6 +30,16 @@ class OrganizationService {
       { $push: { properties: propertyId } }
     );
   }
+
+  async addProject(
+    orgId: Types.ObjectId,
+    projectId: Types.ObjectId
+  ): Promise<void> {
+    await Organization.updateOne(
+      { _id: orgId },
+      { $push: { postedProjects: projectId } }
+    );
+  }
 }
 
 export default new OrganizationService();
