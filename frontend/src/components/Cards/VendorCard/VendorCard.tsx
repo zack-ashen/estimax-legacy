@@ -37,7 +37,7 @@ export default function VendorCard({ id, vendor }: VendorCardProps) {
     >
       <div className={styles.topContainer}>
         <div className={styles.vendorTextContainer}>
-          <p className={styles.vendorName}>Ashen's Landscaping</p>
+          <p className={styles.vendorName}>Mohammed's Missile Co.</p>
           <p className={styles.vendorLocation}>Gaza City, Gaza</p>
         </div>
         <div> 
