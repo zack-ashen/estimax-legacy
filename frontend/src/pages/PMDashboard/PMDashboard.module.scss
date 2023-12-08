@@ -5,3 +5,9 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-9;
+}

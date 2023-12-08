@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import Button, { ButtonStyles } from "../../components/Button/Button";
 import PMLayout from "../../layouts/PMLayout/PMLayout";
 
 import { MetricCard } from "../../components/Cards/MetricCard/MetricCard";
@@ -102,7 +101,10 @@ export default function PMDashboard() {
 
   const navigate = useNavigate();
   return (
-    <PMLayout pageTitle="Dashboard">
+    <PMLayout
+      pageTitle="Dashboard"
+      containerClassName={styles.dashboardContainer}
+    >
       <div className={styles.metricsCards}>
         <MetricCard
           title="Properties"
@@ -120,11 +122,6 @@ export default function PMDashboard() {
           Icon={BuildingIcon}
         />
       </div>
-      <Button
-        buttonStyle={ButtonStyles.PRIMARY}
-        onClick={() => navigate("/create-property")}
-        text="Create Property"
-      />
       <Table
         header={headerProps}
         data={tableData}
