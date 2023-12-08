@@ -1,0 +1,74 @@
+@import "../../../styles/index";
+
+.VendorCard {
+  @include card;
+  width: fit-content;
+  flex-direction: column;
+  gap: $spacing-3;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    background-color: $blue-25;
+    border-color: $blue-200;
+    cursor: pointer;
+  }
+}
+
+.topContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.vendorTextContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+}
+
+.vendorName {
+  @include typography("md", "medium");
+  color: $grey-800;
+}
+
+.vendorLocation {
+  @include typography("sm", "regular");
+  color: $grey-600;
+}
+
+
+.saveButton {
+  border-radius: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem;
+  transition: all ease-in-out 0.15s;
+
+  &:hover {
+    background-color: darken($grey-200, 10%);
+
+    path {
+      stroke: $grey-900;
+    }
+  }
+
+}
+
+.saveIcon {
+  width: 1rem;
+  height: 1rem;
+  path {
+    stroke: $grey-600;
+  }
+}
+
+
+.servicesContainer {
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-2;
+}

@@ -6,6 +6,7 @@ import styles from "./PMDashboard.module.scss";
 
 import { ReactComponent as BuildingIcon } from "../../assets/icons/building.svg";
 import Nib from "../../components/Nib/Nib";
+import VendorCard from "../../components/Cards/VendorCard/VendorCard";
 import Table from "../../components/Tables/Table/Table";
 
 export default function PMDashboard() {
@@ -129,6 +130,10 @@ export default function PMDashboard() {
         filters={filterProps}
         pageSize={3}
       />
+
+      <VendorCard /> 
+
+
     </PMLayout>
   );
 }
