@@ -1,4 +1,4 @@
-@import "../../../styles/index";
+@import "../../../../styles/index";
 
 .tableHeaderContainer {
   display: flex;
@@ -8,6 +8,6 @@
   margin-bottom: $spacing-3;
 }
 
-.title { 
+.title {
   @include typography("xl", "semi-bold");
 }
