@@ -28,7 +28,7 @@ export default function Project() {
         <h1>Project {id} </h1>
       </VendorLayout>
     ) : (
-      <PMLayout pageTitle="ProProjectperty">
+      <PMLayout>
         <h1>{project.name}</h1>
         <p>{project.description}</p>
       </PMLayout>

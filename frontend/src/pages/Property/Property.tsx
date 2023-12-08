@@ -34,7 +34,7 @@ export default function Property() {
         <h1>Property {id} </h1>
       </VendorLayout>
     ) : (
-      <PMLayout pageTitle="Property">
+      <PMLayout>
         <p className={styles.SectionHeader}>{property?.name}</p>
         <div className={styles.address}>
           <p className={styles.addressLine}>
