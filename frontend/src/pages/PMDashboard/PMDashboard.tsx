@@ -7,6 +7,7 @@ import styles from "./PMDashboard.module.scss";
 
 import { ReactComponent as BuildingIcon } from "../../assets/icons/building.svg";
 import Table from "../../components/Table/Table";
+import Nib from "../../components/Nib/Nib";
 
 export default function PMDashboard() {
 
@@ -63,7 +64,7 @@ export default function PMDashboard() {
   const tableData = mockTableData.map(row => ([
     { content: <b>{row.boldText}</b>, filterValue: row.boldText },
     { content: row.regularText, filterValue: row.regularText },
-    { content: <Button buttonStyle={ButtonStyles.PRIMARY} text={row.buttonText} onClick={() => handleButtonClick(row.id)} /> },
+    { content: <Nib variant="green" text={row.buttonText} />, filterValue: row.buttonText }
   ]));
 
   const tableCols = [

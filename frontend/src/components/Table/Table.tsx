@@ -53,8 +53,20 @@ const Table: React.FC<TableProps> = ({ data, columns, pageSize = 10, header, fil
 
   return (
     <div>
-      {header && <TableHeader title={header.title} buttonLabel={header.buttonLabel} buttonIcon={header.buttonIcon} onButtonClick={header.onButtonClick} />}
-      {filters && <TableToggleFilter filters={filters} setFilters={setActiveFilters} />}
+      {header && 
+        <TableHeader 
+          title={header.title} 
+          buttonLabel={header.buttonLabel} 
+          buttonIcon={header.buttonIcon} 
+          onButtonClick={header.onButtonClick} 
+        />
+      }
+      {filters &&
+        <TableToggleFilter 
+          filters={filters} 
+          setFilters={setActiveFilters} 
+        />
+      }
       <div className={styles.tableContentContainer}>
         <table>
           <tr className={styles.columnTitleRow}>
