@@ -1,0 +1,13 @@
+@import "../../../styles/index";
+
+.tableHeaderContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-4;
+}
+
+.title { 
+  @include typography("xl", "semi-bold");
+}

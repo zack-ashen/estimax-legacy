@@ -1,0 +1,38 @@
+@import "../../styles/index";
+
+.tableContentContainer {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.75rem;
+  border: 1px solid $grey-200;
+
+  table {
+    border-collapse: collapse; 
+    overflow: hidden;
+  }
+}
+
+tr {
+  height: 3rem;
+
+  &:not(:last-child) td {
+    border-bottom: 1px solid $grey-200;
+  }
+}
+
+.columnTitleRow {
+  background-color: $grey-50;
+}
+
+.columnTitleCell {
+  @include typography("sm", "medium");
+  padding: 0 $spacing-6;
+  color: $grey-800;
+  border-bottom: 1px solid $grey-200;
+  text-align: start;
+}
+
+.tableCell {
+  padding: 0 $spacing-6;
+}

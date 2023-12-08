@@ -1,0 +1,19 @@
+@import "../../../styles/index";
+
+.toggleButton {
+  padding: $spacing-2 $spacing-3;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  @include typography("xs", "medium");
+}
+
+.active {
+  background-color: $blue-100;
+  color: $blue-700;
+}
+
+.inactive {
+  background-color: $grey-100;
+  color: $grey-700;
+}
