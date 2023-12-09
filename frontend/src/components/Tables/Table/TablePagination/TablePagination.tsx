@@ -6,6 +6,7 @@ import {
   ChevronRightDouble,
 } from "../../../../assets/icons";
 import styles from "./TablePagination.module.scss";
+import Button, { ButtonStyles } from "../../../Button/Button";
 
 interface TablePaginationProps {
   currentPage: number;
@@ -30,34 +31,34 @@ const TablePagination: React.FC<TablePaginationProps> = ({
         Page {currentPage} of {totalPages}
       </div>
       <div className={styles.buttonsContainer}>
-        <button
-          className={styles.paginationButton}
+        <Button
+          buttonStyle={ButtonStyles.TERTIARY}
+          LeftIcon={ChevronLeftDouble}
+          iconOnly 
+          disabled={currentPage <= 1}
           onClick={onFirst}
+        />
+        <Button
+          buttonStyle={ButtonStyles.TERTIARY}
+          LeftIcon={ChevronLeft}
+          iconOnly 
           disabled={currentPage <= 1}
-        >
-          {<ChevronLeftDouble className={styles.paginationIcon} />}
-        </button>
-        <button
-          className={styles.paginationButton}
           onClick={onPrevious}
-          disabled={currentPage <= 1}
-        >
-          {<ChevronLeft className={styles.paginationIcon} />}
-        </button>
-        <button
-          className={styles.paginationButton}
+        />
+        <Button
+          buttonStyle={ButtonStyles.TERTIARY}
+          LeftIcon={ChevronRight}
+          iconOnly 
+          disabled={currentPage >= totalPages}
           onClick={onNext}
+        />
+        <Button
+          buttonStyle={ButtonStyles.TERTIARY}
+          LeftIcon={ChevronRightDouble}
+          iconOnly 
           disabled={currentPage >= totalPages}
-        >
-          {<ChevronRight className={styles.paginationIcon} />}
-        </button>
-        <button
-          className={styles.paginationButton}
           onClick={onLast}
-          disabled={currentPage >= totalPages}
-        >
-          {<ChevronRightDouble className={styles.paginationIcon} />}
-        </button>
+        />
       </div>
     </div>
   );
