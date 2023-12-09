@@ -15,4 +15,16 @@ export const OrganizationService = {
       return { error: response.data.error };
     }
   },
+  getProjects: async (id: string) => {
+    const response = await api.request({
+      method: "GET",
+      url: organizationUrl + id + "/projects",
+    });
+
+    if (response.status === 200) {
+      return { projects: response.data.projects };
+    } else {
+      return { error: response.data.error };
+    }
+  },
 };

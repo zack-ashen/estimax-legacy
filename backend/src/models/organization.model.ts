@@ -1,4 +1,6 @@
-import mongoose, { Types } from "mongoose";
+import mongoose, { Document, PopulatedDoc, Types } from "mongoose";
+import { IProject } from "./project.model";
+import { IProperty } from "./property.model";
 
 export interface IOrganization {
   id: Types.ObjectId;
@@ -6,9 +8,9 @@ export interface IOrganization {
   logo?: string;
   website?: string;
   users: Types.ObjectId[];
-  properties: Types.ObjectId[];
+  properties: PopulatedDoc<IProperty & Document>[];
   preferredVendors: Types.ObjectId[];
-  postedProjects: Types.ObjectId[];
+  postedProjects: PopulatedDoc<IProject & Document>[];
   finishedProjects: Types.ObjectId[];
 }
 

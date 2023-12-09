@@ -10,4 +10,9 @@ const organizationController = new OrganizationController();
  */
 router.get("/:id/properties", organizationController.getProperties);
 
+/*
+ * GET: /:id/projects -> gets all projects for an organization.
+ */
+router.get("/:id/projects", organizationController.getProjects);
+
 export default router;

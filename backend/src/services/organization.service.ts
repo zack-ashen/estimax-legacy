@@ -1,7 +1,8 @@
 import { Types } from "mongoose";
 import { IOrganization, Organization } from "../models/organization.model";
-import { IProperty, Property } from "../models/property.model";
+import { IProject } from "../models/project.model";
 import { OrganizationDto } from "../types/dtos";
+import { IProperty } from "./../models/property.model";
 
 class OrganizationService {
   async create(organization: OrganizationDto): Promise<IOrganization> {
@@ -17,8 +18,23 @@ class OrganizationService {
   }
 
   async getProperties(orgId: Types.ObjectId): Promise<IProperty[]> {
-    const properties = await Property.find({ organization: orgId });
-    return properties.map((property) => property.toObject());
+    const org = await Organization.findById(orgId)
+      .populate("properties")
+      .exec();
+
+    if (!org) throw new Error("Organization not found");
+
+    return org.properties.map((property) => property.toObject());
+  }
+
+  async getProjects(orgId: Types.ObjectId): Promise<IProject[]> {
+    const org = await Organization.findById(orgId)
+      .populate("postedProjects")
+      .exec();
+
+    if (!org) throw new Error("Organization not found");
+
+    return org.postedProjects.map((project) => project.toObject());
   }
 
   async addProperty(
