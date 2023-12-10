@@ -11,9 +11,9 @@ const propertyController = new PropertyController();
 router.post("/", propertyController.create);
 
 /*
- * /: gets all properties.
+ * /:id/projects: gets a project.
  */
-// router.get("/", propertyController.getAll);
+router.get("/:id/projects", propertyController.getProjects);
 
 /*
  * /:id: gets a property.

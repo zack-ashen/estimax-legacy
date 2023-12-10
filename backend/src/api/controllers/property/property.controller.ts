@@ -4,7 +4,12 @@ import AuthService from "../../../services/auth.service";
 import LocationService from "../../../services/location.service";
 import OrganizationService from "../../../services/organization.service";
 import PropertyService from "../../../services/property.service";
-import { CreateRequest, CreateResponse, GetResponse } from "./types";
+import {
+  CreateRequest,
+  CreateResponse,
+  GetProjectsResponse,
+  GetResponse,
+} from "./types";
 
 class PropertyController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -48,6 +53,24 @@ class PropertyController {
       }
 
       const response: GetResponse = { property };
+      res.status(200).json(response);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getProjects(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const objId = new Types.ObjectId(id);
+      const projects = await PropertyService.getProjects(objId);
+
+      if (!projects) {
+        throw new Error("No property found.");
+      }
+
+      const response: GetProjectsResponse = { projects };
       res.status(200).json(response);
     } catch (e) {
       next(e);

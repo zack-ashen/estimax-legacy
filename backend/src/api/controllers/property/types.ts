@@ -1,3 +1,4 @@
+import { IProject } from "../../../models/project.model";
 import { IProperty } from "../../../models/property.model";
 import { PropertyDto } from "../../../types/dtos";
 
@@ -16,6 +17,6 @@ export type GetResponse = {
 };
 
 // Get All Properties
-export type GetAllResponse = {
-  properties: IProperty[];
+export type GetProjectsResponse = {
+  projects: IProject[];
 };

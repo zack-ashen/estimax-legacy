@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Table.module.scss";
 import TableHeader from "./TableHeader/TableHeader";
 import TablePagination from "./TablePagination/TablePagination";
@@ -30,6 +31,8 @@ const Table: React.FC<TableProps> = ({
     ((row: TableRow) => boolean)[]
   >([]);
   const [filteredData, setFilteredData] = useState<TableRow[]>([]);
+
+  const navigate = useNavigate();
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
   const currentPageData = filteredData.slice(

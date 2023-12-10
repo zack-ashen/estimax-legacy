@@ -1,4 +1,5 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { Document, PopulatedDoc, Schema, Types } from "mongoose";
+import { IProject } from "./project.model";
 import { Location, LocationSchema } from "./sub-schema/location";
 
 export interface IProperty {
@@ -10,7 +11,7 @@ export interface IProperty {
   media: string[];
   type: string;
   description?: string;
-  projects: Types.ObjectId[];
+  projects: PopulatedDoc<IProject & Document>[];
   activeProjects: Types.ObjectId[];
 }
 

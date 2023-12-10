@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { IProject } from "../models/project.model";
 import { IProperty, Property } from "../models/property.model";
 import { Location } from "../models/sub-schema/location";
 import { PropertyDto } from "../types/dtos";
@@ -19,6 +20,14 @@ const PropertyService = {
     if (!property) throw new Error("Property not found");
 
     return property.toObject() as IProperty;
+  },
+
+  getProjects: async (id: Types.ObjectId): Promise<IProject[]> => {
+    const property = await Property.findById(id).populate("projects").exec();
+
+    if (!property) throw new Error("Organization not found");
+
+    return property.projects.map((project) => project.toObject());
   },
 };
 

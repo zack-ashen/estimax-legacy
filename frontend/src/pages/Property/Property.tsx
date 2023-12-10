@@ -9,7 +9,9 @@ import { Property as PropertyT, Role } from "../../types";
 import { PlusIcon } from "../../assets/icons";
 import Button, { ButtonStyles } from "../../components/Button/Button";
 import Nib from "../../components/Nib/Nib";
+import TabBar from "../../components/TabBar/TabBar";
 import styles from "./Property.module.scss";
+import ProjectsTab from "./Tabs/ProjectsTab";
 
 export default function Property() {
   const { id } = useParams();
@@ -17,7 +19,7 @@ export default function Property() {
     userDetails: { role },
   } = useAuth();
   const navigate = useNavigate();
-
+  const [selectedTab, setSelectedTab] = useState(0);
   const [property, setProperty] = useState<PropertyT | undefined>();
 
   useEffect(() => {
@@ -28,6 +30,27 @@ export default function Property() {
     });
   }, [id]);
 
+  const tabComponents = [
+    {
+      label: "Projects",
+      component: <ProjectsTab />,
+    },
+    {
+      label: "Previously Used Vendors",
+      component: <></>,
+    },
+    {
+      label: "Analytics",
+      component: <></>,
+    },
+    {
+      label: "Property Details",
+      component: <></>,
+    },
+  ];
+
+  const TabComponent = tabComponents[selectedTab].component;
+
   return property ? (
     role === Role.VENDOR ? (
       <VendorLayout>
@@ -35,22 +58,37 @@ export default function Property() {
       </VendorLayout>
     ) : (
       <PMLayout>
-        <p className={styles.SectionHeader}>{property?.name}</p>
-        <div className={styles.address}>
-          <p className={styles.addressLine}>
-            {property.location.address.addressLine1}
-          </p>
-          <p className={styles.addressLine}>
-            {property.location.address.addressLine2}
-          </p>
+        <div className={styles.header}>
+          <div className={styles.propertyInfo}>
+            <p className={styles.SectionHeader}>{property?.name}</p>
+            <div className={styles.address}>
+              <p className={styles.addressLine}>
+                {property.location.address.addressLine1}
+              </p>
+              <p className={styles.addressLine}>
+                {property.location.address.addressLine2}
+              </p>
+            </div>
+          </div>
+          <Nib variant="primary" text={property.type} />
         </div>
-        <Nib variant="primary" text={property.type} />
-        <Button
-          buttonStyle={ButtonStyles.PRIMARY}
-          text="Create Project"
-          RightIcon={PlusIcon}
-          onClick={() => navigate(`/create-project`)}
-        />
+
+        <div className={styles.tabSection}>
+          <TabBar
+            actionButton={
+              <Button
+                buttonStyle={ButtonStyles.PRIMARY}
+                text="Create Project"
+                RightIcon={PlusIcon}
+                onClick={() => navigate(`/create-project`)}
+              />
+            }
+            items={tabComponents}
+            changeChildComp={(index) => setSelectedTab(index)}
+          />
+
+          {TabComponent}
+        </div>
       </PMLayout>
     )
   ) : (

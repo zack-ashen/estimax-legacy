@@ -28,13 +28,23 @@ export const PropertyService = {
       return { error: response.data.error };
     }
   },
+  getProjects: async (id: string) => {
+    const response = await api.request({
+      method: "GET",
+      url: propertyUrl + id + "/projects",
+    });
+
+    if (response.status === 200) {
+      return { projects: response.data.projects };
+    } else {
+      return { error: response.data.error };
+    }
+  },
   getAll: async () => {
     const response = await api.request({
       method: "GET",
       url: propertyUrl,
     });
-
-    console.log("response", response);
     if (response.status === 200) {
       return { properties: response.data.properties };
     } else {
