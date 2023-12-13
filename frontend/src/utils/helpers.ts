@@ -18,3 +18,18 @@ export const ppLengthOfTime = (lengthOfTime: number) => {
 
   return timeParts[0];
 };
+
+export const timeLeftToBidString = (endDate: number) => {
+  const now = new Date().getTime();
+  const timeLeft = endDate - now;
+  return `${ppLengthOfTime(timeLeft)} Left to Bid`;
+};
+
+export const calcBidUrgency = (endDate: number) => {
+  const now = new Date().getTime();
+  const timeLeft = endDate - now;
+
+  if (timeLeft < 1000 * 60 * 60 * 24) return "red";
+  if (timeLeft < 1000 * 60 * 60 * 24 * 3) return "yellow";
+  return "green";
+};

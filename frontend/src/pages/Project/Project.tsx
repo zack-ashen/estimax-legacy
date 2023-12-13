@@ -6,6 +6,12 @@ import VendorLayout from "../../layouts/VendorLayout/VendorLayout";
 import { ProjectService } from "../../services/projectService";
 import { Project as ProjectT, Role } from "../../types";
 
+import { AttachmentsIcon, DocumentIcon, InfoIcon } from "../../assets/icons";
+import Nib from "../../components/Nib/Nib";
+import TabBar from "../../components/TabBar/TabBar";
+import { calcBidUrgency, timeLeftToBidString } from "../../utils/helpers";
+import styles from "./Project.module.scss";
+
 export default function Project() {
   const { id } = useParams();
   const {
@@ -13,11 +19,13 @@ export default function Project() {
   } = useAuth();
 
   const [project, setProject] = useState<ProjectT | undefined>();
+  const [endTime, setEndTime] = useState<number>(0);
 
   useEffect(() => {
     ProjectService.get(id!).then((res) => {
       if (!res.error) {
         setProject(res.project);
+        setEndTime(new Date(res.project.expirationDate).getTime());
       }
     });
   }, [id]);
@@ -29,8 +37,39 @@ export default function Project() {
       </VendorLayout>
     ) : (
       <PMLayout>
-        <h1>{project.name}</h1>
-        <p>{project.description}</p>
+        <div className={styles.Header}>
+          <div className={styles.leftHeaderContainer}>
+            <p className={styles.SectionHeader}>{project.name}</p>
+            <p className={styles.SectionSubtitle}></p>
+          </div>
+          <div className={styles.rightHeaderContainer}>
+            <Nib
+              variant={calcBidUrgency(endTime)}
+              text={timeLeftToBidString(endTime)}
+            />
+          </div>
+        </div>
+        <div className={styles.Content}>
+          <TabBar
+            items={[
+              {
+                label: "Project Scope",
+                Icon: DocumentIcon,
+              },
+              {
+                label: "Attachments",
+                Icon: AttachmentsIcon,
+              },
+              {
+                label: "More Details",
+                Icon: InfoIcon,
+              },
+            ]}
+            changeChildComp={() => {}}
+          />
+
+          <p>Quote Manager</p>
+        </div>
       </PMLayout>
     )
   ) : (

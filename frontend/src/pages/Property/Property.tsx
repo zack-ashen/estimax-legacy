@@ -6,7 +6,13 @@ import VendorLayout from "../../layouts/VendorLayout/VendorLayout";
 import { PropertyService } from "../../services/propertyService";
 import { Property as PropertyT, Role } from "../../types";
 
-import { PlusIcon } from "../../assets/icons";
+import {
+  ClockHistoryIcon,
+  DataIcon,
+  InfoIcon,
+  PlusIcon,
+  ToolIcon,
+} from "../../assets/icons";
 import Button, { ButtonStyles } from "../../components/Button/Button";
 import Nib from "../../components/Nib/Nib";
 import TabBar from "../../components/TabBar/TabBar";
@@ -33,23 +39,32 @@ export default function Property() {
   const tabComponents = [
     {
       label: "Projects",
+      Icon: ToolIcon,
       component: <ProjectsTab />,
     },
     {
       label: "Previously Used Vendors",
-      component: <></>,
+      component: <>Previously Used Vendors</>,
+      Icon: ClockHistoryIcon,
     },
     {
       label: "Analytics",
-      component: <></>,
+      component: <>Analytics</>,
+      Icon: DataIcon,
     },
     {
       label: "Property Details",
-      component: <></>,
+      component: <>Property Details</>,
+      Icon: InfoIcon,
     },
   ];
 
   const TabComponent = tabComponents[selectedTab].component;
+
+  const setQueryParams = (params: any) => {
+    const queryParams = new URLSearchParams(params);
+    navigate({ search: queryParams.toString() });
+  };
 
   return property ? (
     role === Role.VENDOR ? (
@@ -80,7 +95,13 @@ export default function Property() {
                 buttonStyle={ButtonStyles.PRIMARY}
                 text="Create Project"
                 RightIcon={PlusIcon}
-                onClick={() => navigate(`/create-project`)}
+                onClick={() => {
+                  const queryParams = new URLSearchParams({ property: id! });
+                  navigate({
+                    pathname: `/create-project`,
+                    search: queryParams.toString(),
+                  });
+                }}
               />
             }
             items={tabComponents}

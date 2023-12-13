@@ -23,7 +23,12 @@ const CardRadioGroup = React.forwardRef<
 >(({ options, name, onChange, value }, ref) => (
   <div className={styles.RadioCardGroup}>
     {options.map((option) => (
-      <div key={option.value} className={styles.RadioCard}>
+      <div
+        key={option.value}
+        className={`${styles.RadioCard} ${
+          value === option.value ? styles.checked : ""
+        }`}
+      >
         <input
           ref={ref} // Attach ref provided by Controller to each radio input
           type="radio"

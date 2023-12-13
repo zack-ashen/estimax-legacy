@@ -1,4 +1,6 @@
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
+import { PropertyTypeOptions } from "../../../../data/options";
+import Select from "../../../Inputs/Select/Select";
 import TextArea from "../../../Inputs/TextArea/TextArea";
 import TextInput from "../../../Inputs/TextInput/TextInput";
 
@@ -17,6 +19,22 @@ const GeneralDetailsElement = () => {
         label="Project Name"
         error={errors.propertyName?.message}
         {...register("name", { required: "Property name is required" })}
+      />
+      <Controller
+        name="property"
+        control={control}
+        rules={{ required: "Property is required" }}
+        render={({ field, fieldState: { error } }) => (
+          <Select
+            label="Property"
+            options={PropertyTypeOptions}
+            currentOption={field.value}
+            id="property-name"
+            placeholder="Select the property"
+            error={error?.message}
+            {...field}
+          />
+        )}
       />
       <TextArea
         id="basic-info-description"

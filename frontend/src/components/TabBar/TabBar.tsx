@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { FunctionComponent, SVGProps, useEffect, useState } from "react";
 import styles from "./TabBar.module.scss";
 
 interface TabBarProps {
   actionButton?: JSX.Element;
   items: {
+    Icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
     label: string;
   }[];
   changeChildComp: (index: number) => void;
@@ -20,20 +21,27 @@ export default function TabBar({
     changeChildComp(selected);
   }, [changeChildComp, selected]);
 
+  const isSelected = (index: number) => (selected === index ? "selected" : "");
+
   return (
     <div className={styles.TabBar}>
       <div className={styles.items}>
         {items.map((item, index) => (
-          <button
-            key={index}
-            value={item.label}
-            className={`${styles.tabButton} ${
-              styles[selected === index ? "selected" : ""]
+          <div
+            className={`${styles.tabButtonContainer} ${
+              styles[isSelected(index)]
             }`}
-            onClick={() => setSelected(index)}
           >
-            {item.label}
-          </button>
+            <button
+              key={index}
+              value={item.label}
+              className={styles.tabButton}
+              onClick={() => setSelected(index)}
+            >
+              {item.Icon && <item.Icon className={styles.tabButtonIcon} />}
+              {item.label}
+            </button>
+          </div>
         ))}
       </div>
       <div className={styles.actionButtonContainer}>

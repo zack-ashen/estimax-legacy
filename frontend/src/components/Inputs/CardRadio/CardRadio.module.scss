@@ -1,1 +1,58 @@
-@import '../../../styles/index';
+@import "../../../styles/index";
+
+.RadioCardGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.RadioCard {
+  display: block;
+  margin: 0.5px;
+  border: 1px solid $grey-200; // default border color
+  border-radius: 8px;
+  padding: 1em; // keep padding consistent
+  position: relative;
+  transition: all 0.15s ease-in-out;
+  box-sizing: border-box; // includes padding and border in the element's size
+
+  &:hover,
+  &.checked {
+    // Use box-shadow to simulate a thicker border
+    box-shadow: 0 0 0 1.5px $grey-300;
+  }
+
+  &.checked {
+    background-color: $blue-100;
+    // Override the hover box-shadow with the checked color
+    border: solid 1px $blue-500;
+  }
+
+  &:not(.checked):hover {
+    background-color: $grey-25;
+  }
+}
+
+.RadioCardInput {
+  opacity: 0; /* visually hide the input */
+  position: absolute; /* take it out of document flow */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.radioCardLabel {
+  display: flex;
+  align-items: center;
+}
+
+.radioCardLabel .icon {
+  margin-right: 0.5em; /* space between icon and label */
+  display: inline-block; /* ensure the span behaves like a block */
+  width: 1em; /* icon width */
+  height: 1em; /* icon height */
+  background-size: contain; /* ensure the icon fits the space */
+  background-repeat: no-repeat;
+}

@@ -21,7 +21,7 @@
   color: $grey-700;
 }
 
-input[type="radio"] {
+.radio {
   /* Add if not using autoprefixer */
   -webkit-appearance: none;
   /* Remove most all native input styles */
@@ -51,7 +51,7 @@ input[type="radio"] {
   place-content: center;
 }
 
-input[type="radio"]::before {
+.radio::before {
   content: "";
   width: 0.5em;
   height: 0.5em;
@@ -62,10 +62,10 @@ input[type="radio"]::before {
   background-color: $blue-500;
 }
 
-input[type="radio"]:checked::before {
+.radio:checked::before {
   transform: scale(1);
 }
 
-input[type="radio"]:focus {
+.radio:focus {
   outline: 2.5px solid $blue-200;
 }

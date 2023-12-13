@@ -1,3 +1,7 @@
+export { ReactComponent as AttachmentsIcon } from "./AttachmentsIcon.svg";
+export { ReactComponent as ClockHistoryIcon } from "./ClockHistory.svg";
+export { ReactComponent as DataIcon } from "./DataIcon.svg";
+export { ReactComponent as InfoIcon } from "./InfoIcon.svg";
 export { ReactComponent as BankIcon } from "./bank.svg";
 export { ReactComponent as BookmarkIcon } from "./bookmark.svg";
 export { ReactComponent as BuildingIcon } from "./building.svg";

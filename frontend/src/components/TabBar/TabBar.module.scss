@@ -28,19 +28,54 @@
   width: fit-content;
 }
 
+.tabButtonContainer {
+  &.selected {
+    padding-bottom: calc($spacing-2 - 1px);
+    border-bottom: 2px solid $blue-500;
+
+    .tabButton {
+      color: $blue-500;
+    }
+
+    path {
+      stroke: $blue-500;
+    }
+  }
+
+  &:not(.selected) {
+    .tabButton {
+      color: $grey-600;
+    }
+
+    path {
+      stroke: $grey-600;
+    }
+  }
+}
+
 .tabButton {
   @include typography("sm", "medium");
+  padding: $spacing-2 $spacing-2;
+  border-radius: 0.4rem;
+  transition: all 0.15s ease-in-out;
 
   &:not(.selected) {
     color: $grey-600;
-    padding-bottom: $spacing-3;
   }
 
-  &.selected {
-    color: $blue-500;
-    padding-bottom: calc($spacing-3 - 1px);
-    border-bottom: 2px solid $blue-500;
+  &:hover {
+    background-color: $grey-100;
   }
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: $spacing-2;
+}
+
+.tabButtonIcon {
+  width: 1rem;
+  height: auto;
 }
 
 .actionButtonContainer {
