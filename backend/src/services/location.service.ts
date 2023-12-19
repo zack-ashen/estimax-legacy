@@ -63,6 +63,7 @@ export class LocationService {
     };
 
     const response = await this.googleMapsClient.placeAutocomplete(params);
+
     return response.data;
   }
 

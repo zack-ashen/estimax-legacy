@@ -54,7 +54,13 @@ export const MediaInput = React.forwardRef(
         {value && (
           <div className={styles.filesContainer}>
             {value.map((file, index) => (
-              <FileCard file={file} key={index} onRemove={removeFile} />
+              <FileCard
+                name={file.name}
+                size={file.size}
+                type={file.type}
+                key={index}
+                onRemove={() => removeFile(file)}
+              />
             ))}
           </div>
         )}

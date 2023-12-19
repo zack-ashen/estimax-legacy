@@ -3,6 +3,8 @@ import { IProject } from "../models/project.model";
 import { IProperty, Property } from "../models/property.model";
 import { Location } from "../models/sub-schema/location";
 import { PropertyDto } from "../types/dtos";
+import mediaService from "./media.service";
+import projectService from "./project.service";
 
 interface CreatePropertyObj extends Omit<PropertyDto, "location"> {
   location: Location;
@@ -20,6 +22,44 @@ const PropertyService = {
     if (!property) throw new Error("Property not found");
 
     return property.toObject() as IProperty;
+  },
+
+  parseMedia: async (property: IProperty): Promise<IProperty> => {
+    const { media } = property;
+    if (!media) return property;
+
+    const parsedMediaPromises = media.map(async (mediaItem) => {
+      const accessString = await mediaService.generatePresignedUrl(
+        mediaItem.accessString
+      );
+      return {
+        ...mediaItem,
+        accessString, // This will overwrite the old accessString
+      };
+    });
+
+    // Wait for all promises to resolve
+    const parsedMedia = await Promise.all(parsedMediaPromises);
+
+    const parsedProjectMedia = await projectService.parseMedias(
+      property.projects
+    );
+
+    return {
+      ...property,
+      projects: parsedProjectMedia,
+      media: parsedMedia,
+    };
+  },
+
+  parseMedias: async (properties: IProperty[]): Promise<IProperty[]> => {
+    const parsedProperties = await Promise.all(
+      properties.map(async (property) => {
+        return await PropertyService.parseMedia(property);
+      })
+    );
+
+    return parsedProperties;
   },
 
   getProjects: async (id: Types.ObjectId): Promise<IProject[]> => {

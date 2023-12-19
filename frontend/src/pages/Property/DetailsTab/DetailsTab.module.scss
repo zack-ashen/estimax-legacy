@@ -1,0 +1,8 @@
+@import "../Property.module.scss";
+
+.attachments {
+  display: grid;
+  grid-gap: 2rem; // Sets the gap between rows and columns
+  // Adjust '10rem' to the desired cell width
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+}

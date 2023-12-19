@@ -15,4 +15,9 @@ router.post("/", projectController.create);
  */
 router.get("/:id", projectController.get);
 
+/*
+ * /search: gets projects.
+ */
+router.get("/search", projectController.search);
+
 export default router;

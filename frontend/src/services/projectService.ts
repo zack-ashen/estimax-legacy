@@ -29,4 +29,22 @@ export const ProjectService = {
       return { error: response.data.error };
     }
   },
+
+  search: async (query: SearchQuery, limit = 5) => {
+    const response = await api.request({
+      method: "GET",
+      url: propertyUrl + "search",
+      params: { query, limit },
+    });
+
+    if (response.status === 200) {
+      return { projects: response.data.projects };
+    } else {
+      return { error: response.data.error };
+    }
+  },
+};
+
+type SearchQuery = {
+  name?: string;
 };

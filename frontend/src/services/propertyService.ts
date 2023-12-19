@@ -7,7 +7,7 @@ export const PropertyService = {
     const response = await api.request({
       method: "POST",
       url: propertyUrl,
-      data: { property },
+      data: property,
     });
 
     if (response.status === 200) {

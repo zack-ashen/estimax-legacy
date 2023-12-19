@@ -1,9 +1,13 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import ReactSelect, {
+  ActionMeta,
   CSSObjectWithLabel,
   ControlProps,
   GroupBase,
+  MultiValue,
   Props as ReactSelectProps,
+  SingleValue,
+  components,
 } from "react-select";
 import AsyncSelect, { AsyncProps } from "react-select/async";
 
@@ -19,15 +23,20 @@ interface SelectProps
     AsyncProps<OptionType, boolean, GroupBase<OptionType>> {
   id: string;
   error?: string;
-  onChange?: (...event: any[]) => void;
+  onChange?: (
+    newValue: SingleValue<OptionType> | MultiValue<OptionType>,
+    actionMeta: ActionMeta<OptionType>
+  ) => void;
   label?: string;
   isAsync?: boolean;
   isMulti?: true;
+  Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  dropdownIndicator?: boolean;
   currentOption?: OptionType | OptionType[] | null;
   loadOptions?: (inputValue: string) => Promise<OptionType[]>;
 }
 
-const Select = forwardRef(
+const Select = forwardRef<SelectProps, any>(
   (
     {
       isMulti,
@@ -36,11 +45,14 @@ const Select = forwardRef(
       isAsync = false,
       loadOptions,
       onChange,
+      placeholder,
       currentOption,
+      Icon,
+      dropdownIndicator = true,
       error,
       ...props
-    }: SelectProps,
-    ref: React.Ref<any>
+    },
+    ref
   ) => {
     const [selectedOption, setSelectedOption] = useState<
       OptionType | OptionType[] | null
@@ -50,9 +62,31 @@ const Select = forwardRef(
       if (currentOption) setSelectedOption(currentOption);
     }, [currentOption]);
 
-    const handleChange = (option: OptionType | OptionType[] | null) => {
-      onChange && onChange(option);
-      setSelectedOption(option);
+    const handleChange = (
+      newValue: SingleValue<OptionType> | MultiValue<OptionType>,
+      actionMeta: ActionMeta<OptionType>
+    ) => {
+      onChange?.(newValue, actionMeta);
+      setSelectedOption(newValue as OptionType | OptionType[] | null);
+    };
+
+    const sharedProps = {
+      id,
+      isMulti,
+      value: selectedOption,
+      onChange: handleChange,
+      placeholder,
+      styles: selectStyles,
+      components: {
+        DropdownIndicator: dropdownIndicator
+          ? components.DropdownIndicator
+          : () => null,
+        IndicatorSeparator: dropdownIndicator
+          ? components.IndicatorSeparator
+          : () => null,
+      },
+      ref,
+      ...props,
     };
 
     return (
@@ -63,27 +97,9 @@ const Select = forwardRef(
           </label>
         )}
         {isAsync ? (
-          <AsyncSelect
-            loadOptions={loadOptions}
-            styles={selectStyles}
-            id={id}
-            value={selectedOption as any}
-            onChange={handleChange as any}
-            isMulti={isMulti}
-            ref={ref}
-            {...props}
-          />
+          <AsyncSelect loadOptions={loadOptions} {...sharedProps} />
         ) : (
-          <ReactSelect
-            {...props}
-            id={id}
-            isMulti={isMulti}
-            value={selectedOption}
-            onChange={handleChange as any}
-            styles={selectStyles}
-            ref={ref}
-            {...props}
-          />
+          <ReactSelect {...sharedProps} />
         )}
         {error && <p className={styles.errorText}>{error}</p>}
       </div>

@@ -15,22 +15,33 @@ export default function CreatePropertyForm() {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const property = {
-      ...data,
-      location: data.location.value,
-      type: data.type.value,
-      organization: organization,
-    };
+    let formData = new FormData();
 
-    const response = await PropertyService.create(property);
-
-    if (!response.error) {
-      const { property } = response;
-      navigate(`/property/${property}`);
+    // Append regular fields to formData
+    formData.append("name", data.name);
+    formData.append("location", data.location.value);
+    formData.append("type", data.type.value);
+    formData.append("organization", organization as string);
+    if (data.media && data.media.length > 0) {
+      data.media.forEach((file: File) => {
+        formData.append("media", file);
+      });
     }
 
-    // handle error
-    // ...
+    console.log(formData);
+
+    try {
+      const response = await PropertyService.create(formData);
+
+      if (!response.error) {
+        const { property } = response;
+        navigate(`/property/${property}`);
+      }
+      // handle success
+    } catch (error) {
+      // handle error
+      console.error(error);
+    }
   };
 
   const steps = [BasicInfo, UploadMedia, VendorSelection];

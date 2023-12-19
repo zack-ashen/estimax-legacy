@@ -1,5 +1,7 @@
 import mongoose, { Schema, Types } from "mongoose";
+import mediaService from "../services/media.service";
 import { ProjectStatus } from "../types";
+import { Media, MediaSchema } from "./sub-schema/media";
 
 export interface IProject {
   id: Types.ObjectId;
@@ -7,6 +9,7 @@ export interface IProject {
   property: Types.ObjectId;
   expirationDate: Date;
   dynamicBidding: boolean;
+  media: Media[];
   public: boolean;
   description: string;
   status: ProjectStatus;
@@ -20,6 +23,7 @@ const projectSchema = new Schema<IProject>(
     dynamicBidding: Boolean,
     public: Boolean,
     description: String,
+    media: [{ type: MediaSchema, default: [] }],
     status: {
       type: String,
       enum: ProjectStatus,
@@ -30,6 +34,13 @@ const projectSchema = new Schema<IProject>(
     toObject: {
       virtuals: true,
       transform: function (_, ret) {
+        ret.media = ret.media.map(async (media: Media) => {
+          {
+            media.accessString = await mediaService.generatePresignedUrl(
+              media.accessString
+            );
+          }
+        });
         delete ret.__v;
         delete ret._id;
         return ret;

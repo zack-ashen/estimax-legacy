@@ -14,3 +14,13 @@ export type CreateResponse = {
 export type GetResponse = {
   project: IProject;
 };
+
+// Get Projects by Query
+export type SearchRequest = {
+  query: SearchQuery;
+  limit: number;
+};
+
+export type SearchQuery = {
+  name?: string;
+};

@@ -14,6 +14,7 @@ import Project from "./pages/Project/Project";
 import Properties from "./pages/Properties/Properties";
 import Property from "./pages/Property/Property";
 import VendorDashboard from "./pages/VendorDashboard/VendorDashboard";
+import VendorSearch from "./pages/VendorSearch/VendorSearch";
 import { AuthService } from "./services/auth/auth";
 import { Role } from "./types";
 
@@ -83,6 +84,16 @@ function App() {
             <PrivateRoute
               componentMap={{
                 [Role.PROPERTY_MANAGER]: <CreateProject />,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/find-vendors"
+          element={
+            <PrivateRoute
+              componentMap={{
+                [Role.PROPERTY_MANAGER]: <VendorSearch />,
               }}
             />
           }

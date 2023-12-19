@@ -6,6 +6,7 @@ export interface AnalyticsWindow extends Window {
 
 export { type TokenPayload } from "./auth";
 export { type Address, type Location, type LocationArea } from "./location";
+export { type Media } from "./media";
 export { type Bid, type Message, type Project } from "./project";
 export { type Property } from "./property";
 export { Role, type User } from "./user";

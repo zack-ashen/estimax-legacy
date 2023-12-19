@@ -6,13 +6,22 @@ import Button, { ButtonStyles } from "../../Button/Button";
 import styles from "./FileCard.module.scss";
 
 interface FileCardProps {
-  file: File;
-  onRemove?: (file: File) => void;
+  name: string;
+  size: number;
+  type: string;
+  onClick?: () => void;
+  onRemove?: () => void;
 }
 
-export default function FileCard({ file, onRemove }: FileCardProps) {
-  const formatFileSize = (file: File): string => {
-    const bytes = file.size;
+export default function FileCard({
+  name,
+  size,
+  type,
+  onClick,
+  onRemove,
+}: FileCardProps) {
+  const formattedSize = () => {
+    const bytes = size;
     const kilobytes = bytes / 1024;
     const megabytes = kilobytes / 1024;
 
@@ -24,16 +33,19 @@ export default function FileCard({ file, onRemove }: FileCardProps) {
   };
 
   return (
-    <div className={styles.FileCard}>
+    <div
+      className={`${styles.FileCard} ${styles[onClick ? "clickable" : ""]}`}
+      onClick={onClick}
+    >
       <div className={styles.fileLeft}>
-        {file.type !== "application/pdf" ? (
+        {type !== "application/pdf" ? (
           <ImageFileIcon className={styles.Icon} />
         ) : (
           <PDFFileIcon className={styles.Icon} />
         )}
         <div className={styles.fileInfo}>
-          <p className={styles.fileName}>{file.name}</p>
-          <p className={styles.fileSize}>{formatFileSize(file)}</p>
+          <p className={styles.fileName}>{name}</p>
+          <p className={styles.fileSize}>{formattedSize()}</p>
         </div>
       </div>
       <div className={styles.fileRight}>
@@ -41,7 +53,7 @@ export default function FileCard({ file, onRemove }: FileCardProps) {
           <Button
             buttonStyle={ButtonStyles.TERTIARY}
             LeftIcon={TrashIcon}
-            onClick={() => onRemove(file)}
+            onClick={() => onRemove()}
           />
         )}
       </div>

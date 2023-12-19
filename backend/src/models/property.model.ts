@@ -1,6 +1,7 @@
 import mongoose, { Document, PopulatedDoc, Schema, Types } from "mongoose";
 import { IProject } from "./project.model";
 import { Location, LocationSchema } from "./sub-schema/location";
+import { Media, MediaSchema } from "./sub-schema/media";
 
 export interface IProperty {
   id: Types.ObjectId;
@@ -8,7 +9,7 @@ export interface IProperty {
   location: Location;
   organization: Types.ObjectId;
   vendors: string[];
-  media: string[];
+  media: Media[];
   type: string;
   description?: string;
   projects: PopulatedDoc<IProject & Document>[];
@@ -21,7 +22,7 @@ const propertySchema = new Schema<IProperty>(
     location: { type: LocationSchema },
     organization: { type: Schema.Types.ObjectId, ref: "Organization" },
     vendors: [{ type: Schema.Types.ObjectId, ref: "Vendor", default: [] }],
-    media: [{ type: String, default: [] }],
+    media: [{ type: MediaSchema, default: [] }],
     type: { type: String },
     description: { type: String, required: false },
     projects: [{ type: Schema.Types.ObjectId, ref: "Project", default: [] }],

@@ -16,6 +16,7 @@ import {
 import Button, { ButtonStyles } from "../../components/Button/Button";
 import Nib from "../../components/Nib/Nib";
 import TabBar from "../../components/TabBar/TabBar";
+import DetailsTab from "./DetailsTab/DetailsTab";
 import styles from "./Property.module.scss";
 import ProjectsTab from "./Tabs/ProjectsTab";
 
@@ -43,7 +44,7 @@ export default function Property() {
       component: <ProjectsTab />,
     },
     {
-      label: "Previously Used Vendors",
+      label: "History",
       component: <>Previously Used Vendors</>,
       Icon: ClockHistoryIcon,
     },
@@ -54,17 +55,12 @@ export default function Property() {
     },
     {
       label: "Property Details",
-      component: <>Property Details</>,
+      component: property ? <DetailsTab property={property} /> : <></>,
       Icon: InfoIcon,
     },
   ];
 
   const TabComponent = tabComponents[selectedTab].component;
-
-  const setQueryParams = (params: any) => {
-    const queryParams = new URLSearchParams(params);
-    navigate({ search: queryParams.toString() });
-  };
 
   return property ? (
     role === Role.VENDOR ? (

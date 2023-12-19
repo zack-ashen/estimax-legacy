@@ -1,3 +1,4 @@
+import ProjectSearch from "../../components/Inputs/ProjectSearch/ProjectSearch";
 import NavBar from "../../components/NavBar/NavBar";
 import PMSidebar from "../../components/PMSidebar/PMSidebar";
 import styles from "./PMLayout.module.scss";
@@ -24,7 +25,7 @@ export default function PMLayout({
               <></>
             )
           }
-          rightChild={<p className={styles.sectionHeader}>Logout</p>}
+          rightChild={<ProjectSearch />}
         />
         <div className={`${styles.content} ${containerClassName}`}>
           {children}
