@@ -27,4 +27,17 @@ export const OrganizationService = {
       return { error: response.data.error };
     }
   },
+
+  getVendors: async (id: string) => {
+    const response = await api.request({
+      method: "GET",
+      url: organizationUrl + id + "/vendors",
+    });
+
+    if (response.status === 200) {
+      return { vendors: response.data.vendors };
+    } else {
+      return { error: response.data.error };
+    }
+  },
 };
