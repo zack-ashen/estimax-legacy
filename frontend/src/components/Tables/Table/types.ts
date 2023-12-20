@@ -3,7 +3,10 @@ export type TableCell = {
   filterValue?: string; // optional value used for filtering
 };
 
-export type TableRow = TableCell[];
+export type TableRow = {
+  onClick?: () => void;
+  cells: TableCell[];
+};
 
 export type FilterFunction = (row: TableRow) => boolean;
 

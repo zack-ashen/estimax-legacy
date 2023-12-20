@@ -28,8 +28,6 @@ export default function CreatePropertyForm() {
       });
     }
 
-    console.log(formData);
-
     try {
       const response = await PropertyService.create(formData);
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { PropertyService } from "../../../services/propertyService";
 import Table from "../Table/Table";
 import { TableRow } from "../Table/types";
@@ -12,14 +13,15 @@ export default function PropertyProjectsTable({
   propertyId,
 }: PropertyProjectsTableProps) {
   const [tableData, setTableData] = useState<TableRow[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     PropertyService.getProjects(propertyId).then((res) => {
       if (res.projects) {
-        setTableData(projectsToTableData(res.projects));
+        setTableData(projectsToTableData(res.projects, navigate));
       }
     });
-  }, [propertyId]);
+  }, [propertyId, navigate]);
 
   const filters = [
     {

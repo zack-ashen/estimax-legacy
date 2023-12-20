@@ -1,4 +1,5 @@
 import { IOrganization } from "../models/organization.model";
+import { IProject } from "../models/project.model";
 import { IProperty } from "../models/property.model";
 import { IPropertyManager } from "../models/propertyManager.model";
 import { IUser } from "../models/user.model";
@@ -18,6 +19,7 @@ export interface PropertyDto extends Partial<Omit<IProperty, "location">> {
 
 export interface OrganizationDto extends Partial<IOrganization> {}
 
-export interface ProjectDto extends Partial<IProperty> {
-  expirationDate: string;
+export interface ProjectDto extends Partial<IProject> {
+  propertyName: string;
+  propertyId: string;
 }

@@ -17,10 +17,10 @@ export default function ActiveProjectsTable() {
   useEffect(() => {
     OrganizationService.getProjects(organization!).then((res) => {
       if (res.projects) {
-        setTableData(projectsToTableData(res.projects));
+        setTableData(projectsToTableData(res.projects, navigate));
       }
     });
-  }, [organization]);
+  }, [organization, navigate]);
 
   const TABLE_HEADER = {
     title: "Active Projects",
@@ -34,7 +34,7 @@ export default function ActiveProjectsTable() {
       header={TABLE_HEADER}
       data={tableData}
       columns={PROJECT_TABLE_COLS}
-      pageSize={3}
+      pageSize={5}
     />
   );
 }

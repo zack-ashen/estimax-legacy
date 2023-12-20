@@ -10,11 +10,16 @@ export type Project = {
   id: string;
   name: string;
   description: string;
-  property: string;
+  property: {
+    id: string;
+    name: string;
+  };
   expirationDate: Date;
   dynamicBidding: boolean;
   public: boolean;
   status: string;
+  bids: string[];
+  invitedVendors: string[];
 };
 
 export interface Bid {

@@ -3,11 +3,11 @@ import { api } from "./config/axiosConfigs";
 const propertyUrl = "/project/";
 
 export const ProjectService = {
-  create: async (project: any) => {
+  create: async (project: FormData) => {
     const response = await api.request({
       method: "POST",
       url: propertyUrl,
-      data: { project },
+      data: project,
     });
 
     if (response.status === 200) {

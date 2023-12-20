@@ -62,6 +62,15 @@ const PropertyService = {
     return parsedProperties;
   },
 
+  addProject: async (projectId: Types.ObjectId, propertyId: Types.ObjectId) => {
+    const property = await Property.findById(propertyId);
+
+    if (!property) throw new Error("Property not found");
+
+    property.projects.push(projectId);
+    await property.save();
+  },
+
   getProjects: async (id: Types.ObjectId): Promise<IProject[]> => {
     const property = await Property.findById(id).populate("projects").exec();
 

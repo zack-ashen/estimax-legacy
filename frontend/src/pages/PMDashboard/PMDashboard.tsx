@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import PMLayout from "../../layouts/PMLayout/PMLayout";
 
 import { MetricCard } from "../../components/Cards/MetricCard/MetricCard";
@@ -9,7 +8,6 @@ import { ReactComponent as BuildingIcon } from "../../assets/icons/building.svg"
 import ActiveProjectsTable from "../../components/Tables/ActiveProjectsTable/ActiveProjectsTable";
 
 export default function PMDashboard() {
-  const navigate = useNavigate();
   return (
     <PMLayout
       pageTitle="Dashboard"

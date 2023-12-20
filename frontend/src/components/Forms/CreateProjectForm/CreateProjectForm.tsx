@@ -11,17 +11,36 @@ export default function CreateProject() {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const { project } = await ProjectService.create({
-      ...data,
-      expirationDate: data.expirationDate?.toISOString(),
-      public: data.public === "public",
-      dynamicBidding: data.dynamicBidding === "dynamicBidding",
-    });
+    let formData = new FormData();
 
-    console.log(project);
+    // Append regular fields to formData
+    formData.append("expirationDate", data.expirationDate.toISOString());
+    formData.append("public", data.public === "public" ? "true" : "false");
+    formData.append(
+      "dynamicBidding",
+      data.dynamicBidding === "dynamicBidding" ? "true" : "false"
+    );
+    formData.append("propertyId", data.property.value);
+    formData.append("propertyName", data.property.label);
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    if (data.media && data.media.length > 0) {
+      data.media.forEach((file: File) => {
+        formData.append("media", file);
+      });
+    }
 
-    if (project) {
-      navigate(`/project/${project}`);
+    try {
+      const response = await ProjectService.create(formData);
+
+      if (!response.error) {
+        const { project } = response;
+        navigate(`/project/${project}`);
+      }
+      // handle success
+    } catch (error) {
+      // handle error
+      console.error(error);
     }
   };
 

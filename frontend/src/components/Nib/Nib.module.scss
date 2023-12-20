@@ -9,22 +9,39 @@
   cursor: default;
 
   &.green {
-    background-color: $green-100;
+    // TODO: Convert to gradient mixin in colors panel with color as param
+    background: linear-gradient(
+      145deg,
+      lighten($green-200, 13%) 0%,
+      $green-200 100%
+    );
     color: $green-500;
   }
 
   &.red {
-    background-color: $red-100;
+    background: linear-gradient(
+      145deg,
+      lighten($red-200, 13%) 0%,
+      $red-200 100%
+    );
     color: $red-500;
   }
 
   &.yellow {
-    // background-color: $yellow-100;
-    // color: $yellow-500;
+    background: linear-gradient(
+      145deg,
+      lighten($yellow-200, 13.75%) 0%,
+      $yellow-200 100%
+    );
+    color: $yellow-500;
   }
 
   &.primary {
-    background-color: $blue-100;
+    background: linear-gradient(
+      145deg,
+      lighten($blue-200, 7.75%) 0%,
+      $blue-200 100%
+    );
     color: $blue-500;
   }
 }

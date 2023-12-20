@@ -1,24 +1,31 @@
 import mongoose, { Schema, Types } from "mongoose";
-import mediaService from "../services/media.service";
 import { ProjectStatus } from "../types";
 import { Media, MediaSchema } from "./sub-schema/media";
 
 export interface IProject {
   id: Types.ObjectId;
   name: string;
-  property: Types.ObjectId;
+  property: {
+    id: Types.ObjectId;
+    name: string;
+  };
   expirationDate: Date;
   dynamicBidding: boolean;
   media: Media[];
   public: boolean;
   description: string;
   status: ProjectStatus;
+  bids: Types.ObjectId[];
+  invitedVendors: Types.ObjectId[];
 }
 
 const projectSchema = new Schema<IProject>(
   {
     name: String,
-    property: { type: mongoose.Schema.Types.ObjectId, ref: "Property" },
+    property: {
+      id: { type: mongoose.Schema.Types.ObjectId, ref: "Property" },
+      name: { type: String },
+    },
     expirationDate: Date,
     dynamicBidding: Boolean,
     public: Boolean,
@@ -29,18 +36,15 @@ const projectSchema = new Schema<IProject>(
       enum: ProjectStatus,
       default: ProjectStatus.IN_PROGRESS,
     },
+    bids: [{ type: mongoose.Schema.Types.ObjectId, ref: "Bid", default: [] }],
+    invitedVendors: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Vendor", default: [] },
+    ],
   },
   {
     toObject: {
       virtuals: true,
       transform: function (_, ret) {
-        ret.media = ret.media.map(async (media: Media) => {
-          {
-            media.accessString = await mediaService.generatePresignedUrl(
-              media.accessString
-            );
-          }
-        });
         delete ret.__v;
         delete ret._id;
         return ret;

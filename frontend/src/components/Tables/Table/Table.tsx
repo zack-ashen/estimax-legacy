@@ -82,17 +82,23 @@ const Table: React.FC<TableProps> = ({
       )}
       <div className={styles.tableContentContainer}>
         <table>
-          <tr className={styles.columnTitleRow}>
-            {columns.map((column, index) => (
-              <th key={index} className={styles.columnTitleCell}>
-                {column.name}
-              </th>
-            ))}
-          </tr>
+          <thead>
+            <tr className={styles.columnTitleRow}>
+              {columns.map((column, index) => (
+                <th key={index} className={styles.columnTitleCell}>
+                  {column.name}
+                </th>
+              ))}
+            </tr>
+          </thead>
           <tbody>
             {currentPageData.map((row, rowIndex) => (
-              <tr key={rowIndex} className={styles.regularRow}>
-                {row.map((cell, cellIndex) => (
+              <tr
+                key={rowIndex}
+                className={styles.regularRow}
+                onClick={row.onClick}
+              >
+                {row.cells.map((cell, cellIndex) => (
                   <td key={cellIndex} className={styles.tableCell}>
                     {cell.content}
                   </td>

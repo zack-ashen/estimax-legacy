@@ -6,9 +6,7 @@ import mediaService from "./media.service";
 
 const ProjectService = {
   create: async (project: ProjectDto): Promise<IProject> => {
-    const expirationDate = new Date(project.expirationDate);
-
-    const newProject = new Project({ ...project, expirationDate });
+    const newProject = new Project(project);
     await newProject.save();
     return await newProject.toObject();
   },

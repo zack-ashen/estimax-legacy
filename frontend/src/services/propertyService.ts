@@ -3,7 +3,7 @@ import { api } from "./config/axiosConfigs";
 const propertyUrl = "/property/";
 
 export const PropertyService = {
-  create: async (property: any) => {
+  create: async (property: FormData) => {
     const response = await api.request({
       method: "POST",
       url: propertyUrl,

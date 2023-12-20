@@ -1,14 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
 import AuthService from "../../../services/auth.service";
+import mediaService, { MulterS3File } from "../../../services/media.service";
 import OrganizationService from "../../../services/organization.service";
 import ProjectService from "../../../services/project.service";
-import {
-  CreateRequest,
-  CreateResponse,
-  GetResponse,
-  SearchRequest,
-} from "./types";
+import PropertyService from "../../../services/property.service";
+import { ProjectDto } from "../../../types/dtos";
+import { CreateResponse, GetResponse, SearchRequest } from "./types";
 
 class ProjectController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -21,12 +19,32 @@ class ProjectController {
         throw new Error("Organization not found");
       }
 
-      const { project } = req.body as CreateRequest;
+      const project = req.body as ProjectDto;
 
-      let newProject = await ProjectService.create(project);
+      // Parse file keys from s3 bucket
+      if (req.files) {
+        project.media = mediaService.multerToMedias(
+          req.files as MulterS3File[]
+        );
+      }
+
+      if (!project.expirationDate) {
+        throw new Error("Expiration date not found");
+      }
+
+      let newProject = await ProjectService.create({
+        ...project,
+        property: {
+          id: new Types.ObjectId(project.propertyId),
+          name: project.propertyName,
+        },
+        expirationDate: new Date(project.expirationDate),
+      });
 
       const organizationId = new Types.ObjectId(organization);
       await OrganizationService.addProject(organizationId, newProject.id);
+
+      await PropertyService.addProject(newProject.id, newProject.property.id);
 
       const result: CreateResponse = { project: newProject.id.toString() };
       res.status(200).json(result);
