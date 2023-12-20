@@ -7,9 +7,6 @@ const router = express.Router();
 
 const authController = new AuthController();
 
-/*
- * /signup verifies the user does not exist and then creates a new user.
- */
 router.post("/signup", validateSignUp, authController.signup);
 
 /* /signin verifies the user exists and then compares the sent password

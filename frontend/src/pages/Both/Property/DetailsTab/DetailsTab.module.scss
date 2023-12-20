@@ -1,5 +1,17 @@
 @import "../Property.module.scss";
 
+.DetailsTab {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+}
+
+.attachmentsSection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
 .attachments {
   display: grid;
   grid-gap: 2rem; // Sets the gap between rows and columns

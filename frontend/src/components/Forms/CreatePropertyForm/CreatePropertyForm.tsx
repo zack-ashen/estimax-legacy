@@ -22,6 +22,7 @@ export default function CreatePropertyForm() {
     formData.append("location", data.location.value);
     formData.append("type", data.type.value);
     formData.append("organization", organization as string);
+    formData.append("description", data.description);
     if (data.media && data.media.length > 0) {
       data.media.forEach((file: File) => {
         formData.append("media", file);

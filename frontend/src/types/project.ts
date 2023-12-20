@@ -17,9 +17,10 @@ export type Project = {
   expirationDate: Date;
   dynamicBidding: boolean;
   public: boolean;
-  status: string;
+  status: "In Progress" | "Completed" | "Drafted";
   bids: string[];
   invitedVendors: string[];
+  lowestBid?: string;
 };
 
 export interface Bid {

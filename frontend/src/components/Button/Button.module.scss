@@ -22,23 +22,6 @@
   }
 }
 
-.iconOnly {
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-
-  .icon path {
-    stroke: $grey-600 !important;
-  }
-
-  &:hover {
-    background-color: darken($grey-200, 10%) !important;
-
-    path {
-      stroke: $grey-900 !important;
-    }
-  }
-}
-
 .iconContainer {
   display: flex;
   align-items: center;
@@ -57,7 +40,7 @@
 }
 
 .primary {
-  background-color: $blue-600;
+  background: linear-gradient(145deg, $blue-500 0%, $blue-600 100%);
   color: white;
 
   .icon path {
@@ -140,4 +123,15 @@
     cursor: default;
     background-color: $blue-100;
   }
+}
+
+.link {
+  .icon path {
+    stroke: $grey-700;
+  }
+}
+
+.iconOnly {
+  padding: 0.25rem;
+  border-radius: 0.25rem;
 }

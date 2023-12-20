@@ -1,0 +1,42 @@
+@import "../../styles/index";
+
+.ActionSheet {
+  position: absolute;
+  top: 100%;
+  margin-top: $spacing-2;
+  background-color: #fff;
+  border-radius: 0.25rem;
+  padding: $spacing-1;
+  border: solid 1px $grey-200;
+  width: fit-content;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); // subtle shadow for the sliding panel
+  transform: translateY(0%); // start hidden below the screen
+  animation: slide-down 0.3s ease forwards; // animate into view
+
+  .actionSheetOption {
+    width: fit-content;
+    font-size: 16px; // adjust as necessary
+    color: #333; // option text color
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f7f7f7; // hover background color
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #eaeaea; // separators between options
+    }
+  }
+}
+
+// Keyframes for the slide-up animation
+@keyframes slide-down {
+  from {
+    transform: translateY(
+      -25%
+    ); // Start from above the element's final position
+  }
+  to {
+    transform: translateY(0); // End at the element's final position
+  }
+}

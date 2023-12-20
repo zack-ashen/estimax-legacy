@@ -45,7 +45,7 @@ export default function Project() {
           <div className={styles.rightHeaderContainer}>
             <Nib
               variant={calcBidUrgency(endTime)}
-              text={timeLeftToBidString(endTime)}
+              text={`${timeLeftToBidString(endTime)} Left to Bid`}
             />
           </div>
         </div>

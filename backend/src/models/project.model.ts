@@ -17,6 +17,7 @@ export interface IProject {
   status: ProjectStatus;
   bids: Types.ObjectId[];
   invitedVendors: Types.ObjectId[];
+  lowestBid?: Types.ObjectId;
 }
 
 const projectSchema = new Schema<IProject>(
@@ -37,6 +38,11 @@ const projectSchema = new Schema<IProject>(
       default: ProjectStatus.IN_PROGRESS,
     },
     bids: [{ type: mongoose.Schema.Types.ObjectId, ref: "Bid", default: [] }],
+    lowestBid: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Bid",
+      required: false,
+    },
     invitedVendors: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Vendor", default: [] },
     ],

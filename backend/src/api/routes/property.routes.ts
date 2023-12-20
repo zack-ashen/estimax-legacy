@@ -6,8 +6,12 @@ const router = express.Router();
 
 const propertyController = new PropertyController();
 
-/*
- * /: creates a property.
+/**
+ * @swagger
+ * /property:
+ *   post:
+ *     summary: Creates a new property
+ *     description: Create a new property
  */
 router.post("/", mediaService.upload.array("media"), propertyController.create);
 

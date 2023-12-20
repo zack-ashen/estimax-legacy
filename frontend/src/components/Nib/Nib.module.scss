@@ -6,6 +6,7 @@
   font-size: 13px;
   font-weight: $font-weight-medium;
   width: fit-content;
+  height: fit-content;
   cursor: default;
 
   &.green {
@@ -21,7 +22,7 @@
   &.red {
     background: linear-gradient(
       145deg,
-      lighten($red-200, 13%) 0%,
+      lighten($red-200, 6%) 0%,
       $red-200 100%
     );
     color: $red-500;

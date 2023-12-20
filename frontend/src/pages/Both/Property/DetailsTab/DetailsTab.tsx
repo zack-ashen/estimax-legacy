@@ -23,6 +23,12 @@ export default function DetailsTab({ property }: DetailsTabProps) {
           ))}
         </div>
       </div>
+      {property.description && (
+        <div className={styles.descriptionSection}>
+          <p className={styles.descriptionSectionHeader}>Description</p>
+          <p className={styles.description}>{property.description}</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -22,7 +22,7 @@ export const ppLengthOfTime = (lengthOfTime: number) => {
 export const timeLeftToBidString = (endDate: number) => {
   const now = new Date().getTime();
   const timeLeft = endDate - now;
-  return `${ppLengthOfTime(timeLeft)} Left to Bid`;
+  return `${ppLengthOfTime(timeLeft)}`;
 };
 
 export const calcBidUrgency = (endDate: number) => {

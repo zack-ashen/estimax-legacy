@@ -1,0 +1,37 @@
+@import "../../styles/index";
+
+.PMProjectCard {
+  @include card;
+  gap: $spacing-5;
+  width: fit-content;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    background-color: $blue-25;
+  }
+}
+
+.projectInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.projectDetails {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: $spacing-12;
+  align-items: flex-end;
+}
+
+.projectStatusText {
+  @include typography("sm", "medium");
+  color: $grey-500;
+}
+
+.activeIndicator {
+  color: $green-400;
+  margin-right: $spacing-1;
+}

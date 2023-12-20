@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import swaggerUi from "swagger-ui-express";
 
 // Routes
 import authRoutes from "./api/routes/auth.routes";
@@ -15,6 +16,8 @@ import propertyRoutes from "./api/routes/property.routes";
 import vendorRoutes from "./api/routes/vendor.routes";
 
 import { errorHandler } from "./api/middleware/errors";
+
+import swaggerSpec from "./swagger/swagger";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -43,6 +46,7 @@ app.use("/api/vendor", vendorRoutes);
 app.use("/api/property", propertyRoutes);
 app.use("/api/organization", organizationRoutes);
 app.use("/api/project", projectRoutes);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Error Handling
 app.use(errorHandler);
