@@ -1,0 +1,26 @@
+@import "../../../styles/index";
+
+.name {
+  @include typography("lg", "medium");
+  color: $grey-800;
+}
+
+.addressLine {
+  @include typography("sm", "regular");
+  color: $grey-600;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: $spacing-7;
+  margin-bottom: $spacing-6;
+}
+
+.tabSection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-7;
+}

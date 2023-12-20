@@ -1,0 +1,14 @@
+@import "../../../styles/index";
+
+.SignUpCard,
+.SignInCard {
+  @include card;
+}
+
+.SignUpCard {
+  width: 25rem;
+}
+
+.SignInCard {
+  width: 20rem;
+}

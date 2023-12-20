@@ -1,0 +1,30 @@
+@import "../../../../styles/index";
+
+.container {
+  display: flex;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+}
+
+.contactUsText {
+  @include typography("md", "medium");
+  color: $grey-700;
+}
+
+.faqContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.faqItem {
+  border-bottom: 1px solid $grey-200;
+  padding: $spacing-6;
+}
+
+.faqItem:last-child {
+  border-bottom: none;
+}
