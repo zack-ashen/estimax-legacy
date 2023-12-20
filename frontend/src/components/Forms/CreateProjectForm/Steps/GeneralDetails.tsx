@@ -1,6 +1,11 @@
+import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { PropertyTypeOptions } from "../../../../data/options";
-import Select from "../../../Inputs/Select/Select";
+import { useLocation } from "react-router-dom";
+import { useAuth } from "../../../../contexts/AuthContext/AuthContext";
+import { OrganizationService } from "../../../../services/organizationService";
+import { PropertyService } from "../../../../services/propertyService";
+import { Property } from "../../../../types";
+import Select, { OptionType } from "../../../Inputs/Select/Select";
 import TextArea from "../../../Inputs/TextArea/TextArea";
 import TextInput from "../../../Inputs/TextInput/TextInput";
 
@@ -8,8 +13,39 @@ const GeneralDetailsElement = () => {
   const {
     register,
     control,
+    setValue,
     formState: { errors },
   } = useFormContext();
+  const {
+    userDetails: { organization },
+  } = useAuth();
+  const location = useLocation();
+  const [propertyOptions, setPropertyOptions] = useState<OptionType[]>([]);
+
+  useEffect(() => {
+    OrganizationService.getProperties(organization!).then((response) => {
+      setPropertyOptions(
+        response.properties.map((property: Property) => ({
+          value: property.id,
+          label: property.name,
+        }))
+      );
+    });
+  }, [organization]);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const propertyId = queryParams.get("property");
+    if (propertyId) {
+      PropertyService.get(propertyId).then((response) => {
+        const property = response.property;
+        setValue("property", {
+          value: property.id,
+          label: property.name,
+        });
+      });
+    }
+  }, [location.search, setValue]);
 
   return (
     <>
@@ -27,8 +63,9 @@ const GeneralDetailsElement = () => {
         render={({ field, fieldState: { error } }) => (
           <Select
             label="Property"
-            options={PropertyTypeOptions}
+            options={propertyOptions}
             currentOption={field.value}
+            isClearable
             id="property-name"
             placeholder="Select the property"
             error={error?.message}
