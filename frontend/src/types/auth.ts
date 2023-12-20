@@ -3,6 +3,6 @@ import { Role } from "./user";
 
 export interface TokenPayload extends JwtPayload {
   role: Role;
-  uid: string;
+  id: string;
   organization?: string;
 }

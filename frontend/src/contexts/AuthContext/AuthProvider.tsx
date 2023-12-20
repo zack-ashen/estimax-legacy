@@ -36,7 +36,7 @@ export const AuthProvider = ({
   const [userDetails, setUserDetails] = useState<UserDetails>(() => {
     const decoded = jwt_decode<TokenPayload>(token);
     return {
-      id: decoded.uid,
+      id: decoded.id,
       role: decoded.role,
       organization: decoded.organization ? decoded.organization : undefined,
     };
@@ -96,7 +96,7 @@ export const AuthProvider = ({
 
     // Update the current user state
     setUserDetails({
-      id: decodedUser.uid,
+      id: decodedUser.id,
       role: decodedUser.role,
       organization: decodedUser.organization
         ? decodedUser.organization

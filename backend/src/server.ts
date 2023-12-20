@@ -17,6 +17,7 @@ import vendorRoutes from "./api/routes/vendor.routes";
 
 import { errorHandler } from "./api/middleware/errors";
 
+import userRoutes from "./api/routes/user.routes";
 import swaggerSpec from "./swagger/swagger";
 
 // Load environment variables from .env file
@@ -41,6 +42,7 @@ mongoose
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/location", locationRoutes);
 app.use("/api/vendor", vendorRoutes);
 app.use("/api/property", propertyRoutes);

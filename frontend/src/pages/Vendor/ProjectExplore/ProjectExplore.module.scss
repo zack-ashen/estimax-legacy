@@ -1,0 +1,8 @@
+@import "../../../styles/index";
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-12;
+  height: 100%;
+}

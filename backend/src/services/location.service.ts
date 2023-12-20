@@ -16,15 +16,12 @@ import {
 } from "../models/sub-schema/locationArea";
 
 export class LocationService {
-  cache: LRUCache<{ [x: string]: any }, PlaceAutocompleteResponseData>;
+  cache: LRUCache<string, PlaceAutocompleteResponseData>;
   googleMapsClient: Client;
   apiKey: string;
 
   constructor() {
-    this.cache = new LRUCache<
-      { [k: string]: any },
-      PlaceAutocompleteResponseData
-    >({
+    this.cache = new LRUCache<string, PlaceAutocompleteResponseData>({
       max: 2000, // max number of items
       ttl: 1209600000, // items expire after 2 weeks
     });
@@ -33,15 +30,17 @@ export class LocationService {
   }
 
   async search(limit: number, type: string, value: string) {
-    const cachedLocation = this.cache.get({ type, value });
+    const cacheKey = `limit=${limit}-type=${type}-value=${value}`;
+    const cachedLocation = this.cache.get(cacheKey);
 
     if (cachedLocation) {
+      console.log("Cache hit");
       return cachedLocation.predictions.slice(0, limit);
     }
 
     const suggestions = await this.getPlaceSuggestions(value, type);
 
-    this.cache.set({ limit, type, value }, suggestions);
+    this.cache.set(cacheKey, suggestions);
 
     return suggestions.predictions.slice(0, limit);
   }

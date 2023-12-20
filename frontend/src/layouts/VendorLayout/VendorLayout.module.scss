@@ -1,1 +1,11 @@
 @import "../../styles/index";
+
+.vendorRight {
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-7;
+}
+
+.content {
+  padding: $spacing-9;
+}

@@ -12,6 +12,8 @@ const propertyController = new PropertyController();
  *   post:
  *     summary: Creates a new property
  *     description: Create a new property
+ *     tags:
+ *       - property
  */
 router.post("/", mediaService.upload.array("media"), propertyController.create);
 
