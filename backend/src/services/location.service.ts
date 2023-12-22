@@ -16,7 +16,7 @@ import {
 } from "../models/sub-schema/locationArea";
 
 export class LocationService {
-  cache: LRUCache<string, PlaceAutocompleteResponseData>;
+  private cache: LRUCache<string, PlaceAutocompleteResponseData>;
   googleMapsClient: Client;
   apiKey: string;
 

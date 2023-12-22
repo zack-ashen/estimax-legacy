@@ -30,11 +30,14 @@ export const ProjectService = {
     }
   },
 
-  search: async (query: SearchQuery, limit = 5) => {
+  search: async (
+    query: SearchQuery,
+    queryDetails: { page: number; limit?: number }
+  ) => {
     const response = await api.request({
       method: "GET",
       url: propertyUrl + "search",
-      params: { query, limit },
+      params: { query, queryDetails },
     });
 
     if (response.status === 200) {
@@ -47,4 +50,8 @@ export const ProjectService = {
 
 type SearchQuery = {
   name?: string;
+  location?: string;
+  propertyManager?: string;
+  numberOfBids?: string;
+  timeLeftToBid?: string;
 };

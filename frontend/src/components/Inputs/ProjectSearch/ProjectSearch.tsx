@@ -8,7 +8,10 @@ export default function ProjectSearch() {
 
   const fetchLocations = async (inputValue: string): Promise<OptionType[]> => {
     try {
-      const response = await ProjectService.search({ name: inputValue });
+      const response = await ProjectService.search(
+        { name: inputValue },
+        { page: 1, limit: 5 }
+      );
 
       return response.projects.map((project: Project) => ({
         value: project.id, // or any unique identifier

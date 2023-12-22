@@ -15,6 +15,7 @@ import PMDashboard from "./pages/PM/PMDashboard/PMDashboard";
 import Properties from "./pages/PM/Properties/Properties";
 import VendorSearch from "./pages/PM/VendorSearch/VendorSearch";
 import Vendors from "./pages/PM/Vendors/Vendors";
+import ManageQuotes from "./pages/Vendor/ManageQuotes/ManageQuotes";
 import ProjectExplore from "./pages/Vendor/ProjectExplore/ProjectExplore";
 import VendorDashboard from "./pages/Vendor/VendorDashboard/VendorDashboard";
 import { AuthService } from "./services/auth/auth";
@@ -116,6 +117,16 @@ function App() {
             <PrivateRoute
               componentMap={{
                 [Role.VENDOR]: <ProjectExplore />,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/manage-quotes"
+          element={
+            <PrivateRoute
+              componentMap={{
+                [Role.VENDOR]: <ManageQuotes />,
               }}
             />
           }

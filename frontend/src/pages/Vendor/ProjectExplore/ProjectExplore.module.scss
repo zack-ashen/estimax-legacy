@@ -6,3 +6,14 @@
   gap: $spacing-12;
   height: 100%;
 }
+
+.projectsContainer {
+  flex: 1;
+}
+
+.projectsResultsHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

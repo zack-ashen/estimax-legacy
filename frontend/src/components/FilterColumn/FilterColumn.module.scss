@@ -1,5 +1,33 @@
 @import "../../styles/index";
 
 .FilterColumn {
-  width: fit-content;
+  @include card;
+  width: 18rem;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  @include typography("lg", "medium");
+}
+
+.filterHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-3;
+}
+
+.filterContentClosed {
+  display: none;
+}
+
+.filterName {
+  @include typography("sm", "medium");
 }
