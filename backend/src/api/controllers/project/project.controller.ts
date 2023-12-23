@@ -74,8 +74,16 @@ class ProjectController {
 
   async search(req: Request, res: Response, next: NextFunction) {
     try {
-      const { query, limit } = req.body as SearchRequest;
-      const projects = await ProjectService.search(query, limit);
+      const {
+        query,
+        queryDetails: { page, limit },
+      } = req.query as unknown as SearchRequest;
+
+      const projects = await ProjectService.search(
+        query ? query : {},
+        page,
+        limit
+      );
       const parsedProjects = await ProjectService.parseMedias(projects);
 
       const response = { projects: parsedProjects };

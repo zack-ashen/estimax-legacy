@@ -1,6 +1,6 @@
 import { api } from "./config/axiosConfigs";
 
-const organizationUrl = "/organization/";
+const organizationUrl = "/organizations/";
 
 export const OrganizationService = {
   getProperties: async (id: string) => {

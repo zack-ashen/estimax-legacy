@@ -12,13 +12,13 @@ const projectController = new ProjectController();
 router.post("/", mediaService.upload.array("media"), projectController.create);
 
 /*
- * /:id: gets a project.
- */
-router.get("/:id", projectController.get);
-
-/*
  * /search: gets projects.
  */
 router.get("/search", projectController.search);
+
+/*
+ * /:id: gets a project.
+ */
+router.get("/:id", projectController.get);
 
 export default router;

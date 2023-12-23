@@ -1,28 +1,38 @@
 import { NextFunction, Request, Response } from "express";
+import { Types } from "mongoose";
 import VendorService from "../../../services/vendor.service";
-import { SearchQuery, SearchResponse } from "./types";
+import { SearchRequest, SearchResponse } from "./types";
 
 class VendorController {
   async search(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name, phoneNumber, limit }: SearchQuery = {
-        name: req.query.name as string,
-        phoneNumber: req.query.phoneNumber as string,
-        limit: +req.query.limit!,
-      };
+      const {
+        query,
+        queryDetails: { page, limit },
+      } = req.query as unknown as SearchRequest;
 
       const vendors = await VendorService.search(
-        name as string,
-        phoneNumber as string,
-        +limit!
+        query ? query : {},
+        page,
+        limit
       );
 
-      const vendorIds = vendors.map((vendor) => vendor.id.toString());
-
       const result: SearchResponse = {
-        vendors: vendorIds,
+        vendors: vendors,
       };
       res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async bids(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const bids = await VendorService.bids(new Types.ObjectId(id));
+
+      res.status(200).json({ bids });
     } catch (e) {
       next(e);
     }

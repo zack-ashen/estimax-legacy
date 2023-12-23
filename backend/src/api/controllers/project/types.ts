@@ -1,3 +1,4 @@
+import { QueryDetails } from "../../../types";
 import { ProjectDto } from "../../../types/dtos";
 import { IProject } from "./../../../models/project.model";
 
@@ -18,9 +19,12 @@ export type GetResponse = {
 // Get Projects by Query
 export type SearchRequest = {
   query: SearchQuery;
-  limit: number;
+  queryDetails: QueryDetails;
 };
 
 export type SearchQuery = {
   name?: string;
+  searchRadius?: number;
+  numberOfBids?: number;
+  timeLeftToBid?: number;
 };

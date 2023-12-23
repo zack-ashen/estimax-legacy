@@ -1,6 +1,6 @@
 import { api } from "./config/axiosConfigs";
 
-const propertyUrl = "/property/";
+const propertyUrl = "/properties/";
 
 export const PropertyService = {
   create: async (property: FormData) => {

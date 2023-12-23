@@ -42,12 +42,12 @@ mongoose
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);
-app.use("/api/location", locationRoutes);
-app.use("/api/vendor", vendorRoutes);
-app.use("/api/property", propertyRoutes);
-app.use("/api/organization", organizationRoutes);
-app.use("/api/project", projectRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/locations", locationRoutes);
+app.use("/api/vendors", vendorRoutes);
+app.use("/api/properties", propertyRoutes);
+app.use("/api/organizations", organizationRoutes);
+app.use("/api/projects", projectRoutes);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Error Handling

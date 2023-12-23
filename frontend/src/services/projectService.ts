@@ -1,12 +1,12 @@
 import { api } from "./config/axiosConfigs";
 
-const propertyUrl = "/project/";
+const projectUrl = "/projects/";
 
 export const ProjectService = {
   create: async (project: FormData) => {
     const response = await api.request({
       method: "POST",
-      url: propertyUrl,
+      url: projectUrl,
       data: project,
     });
 
@@ -20,7 +20,7 @@ export const ProjectService = {
   get: async (id: string) => {
     const response = await api.request({
       method: "GET",
-      url: propertyUrl + id,
+      url: projectUrl + id,
     });
 
     if (response.status === 200) {
@@ -36,7 +36,7 @@ export const ProjectService = {
   ) => {
     const response = await api.request({
       method: "GET",
-      url: propertyUrl + "search",
+      url: projectUrl + "search",
       params: { query, queryDetails },
     });
 
@@ -50,8 +50,7 @@ export const ProjectService = {
 
 type SearchQuery = {
   name?: string;
-  location?: string;
-  propertyManager?: string;
-  numberOfBids?: string;
-  timeLeftToBid?: string;
+  searchRadius?: number;
+  numberOfBids?: number;
+  timeLeftToBid?: number;
 };

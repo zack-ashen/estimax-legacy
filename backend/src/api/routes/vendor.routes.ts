@@ -10,4 +10,6 @@ const vendorController = new VendorController();
  */
 router.get("/search", vendorController.search);
 
+router.get("/:id/bids", vendorController.bids);
+
 export default router;

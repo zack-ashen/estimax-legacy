@@ -8,7 +8,7 @@ export interface IVendor extends IUser {
   phoneNumber: string;
   savedProjects: Types.ObjectId[];
   securedProjects: Types.ObjectId[];
-  biddedProjects: Types.ObjectId[];
+  bids: Types.ObjectId[];
   invitedProjects: Types.ObjectId[];
   reviews: IReview[];
   searchRadius: number;
@@ -31,11 +31,7 @@ const Vendor = User.discriminator(
       ref: "Project",
       default: [],
     },
-    biddedProjects: {
-      type: [Schema.Types.ObjectId],
-      ref: "Project",
-      default: [],
-    },
+    bids: [{ type: Schema.Types.ObjectId, ref: "Bid" }],
     securedProjects: {
       type: [Schema.Types.ObjectId],
       ref: "Project",

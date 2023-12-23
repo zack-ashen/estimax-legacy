@@ -74,3 +74,8 @@ export enum Errors {
   REFERRAL_CODE_USED = "Referral code has already been used before",
   FAILED_SET_TOKEN = "Failed to create and set access and refresh tokens.",
 }
+
+export type QueryDetails = {
+  page: number;
+  limit?: number;
+};

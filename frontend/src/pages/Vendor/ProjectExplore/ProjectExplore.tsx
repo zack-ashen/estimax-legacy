@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import FilterColumn from "../../../components/FilterColumn/FilterColumn";
+import FilterBar from "../../../components/FilterColumn/FilterBar";
 import VendorLayout from "../../../layouts/VendorLayout/VendorLayout";
 import projectExploreFilters from "./Filters/Filter";
 
@@ -34,15 +34,29 @@ export default function ProjectExplore() {
 
   return (
     <VendorLayout containerClassName={styles.container}>
-      <FilterColumn
+      <FilterBar
         filters={projectExploreFilters}
-        onFilterChange={(newFilters) => setFilters(newFilters)}
+        sortBy={[
+          {
+            name: "Most recent",
+            sortByFunction: () => {
+              setProjects((projects) => [...projects].reverse());
+            },
+          },
+        ]}
       />
       <div className={styles.projectsContainer}>
-        <div className={styles.projectsResultsHeader}>
-          <p>{projects.length} projects found</p>
-          <p>Sort by placeholder</p>
-        </div>
+        {projects.map((project) => (
+          <div className={styles.projectCard} key={project.id}>
+            <div className={styles.projectCardHeader}>
+              <div className={styles.projectCardTitle}>{project.name}</div>
+              <div className={styles.projectCardDate}></div>
+            </div>
+            <div className={styles.projectCardDescription}>
+              {project.description}
+            </div>
+          </div>
+        ))}
       </div>
     </VendorLayout>
   );

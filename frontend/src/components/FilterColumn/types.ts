@@ -15,3 +15,5 @@ export interface FilterObject {
 export interface FiltersState {
   [key: string]: string;
 }
+
+export type SortByFunction = () => void;

@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { FilterQuery, Types } from "mongoose";
 import { SearchQuery } from "../api/controllers/project/types";
 import { IProject, Project } from "../models/project.model";
 import { ProjectDto } from "../types/dtos";
@@ -18,8 +18,39 @@ const ProjectService = {
     return project.toObject() as IProject;
   },
 
-  search: async (query: SearchQuery, limit = 5): Promise<IProject[]> => {
-    const projects = await Project.find(query).limit(limit);
+  search: async (
+    query: SearchQuery,
+    page: number,
+    limit: number = 10
+  ): Promise<IProject[]> => {
+    const offset = (page - 1) * limit;
+
+    let queryConditions: FilterQuery<typeof Project> = {};
+
+    // Fuzzy search by name
+    if (query.name) {
+      queryConditions.name = new RegExp(query.name, "i");
+    }
+
+    // Filter based on number of bids
+    if (query.numberOfBids) {
+      if (query.numberOfBids >= 0) {
+        queryConditions.bids = { $size: query.numberOfBids };
+      } else {
+        queryConditions.bids = { $not: { $size: -query.numberOfBids } };
+      }
+    }
+
+    // Time left to bid
+    if (query.timeLeftToBid) {
+      const now = new Date();
+      const maxExpirationDate = new Date(now.getTime() + query.timeLeftToBid);
+      queryConditions.expirationDate = { $lte: maxExpirationDate };
+    }
+
+    const projects = await Project.find(queryConditions)
+      .skip(offset)
+      .limit(limit);
     return projects.map((project) => project.toObject());
   },
 

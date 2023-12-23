@@ -92,7 +92,7 @@ function App() {
           }
         />
         <Route
-          path="/vendor/search"
+          path="/vendor-search"
           element={
             <PrivateRoute
               componentMap={{

@@ -1,6 +1,6 @@
 import { api } from "./config/axiosConfigs";
 
-const vendorUrl = "/user/";
+const vendorUrl = "/users/";
 
 export const UserService = {
   get: async (id: string) => {

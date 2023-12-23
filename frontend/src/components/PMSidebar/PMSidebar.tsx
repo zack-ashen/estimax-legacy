@@ -1,4 +1,3 @@
-import { useLocation, useNavigate } from "react-router-dom";
 import {
   BankIcon,
   BookmarkIcon,
@@ -9,8 +8,8 @@ import {
   SearchIcon,
   SettingsIcon,
 } from "../../assets/icons";
+import NavLink from "../NavLink/NavLink";
 import styles from "./PMSidebar.module.scss";
-import Button, { ButtonStyles } from "../Button/Button";
 
 interface SidebarLinkProps {
   name: string;
@@ -22,36 +21,9 @@ interface SidebarLinkProps {
   };
 }
 
-function SidebarLink({ name, link, Icon, action }: SidebarLinkProps) {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  return (
-    <button
-      className={`${styles.sidebarLink} ${
-        styles[location.pathname === link ? "selected" : ""]
-      }`}
-      key={name}
-      onClick={() => navigate(link)}
-    >
-      <div className={styles.linkContent}>
-        {Icon && <Icon className={styles.sidebarIcon} />}
-        {name}
-      </div>
-      {action && (
-        <Button 
-          buttonStyle={ButtonStyles.TERTIARY}
-          LeftIcon={action.Icon}
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(action.navigate);
-          }}
-          iconOnly
-        />
-      )}
-    </button>
-  );
-}
+const SidebarLink = ({ name, link, Icon, action }: SidebarLinkProps) => (
+  <NavLink name={name} link={link} Icon={Icon} action={action} wide />
+);
 
 interface LinkSectionProps {
   title?: string;
@@ -85,7 +57,7 @@ const linkSections: LinkSectionProps[] = [
       },
       {
         name: "Find Vendors",
-        link: "/find-vendors",
+        link: "/vendor-search",
         Icon: SearchIcon,
       },
       {

@@ -1,6 +1,6 @@
 import { api } from "./config/axiosConfigs";
 
-const locationUrl = "/location/";
+const locationUrl = "/locations/";
 
 export const LocationService = {
   search: async (value: string, type: "cities" | "address", limit: number) => {

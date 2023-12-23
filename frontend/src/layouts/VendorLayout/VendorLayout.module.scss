@@ -6,6 +6,13 @@
   gap: $spacing-7;
 }
 
+.NavLinks {
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-7;
+}
+
 .content {
   padding: $spacing-9;
+  flex-grow: 1;
 }

@@ -81,9 +81,7 @@ const Select = forwardRef<SelectProps, any>(
         DropdownIndicator: dropdownIndicator
           ? components.DropdownIndicator
           : () => null,
-        IndicatorSeparator: dropdownIndicator
-          ? components.IndicatorSeparator
-          : () => null,
+        IndicatorSeparator: () => null,
       },
       ref,
       ...props,

@@ -1,17 +1,22 @@
+import { CoinsIcon, DashboardIcon, SearchIcon } from "../../assets/icons";
 import InboxIndicator from "../../components/InboxIndicator/InboxIndicator";
 import NavBar from "../../components/NavBar/NavBar";
-import NavLinks from "../../components/NavLinks/NavLinks";
+import NavLink from "../../components/NavLink/NavLink";
 import NotificationIndicator from "../../components/NotificationIndicator/NotificationIndicator";
 import styles from "./VendorLayout.module.scss";
 
-const VendorNavLinks = (
-  <NavLinks
-    links={[
-      { name: "Dashboard", route: "/" },
-      { name: "Find Projects", route: "/find-projects" },
-      { name: "Manage Quotes", route: "/manage-quotes" },
-    ]}
-  />
+const NavLinkObjs = [
+  { name: "Dashboard", route: "/", Icon: DashboardIcon },
+  { name: "Find Projects", route: "/find-projects", Icon: SearchIcon },
+  { name: "Manage Quotes", route: "/manage-quotes", Icon: CoinsIcon },
+];
+
+const NavLinks = (
+  <div className={styles.NavLinks}>
+    {NavLinkObjs.map(({ name, route, Icon }) => (
+      <NavLink name={name} link={route} Icon={Icon} />
+    ))}
+  </div>
 );
 
 interface VendorLayoutProps extends React.PropsWithChildren {
@@ -26,7 +31,7 @@ export default function VendorLayout({
     <div className={styles.VendorLayout}>
       <NavBar
         leftChild={<div>Logo</div>}
-        middleChild={VendorNavLinks}
+        middleChild={NavLinks}
         rightChild={
           <div className={styles.vendorRight}>
             <NotificationIndicator /> <InboxIndicator />
