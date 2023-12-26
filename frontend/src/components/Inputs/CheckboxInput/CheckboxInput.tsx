@@ -21,7 +21,7 @@ const CheckboxInput = forwardRef(
   ) => {
     return (
       <div className={styles.CheckboxGroup}>
-        <label className={styles.checkboxGroupHeader}>{label}</label>
+        <label className={styles.inputLabel}>{label}</label>
         <div className={styles.checkboxOptions}>
           {options.map((option, index) => (
             <label key={option.value} className={styles.checkboxRow}>

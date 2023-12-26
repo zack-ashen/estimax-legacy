@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import PMProjectCard from "../../../../components/Cards/PMProjectCard/PMProjectCard";
 import {
   GridColumn,
   GridContainer,
   GridRow,
 } from "../../../../components/GridLayout/GridLayout";
-import PMProjectCard from "../../../../components/PMProjectCard/PMProjectCard";
 import { PropertyService } from "../../../../services/propertyService";
 import { Project } from "../../../../types/project";
 

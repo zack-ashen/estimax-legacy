@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { ProjectService } from "../../services/projectService";
-import { Project } from "../../types/project";
-import { calcBidUrgency, timeLeftToBidString } from "../../utils/helpers";
-import MoreOptions from "../MoreOptions/MoreOptions";
-import Nib from "../Nib/Nib";
+import { ProjectService } from "../../../services/projectService";
+import { Project } from "../../../types/project";
+import { calcBidUrgency, timeLeftToBidString } from "../../../utils/helpers";
+import MoreOptions from "../../MoreOptions/MoreOptions";
+import Nib from "../../Nib/Nib";
 import styles from "./PMProjectCard.module.scss";
 
 interface PMProjectCardWId {

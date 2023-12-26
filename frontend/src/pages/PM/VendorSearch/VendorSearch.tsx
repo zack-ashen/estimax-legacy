@@ -6,18 +6,23 @@ import { VendorService } from "../../../services/vendorService";
 import { Vendor } from "../../../types/vendor";
 import vendorSearchFilters from "./Filters/Filters";
 
+import VendorCard from "../../../components/Cards/VendorCard/VendorCard";
+import styles from "./VendorSearch.module.scss";
+
 export default function VendorSearch() {
   const [vendors, setVendors] = useState<Vendor[]>([]);
-  const [filters, setFilters] = useState<Record<string, string>>({});
+  const [filters, setFilters] = useState<Record<string, string | string[]>>({});
   const [page, setPage] = useState<number>(1);
 
   const location = useLocation();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const paramsObj: Record<string, string> = {};
+    const paramsObj: Record<string, string | string[]> = {};
     searchParams.forEach((value, key) => {
-      paramsObj[key] = value;
+      if (key === "services") {
+        paramsObj[key] = value.split(",");
+      } else paramsObj[key] = value;
     });
 
     setFilters(paramsObj);
@@ -32,9 +37,13 @@ export default function VendorSearch() {
   }, [filters, page]);
 
   return (
-    <PMLayout>
+    <PMLayout containerClassName={styles.container} pageTitle="Find Vendors">
       <FilterBar filters={vendorSearchFilters} />
-      <div>Vendor Search</div>
+      <div className={styles.vendorsContainer}>
+        {vendors.map((vendor, index) => (
+          <VendorCard key={index} vendor={vendor} />
+        ))}
+      </div>
     </PMLayout>
   );
 }

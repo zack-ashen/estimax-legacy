@@ -21,7 +21,7 @@ const RadioInput = forwardRef(
   ) => {
     return (
       <div className={styles.RadioGroup}>
-        <label className={styles.radioGroupHeader}>{label}</label>
+        <label className={styles.inputLabel}>{label}</label>
         <div className={styles.radioOptions}>
           {options.map((option, index) => (
             <label key={option.value} className={styles.radioRow}>

@@ -37,21 +37,11 @@ class VendorService extends UserService {
       queryConditions.services = { $in: query.services };
     }
 
-    let vendors = await Vendor.aggregate([
-      { $match: queryConditions },
-      {
-        $addFields: {
-          servicesOverlapCount: {
-            $size: { $setIntersection: ["$services", query.services] },
-          },
-        },
-      },
-      { $match: { servicesOverlapCount: { $gte: 1, $lte: 2 } } },
-      { $skip: offset },
-      { $limit: limit },
-    ]);
+    const vendors: Document<IVendor>[] = await Vendor.find(queryConditions)
+      .skip(offset)
+      .limit(limit);
 
-    return vendors.map((vendor: Document<IVendor>) => vendor.toObject());
+    return vendors.map((vendor) => vendor.toObject());
   }
 
   async bids(id: Types.ObjectId) {

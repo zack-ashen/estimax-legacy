@@ -4,6 +4,7 @@ import VendorLayout from "../../../layouts/VendorLayout/VendorLayout";
 import projectExploreFilters from "./Filters/Filter";
 
 import { useLocation } from "react-router-dom";
+import VendorProjectCard from "../../../components/Cards/VendorProjectCard/VendorProjectCard";
 import { ProjectService } from "../../../services/projectService";
 import { Project } from "../../../types/project";
 import styles from "./ProjectExplore.module.scss";
@@ -46,16 +47,8 @@ export default function ProjectExplore() {
         ]}
       />
       <div className={styles.projectsContainer}>
-        {projects.map((project) => (
-          <div className={styles.projectCard} key={project.id}>
-            <div className={styles.projectCardHeader}>
-              <div className={styles.projectCardTitle}>{project.name}</div>
-              <div className={styles.projectCardDate}></div>
-            </div>
-            <div className={styles.projectCardDescription}>
-              {project.description}
-            </div>
-          </div>
+        {projects.map((project, index) => (
+          <VendorProjectCard key={index} project={project} />
         ))}
       </div>
     </VendorLayout>

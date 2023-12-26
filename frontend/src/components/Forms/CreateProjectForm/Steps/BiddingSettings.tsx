@@ -2,11 +2,9 @@ import { forwardRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { CalendarIcon } from "../../../../assets/icons";
 import Button, { ButtonStyles } from "../../../Button/Button";
-import DatePicker from "../../../DatePicker/DatePicker";
 import CheckboxInput from "../../../Inputs/CheckboxInput/CheckboxInput";
+import DatePicker from "../../../Inputs/DatePicker/DatePicker";
 import RadioInput from "../../../Inputs/RadioInput/RadioInput";
-
-import styles from "../../_shared.module.scss";
 
 interface ExampleCustomInputProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -51,21 +49,19 @@ const BiddingSettingsElement = () => {
         ]}
         {...register("dynamicBidding")}
       />
-      <div className={styles.container}>
-        <p>Bidding End Date</p>
-        <Controller
-          control={control}
-          name={"expirationDate"}
-          render={({ field }) => (
-            <DatePicker
-              selected={field.value as Date}
-              onChange={(date: Date | null) => field.onChange(date)}
-              customInput={<DateButton />}
-              // ... other props
-            />
-          )}
-        />
-      </div>
+      <Controller
+        control={control}
+        name={"expirationDate"}
+        render={({ field }) => (
+          <DatePicker
+            id={"bid-expiration-date"}
+            selected={field.value as Date}
+            onChange={(date: Date | null) => field.onChange(date)}
+            customInput={<DateButton />}
+            label={"Bidding End Date"}
+          />
+        )}
+      />
     </>
   );
 };

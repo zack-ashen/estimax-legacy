@@ -47,6 +47,28 @@ class OrganizationController {
       next(e);
     }
   }
+
+  async getVendors(req: Request, res: Response, next: NextFunction) {
+    try {
+      const organizationId = req.params.id;
+
+      if (!organizationId) {
+        throw new Error("Organization was not provided");
+      }
+
+      if (!Types.ObjectId.isValid(organizationId)) {
+        throw new Error("Invalid organization ID");
+      }
+
+      const orgObjectId = new Types.ObjectId(organizationId);
+      const vendors = await OrganizationService.getVendors(orgObjectId);
+
+      const response = { vendors };
+      res.status(200).json(response);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export default OrganizationController;

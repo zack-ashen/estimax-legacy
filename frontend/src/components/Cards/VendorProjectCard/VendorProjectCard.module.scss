@@ -1,0 +1,50 @@
+@import "../../../styles/index";
+
+.VendorProjectCard {
+  @include card;
+  @include cardHover;
+  gap: $spacing-4;
+  width: fit-content;
+  width: $container-xs;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .address {
+    @include typography("sm", "regular");
+    color: $grey-500;
+  }
+}
+
+.description {
+  @include typography("sm", "regular");
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  .projectStatus {
+    @include typography("sm", "medium");
+    color: $grey-500;
+  }
+
+  .footerRight {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+    align-items: flex-end;
+
+    .poster {
+      @include typography("sm", "medium");
+      color: $grey-500;
+    }
+  }
+}

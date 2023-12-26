@@ -40,6 +40,12 @@ button {
   border-radius: 0.5rem;
 }
 
+@mixin cardHover {
+  &:hover {
+    background-color: $grey-25;
+  }
+}
+
 .divider {
   height: 1px;
   background-color: $grey-200;

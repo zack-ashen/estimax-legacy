@@ -56,6 +56,16 @@ class OrganizationService {
       { $push: { postedProjects: projectId } }
     );
   }
+
+  async getVendors(orgId: Types.ObjectId): Promise<IOrganization[]> {
+    const org = await Organization.findById(orgId)
+      .populate("preferredVendors")
+      .exec();
+
+    if (!org) throw new Error("Organization not found");
+
+    return org.preferredVendors.map((vendor) => vendor.toObject());
+  }
 }
 
 export default new OrganizationService();

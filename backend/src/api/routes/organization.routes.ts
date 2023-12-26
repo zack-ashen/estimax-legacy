@@ -15,4 +15,9 @@ router.get("/:id/properties", organizationController.getProperties);
  */
 router.get("/:id/projects", organizationController.getProjects);
 
+/*
+ * GET: /:id/vendors -> gets all users for an organization.
+ */
+router.get("/:id/vendors", organizationController.getVendors);
+
 export default router;

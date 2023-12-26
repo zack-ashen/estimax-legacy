@@ -1,5 +1,9 @@
 @import "../shared";
 
+.title {
+  margin-bottom: $spacing-2;
+}
+
 .mediaInput {
   width: 100%;
   border: solid 2px $blue-500;

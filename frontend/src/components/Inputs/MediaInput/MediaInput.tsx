@@ -11,11 +11,12 @@ interface MediaInputProps {
   onChange: (files: File[]) => void;
   value?: File[];
   error?: string;
+  title?: string;
 }
 
 export const MediaInput = React.forwardRef(
   (
-    { id, label, error, value, onChange }: MediaInputProps,
+    { id, label, error, value, title, onChange }: MediaInputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,8 +32,13 @@ export const MediaInput = React.forwardRef(
       onChange(filteredFiles);
     };
 
+    console.log(value);
+
     return (
       <div className={styles.MediaInputContainer}>
+        {title && (
+          <p className={`${styles.inputLabel} ${styles.title}`}>{title}</p>
+        )}
         <div className={styles.mediaInput}>
           <IconBubble Icon={CloudUpload} size="md" />
           <div className={styles.mediaInputTextContainer}>
@@ -51,7 +57,7 @@ export const MediaInput = React.forwardRef(
           />
         </div>
         {error && <p className={styles.errorText}>{error}</p>}
-        {value && (
+        {value && value.length !== 0 && (
           <div className={styles.filesContainer}>
             {value.map((file, index) => (
               <FileCard
